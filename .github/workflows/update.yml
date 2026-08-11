@@ -1,0 +1,34 @@
+name: Actualizar mercado
+
+on:
+  schedule:
+    # Todos los días a las 08:00 UTC (ajustá la hora a tu gusto)
+    - cron: "0 8 * * *"
+  workflow_dispatch: {}   # también podés dispararlo a mano desde GitHub
+
+permissions:
+  contents: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: pip install requests beautifulsoup4
+
+      - name: Correr scraper
+        run: python scrape.py
+
+      - name: Commitear mercado.json si cambió
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add mercado.json
+          git diff --staged --quiet || git commit -m "Actualizar mercado $(date -u +%F)"
+          git push
