@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liga Fantasy — Plantillas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0c0f16;
+    --bg-card: #151a24;
+    --bg-card-hover: #1b2130;
+    --line: #262d3d;
+    --red: #ef4b3a;
+    --red-dim: #7a2b23;
+    --green: #35c47a;
+    --gold: #f2c94c;
+    --text: #eef1f6;
+    --text-dim: #8b93a7;
+    --text-faint: #545d70;
+    --por: #56ccf2;
+    --def: #35c47a;
+    --med: #f2c94c;
+    --del: #ef4b3a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, #1c2438 0%, transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 0%, #241a1f 0%, transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+  .wrap{max-width:820px; margin:0 auto; padding:0 20px;}
+
+  header.hero{
+    padding:44px 0 28px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:28px;
+  }
+  .eyebrow{
+    font-family:'Oswald',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:.18em;
+    font-size:12px;
+    color:var(--red);
+    font-weight:500;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 0 3px rgba(239,75,58,.2);}
+  h1{
+    font-family:'Oswald',sans-serif;
+    font-weight:700;
+    font-size:clamp(34px,7vw,52px);
+    margin:10px 0 4px;
+    letter-spacing:-0.01em;
+    line-height:1;
+  }
+  h1 span{color:var(--red);}
+  .sub{color:var(--text-dim); font-size:14.5px; margin-top:10px; max-width:56ch; line-height:1.5;}
+  .updated{font-size:12.5px; color:var(--text-faint); margin-top:14px; font-family:'Oswald',sans-serif; letter-spacing:.03em;}
+
+  .tabs{
+    display:flex;
+    gap:8px;
+    margin-bottom:28px;
+    border-bottom:1px solid var(--line);
+    flex-wrap:wrap;
+  }
+  .tab-btn{
+    background:none;
+    border:none;
+    color:var(--text-faint);
+    font-family:'Oswald',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    font-size:13px;
+    font-weight:600;
+    padding:10px 4px 12px;
+    cursor:pointer;
+    border-bottom:2px solid transparent;
+    margin-right:14px;
+  }
+  .tab-btn.active{color:var(--text); border-bottom-color:var(--red);}
+
+  .section-label{
+    font-family:'Oswald',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    font-size:12.5px;
+    color:var(--text-faint);
+    margin:36px 0 12px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .section-label::after{content:""; flex:1; height:1px; background:var(--line);}
+
+  .search-box{margin-bottom:16px;}
+  .search-box input{
+    width:100%;
+    padding:12px 16px;
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    font-size:14px;
+    outline:none;
+    transition:border-color .2s;
+  }
+  .search-box input:focus{border-color:var(--red);}
+
+  .sort-box{
+    display:flex;
+    gap:8px;
+    margin-bottom:16px;
+    flex-wrap:wrap;
+  }
+  .sort-btn{
+    font-family:'Oswald',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    font-size:12px;
+    font-weight:600;
+    padding:8px 14px;
+    border-radius:8px;
+    border:1px solid var(--line);
+    background:var(--bg-card);
+    color:var(--text-dim);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .sort-btn:hover{background:var(--bg-card-hover); color:var(--text);}
+  .sort-btn.active{
+    background:var(--red);
+    border-color:var(--red);
+    color:#fff;
+  }
+
+  .card{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    margin-bottom:10px;
+    overflow:hidden;
+    transition:border-color .15s ease;
+    animation:fadeInUp .5s cubic-bezier(.22,1,.36,1) both;
+  }
+  .card.open{border-color:#38405480;}
+  .card-head{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    padding:16px 18px;
+    cursor:pointer;
+    user-select:none;
+    transition:background .15s ease, transform .15s ease;
+  }
+  .card-head:hover{background:var(--bg-card-hover); transform:translateY(-2px); box-shadow:0 6px 18px rgba(0,0,0,.35);}
+  .head-top{display:flex; align-items:flex-start; gap:12px;}
+  .rank{
+    font-family:'Oswald',sans-serif;
+    font-weight:600;
+    font-size:14px;
+    color:var(--text-faint);
+    width:18px;
+    flex-shrink:0;
+    padding-top:2px;
+  }
+  .name-with-logo{display:flex; align-items:center; gap:12px;}
+  .mgr-logo{
+    width:38px; height:38px; border-radius:10px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Oswald',sans-serif; font-weight:700; font-size:14px;
+    color:#0c0f16; letter-spacing:.01em;
+  }
+  .name-block{flex:1; min-width:0;}
+  .name{font-weight:700; font-size:16px; letter-spacing:-.01em;}
+  .name .you{color:var(--red); font-size:11px; font-weight:600; border:1px solid var(--red-dim); padding:1px 6px; border-radius:5px; margin-left:8px; vertical-align:1px; text-transform:uppercase; letter-spacing:.05em;}
+  .balance-note{font-size:12px; color:var(--text-faint); margin-top:4px; line-height:1.5;}
+  .right-stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    padding-left:30px;
+  }
+  .right-stats.two-col{grid-template-columns:repeat(2,1fr);}
+  .stat{text-align:left; overflow:hidden;}
+  .stat .v{font-family:'Oswald',sans-serif; font-weight:600; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .stat .k{font-size:10px; color:var(--text-faint); text-transform:uppercase; letter-spacing:.06em; margin-top:1px;}
+  .stat.caja .v{color:var(--green);}
+  .stat.total .v{color:var(--gold);}
+  .stat.mercado .v.up{color:var(--green);}
+  .stat.mercado .v.down{color:var(--red);}
+  .stat.mercado .v.flat{color:var(--text-faint);}
+  .stat.down .v{color:var(--red);}
+  .stat.up .v{color:var(--green);}
+  @media (max-width:480px){
+    .stat .v{font-size:13px;}
+    .name{font-size:14.5px;}
+  }
+  .chev{color:var(--text-faint); font-size:13px; transition:transform .2s ease; flex-shrink:0; padding-top:3px;}
+  .card.open .chev{transform:rotate(90deg); color:var(--text);}
+
+  .squad{max-height:0; overflow:hidden; transition:max-height .3s ease;}
+  .card.open .squad{max-height:1400px;}
+  .squad-inner{padding:0 18px 16px;}
+
+  table{width:100%; border-collapse:collapse; font-size:13.5px;}
+  th{
+    text-align:left;
+    font-family:'Oswald',sans-serif;
+    text-transform:uppercase;
+    font-size:10px;
+    letter-spacing:.08em;
+    color:var(--text-faint);
+    font-weight:500;
+    padding:6px 4px;
+    border-bottom:1px solid var(--line);
+  }
+  th.num, td.num{text-align:right;}
+  td{padding:8px 4px; border-bottom:1px solid #1c2230; font-variant-numeric:tabular-nums;}
+  tr:last-child td{border-bottom:none;}
+  .pname{font-weight:600;}
+  .pcell{display:flex; align-items:center; gap:9px;}
+  .pos{
+    font-size:9.5px; font-weight:700; padding:2px 6px; border-radius:5px;
+    flex-shrink:0; letter-spacing:.03em; font-family:'Oswald',sans-serif;
+  }
+  .pos.POR{background:rgba(86,204,242,.15); color:var(--por);}
+  .pos.DEF{background:rgba(53,196,122,.15); color:var(--def);}
+  .pos.MED{background:rgba(242,201,76,.15); color:var(--med);}
+  .pos.DEL{background:rgba(239,75,58,.15); color:var(--del);}
+  .tag{font-size:10px; color:var(--red); margin-left:2px; opacity:.85;}
+
+  .mkt{
+    font-family:'Oswald',sans-serif;
+    font-weight:600;
+    font-size:12px;
+    white-space:nowrap;
+  }
+  .mkt.up{color:var(--green);}
+  .mkt.down{color:var(--red);}
+  .mkt.flat{color:var(--text-faint);}
+  .mkt.na{color:var(--text-faint); font-weight:400; font-size:11px;}
+  .mkt-arrow{font-size:10px; margin-right:1px;}
+
+  .tx-tag{
+    font-size:10.5px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    padding:2px 7px;
+    border-radius:5px;
+  }
+  .tx-tag.compra{background:#3a1e1a; color:#ff8a75;}
+  .tx-tag.venta{background:#123024; color:#4ade9a;}
+
+  @keyframes fadeInUp{
+    from{opacity:0; transform:translateY(14px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+
+  .legend{
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+    font-size:11.5px;
+    color:var(--text-faint);
+    margin-bottom:14px;
+  }
+  .legend span{display:flex; align-items:center; gap:5px;}
+  .dot{width:8px; height:8px; border-radius:50%;}
+  .dot.up{background:var(--green);}
+  .dot.down{background:var(--red);}
+
+  footer{
+    text-align:center;
+    color:var(--text-faint);
+    font-size:11.5px;
+    margin-top:50px;
+    line-height:1.6;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">Liga fantasy</div>
+    <h1>LIGA <span>FANTASY</span></h1>
+    <p class="sub">Plantillas, saldo en caja, valor de mercado, subida/bajada diaria y actividad de compraventa de cada integrante.</p>
+    <div class="updated" id="updatedLine">9 EQUIPOS · VALORES DE MERCADO ACTUALIZADOS</div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" id="tab-equipos" onclick="showTab('equipos')">Equipos</button>
+    <button class="tab-btn" id="tab-actividad" onclick="showTab('actividad')">Actividad</button>
+  </div>
+
+  <div id="view-equipos" class="view">
+    <div class="section-label">Saldos y plantillas</div>
+    <div class="legend">
+      <span><span class="dot up"></span> Sube en el mercado (LaLiga Fantasy Oficial)</span>
+      <span><span class="dot down"></span> Baja en el mercado (LaLiga Fantasy Oficial)</span>
+    </div>
+    <div class="sort-box" id="sortBox">
+      <button class="sort-btn active" data-sort="total">Plantilla</button>
+      <button class="sort-btn" data-sort="caja">Caja</button>
+      <button class="sort-btn" data-sort="mercado">Mercado</button>
+    </div>
+    <div class="search-box">
+      <input type="text" id="playerSearch" placeholder="🔍 Buscar jugador en la liga..." onkeyup="searchPlayer()">
+    </div>
+    <div id="cards"></div>
+  </div>
+
+  <div id="view-actividad" class="view" style="display:none;">
+    <div class="section-label">Actividad de mercado por integrante</div>
+    <div id="actividad"></div>
+  </div>
+
+  <footer>Saldo en caja de cada equipo cargado a mano (se actualiza cuando avisás una compra/venta). Valor de cada jugador y plantilla total se actualizan solos todos los días con el mercado real.<br>Fuente: LaLiga Fantasy Oficial (futbolfantasy.com/analytics/laliga-fantasy/mercado). Jugadores sin dato de mercado se muestran con "—" y mantienen su último valor cargado.</footer>
+</div>
+
+<script>
+const data = [
+{name:"Chonaura", caja:65869807, total:184882166, players:[
+  {n:"Lunin", pos:"POR", v:2335206},
+  {n:"Gerard Martín", pos:"DEF", v:30539225},
+  {n:"Kike Salas", pos:"DEF", v:11650845},
+  {n:"Renato Veiga", pos:"DEF", v:43583644},
+  {n:"Larrubia", pos:"MED", v:54556825},
+  {n:"C. Álvarez", pos:"MED", v:18858106},
+  {n:"Etta Eyong", pos:"DEL", v:23358315},
+]},
+{name:"papi floren 24 cm", caja:26008389, total:174912110, players:[
+  {n:"Eriksson", pos:"POR", v:2879700},
+  {n:"Affengruber", pos:"DEF", v:32762627},
+  {n:"Noubi", pos:"DEF", v:10956640},
+  {n:"Pau Navarro", pos:"DEF", v:9615534},
+  {n:"Starfelt", pos:"DEF", v:12725509},
+  {n:"Carreira", pos:"DEF", v:6775097},
+  {n:"Álvaro García", pos:"MED", v:17235240},
+  {n:"Unai López", pos:"MED", v:5810181},
+  {n:"Cepeda", pos:"DEL", v:1131316},
+  {n:"Lookman", pos:"DEL", v:77090190},
+]},
+{name:"Lucky Corbechad", caja:18631852, total:182974604, players:[
+  {n:"A. Abqar", pos:"DEF", v:6152253},
+  {n:"Cucurella", pos:"DEF", v:80193172},
+  {n:"El Hilali", pos:"DEF", v:8166837},
+  {n:"Bartra", pos:"DEF", v:26948492},
+  {n:"Marc Roca", pos:"MED", v:5009468},
+  {n:"Ilaix Moriba", pos:"MED", v:10500139},
+  {n:"Deossa", pos:"MED", v:1876754},
+  {n:"Mario Soriano", pos:"MED", v:23829510},
+  {n:"Pathé I. Ciss", pos:"MED", v:11253677, tag:"Fichado de mercho."},
+  {n:"Guruzeta", pos:"DEL", v:12668579},
+]},
+{name:"Sapard0", caja:42914314, total:166074463, players:[
+  {n:"Gayá", pos:"DEF", v:11541968},
+  {n:"E. Militão", pos:"DEF", v:14340649},
+  {n:"Foyth", pos:"DEF", v:10675952},
+  {n:"Yuri", pos:"DEF", v:13025290},
+  {n:"Puado", pos:"MED", v:7801053},
+  {n:"Blanco", pos:"MED", v:15267196},
+  {n:"Maguette", pos:"MED", v:4299337},
+  {n:"Camavinga", pos:"MED", v:11604968},
+  {n:"Sadiq", pos:"DEL", v:7733610},
+  {n:"Ayoze", pos:"DEL", v:15940159},
+  {n:"Sorloth", pos:"DEL", v:26085626},
+  {n:"T. Martínez", pos:"DEL", v:25640207},
+]},
+{name:"VIVIKLAUFC", caja:5133858, total:153104421, players:[
+  {n:"A. Herrero", pos:"POR", v:7321485},
+  {n:"Cabrera", pos:"DEF", v:16520037},
+  {n:"Tenaglia", pos:"DEF", v:14471205},
+  {n:"Mouriño", pos:"DEF", v:38780928},
+  {n:"Aramburu", pos:"DEF", v:16025462},
+  {n:"Dani Lorenzo", pos:"MED", v:9284638},
+  {n:"G. Puerta", pos:"MED", v:11420385},
+  {n:"Moncayola", pos:"MED", v:6252633},
+  {n:"Aimar", pos:"MED", v:15031489},
+  {n:"Raúl Moro", pos:"DEL", v:12478303},
+  {n:"I. Romero", pos:"DEL", v:6832126},
+]},
+{name:"JMR1902", caja:63398733, total:128232003, players:[
+  {n:"Szczesny", pos:"POR", v:2679964},
+  {n:"Llorente", pos:"DEF", v:12228710},
+  {n:"Á. Carreras", pos:"DEF", v:14324483},
+  {n:"Tárrega", pos:"DEF", v:8943657, tag:"Fichado de Chonaura"},
+  {n:"Navarro", pos:"DEF", v:2100000, tag:"Fichado del mercado"},
+  {n:"Buchanan", pos:"MED", v:19536941},
+  {n:"Mella", pos:"MED", v:3179749},
+  {n:"Raúl", pos:"DEL", v:2200000, tag:"Fichado del mercado"},
+  {n:"Endrick", pos:"DEL", v:7239857},
+  {n:"I. Akhomach", pos:"DEL", v:5900855},
+  {n:"De Frutos", pos:"DEL", v:49496567},
+]},
+{name:"karfim", caja:191879921, total:66283092, players:[
+  {n:"Á. Valles", pos:"POR", v:28623873},
+  {n:"Areso", pos:"DEF", v:2588119},
+  {n:"Ximo Navarro", pos:"DEF", v:5557725},
+  {n:"Urko", pos:"MED", v:4803978},
+  {n:"Aubameyang", pos:"DEL", v:24709397},
+]},
+{name:"mercho.", you:true, caja:97607717, total:170273931, players:[
+  {n:"M. Dituro", pos:"POR", v:6592125},
+  {n:"Bellerín", pos:"DEF", v:12463071},
+  {n:"Huijsen", pos:"DEF", v:31130717},
+  {n:"De Galarreta", pos:"MED", v:11260254},
+  {n:"M. Román", pos:"MED", v:5104022},
+  {n:"Vinicius", pos:"DEL", v:103723742, tag:"Fichado del mercado"},
+]},
+{name:"EN ORTODONCIA FC", caja:129510454, total:89396408, players:[
+  {n:"Iván Villar", pos:"POR", v:1095234},
+  {n:"Dimitrievski", pos:"POR", v:17555555, tag:"Fichado del mercado"},
+  {n:"A. Alti", pos:"DEF", v:5141943},
+  {n:"Manuel Fernández", pos:"DEF", v:418996},
+  {n:"R.P. Bigas", pos:"DEF", v:5998406},
+  {n:"Pedro Díaz", pos:"MED", v:1956007},
+  {n:"Agoumé", pos:"MED", v:5704260},
+  {n:"Riquelme", pos:"MED", v:3416399},
+  {n:"Iñigo Vicente", pos:"DEL", v:18767184},
+  {n:"Iñaki Williams", pos:"DEL", v:29342424},
+]},
+];
+
+// Actividad consolidada de compras y ventas (histórico + mercado reciente).
+const activity = [
+  {name:"Chonaura",
+    ventas:[["Puado",10299342],["Foyth",12521540],["R.P. Bigas",10550000],["Isi",18184181],["Joaquín",8962666],["Almada",6696235],["Moncayola",17000000],["Unai López",11000000],["Ruggeri",7155914],["Tárrega",13000000]],
+    compras:[["Larrubia",58500000],["Renato Veiga",51000064],["Gerard Martín",40000007]],
+    saldo:65869807},
+  {name:"karfim",
+    ventas:[["Ilaix Moriba",19500000],["Asencio",7200253],["Sadiq",9628867],["D. Martínez",479882],["Gorrotxa",9142216],["Blanco",19000000],["G. Puerta",21000000],["Llorente",18500000],["Dani Lorenzo",17000000],["Ferran Jutglà",9887834],["A. Ferllo",5223911],["Le Normand",10913452],["Q. Hartman",9922110],["O. Sancet",57084470]],
+    compras:[["Areso",3900000],["Urko",6231000],["Á. Valles",40624213],["Ximo Navarro",5700000],["O. Sancet",55643121]],
+    saldo:191879921},
+  {name:"JMR1902",
+    ventas:[["Mario Soriano",25000000],["Eriksson",5250000],["Purić",510803],["Rubén García",14589919],["Asencio",6752734],["Vivian",14897117],["R. Araujo",5478928],["Sorloth",38000000],["Ángel Pérez",8194518],["Ugrinic",4477915],["C. Puga",5819801]],
+    compras:[["Eriksson",3250000],["Endrick",12000000],["Buchanan",28000000],["Á. Carreras",16500000],["Llorente",18500000],["De Frutos",60000000],["Tárrega",13000000],["Navarro",2601267],["Raúl",20999999]],
+    saldo:63398733},
+  {name:"EN ORTODONCIA FC",
+    ventas:[["C. Puga",6153799],["Oskarsson",10015947],["Turrientes",7948517],["Rubén García",14703725],["Ayoze",19000000],["Tenaglia",15223328],["Rioja",19183892],["Carreira",9500000],["Sow",8450871]],
+    compras:[["Sow",8507515],["R.P. Bigas",10550000],["Iñaki Williams",41555555],["Pedro Díaz",2500000],["Dimitrievski",19939546]],
+    saldo:129510454},
+  {name:"VIVIKLAUFC",
+    ventas:[["Isi",16566193],["Lucas Boyé",14701695],["Berenguer",9258745],["Almada",6302552],["Pepelu",8360455],["J. Musso",6107702],["Turrientes",6990586],["Diakhaby",6474946],["Johnny",7897445],["Gattoni",507196],["Ximo Navarro",5966343]],
+    compras:[["I. Romero",9000000],["G. Puerta",21000000],["Moncayola",17000000],["A. Herrero",15000000],["Aramburu",24000000],["Dani Lorenzo",17000000],["Raúl Moro",24000000],["Mouriño",77866142]],
+    saldo:5133858},
+  {name:"papi floren 24 cm",
+    ventas:[["J. Musso",6340492],["J. Romero",7019777],["V. Rosier",8255897],["Camavinga",13286513],["Mario Soriano",25000000],["Johnny",7930028],["Williot",9476977],["Diakhaby",7976583],["Berenguer",10230023],["Pepelu",7838790],["Lucas Boyé",16036802],["I. Romero",9000000],["Hugo Duro",8866534]],
+    compras:[["Mario Soriano",25000000],["Carreira",9500000],["Eriksson",5250000],["Cepeda",3500009],["Affengruber",56000009],["Unai López",11000000],["Lookman",62991611]],
+    saldo:26008389},
+  {name:"Lucky Corbechad",
+    ventas:[["Vivian",15584624],["M. Aguado",3699785],["Pol Lozano",2707864],["J. M. Giménez",6596911],["Iago Aspas",8125096],["T. Martínez",28545429],["Urko",5430986],["Egiluz",456045],["Endrick",12000000],["Buchanan",28000000],["Á. Carreras",16500000],["A. Herrero",15000000]],
+    compras:[["Cucurella",63368148],["Ilaix Moriba",19500000],["Guruzeta",19000000],["A. Abqar",9100888],["Mario Soriano",33600000],["Deossa",2050000],["Bartra",38764000],["Pathé I. Ciss",18000000]],
+    saldo:18631852},
+  {name:"Sapard0",
+    ventas:[["Eriksson",3250000],["V. Rosier",8098686],["Egiluz",494554],["Óscar Valentín",3528443],["Gorrotxa",8528716],["Oskarsson",9013915]],
+    compras:[["Blanco",19000000],["Ayoze",19000000],["Gayá",14000000],["Sorloth",31445479],["T. Martínez",25640207]],
+    saldo:42914314},
+  {name:"mercho.", you:true,
+    ventas:[["Guruzeta",19000000],["Suazo",6450172],["Aimar",16411491],["Izan M.",7597518],["Zubeldia",10997882],["Gayá",14000000],["Pere Milla",10986658],["Aramburu",24000000],["Raúl Moro",24000000],["Pathé I. Ciss",18000000]],
+    compras:[["Huijsen",31768328],["Vinicius Jr.",122067676]],
+    saldo:97607717},
+];
+
+// Subida/bajada diaria de mercado, cargada de mercado.json (scraper diario
+// vía GitHub Actions). "market" = variación de HOY, "valores" = valor actual
+// de cada jugador. Mientras carga o si no hay red, se usa este respaldo fijo
+// verificado contra futbolfantasy.com/analytics/laliga-fantasy/mercado
+// (LaLiga Fantasy Oficial) — última actualización 10/08/2026 04:04.
+let market = {
+  "Lunin": -31226, "Gerard Martín": 846128, "Kike Salas": -30035,
+  "Renato Veiga": -680483, "Larrubia": 855495, "C. Álvarez": 293796,
+  "Etta Eyong": 584705, "Eriksson": 39479, "Affengruber": 243560,
+  "Noubi": 260626, "Pau Navarro": -95630, "Starfelt": 217562,
+  "Carreira": -18297, "Álvaro García": 157198, "Unai López": -35120,
+  "Cepeda": -12849, "Lookman": 1047526, "A. Abqar": 149175,
+  "Cucurella": 1985841, "El Hilali": 148120, "Bartra": 264608,
+  "Marc Roca": 78145, "Ilaix Moriba": 36617, "Deossa": 31887,
+  "Mario Soriano": 387972, "Guruzeta": 116095, "Gayá": -119311,
+  "E. Militão": -391006, "Foyth": 111889, "Yuri": -144387,
+  "Puado": -240825, "Blanco": -94655, "Maguette": -41476,
+  "Camavinga": -235584, "Sadiq": -225979, "Ayoze": -90515,
+  "Sorloth": -255966, "T. Martínez": -160407, "A. Herrero": 161136,
+  "Cabrera": -47870, "Tenaglia": -67448, "Mouriño": 497869,
+  "Aramburu": 240573, "Dani Lorenzo": 72461, "G. Puerta": 178731,
+  "Moncayola": 90351, "Aimar": 131467, "Raúl Moro": 203260,
+  "Szczesny": -60933, "Llorente": 246720, "Á. Carreras": -323297,
+  "Tárrega": -30805, "Buchanan": -177834, "Mella": -9170,
+  "Endrick": -105937, "I. Akhomach": -123460, "De Frutos": 37177,
+  "Á. Valles": 882148, "Areso": 43196, "Ximo Navarro": -61641,
+  "Urko": -25981, "O. Sancet": -45739, "Aubameyang": 1125626,
+  "M. Dituro": 132663, "Bellerín": 304320, "Huijsen": -501208,
+  "De Galarreta": 260067, "Pathé I. Ciss": 127673, "M. Román": 40254,
+  "Iván Villar": -23213, "Dimitrievski": 295442,
+  "Manuel Fernández": -1551, "R.P. Bigas": -141982, "Pedro Díaz": -29575,
+  "Agoumé": -3371, "Riquelme": 41444, "Iñigo Vicente": -10254,
+  "Iñaki Williams": -401126, "Vinicius": 1903774,
+};
+
+// Valor de mercado ACTUAL de cada jugador (no la variación). Se sobreescribe
+// con mercado.json apenas carga. Si un jugador no está acá, se muestra su
+// valor fijo cargado en "data" (por ejemplo compras/ventas manuales).
+let freshValues = {};
+
+function fmt(n){
+  return "€" + Math.round(n).toLocaleString("es-AR");
+}
+
+function fmtMarket(n){
+  const sign = n > 0 ? "+" : (n < 0 ? "" : "±");
+  return sign + Math.round(n).toLocaleString("es-AR");
+}
+
+// Valor a mostrar para un jugador: el de mercado.json si existe, si no el
+// que tenías cargado a mano.
+function currentValue(p){
+  return (freshValues[p.n] !== undefined) ? freshValues[p.n] : p.v;
+}
+
+// Plantilla total del equipo, recalculada con los valores actuales.
+function teamTotal(team){
+  return team.players.reduce((sum, p) => sum + currentValue(p), 0);
+}
+
+function teamMarketTotal(team){
+  return team.players.reduce((sum, p) => sum + (market[p.n] || 0), 0);
+}
+
+function teamMarketHtml(team){
+  const totalDiff = teamMarketTotal(team);
+  const cls = totalDiff > 0 ? "up" : (totalDiff < 0 ? "down" : "flat");
+  const arrow = totalDiff > 0 ? "▲" : (totalDiff < 0 ? "▼" : "=");
+  const shown = totalDiff < 0 ? fmtMarket(totalDiff).replace('-','') : fmtMarket(totalDiff);
+  return `<span class="mkt-arrow">${arrow}</span>€${shown}`;
+}
+
+function marketCell(name){
+  if(!(name in market)){
+    return `<span class="mkt na">—</span>`;
+  }
+  const diff = market[name];
+  if(diff > 0){
+    return `<span class="mkt up"><span class="mkt-arrow">▲</span>€${fmtMarket(diff)}</span>`;
+  } else if(diff < 0){
+    return `<span class="mkt down"><span class="mkt-arrow">▼</span>€${fmtMarket(diff).replace('-','')}</span>`;
+  } else {
+    return `<span class="mkt flat">= €0</span>`;
+  }
+}
+
+const avatarPalette = ["#ef4b3a","#f2994a","#f2c94c","#6fcf97","#56ccf2","#9b59b6","#eb5757","#27ae60","#2f80ed","#bb6bd9"];
+function hashStr(s){
+  let h = 0;
+  for(let i=0;i<s.length;i++){ h = (h*31 + s.charCodeAt(i)) >>> 0; }
+  return h;
+}
+function initials(name){
+  const parts = name.replace(/[().]/g,'').trim().split(/\s+/).filter(Boolean);
+  if(parts.length === 1) return parts[0].slice(0,2).toUpperCase();
+  return (parts[0][0] + parts[parts.length-1][0]).toUpperCase();
+}
+function mgrLogo(name){
+  const c1 = avatarPalette[hashStr('mgr-'+name) % avatarPalette.length];
+  const c2 = avatarPalette[(hashStr('mgr2-'+name)+3) % avatarPalette.length];
+  return `<span class="mgr-logo" style="background:linear-gradient(135deg, ${c1}, ${c2})">${initials(name)}</span>`;
+}
+
+function countUp(el, target){
+  const duration = 800;
+  const start = performance.now();
+  function step(now){
+    const t = Math.min(1, (now-start)/duration);
+    const eased = 1 - Math.pow(1-t, 3);
+    el.textContent = fmt(Math.round(target*eased));
+    if(t < 1) requestAnimationFrame(step);
+    else el.textContent = fmt(target);
+  }
+  requestAnimationFrame(step);
+}
+
+let currentSort = "total";
+const cardsEl = document.getElementById('cards');
+
+function sortValue(team, key){
+  if(key === "total") return teamTotal(team);
+  if(key === "caja") return team.caja;
+  if(key === "mercado") return teamMarketTotal(team);
+  return teamTotal(team);
+}
+
+function getSortedTeams(){
+  return [...data].sort((a,b)=> sortValue(b, currentSort) - sortValue(a, currentSort));
+}
+
+function renderCards(){
+  const sorted = getSortedTeams();
+  cardsEl.innerHTML = "";
+  sorted.forEach((team, i)=>{
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.animationDelay = (i*0.06)+'s';
+
+    const sortedPlayers = [...team.players].sort((a,b)=>currentValue(b)-currentValue(a));
+    const rows = sortedPlayers.map(p=>`
+      <tr>
+        <td class="pname">
+          <div class="pcell">
+            <span class="pos ${p.pos}">${p.pos}</span>
+            <span>${p.n}${p.tag ? `<span class="tag"> · ${p.tag}</span>` : ""}</span>
+          </div>
+        </td>
+        <td class="num">${fmt(currentValue(p))}</td>
+        <td class="num">${marketCell(p.n)}</td>
+      </tr>
+    `).join('');
+
+    card.innerHTML = `
+      <div class="card-head" onclick="this.parentElement.classList.toggle('open')">
+        <div class="head-top">
+          <div class="rank">${i+1}</div>
+          <div class="name-block">
+            <div class="name-with-logo">
+              ${mgrLogo(team.name)}
+              <div class="name">${team.name}${team.you?'<span class="you">vos</span>':''}</div>
+            </div>
+          </div>
+          <div class="chev">▸</div>
+        </div>
+        <div class="right-stats">
+          <div class="stat caja">
+            <div class="v cu" data-target="${team.caja}">€0</div>
+            <div class="k">Caja</div>
+          </div>
+          <div class="stat total">
+            <div class="v cu" data-target="${teamTotal(team)}">€0</div>
+            <div class="k">Plantilla</div>
+          </div>
+          <div class="stat mercado">
+            <div class="v ${(()=>{const t=teamMarketTotal(team); return t>0?"up":(t<0?"down":"flat");})()}">${teamMarketHtml(team)}</div>
+            <div class="k">Mercado</div>
+          </div>
+        </div>
+      </div>
+      <div class="squad">
+        <div class="squad-inner">
+          <table>
+            <thead><tr><th>Jugador</th><th class="num">Valor</th><th class="num">Mercado</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      </div>
+    `;
+    cardsEl.appendChild(card);
+  });
+
+  document.querySelectorAll('.cu').forEach(el=>{
+    countUp(el, parseInt(el.dataset.target,10));
+  });
+}
+
+renderCards();
+
+document.querySelectorAll('#sortBox .sort-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    currentSort = btn.dataset.sort;
+    document.querySelectorAll('#sortBox .sort-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderCards();
+  });
+});
+
+// Intenta traer mercado.json (generado por el scraper automático). El "?t="
+// evita que el navegador use una copia vieja guardada en caché. Si no existe
+// todavía o falla, se queda con el respaldo fijo de arriba.
+fetch('mercado.json?t=' + Date.now())
+  .then(r => r.ok ? r.json() : Promise.reject())
+  .then(fresh => {
+    if(fresh && fresh.market){
+      market = fresh.market;
+      freshValues = fresh.valores || {};
+      renderCards();
+      if(fresh.actualizado){
+        const d = new Date(fresh.actualizado);
+        document.getElementById('updatedLine').textContent =
+          `9 EQUIPOS · MERCADO ACTUALIZADO ${d.toLocaleDateString('es-AR')} ${d.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})}`;
+      }
+    }
+  })
+  .catch(()=>{ /* sin mercado.json todavía: se mantiene el respaldo fijo */ });
+
+function searchPlayer(){
+  const input = document.getElementById('playerSearch').value.toLowerCase();
+  document.querySelectorAll('#cards .card').forEach(card=>{
+    if(input === ""){
+      card.classList.remove('open');
+      card.querySelectorAll('tbody tr').forEach(row=>{ row.style.display = ""; });
+      return;
+    }
+    const rows = card.querySelectorAll('tbody tr');
+    let hasMatch = false;
+    rows.forEach(row=>{
+      const name = row.querySelector('.pcell span:last-child').textContent.toLowerCase();
+      if(name.includes(input)){ row.style.display = ""; hasMatch = true; }
+      else{ row.style.display = "none"; }
+    });
+    card.classList.toggle('open', hasMatch);
+  });
+}
+
+// ---------- Pestaña Actividad ----------
+let activityBuilt = false;
+function buildActivity(){
+  if(activityBuilt) return;
+  activityBuilt = true;
+
+  const byActividad = [...activity].sort((a,b)=>{
+    const totA = a.ventas.reduce((s,x)=>s+x[1],0) + a.compras.reduce((s,x)=>s+x[1],0);
+    const totB = b.ventas.reduce((s,x)=>s+x[1],0) + b.compras.reduce((s,x)=>s+x[1],0);
+    return totB - totA;
+  });
+
+  const actEl = document.getElementById('actividad');
+  actEl.innerHTML = byActividad.map(t=>{
+    const totalVentas = t.ventas.reduce((s,x)=>s+x[1],0);
+    const totalCompras = t.compras.reduce((s,x)=>s+x[1],0);
+
+    const txs = [
+      ...t.compras.map(x=>({player:x[0], amount:x[1], type:'compra'})),
+      ...t.ventas.map(x=>({player:x[0], amount:x[1], type:'venta'})),
+    ].sort((a,b)=>b.amount-a.amount);
+
+    const rows = txs.map(x=>`
+      <tr>
+        <td class="pname">${x.player}</td>
+        <td><span class="tx-tag ${x.type}">${x.type==='compra'?'Compró':'Vendió'}</span></td>
+        <td class="num">${fmt(x.amount)}</td>
+      </tr>
+    `).join('');
+
+    return `
+    <div class="card">
+      <div class="card-head" onclick="this.parentElement.classList.toggle('open')">
+        <div class="head-top">
+          <div class="rank"></div>
+          <div class="name-block">
+            <div class="name-with-logo">
+              ${mgrLogo(t.name)}
+              <div>
+                <div class="name">${t.name}${t.you?'<span class="you">vos</span>':''}</div>
+                <div class="balance-note">${t.compras.length} compras, ${t.ventas.length} ventas · saldo actual ${fmt(t.saldo)}</div>
+              </div>
+            </div>
+          </div>
+          <div class="chev">▸</div>
+        </div>
+        <div class="right-stats two-col">
+          <div class="stat down">
+            <div class="v">${fmt(totalCompras)}</div>
+            <div class="k">Gastado en compras</div>
+          </div>
+          <div class="stat up">
+            <div class="v">${fmt(totalVentas)}</div>
+            <div class="k">Recibido en ventas</div>
+          </div>
+        </div>
+      </div>
+      <div class="squad">
+        <div class="squad-inner">
+          <table>
+            <thead><tr><th>Jugador</th><th>Op.</th><th class="num">Monto</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function showTab(name){
+  document.getElementById('view-equipos').style.display = name==='equipos' ? '' : 'none';
+  document.getElementById('view-actividad').style.display = name==='actividad' ? '' : 'none';
+  document.getElementById('tab-equipos').classList.toggle('active', name==='equipos');
+  document.getElementById('tab-actividad').classList.toggle('active', name==='actividad');
+  if(name==='actividad') buildActivity();
+}
+</script>
+</body>
+</html>
