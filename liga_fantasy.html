@@ -578,7 +578,7 @@ document.querySelectorAll('#sortBox .sort-btn').forEach(btn=>{
 
 // Intenta traer mercado.json (generado por el scraper automático). Si no
 // existe todavía o falla, se queda con el respaldo fijo de arriba.
-fetch('mercado.json')
+fetch('mercado.json?t=' + Date.now())
   .then(r => r.ok ? r.json() : Promise.reject())
   .then(fresh => {
     if(fresh && fresh.market){
