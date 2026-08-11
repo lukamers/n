@@ -23,7 +23,7 @@ from datetime import datetime, timezone
 import requests
 from bs4 import BeautifulSoup
 
-URL = "https://www.futbolfantasy.com/analytics/comunio/mercado"
+URL = "https://www.futbolfantasy.com/analytics/laliga-fantasy/mercado"
 
 # 1) AJUSTAR ESTO según lo que veas en el inspector del navegador.
 #    Ejemplos típicos: "table.tabla-mercado tbody tr"  o  "div.jugador-row"
