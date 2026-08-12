@@ -1,88 +1,130 @@
 """
-Scrapea el mercado de LaLiga Fantasy Oficial en futbolfantasy.com y guarda
-la subida/bajada de HOY y el valor actual de TODOS los jugadores en
-mercado.json, listo para que el HTML lo lea con fetch().
-
-CLAVE: la tabla global (.../analytics/laliga-fantasy/mercado) pagina de a
-~60 filas y con requests.get() (sin JS) solo se ve la primera página. Para
-evitar eso, este script pega la MISMA tabla pero filtrada por equipo
-(.../analytics/laliga-fantasy/mercado?equipo=elche), que trae el plantel
-completo de ese equipo (~20-30 jugadores) sin paginar. Se recorren los 20
-equipos de LaLiga y se junta todo.
-
-La idea de fondo: el JSON siempre tiene el mercado completo. Tu página
-(liga_fantasy.html) solo muestra la columna "Mercado" para los jugadores
-que aparecen en el roster de algún equipo — así que cuando fiches, vendas
-o muevas a alguien de equipo, el dato ya está cacheado acá.
+Scrapea el mercado de LaLiga Fantasy Oficial en
+futbolfantasy.com/analytics/laliga-fantasy/mercado y guarda, para TODOS los
+jugadores de LaLiga (no solo los que ya tenés fichados), la subida/bajada de
+hoy Y el valor actual, en mercado.json. La página web usa ese archivo para
+autocompletar cualquier jugador al asignarlo a un equipo.
 
 INSTALAR (una sola vez):
     pip install requests beautifulsoup4
 
 CÓMO AJUSTAR EL SELECTOR (si hace falta):
-1. Abrí https://www.futbolfantasy.com/analytics/laliga-fantasy/mercado?equipo=elche
+1. Abrí https://www.futbolfantasy.com/analytics/laliga-fantasy/mercado.
 2. Clic derecho sobre la tabla de jugadores -> "Inspeccionar".
 3. Fijate qué tag envuelve cada FILA de jugador (normalmente <tr> dentro de
    una <table>). Copiá ese selector y pegalo abajo en ROW_SELECTOR.
 4. Corré el script una vez a mano (python scrape.py) y revisá que
    mercado.json te quede con sentido antes de dejarlo en automático.
-   Al final imprime cuántas filas salieron por equipo y cuántas
-   matcheó por NOMBRES_CONOCIDOS vs. el modo genérico.
+
+Si fichan a alguien que no aparece en el autocompletado de la web, sumalo
+a mano en la lista MIS_JUGADORES de abajo (una línea) y va a aparecer la
+próxima vez que corra el scraper.
 """
 
 import json
 import re
 import sys
-import time
 from datetime import datetime, timezone
 import requests
 from bs4 import BeautifulSoup
 
-BASE_URL = "https://www.futbolfantasy.com/analytics/laliga-fantasy/mercado"
+URL = "https://www.futbolfantasy.com/analytics/laliga-fantasy/mercado"
 
 # AJUSTAR ESTO según lo que veas en el inspector del navegador si el script
 # no encuentra filas.
 ROW_SELECTOR = "table tbody tr"
 
-# Slugs de los 20 equipos de LaLiga tal como los usa la URL ?equipo=.
-EQUIPOS_SLUGS = [
-    "alaves", "athletic", "atletico", "barcelona", "betis", "celta",
-    "deportivo", "elche", "espanyol", "getafe", "levante", "malaga",
-    "osasuna", "racing", "rayo-vallecano", "real-madrid", "real-sociedad",
-    "sevilla", "valencia", "villarreal",
+# Catálogo completo de jugadores de LaLiga Fantasy Oficial (todos los
+# equipos, ~540 jugadores). El script solo guarda estos si aparecen en la
+# tabla del mercado.
+MIS_JUGADORES = [
+    "A. Christensen", "A. F. Carreras", "A. Riquelme", "Abde",
+    "Abel Bretones Bretones", "Abqar", "Adam Boayar", "Adrián Pérez", "Affengruber",
+    "Agirrezabala", "Agoume", "Aguado", "Aguirre", "Aihen", "Aitor", "Aitor Mañas",
+    "Akhomach", "Al Lal", "Aleksandrov", "Alemão", "Alexander-Arnold", "Aleñá",
+    "Alfon", "Aller", "Almeida", "Altimira", "Altozano", "Alvarez", "Amatucci",
+    "Andrés Martín", "Antañón", "Antonio Hidalgo", "Antony", "Aramburu", "Arana",
+    "Arcos", "Areso", "Arguibide", "Arriaga", "Arriaza", "Asencio", "Aspas",
+    "Astiazaran", "Aubameyang", "Ayoze", "Baena", "Balde", "Ballestero", "Balliu",
+    "Bambo", "Barcia", "Bardghji", "Barrenetxea", "Barrios", "Barry", "Bartra",
+    "Batalla", "Becerra", "Beitia", "Bekhoucha", "Bellerín", "Bellingham", "Benito",
+    "Berenguer", "Bernal", "Bernardo Silva", "Beñat San José", "Bigas", "Bil Nsongo",
+    "Blanco", "Blázquez", "Boiro", "Boselli", "Boyomo", "Boyé", "Boñar", "Brahim",
+    "Brugui", "Buchanan", "Budimir", "Burcio", "C. Álvarez", "Cabrera", "Calatrava",
+    "Calero", "Camavinga", "Camello", "Canales", "Canedo", "Canós", "Cardoso",
+    "Carles Pérez", "Carlos Corberán", "Carlos Espí", "Carlos López", "Carlos Macià",
+    "Carlos Martín", "Carlos Soler", "Carlos Sánchez", "Carmona", "Carreira",
+    "Carrera", "Casadó", "Castrín", "Catena", "Cepeda", "Cestero", "Chupete", "Chust",
+    "Claudio Giráldez", "Comas", "Comesaña", "Conde", "Copete", "Corralejo", "Cortés",
+    "Courtois", "Crespo", "Cubarsí", "Cubo", "Cucho", "Cucurella", "Cuñat Campos",
+    "Cárdenas", "Céspedes", "D. Aguado", "D. Llorente", "Dani Martínez",
+    "Dani Sánchez", "Danjuma", "Davinchi", "De Frutos", "De Haas", "De la Fuente",
+    "De la Sías", "Delgado", "Denis Suárez", "Deossa", "Diakhaby", "Diangana",
+    "Diatta", "Diego Diaz", "Diego López", "Diego Simeone", "Dieng", "Dimitrievski",
+    "Dituro", "Djaló", "Djené", "Dmitrovic", "Dolan", "Dotor", "Dumfries", "Duro",
+    "Durán", "Echegoyen", "Eddahchouri", "Edin Terzic", "Edu Expósito", "Egiluz",
+    "Ejuke", "El Hilali", "El-Abdellaoui", "Endrick", "Enríquez", "Eric Garcia",
+    "Eriksson", "Espart", "Esquivel", "Etta Eyong", "F. de Jong", "Facu González",
+    "Febas", "Femenia", "Fermín", "Ferran", "Ferrer", "Fidalgo", "Folgado", "Fontanet",
+    "Fornals", "Fort", "Fortea", "Fortuny", "Fortuño", "Foulquier", "Foyth", "Fraga",
+    "Fran García", "Fran González", "Fran Pérez", "Freeman", "Gaitán", "Galilea",
+    "Galán", "Garcés", "Gattoni", "Gavi", "Gayà", "Gerard", "Germán Parreño",
+    "Giménez", "Giuliano", "Gorosabel", "Gorrotxategi", "Guedes", "Guevara", "Gueye",
+    "Guido", "Guille", "Gulacsi", "Guliashvili", "Guridi", "Guruzeta", "Güler",
+    "Haitam", "Hancko", "Hansi Flick", "Hartman", "Hernando", "Herrando", "Herrera",
+    "Herrero", "Hierro", "Hjulmand", "Hugo González", "Hugo Ríos",
+    "Hugo Álvarez Hugo Álvarez", "Huijsen", "I. Williams", "Ibáñez", "Iglesias",
+    "Iker Muñoz", "Iranzo", "Isco", "Isi", "Iturbe", "Iván Romero", "Iván Villar",
+    "Izei", "Iñigo Vicente", "Jauregi", "Jauregizar", "Javi Guerra", "Javi Muñoz",
+    "Javi Navarro", "Javi Rodríguez", "Jesús Vázquez", "Jiménez", "Joan Garcia",
+    "Joan Martínez", "Joaquín", "Jofre", "John C.", "Jon Martín", "Jonny",
+    "Jorge Cabello", "Josan", "Joselu", "José Alberto López", "José Mourinho",
+    "Juan Funes", "Juan Hernández", "Juanmi", "Juanpe", "Julio Díaz", "Junior",
+    "Jurado", "Jutglà", "Kambwala", "Karrikaburu", "Kike Barja", "Kike García",
+    "Kike Salas", "Kita", "Koke", "Konaté", "Koski", "Koundé", "Krug", "Kubo",
+    "L. Sucic", "Lago", "Lamini Fati", "Laporte", "Laro Gómez", "Larrubia",
+    "Le Normand", "Lebarbier", "Lejeune", "Leo Román", "Letácek", "Lo Celso", "Lobete",
+    "Logan Costa", "Lookman", "Lorenzo", "Losada", "Loureiro", "Lozano", "Luis Castro",
+    "Luis García", "Luis Miguel Ramis", "Luismi", "Luiz Felipe", "Luiz Junior",
+    "Lunin", "M. Alonso", "M. Llorente", "Manolo González", "Mantilla", "Manu Bueno",
+    "Manu Fernández", "Manu González", "Manu Sánchez", "Manuel Pellegrini",
+    "Manuel Ángel", "Marc Roca", "Marchal", "Marcão", "Mariano", "Mariezkurrena",
+    "Mario", "Mario Martín", "Marqués", "Marrero", "Martim Neto", "Martín",
+    "Martín Anselmi", "Martínez Bastida", "Marín", "Mayoral", "Mbappé", "Meixús",
+    "Mella", "Mendoza", "Mendy", "Merino", "Mesonero", "Mestre", "Miguel Rubio",
+    "Mikautadze", "Militão", "Moi Gómez", "Moleiro", "Molina", "Moncayola", "Monreal",
+    "Montero", "Montes", "Morcillo", "Moriba", "Moscardo", "Mouriño", "Moussa",
+    "Murillo", "Musso", "N. Williams", "Nacho Pérez", "Nakoha", "Natan", "Navarro",
+    "Niculaesei", "Niño", "Noubi", "Noé Carrillo", "Nteka", "Oblak", "Ochieng",
+    "Ochoa", "Odriozola", "Olasagasti", "Olmo", "Oluwaseyi", "Oláiz", "Oriol Rey",
+    "Oroz", "Ortiz", "Osambela", "Oso", "Osorio", "Otorbi", "Oyarzabal",
+    "Pablo García", "Pablo Ramón", "Pacheco", "Padilla", "Panach", "Pape Gueye",
+    "Paredes", "Pastor", "Pathé Ciss", "Patino", "Pau Navarro", "Pedri", "Pedro Díaz",
+    "Pedrosa", "Pellegrino Matarazzo", "Pep Chavarría", "Pepe Bordalás", "Pepelu",
+    "Peque", "Pere Milla", "Pinillos", "Prados", "Primo", "Protesoni", "Puado",
+    "Pubill", "Puerta", "Puerto", "Puga", "Puric", "Pépé", "Quagliata",
+    "Quique Sánchez", "R. de Galarreta", "Raba", "Radu", "Rafa", "Rafa Rodríguez",
+    "Rafita", "Raphinha", "Ratiu", "Raul Moro", "Rayane", "Raúl García", "Rebbach",
+    "Recio", "Redondo", "Rego", "Remiro", "Riedel", "Riki", "Rioja", "Riquelme",
+    "Risco", "Rivero", "Roberto", "Rodrygo", "Romero", "Román", "Rosier", "Rosón",
+    "Rubén G.", "Rubén Gómez", "Rubén López", "Rubén Sánchez", "Rueda", "Ruggeri",
+    "Ruibal", "Ryan", "Rüdiger", "S. Cardona", "Sadiq", "Sainz-Maza", "Salinas",
+    "Samu Fernández", "Sancet", "Sancris", "Sangaré", "Sannadi", "Santaella",
+    "Santi Franco", "Santiago", "Santos", "Selton", "Sergio Gómez", "Sergio Martínez",
+    "Serrano", "Sierra", "Sivera", "Solórzano", "Soria", "Sotelo", "Spina", "Starfelt",
+    "Suazo", "Swedberg", "Swiderski", "Szczesny", "Sörloth", "Taufik", "Tchouaméni",
+    "Teijo", "Tenaglia", "Terrats", "Tete Morente", "Thiago", "Toljan",
+    "Toni Fernández", "Toni Martinez", "Torrents", "Torró", "Tunde", "Turrientes",
+    "Tárrega", "U. Núñez", "Uche", "Ugrinic", "Unai López", "Unai Santos",
+    "Unai Simón", "Urko", "Valentín", "Valentín Gómez", "Valera", "Vallecillo",
+    "Valles", "Valou", "Valverde", "Vargas", "Vecino", "Veiga", "Vencedor",
+    "Vertrouwd", "Villalibre", "Villar", "Villares", "Vinicius", "Vivian",
+    "Vlachodimos", "Víctor García", "Ximo", "Yamal", "Yassin", "Yeray", "Yeremay",
+    "Youssef", "Yuri", "Yáñez", "Zakharyan", "Zubeldia", "Á. Núñez", "Álex Costa",
+    "Álex Sánchez", "Álvaro", "Álvaro García", "Ángel Pérez", "Íñigo Pérez",
+    "Óscar Marcos", "Óskarsson",
 ]
 
-# Nombres de equipo tal como aparecen DENTRO del texto de cada fila (para
-# poder cortar ahí el nombre del jugador en el modo genérico).
-EQUIPOS_TEXTO = [
-    "Alavés", "Athletic", "Atlético", "Barcelona", "Betis", "Celta",
-    "Deportivo", "Elche", "Espanyol", "Getafe", "Levante", "Málaga",
-    "Osasuna", "Racing", "Rayo", "Real Madrid", "Real Sociedad", "Sevilla",
-    "Valencia", "Villarreal", "R. Sociedad B",
-]
-
-# Nombres que YA usás en el campo "n" de tu HTML. Sirven de respaldo
-# exacto: si uno de estos aparece literal en la fila, se guarda con ESTE
-# texto como clave (así siempre matchea con tu roster, sin importar cómo
-# lo escriba la web). No hace falta mantenerla al día — lo que no esté acá
-# se detecta solo con el modo genérico de abajo.
-NOMBRES_CONOCIDOS = [
-    "Lunin", "Gerard Martín", "Kike Salas", "Renato Veiga", "Larrubia",
-    "C. Álvarez", "Etta Eyong", "Eriksson", "Affengruber", "Noubi",
-    "Pau Navarro", "Starfelt", "Carreira", "Álvaro García", "Unai López",
-    "Cepeda", "Lookman", "A. Abqar", "Cucurella", "El Hilali", "Bartra",
-    "Marc Roca", "Ilaix Moriba", "Deossa", "Mario Soriano", "Guruzeta",
-    "Gayá", "E. Militão", "Foyth", "Yuri", "Puado", "Blanco", "Maguette",
-    "Camavinga", "Sadiq", "Ayoze", "Sorloth", "T. Martínez", "A. Herrero",
-    "Cabrera", "Tenaglia", "Mouriño", "Aramburu", "Dani Lorenzo",
-    "G. Puerta", "Moncayola", "Aimar", "Raúl Moro", "I. Romero", "Szczesny",
-    "Llorente", "Á. Carreras", "Tárrega", "Navarro", "Buchanan", "Mella",
-    "Raúl", "Endrick", "I. Akhomach", "De Frutos", "Á. Valles", "Areso",
-    "Ximo Navarro", "Urko", "O. Sancet", "Aubameyang", "M. Dituro",
-    "Bellerín", "Huijsen", "De Galarreta", "Pathé I. Ciss", "M. Román",
-    "Iván Villar", "Dimitrievski", "A. Alti", "Manuel Fernández",
-    "R.P. Bigas", "Pedro Díaz", "Agoumé", "Riquelme", "Iñigo Vicente",
-    "Iñaki Williams", "Vinicius", "Q. Hartman", "A. Ferllo", "Le Normand",
-]
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (compatible; LigaFantasyBot/1.0; personal use)"
@@ -100,114 +142,44 @@ def parse_money(text: str):
         return None
 
 
-def extraer_diff(row_text: str):
-    """Variación de hoy: primer número con signo (+/-) o '0'."""
-    m = re.search(r"([+-]?\d[\d.]*\d|0)(?=\s)", row_text)
-    return parse_money(m.group(1)) if m else None
+def scrape():
+    resp = requests.get(URL, headers=HEADERS, timeout=20)
+    resp.raise_for_status()
+    soup = BeautifulSoup(resp.text, "html.parser")
 
+    rows = soup.select(ROW_SELECTOR)
+    if not rows:
+        print(
+            f"⚠️  No encontré filas con el selector \'{ROW_SELECTOR}\'. "
+            "Abrí el sitio, inspeccioná la tabla y ajustá ROW_SELECTOR arriba.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
 
-def extraer_valor(row_text: str):
-    """Valor actual: primer número de dinero justo después de un
-    porcentaje tipo '70%' (indicador de rendimiento que usa el sitio
-    antes de listar los valores)."""
-    m = re.search(r"\d{1,3}%\s+([\d.]+)", row_text)
-    return parse_money(m.group(1)) if m else None
-
-
-def extraer_nombre_generico(row_text: str):
-    """Best-effort: corta el texto de la fila justo antes del nombre del
-    equipo y separa 'Nombre CompletoNombreCorto' (pegados sin espacio, tal
-    como los devuelve la web) probando dónde el nombre completo termina
-    con el nombre corto. Puede fallar en apellidos compuestos raros —
-    para esos casos agregalos a NOMBRES_CONOCIDOS arriba."""
-    blob = None
-    for equipo in EQUIPOS_TEXTO:
-        idx = row_text.find(" " + equipo + " ")
-        if idx != -1:
-            blob = row_text[:idx].strip()
-            break
-    if not blob:
-        return None
-
-    for cut in range(len(blob) // 2, len(blob)):
-        tail = blob[cut:]
-        if tail and blob[:cut].endswith(tail):
-            return tail
-    return blob or None
-
-
-def parse_rows(rows, stats):
     market = {}
     valores = {}
+    # ordenar por longitud descendente para que nombres largos (ej. "Andrés
+    # Martín") se prioricen sobre substrings cortos que podrían matchear antes
+    jugadores_ordenados = sorted(MIS_JUGADORES, key=len, reverse=True)
+
     for row in rows:
         row_text = row.get_text(" ", strip=True)
-        if not row_text:
-            continue
+        for jugador in jugadores_ordenados:
+            if jugador in row_text and jugador not in market:
+                m_diff = re.search(r"([+-]?\d[\d.]*\d|0)(?=\s)", row_text)
+                diff = parse_money(m_diff.group(1)) if m_diff else None
+                if diff is not None:
+                    market[jugador] = diff
 
-        nombre = None
-        for jugador in NOMBRES_CONOCIDOS:
-            if jugador in row_text:
-                nombre = jugador
-                stats["conocidos"] += 1
+                m_val = re.search(r"\d{1,3}%\s+([\d.]+)", row_text)
+                valor = parse_money(m_val.group(1)) if m_val else None
+                if valor is not None:
+                    valores[jugador] = valor
                 break
 
-        if nombre is None:
-            nombre = extraer_nombre_generico(row_text)
-            if nombre:
-                stats["genericos"] += 1
-
-        if not nombre:
-            continue
-
-        diff = extraer_diff(row_text)
-        if diff is not None:
-            market[nombre] = diff
-
-        valor = extraer_valor(row_text)
-        if valor is not None:
-            valores[nombre] = valor
-
-    return market, valores
-
-
-def scrape():
-    session = requests.Session()
-    session.headers.update(HEADERS)
-
-    market = {}
-    valores = {}
-    stats = {"conocidos": 0, "genericos": 0}
-
-    for slug in EQUIPOS_SLUGS:
-        url = f"{BASE_URL}?equipo={slug}"
-        resp = session.get(url, timeout=20)
-        resp.raise_for_status()
-        soup = BeautifulSoup(resp.text, "html.parser")
-
-        rows = soup.select(ROW_SELECTOR)
-        if not rows:
-            print(
-                f"⚠️  {slug}: no encontré filas con '{ROW_SELECTOR}'.",
-                file=sys.stderr,
-            )
-            continue
-
-        m, v = parse_rows(rows, stats)
-        market.update(m)
-        valores.update(v)
-        print(f"  {slug}: {len(m)} jugadores", file=sys.stderr)
-
-        time.sleep(0.5)  # no golpear el sitio de más
-
-    print(
-        f"ℹ️  Total: {stats['conocidos']} filas por NOMBRES_CONOCIDOS, "
-        f"{stats['genericos']} por el modo genérico.",
-        file=sys.stderr,
-    )
-
-    faltantes = [j for j in NOMBRES_CONOCIDOS if j not in market]
+    faltantes = [j for j in MIS_JUGADORES if j not in market]
     if faltantes:
-        print(f"⚠️  Sin match ({len(faltantes)}): {', '.join(faltantes)}", file=sys.stderr)
+        print(f"⚠️  Sin match ({len(faltantes)} de {len(MIS_JUGADORES)}).", file=sys.stderr)
 
     return market, valores
 
@@ -226,3 +198,4 @@ if __name__ == "__main__":
             indent=2,
         )
     print(f"✅ Guardado mercado.json con {len(market)} jugadores (variación) y {len(valores)} (valor actual).")
+
