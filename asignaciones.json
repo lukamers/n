@@ -1,0 +1,132 @@
+{
+  "teams": {
+    "Chonaura": {
+      "caja": 65869807,
+      "players": [
+        {"n":"Lunin","pos":"POR"},
+        {"n":"Gerard Martín","pos":"DEF"},
+        {"n":"Kike Salas","pos":"DEF"},
+        {"n":"Renato Veiga","pos":"DEF"},
+        {"n":"Larrubia","pos":"MED"},
+        {"n":"C. Álvarez","pos":"MED"},
+        {"n":"Etta Eyong","pos":"DEL"}
+      ]
+    },
+    "papi floren 24 cm": {
+      "caja": 26008389,
+      "players": [
+        {"n":"Eriksson","pos":"POR"},
+        {"n":"Affengruber","pos":"DEF"},
+        {"n":"Noubi","pos":"DEF"},
+        {"n":"Pau Navarro","pos":"DEF"},
+        {"n":"Starfelt","pos":"DEF"},
+        {"n":"Carreira","pos":"DEF"},
+        {"n":"Álvaro García","pos":"MED"},
+        {"n":"Unai López","pos":"MED"},
+        {"n":"Cepeda","pos":"DEL"},
+        {"n":"Lookman","pos":"DEL"}
+      ]
+    },
+    "Lucky Corbechad": {
+      "caja": 18631852,
+      "players": [
+        {"n":"A. Abqar","pos":"DEF"},
+        {"n":"Cucurella","pos":"DEF"},
+        {"n":"El Hilali","pos":"DEF"},
+        {"n":"Bartra","pos":"DEF"},
+        {"n":"Marc Roca","pos":"MED"},
+        {"n":"Ilaix Moriba","pos":"MED"},
+        {"n":"Deossa","pos":"MED"},
+        {"n":"Mario Soriano","pos":"MED"},
+        {"n":"Pathé I. Ciss","pos":"MED","tag":"Fichado de mercho."},
+        {"n":"Guruzeta","pos":"DEL"}
+      ]
+    },
+    "Sapard0": {
+      "caja": 42914314,
+      "players": [
+        {"n":"Gayá","pos":"DEF"},
+        {"n":"E. Militão","pos":"DEF"},
+        {"n":"Foyth","pos":"DEF"},
+        {"n":"Yuri","pos":"DEF"},
+        {"n":"Puado","pos":"MED"},
+        {"n":"Blanco","pos":"MED"},
+        {"n":"Maguette","pos":"MED"},
+        {"n":"Camavinga","pos":"MED"},
+        {"n":"Sadiq","pos":"DEL"},
+        {"n":"Ayoze","pos":"DEL"},
+        {"n":"Sorloth","pos":"DEL"},
+        {"n":"T. Martínez","pos":"DEL"}
+      ]
+    },
+    "VIVIKLAUFC": {
+      "caja": 5133858,
+      "players": [
+        {"n":"A. Herrero","pos":"POR"},
+        {"n":"Cabrera","pos":"DEF"},
+        {"n":"Tenaglia","pos":"DEF"},
+        {"n":"Mouriño","pos":"DEF"},
+        {"n":"Aramburu","pos":"DEF"},
+        {"n":"Dani Lorenzo","pos":"MED"},
+        {"n":"G. Puerta","pos":"MED"},
+        {"n":"Moncayola","pos":"MED"},
+        {"n":"Aimar","pos":"MED"},
+        {"n":"Raúl Moro","pos":"DEL"},
+        {"n":"I. Romero","pos":"DEL","v":6832126}
+      ]
+    },
+    "JMR1902": {
+      "caja": 63398733,
+      "players": [
+        {"n":"Szczesny","pos":"POR"},
+        {"n":"Llorente","pos":"DEF"},
+        {"n":"Á. Carreras","pos":"DEF"},
+        {"n":"Tárrega","pos":"DEF","tag":"Fichado de Chonaura"},
+        {"n":"Navarro","pos":"DEF","tag":"Fichado del mercado","v":2100000},
+        {"n":"Buchanan","pos":"MED"},
+        {"n":"Mella","pos":"MED"},
+        {"n":"Raúl","pos":"DEL","tag":"Fichado del mercado","v":2200000},
+        {"n":"Endrick","pos":"DEL"},
+        {"n":"I. Akhomach","pos":"DEL"},
+        {"n":"De Frutos","pos":"DEL"}
+      ]
+    },
+    "karfim": {
+      "caja": 191879921,
+      "players": [
+        {"n":"Á. Valles","pos":"POR"},
+        {"n":"Areso","pos":"DEF"},
+        {"n":"Ximo Navarro","pos":"DEF"},
+        {"n":"Urko","pos":"MED"},
+        {"n":"Aubameyang","pos":"DEL"}
+      ]
+    },
+    "mercho.": {
+      "caja": 97607717,
+      "you": true,
+      "players": [
+        {"n":"M. Dituro","pos":"POR"},
+        {"n":"Bellerín","pos":"DEF"},
+        {"n":"Huijsen","pos":"DEF"},
+        {"n":"De Galarreta","pos":"MED"},
+        {"n":"M. Román","pos":"MED"},
+        {"n":"Vinicius","pos":"DEL","tag":"Fichado del mercado","v":103723742}
+      ]
+    },
+    "EN ORTODONCIA FC": {
+      "caja": 129510454,
+      "players": [
+        {"n":"Iván Villar","pos":"POR"},
+        {"n":"Dimitrievski","pos":"POR","tag":"Fichado del mercado","v":17555555},
+        {"n":"A. Alti","pos":"DEF","v":5141943},
+        {"n":"Manuel Fernández","pos":"DEF"},
+        {"n":"R.P. Bigas","pos":"DEF"},
+        {"n":"Pedro Díaz","pos":"MED"},
+        {"n":"Agoumé","pos":"MED"},
+        {"n":"Riquelme","pos":"MED"},
+        {"n":"Iñigo Vicente","pos":"DEL"},
+        {"n":"Iñaki Williams","pos":"DEL"}
+      ]
+    }
+  }
+}
