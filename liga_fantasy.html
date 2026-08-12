@@ -425,6 +425,44 @@ const GH_REPO = "n";
 const GH_BRANCH = "main";
 const ASSIGN_PATH = "asignaciones.json";
 
+// ---------- Alias de nombres ----------
+// Tu roster usa los nombres tal como los escribís vos (o como los mostraba
+// la app de LaLiga Fantasy), pero futbolfantasy.com a veces usa otra forma
+// del nombre (sin la inicial, con apellido en vez de nombre, con/sin
+// acento, etc). Este diccionario traduce "nombre del roster" -> "clave que
+// usa mercado.json", SOLO para buscar la subida/bajada de mercado — no
+// hace falta tocar mercado.json ni renombrar nada en asignaciones.json.
+// Si fichás a alguien nuevo y ves que no le aparece la subida, buscalo en
+// mercado.json y agregá una línea acá.
+const ALIASES = {
+  "Gerard Martín": "Gerard",
+  "M. Dituro": "Dituro",
+  "De Galarreta": "R. de Galarreta",
+  "M. Román": "Román",
+  "Pathé I. Ciss": "Pathé Ciss",
+  "I. Romero": "Iván Romero",
+  "Manuel Fernández": "Manu Fernández",
+  "R.P. Bigas": "Bigas",
+  "Iñaki Williams": "I. Williams",
+  "Á. Valles": "Valles",
+  "Á. Carreras": "A. F. Carreras",
+  "I. Akhomach": "Akhomach",
+  "Agoumé": "Agoume",
+  "Q. Hartman": "Hartman",
+  "A. Abqar": "Abqar",
+  "Ilaix Moriba": "Moriba",
+  "Mario Soriano": "Mario",
+  "Gayá": "Gayà",
+  "E. Militão": "Militão",
+  "Sorloth": "Sörloth",
+  "A. Herrero": "Herrero",
+  "Dani Lorenzo": "Lorenzo",
+  "G. Puerta": "Puerta",
+  "Aimar": "Oroz",
+  "Raúl Moro": "Raul Moro",
+  "Llorente": "D. Llorente",
+};
+
 // ---------- Respaldo fijo (por si asignaciones.json o mercado.json no cargan) ----------
 let teams = {
   "Chonaura": {caja:65869807, players:[
@@ -526,6 +564,12 @@ const activity = [
 // scraper). Se cargan de mercado.json. allPlayers[name] = {valor, diff}
 let allPlayers = {};
 
+// Busca un jugador en allPlayers probando primero el nombre tal cual y,
+// si no está, el alias (ver diccionario ALIASES arriba).
+function lookupMarket(name){
+  return allPlayers[name] || allPlayers[ALIASES[name]] || null;
+}
+
 function fmt(n){
   return "€" + Math.round(n).toLocaleString("es-AR");
 }
@@ -534,12 +578,12 @@ function fmtMarket(n){
   return sign + Math.round(n).toLocaleString("es-AR");
 }
 function currentValue(p){
-  const live = allPlayers[p.n];
+  const live = lookupMarket(p.n);
   if(live && live.valor !== undefined && live.valor !== null) return live.valor;
   return p.v || 0;
 }
 function currentDiff(p){
-  const live = allPlayers[p.n];
+  const live = lookupMarket(p.n);
   if(live && live.diff !== undefined) return live.diff;
   return null; // sin dato
 }
@@ -926,3 +970,4 @@ function showTab(name){
 </script>
 </body>
 </html>
+
