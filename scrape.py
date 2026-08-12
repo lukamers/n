@@ -34,6 +34,11 @@ URL = "https://www.futbolfantasy.com/analytics/laliga-fantasy/mercado"
 # no encuentra filas.
 ROW_SELECTOR = "table tbody tr"
 
+# Un jugador de LaLiga Fantasy Oficial nunca vale menos que esto — sirve
+# para descartar números chicos (porcentajes, contadores de días, etc.)
+# que el regex de "valor" podía llegar a confundir con el precio real.
+VALOR_MINIMO = 100_000
+
 # Catálogo completo de jugadores de LaLiga Fantasy Oficial (todos los
 # equipos, ~540 jugadores). El script solo guarda estos si aparecen en la
 # tabla del mercado.
@@ -142,6 +147,21 @@ def parse_money(text: str):
         return None
 
 
+def extraer_valor(row_text: str):
+    """Valor actual del jugador: busca TODOS los patrones "NN% número" de
+    la fila (puede haber más de uno — porcentajes de rendimiento, de
+    titularidad, etc. — y no todos van seguidos del precio) y se queda con
+    el PRIMERO cuyo número parseado sea un precio realista (>= VALOR_MINIMO).
+    Antes se quedaba con el primero que encontraba sin más, y a veces ese
+    era un número chico que no era plata (por eso salían valores de 6€,
+    37€, etc. en vez de millones)."""
+    for m in re.finditer(r"\d{1,3}%\s+([\d.]+)", row_text):
+        candidato = parse_money(m.group(1))
+        if candidato is not None and candidato >= VALOR_MINIMO:
+            return candidato
+    return None
+
+
 def scrape():
     resp = requests.get(URL, headers=HEADERS, timeout=20)
     resp.raise_for_status()
@@ -150,7 +170,7 @@ def scrape():
     rows = soup.select(ROW_SELECTOR)
     if not rows:
         print(
-            f"⚠️  No encontré filas con el selector \'{ROW_SELECTOR}\'. "
+            f"⚠️  No encontré filas con el selector '{ROW_SELECTOR}'. "
             "Abrí el sitio, inspeccioná la tabla y ajustá ROW_SELECTOR arriba.",
             file=sys.stderr,
         )
@@ -171,8 +191,7 @@ def scrape():
                 if diff is not None:
                     market[jugador] = diff
 
-                m_val = re.search(r"\d{1,3}%\s+([\d.]+)", row_text)
-                valor = parse_money(m_val.group(1)) if m_val else None
+                valor = extraer_valor(row_text)
                 if valor is not None:
                     valores[jugador] = valor
                 break
@@ -180,6 +199,10 @@ def scrape():
     faltantes = [j for j in MIS_JUGADORES if j not in market]
     if faltantes:
         print(f"⚠️  Sin match ({len(faltantes)} de {len(MIS_JUGADORES)}).", file=sys.stderr)
+
+    sin_valor = [j for j in market if j not in valores]
+    if sin_valor:
+        print(f"⚠️  Con subida pero sin valor confiable ({len(sin_valor)}): {', '.join(sin_valor[:20])}{'...' if len(sin_valor)>20 else ''}", file=sys.stderr)
 
     return market, valores
 
@@ -198,4 +221,3 @@ if __name__ == "__main__":
             indent=2,
         )
     print(f"✅ Guardado mercado.json con {len(market)} jugadores (variación) y {len(valores)} (valor actual).")
-
