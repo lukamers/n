@@ -37,7 +37,18 @@ ROW_SELECTOR = "table tbody tr"
 # Un jugador de LaLiga Fantasy Oficial nunca vale menos que esto — sirve
 # para descartar números chicos (porcentajes, contadores de días, etc.)
 # que el regex de "valor" podía llegar a confundir con el precio real.
-VALOR_MINIMO = 100_000
+# (bajado de 100.000 a 10.000: con 100.000 se perdían jugadores muy baratos
+# que sí tienen un precio real pero bajo, como Dani Martínez de karfim)
+VALOR_MINIMO = 10_000
+
+# Hay nombres cortos que el sitio repite para MÁS DE UN jugador real (ej:
+# "Navarro" es tanto Marcos Navarro del Valencia como Robert Navarro del
+# Athletic). Para esos casos, además de matchear el nombre exigimos que el
+# equipo real (de LaLiga, no el de tu liga fantasy) también aparezca en la
+# misma fila, para saber a cuál te referís.
+DESAMBIGUAR_POR_EQUIPO = {
+    "Navarro": "Athletic",  # Robert Navarro, no Marcos Navarro (Valencia)
+}
 
 # Catálogo completo de jugadores de LaLiga Fantasy Oficial (todos los
 # equipos, ~540 jugadores). El script solo guarda estos si aparecen en la
@@ -185,16 +196,26 @@ def scrape():
     for row in rows:
         row_text = row.get_text(" ", strip=True)
         for jugador in jugadores_ordenados:
-            if jugador in row_text and jugador not in market:
-                m_diff = re.search(r"([+-]?\d[\d.]*\d|0)(?=\s)", row_text)
-                diff = parse_money(m_diff.group(1)) if m_diff else None
-                if diff is not None:
-                    market[jugador] = diff
+            if jugador in market:
+                continue
+            # \b = límite de palabra: evita que "Villar" matchee dentro de
+            # "Villarreal" (el club), que era el bug que le robaba la fila
+            # a Renato Veiga.
+            if not re.search(r"\b" + re.escape(jugador) + r"\b", row_text):
+                continue
+            equipo_requerido = DESAMBIGUAR_POR_EQUIPO.get(jugador)
+            if equipo_requerido and equipo_requerido not in row_text:
+                continue
 
-                valor = extraer_valor(row_text)
-                if valor is not None:
-                    valores[jugador] = valor
-                break
+            m_diff = re.search(r"([+-]?\d[\d.]*\d|0)(?=\s)", row_text)
+            diff = parse_money(m_diff.group(1)) if m_diff else None
+            if diff is not None:
+                market[jugador] = diff
+
+            valor = extraer_valor(row_text)
+            if valor is not None:
+                valores[jugador] = valor
+            break
 
     faltantes = [j for j in MIS_JUGADORES if j not in market]
     if faltantes:
