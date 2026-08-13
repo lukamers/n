@@ -31,14 +31,20 @@ from bs4 import BeautifulSoup
 URL = "https://www.futbolfantasy.com/analytics/laliga-fantasy/mercado"
 
 # AJUSTAR ESTO según lo que veas en el inspector del navegador si el script
-# no encuentra filas.
-ROW_SELECTOR = "table tbody tr"
+# no encuentra filas. Ojo: "table tbody tr" requiere que el HTML tenga una
+# etiqueta <tbody> explícita — muchos sitios la omiten (el navegador la
+# agrega solo al mostrarla, pero el HTML crudo que lee este script no la
+# tiene), así que usamos "table tr" para no depender de eso.
+ROW_SELECTOR = "table tr"
 
 # Un jugador de LaLiga Fantasy Oficial nunca vale menos que esto — sirve
 # para descartar números chicos (porcentajes, contadores de días, etc.)
 # que el regex de "valor" podía llegar a confundir con el precio real.
+# Un jugador de LaLiga Fantasy Oficial nunca vale menos que esto — sirve
+# para descartar números chicos (porcentajes, contadores de días, etc.)
+# que el regex de "valor" podía llegar a confundir con el precio real.
 # (bajado de 100.000 a 10.000: con 100.000 se perdían jugadores muy baratos
-# que sí tienen un precio real pero bajo, como Dani Martínez de karfim)
+# que sí tienen un precio real pero bajo)
 VALOR_MINIMO = 10_000
 
 # Hay nombres cortos que el sitio repite para MÁS DE UN jugador real (ej:
