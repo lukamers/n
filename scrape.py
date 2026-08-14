@@ -31,32 +31,15 @@ from bs4 import BeautifulSoup
 
 URL = "https://www.futbolfantasy.com/analytics/laliga-fantasy/mercado"
 
-# Si el pedido a futbolfantasy.com se cuelga (pasa de vez en cuando, sobre
-# todo desde servidores como los de GitHub Actions), reintenta esta
-# cantidad de veces antes de rendirse, esperando un poco más entre cada
-# intento.
 MAX_REINTENTOS = 4
 ESPERA_BASE_SEGUNDOS = 15
 
 # AJUSTAR ESTO según lo que veas en el inspector del navegador si el script
 # no encuentra filas.
-# AJUSTAR ESTO según lo que veas en el inspector del navegador si el script
-# no encuentra filas. Ojo: "table tbody tr" requiere que el HTML tenga una
-# etiqueta <tbody> explícita — muchos sitios la omiten (el navegador la
-# agrega solo al mostrarla, pero el HTML crudo que lee este script no la
-# tiene), así que usamos "table tr" para no depender de eso.
 ROW_SELECTOR = "table tr"
 
-# Un jugador de LaLiga Fantasy Oficial nunca vale menos que esto — sirve
-# para descartar números chicos que no son plata y podrían confundirse
-# con el precio real.
 VALOR_MINIMO = 10_000
 
-# Hay nombres cortos que el sitio repite para MÁS DE UN jugador real (ej:
-# "Navarro" es tanto Marcos Navarro del Valencia como Robert Navarro del
-# Athletic). Para esos casos, además de matchear el nombre exigimos que el
-# equipo real (de LaLiga, no el de tu liga fantasy) también aparezca en la
-# misma fila, para saber a cuál te referís.
 DESAMBIGUAR_POR_EQUIPO = {
     "Navarro": "Athletic",  # Robert Navarro, no Marcos Navarro (Valencia)
 }
@@ -170,20 +153,8 @@ def parse_money(text: str):
 
 
 def extraer_valor(row_text: str):
-    """Valor actual del jugador.
-
-    La fila termina siempre con dos números grandes seguidos: valor actual
-    y valor anterior, en ese orden — no importa si el jugador subió, bajó,
-    o si el sitio muestra "Ndías" o "Hoy" antes de esos números (esa parte
-    varía y no es confiable como referencia). Lo confiable es la POSICIÓN:
-    de todos los números con formato de miles que aparecen en la fila
-    (ej. "412.199"), el valor actual es siempre el anteúltimo.
-
-    Ejemplo real (Dani Martínez, bajó de precio ese día):
-        "-3.147  -0,76%   18días  J1 🏠  412.199  415.346"
-    Números con formato de miles en la fila: ["3.147", "412.199", "415.346"]
-    Anteúltimo = "412.199" = valor actual. ✅
-    """
+    """Valor actual del jugador: el anteúltimo número con formato de miles
+    de toda la fila (el último es el valor anterior)."""
     candidatos = re.findall(r"\d{1,3}(?:\.\d{3})+", row_text)
     if not candidatos:
         return None
@@ -235,10 +206,14 @@ def scrape():
         for jugador in jugadores_ordenados:
             if jugador in market:
                 continue
-            # \b = límite de palabra: evita que "Villar" matchee dentro de
-            # "Villarreal" (el club), que era el bug que le robaba la fila
-            # a Renato Veiga.
-            if not re.search(r"\b" + re.escape(jugador) + r"\b", row_text):
+            # Coincidencia de "palabra completa" hecha a mano en vez de \b:
+            # \b se rompe con nombres que terminan en punto (como "Rubén
+            # G."), porque el punto no cuenta como letra y entonces \b
+            # nunca encuentra el límite. Acá exigimos directamente que lo
+            # que venga antes/después NO sea una letra o número (así
+            # tampoco "Villar" matchea dentro de "Villarreal").
+            patron = r"(?<![A-Za-zÀ-ÿ0-9])" + re.escape(jugador) + r"(?![A-Za-zÀ-ÿ0-9])"
+            if not re.search(patron, row_text):
                 continue
             equipo_requerido = DESAMBIGUAR_POR_EQUIPO.get(jugador)
             if equipo_requerido and equipo_requerido not in row_text:
