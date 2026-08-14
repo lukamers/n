@@ -1,7 +1,7 @@
 {
   "teams": {
     "Chonaura": {
-      "caja": 24793505,
+      "caja": 2294085,
       "players": [
         {
           "n": "Lunin",
@@ -38,11 +38,15 @@
         {
           "n": "Veiga",
           "pos": "DEF"
+        },
+        {
+          "n": "S. Cardona",
+          "pos": "DEF"
         }
       ]
     },
     "papi floren 24 cm": {
-      "caja": 28038952,
+      "caja": 19538943,
       "players": [
         {
           "n": "Eriksson",
@@ -83,18 +87,18 @@
         {
           "n": "Álvaro García",
           "pos": "DEF"
+        },
+        {
+          "n": "Rueda",
+          "pos": "DEF"
         }
       ]
     },
     "Lucky Corbechad": {
-      "caja": 18631852,
+      "caja": 33104613,
       "players": [
         {
           "n": "A. Abqar",
-          "pos": "DEF"
-        },
-        {
-          "n": "Cucurella",
           "pos": "DEF"
         },
         {
@@ -129,6 +133,10 @@
         {
           "n": "Guruzeta",
           "pos": "DEL"
+        },
+        {
+          "n": "Alvarez",
+          "pos": "DEF"
         }
       ]
     },
@@ -270,7 +278,7 @@
       ]
     },
     "karfim": {
-      "caja": 40915059,
+      "caja": -3835941,
       "players": [
         {
           "n": "Á. Valles",
@@ -298,7 +306,8 @@
         },
         {
           "n": "Dani Martínez",
-          "pos": "DEF"
+          "pos": "DEF",
+          "v": 415311
         },
         {
           "n": "Ximo",
@@ -307,11 +316,15 @@
         {
           "n": "Rubén G.",
           "pos": "DEF"
+        },
+        {
+          "n": "Hancko",
+          "pos": "DEF"
         }
       ]
     },
     "mercho.": {
-      "caja": 57340041,
+      "caja": 31910246,
       "you": true,
       "players": [
         {
@@ -347,11 +360,27 @@
         {
           "n": "Agoumé",
           "pos": "DEF"
+        },
+        {
+          "n": "Suazo",
+          "pos": "DEF"
+        },
+        {
+          "n": "Zubeldia",
+          "pos": "DEF"
+        },
+        {
+          "n": "Víctor García",
+          "pos": "DEF"
+        },
+        {
+          "n": "Alemão",
+          "pos": "DEF"
         }
       ]
     },
     "EN ORTODONCIA FC": {
-      "caja": 99821566,
+      "caja": 30821566,
       "players": [
         {
           "n": "Iván Villar",
@@ -393,6 +422,10 @@
         },
         {
           "n": "Altimira",
+          "pos": "DEF"
+        },
+        {
+          "n": "Canales",
           "pos": "DEF"
         }
       ]
