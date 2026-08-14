@@ -42,6 +42,8 @@ VALOR_MINIMO = 10_000
 
 DESAMBIGUAR_POR_EQUIPO = {
     "Navarro": "Athletic",  # Robert Navarro, no Marcos Navarro (Valencia)
+    "Álvaro García": "Rayo",  # no el otro Álvaro García más barato
+    "Dani Martínez": "Atlético",  # no otro Dani Martínez homónimo
 }
 
 # Clubes reales de LaLiga (no confundir con los nombres de TU liga fantasy).
