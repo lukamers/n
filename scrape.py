@@ -44,6 +44,18 @@ DESAMBIGUAR_POR_EQUIPO = {
     "Navarro": "Athletic",  # Robert Navarro, no Marcos Navarro (Valencia)
 }
 
+# Clubes reales de LaLiga (no confundir con los nombres de TU liga fantasy).
+# Una fila solo se acepta como válida si menciona alguno de estos — así se
+# descartan filas de otros widgets/tablas de la página (ej. "top
+# movimientos") que repiten el nombre del jugador pero con datos
+# incompletos o viejos, y le robaban la fila a la tabla principal.
+CLUBES_LALIGA = [
+    "Real Madrid", "Real Sociedad", "Atlético", "Athletic", "Barcelona",
+    "Villarreal", "Espanyol", "Getafe", "Levante", "Málaga", "Osasuna",
+    "Racing", "Rayo", "Sevilla", "Valencia", "Alavés", "Betis", "Celta",
+    "Deportivo", "Elche",
+]
+
 # Catálogo completo de jugadores de LaLiga Fantasy Oficial (todos los
 # equipos, ~540 jugadores). El script solo guarda estos si aparecen en la
 # tabla del mercado.
@@ -203,6 +215,11 @@ def scrape():
 
     for row in rows:
         row_text = row.get_text(" ", strip=True)
+        # Descartar filas de otros widgets de la página (ej. "top
+        # movimientos del día") que repiten nombres de jugadores pero sin
+        # el club — solo nos interesan las filas de la tabla principal.
+        if not any(club in row_text for club in CLUBES_LALIGA):
+            continue
         for jugador in jugadores_ordenados:
             if jugador in market:
                 continue
