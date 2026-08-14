@@ -24,12 +24,22 @@ próxima vez que corra el scraper.
 import json
 import re
 import sys
+import time
 from datetime import datetime, timezone
 import requests
 from bs4 import BeautifulSoup
 
 URL = "https://www.futbolfantasy.com/analytics/laliga-fantasy/mercado"
 
+# Si el pedido a futbolfantasy.com se cuelga (pasa de vez en cuando, sobre
+# todo desde servidores como los de GitHub Actions), reintenta esta
+# cantidad de veces antes de rendirse, esperando un poco más entre cada
+# intento.
+MAX_REINTENTOS = 4
+ESPERA_BASE_SEGUNDOS = 15
+
+# AJUSTAR ESTO según lo que veas en el inspector del navegador si el script
+# no encuentra filas.
 # AJUSTAR ESTO según lo que veas en el inspector del navegador si el script
 # no encuentra filas. Ojo: "table tbody tr" requiere que el HTML tenga una
 # etiqueta <tbody> explícita — muchos sitios la omiten (el navegador la
@@ -38,13 +48,8 @@ URL = "https://www.futbolfantasy.com/analytics/laliga-fantasy/mercado"
 ROW_SELECTOR = "table tr"
 
 # Un jugador de LaLiga Fantasy Oficial nunca vale menos que esto — sirve
-# para descartar números chicos (porcentajes, contadores de días, etc.)
-# que el regex de "valor" podía llegar a confundir con el precio real.
-# Un jugador de LaLiga Fantasy Oficial nunca vale menos que esto — sirve
-# para descartar números chicos (porcentajes, contadores de días, etc.)
-# que el regex de "valor" podía llegar a confundir con el precio real.
-# (bajado de 100.000 a 10.000: con 100.000 se perdían jugadores muy baratos
-# que sí tienen un precio real pero bajo)
+# para descartar números chicos que no son plata y podrían confundirse
+# con el precio real.
 VALOR_MINIMO = 10_000
 
 # Hay nombres cortos que el sitio repite para MÁS DE UN jugador real (ej:
@@ -165,23 +170,49 @@ def parse_money(text: str):
 
 
 def extraer_valor(row_text: str):
-    """Valor actual del jugador: busca TODOS los patrones "NN% número" de
-    la fila (puede haber más de uno — porcentajes de rendimiento, de
-    titularidad, etc. — y no todos van seguidos del precio) y se queda con
-    el PRIMERO cuyo número parseado sea un precio realista (>= VALOR_MINIMO).
-    Antes se quedaba con el primero que encontraba sin más, y a veces ese
-    era un número chico que no era plata (por eso salían valores de 6€,
-    37€, etc. en vez de millones)."""
-    for m in re.finditer(r"\d{1,3}%\s+([\d.]+)", row_text):
-        candidato = parse_money(m.group(1))
-        if candidato is not None and candidato >= VALOR_MINIMO:
-            return candidato
+    """Valor actual del jugador.
+
+    La fila termina siempre con dos números grandes seguidos: valor actual
+    y valor anterior, en ese orden — no importa si el jugador subió, bajó,
+    o si el sitio muestra "Ndías" o "Hoy" antes de esos números (esa parte
+    varía y no es confiable como referencia). Lo confiable es la POSICIÓN:
+    de todos los números con formato de miles que aparecen en la fila
+    (ej. "412.199"), el valor actual es siempre el anteúltimo.
+
+    Ejemplo real (Dani Martínez, bajó de precio ese día):
+        "-3.147  -0,76%   18días  J1 🏠  412.199  415.346"
+    Números con formato de miles en la fila: ["3.147", "412.199", "415.346"]
+    Anteúltimo = "412.199" = valor actual. ✅
+    """
+    candidatos = re.findall(r"\d{1,3}(?:\.\d{3})+", row_text)
+    if not candidatos:
+        return None
+    elegido = candidatos[-2] if len(candidatos) >= 2 else candidatos[-1]
+    valor = parse_money(elegido)
+    if valor is not None and valor >= VALOR_MINIMO:
+        return valor
     return None
 
 
 def scrape():
-    resp = requests.get(URL, headers=HEADERS, timeout=20)
-    resp.raise_for_status()
+    resp = None
+    ultimo_error = None
+    for intento in range(1, MAX_REINTENTOS + 1):
+        try:
+            resp = requests.get(URL, headers=HEADERS, timeout=30)
+            resp.raise_for_status()
+            break
+        except requests.exceptions.RequestException as e:
+            ultimo_error = e
+            print(f"⚠️  Intento {intento}/{MAX_REINTENTOS} falló: {e}", file=sys.stderr)
+            if intento < MAX_REINTENTOS:
+                espera = ESPERA_BASE_SEGUNDOS * intento
+                print(f"   Reintentando en {espera}s…", file=sys.stderr)
+                time.sleep(espera)
+    if resp is None:
+        print(f"❌ No pude conectarme después de {MAX_REINTENTOS} intentos: {ultimo_error}", file=sys.stderr)
+        sys.exit(1)
+
     soup = BeautifulSoup(resp.text, "html.parser")
 
     rows = soup.select(ROW_SELECTOR)
@@ -248,4 +279,3 @@ if __name__ == "__main__":
             indent=2,
         )
     print(f"✅ Guardado mercado.json con {len(market)} jugadores (variación) y {len(valores)} (valor actual).")
-
