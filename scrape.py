@@ -224,6 +224,10 @@ def scrape():
 
     for row in rows:
         row_text = row.get_text(" ", strip=True)
+        # --- DEBUG TEMPORAL: para ver el texto crudo real de una fila ---
+        if "Vinicius" in row_text:
+            print(f"🔍 DEBUG Vinicius row_text: {row_text!r}", file=sys.stderr)
+        # --- fin debug ---
         # Descartar filas de otros widgets de la página (ej. "top
         # movimientos del día") que repiten nombres de jugadores pero sin
         # el club — solo nos interesan las filas de la tabla principal.
