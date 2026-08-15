@@ -176,7 +176,12 @@ def extraer_valor(row_text: str):
     jugadores con historial cortito pero agarraba un valor de varios días
     atrás en los jugadores populares con historial largo, como Vinicius.)
     """
-    m_anchor = re.search(r"\d+\s*días|Hoy", row_text)
+    # Antes exigía que el número estuviera pegado a "días" (\d+\s*días),
+    # pero el sitio a veces mete texto raro en el medio (ej. "1 d días",
+    # con una "d" suelta), así que ahora buscamos solo la palabra —
+    # dondequiera que aparezca, ya marca el final del bloque de subidas y
+    # el comienzo del bloque de valores.
+    m_anchor = re.search(r"días|Hoy", row_text)
     resto = row_text[m_anchor.end():] if m_anchor else row_text
     m_val = re.search(r"(\d{1,3}(?:\.\d{3})+)", resto)
     if m_val:
@@ -224,10 +229,6 @@ def scrape():
 
     for row in rows:
         row_text = row.get_text(" ", strip=True)
-        # --- DEBUG TEMPORAL: para ver el texto crudo real de una fila ---
-        if "Vinicius" in row_text:
-            print(f"🔍 DEBUG Vinicius row_text: {row_text!r}", file=sys.stderr)
-        # --- fin debug ---
         # Descartar filas de otros widgets de la página (ej. "top
         # movimientos del día") que repiten nombres de jugadores pero sin
         # el club — solo nos interesan las filas de la tabla principal.
