@@ -46,11 +46,6 @@ DESAMBIGUAR_POR_EQUIPO = {
     "Dani Martínez": "Atlético",  # no otro Dani Martínez homónimo
 }
 
-# Clubes reales de LaLiga (no confundir con los nombres de TU liga fantasy).
-# Una fila solo se acepta como válida si menciona alguno de estos — así se
-# descartan filas de otros widgets/tablas de la página (ej. "top
-# movimientos") que repiten el nombre del jugador pero con datos
-# incompletos o viejos, y le robaban la fila a la tabla principal.
 CLUBES_LALIGA = [
     "Real Madrid", "Real Sociedad", "Atlético", "Athletic", "Barcelona",
     "Villarreal", "Espanyol", "Getafe", "Levante", "Málaga", "Osasuna",
@@ -167,15 +162,27 @@ def parse_money(text: str):
 
 
 def extraer_valor(row_text: str):
-    """Valor actual del jugador: el anteúltimo número con formato de miles
-    de toda la fila (el último es el valor anterior)."""
-    candidatos = re.findall(r"\d{1,3}(?:\.\d{3})+", row_text)
-    if not candidatos:
-        return None
-    elegido = candidatos[-2] if len(candidatos) >= 2 else candidatos[-1]
-    valor = parse_money(elegido)
-    if valor is not None and valor >= VALOR_MINIMO:
-        return valor
+    """Valor actual del jugador.
+
+    La fila tiene esta forma:
+        Nombre Equipo  -3.147  -0,76%   18días  J1 🏠  412.199  415.346  ...
+
+    (para jugadores populares, después del valor actual puede venir un
+    historial más largo de varios días, no solo uno). El "%" que aparece
+    es el % de la subida/bajada, no está pegado al precio. Lo confiable es
+    que el valor actual es siempre el PRIMER número con formato de miles
+    que aparece DESPUÉS del contador de días ("Ndías" o "Hoy").
+    (Antes usaba el anteúltimo número de toda la fila, que funcionaba para
+    jugadores con historial cortito pero agarraba un valor de varios días
+    atrás en los jugadores populares con historial largo, como Vinicius.)
+    """
+    m_anchor = re.search(r"\d+\s*días|Hoy", row_text)
+    resto = row_text[m_anchor.end():] if m_anchor else row_text
+    m_val = re.search(r"(\d{1,3}(?:\.\d{3})+)", resto)
+    if m_val:
+        candidato = parse_money(m_val.group(1))
+        if candidato is not None and candidato >= VALOR_MINIMO:
+            return candidato
     return None
 
 
@@ -227,10 +234,9 @@ def scrape():
                 continue
             # Coincidencia de "palabra completa" hecha a mano en vez de \b:
             # \b se rompe con nombres que terminan en punto (como "Rubén
-            # G."), porque el punto no cuenta como letra y entonces \b
-            # nunca encuentra el límite. Acá exigimos directamente que lo
-            # que venga antes/después NO sea una letra o número (así
-            # tampoco "Villar" matchea dentro de "Villarreal").
+            # G."), porque el punto no cuenta como letra. Acá exigimos
+            # directamente que lo que venga antes/después NO sea una letra
+            # o número (así tampoco "Villar" matchea dentro de "Villarreal").
             patron = r"(?<![A-Za-zÀ-ÿ0-9])" + re.escape(jugador) + r"(?![A-Za-zÀ-ÿ0-9])"
             if not re.search(patron, row_text):
                 continue
