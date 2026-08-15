@@ -40,7 +40,23 @@
           "pos": "DEF"
         },
         {
+          "n": "Yeray",
+          "pos": "DEF"
+        },
+        {
           "n": "S. Cardona",
+          "pos": "DEF"
+        },
+        {
+          "n": "Fort",
+          "pos": "DEF"
+        },
+        {
+          "n": "Durán",
+          "pos": "DEF"
+        },
+        {
+          "n": "Óscar Marcos",
           "pos": "DEF"
         }
       ]
@@ -90,6 +106,10 @@
         },
         {
           "n": "Rueda",
+          "pos": "DEF"
+        },
+        {
+          "n": "Martín Anselmi",
           "pos": "DEF"
         }
       ]
@@ -174,6 +194,14 @@
         {
           "n": "Gueye",
           "pos": "DEF"
+        },
+        {
+          "n": "Vlachodimos",
+          "pos": "DEF"
+        },
+        {
+          "n": "Jauregizar",
+          "pos": "DEF"
         }
       ]
     },
@@ -224,6 +252,10 @@
           "n": "I. Romero",
           "pos": "DEL",
           "v": 6832126
+        },
+        {
+          "n": "Quique Sánchez",
+          "pos": "DEF"
         }
       ]
     },
@@ -274,6 +306,10 @@
         {
           "n": "Navarro",
           "pos": "DEF"
+        },
+        {
+          "n": "Soria",
+          "pos": "DEF"
         }
       ]
     },
@@ -319,6 +355,18 @@
         },
         {
           "n": "Hancko",
+          "pos": "DEF"
+        },
+        {
+          "n": "Barcia",
+          "pos": "DEF"
+        },
+        {
+          "n": "Jurado",
+          "pos": "DEF"
+        },
+        {
+          "n": "Beñat San José",
           "pos": "DEF"
         }
       ]
@@ -426,6 +474,18 @@
         },
         {
           "n": "Canales",
+          "pos": "DEF"
+        },
+        {
+          "n": "Balliu",
+          "pos": "DEF"
+        },
+        {
+          "n": "Boyomo",
+          "pos": "DEF"
+        },
+        {
+          "n": "Olasagasti",
           "pos": "DEF"
         }
       ]
