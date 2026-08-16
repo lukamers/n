@@ -30,6 +30,7 @@ import requests
 from bs4 import BeautifulSoup
 
 URL = "https://www.futbolfantasy.com/analytics/laliga-fantasy/mercado"
+URL_PUNTOS = "https://www.futbolfantasy.com/analytics/laliga-fantasy/puntos"
 
 MAX_REINTENTOS = 4
 ESPERA_BASE_SEGUNDOS = 15
@@ -161,6 +162,52 @@ def parse_money(text: str):
         return None
 
 
+def fetch_con_reintentos(url: str):
+    resp = None
+    ultimo_error = None
+    for intento in range(1, MAX_REINTENTOS + 1):
+        try:
+            resp = requests.get(url, headers=HEADERS, timeout=30)
+            resp.raise_for_status()
+            return resp
+        except requests.exceptions.RequestException as e:
+            ultimo_error = e
+            print(f"⚠️  Intento {intento}/{MAX_REINTENTOS} falló ({url}): {e}", file=sys.stderr)
+            if intento < MAX_REINTENTOS:
+                espera = ESPERA_BASE_SEGUNDOS * intento
+                print(f"   Reintentando en {espera}s…", file=sys.stderr)
+                time.sleep(espera)
+    print(f"❌ No pude conectarme a {url} después de {MAX_REINTENTOS} intentos: {ultimo_error}", file=sys.stderr)
+    return None
+
+
+def encontrar_jugador_y_club(row_text: str, jugadores_ordenados):
+    """Busca cuál de MIS_JUGADORES aparece en esta fila (como palabra
+    completa, con el mismo cuidado de "Rubén G." / "Villarreal" que en
+    extraer_valor) y devuelve (nombre_jugador, club_encontrado) o
+    (None, None) si no matchea ninguno o la fila no pertenece a la tabla
+    principal (sin club real de LaLiga)."""
+    club_encontrado = next((c for c in CLUBES_LALIGA if c in row_text), None)
+    if not club_encontrado:
+        return None, None
+    for jugador in jugadores_ordenados:
+        # Ojo: solo exigimos límite del lado DERECHO (que no venga pegada
+        # otra letra después). El de la izquierda se sacó a propósito: el
+        # sitio pega el nombre corto directo después del nombre completo
+        # sin espacio (ej. "GarcíaRubén G."), así que exigir límite a la
+        # izquierda rechazaba nombres cortos válidos como "Rubén G.". El
+        # límite derecho solo ya alcanza para evitar que "Villar" matchee
+        # dentro de "Villarreal".
+        patron = re.escape(jugador) + r"(?![A-Za-zÀ-ÿ0-9])"
+        if not re.search(patron, row_text):
+            continue
+        equipo_requerido = DESAMBIGUAR_POR_EQUIPO.get(jugador)
+        if equipo_requerido and equipo_requerido not in row_text:
+            continue
+        return jugador, club_encontrado
+    return None, None
+
+
 def extraer_valor(row_text: str):
     """Valor actual del jugador.
 
@@ -191,23 +238,29 @@ def extraer_valor(row_text: str):
     return None
 
 
+def extraer_puntos(row_text: str, club_encontrado: str):
+    """Puntos totales de la temporada. En la página de puntos, el total
+    aparece como el primer número (puede ser negativo) justo después del
+    nombre del club, ej.:
+        "Rubén GarcíaRubén G. Osasuna 174 1 12 19 1 7 4 ..."
+    Acá "174" es el total de puntos.
+    """
+    idx = row_text.find(club_encontrado)
+    if idx == -1:
+        return None
+    resto = row_text[idx + len(club_encontrado):]
+    m = re.search(r"-?\d+", resto)
+    if not m:
+        return None
+    try:
+        return int(m.group(0))
+    except ValueError:
+        return None
+
+
 def scrape():
-    resp = None
-    ultimo_error = None
-    for intento in range(1, MAX_REINTENTOS + 1):
-        try:
-            resp = requests.get(URL, headers=HEADERS, timeout=30)
-            resp.raise_for_status()
-            break
-        except requests.exceptions.RequestException as e:
-            ultimo_error = e
-            print(f"⚠️  Intento {intento}/{MAX_REINTENTOS} falló: {e}", file=sys.stderr)
-            if intento < MAX_REINTENTOS:
-                espera = ESPERA_BASE_SEGUNDOS * intento
-                print(f"   Reintentando en {espera}s…", file=sys.stderr)
-                time.sleep(espera)
+    resp = fetch_con_reintentos(URL)
     if resp is None:
-        print(f"❌ No pude conectarme después de {MAX_REINTENTOS} intentos: {ultimo_error}", file=sys.stderr)
         sys.exit(1)
 
     soup = BeautifulSoup(resp.text, "html.parser")
@@ -229,35 +282,18 @@ def scrape():
 
     for row in rows:
         row_text = row.get_text(" ", strip=True)
-        # Descartar filas de otros widgets de la página (ej. "top
-        # movimientos del día") que repiten nombres de jugadores pero sin
-        # el club — solo nos interesan las filas de la tabla principal.
-        if not any(club in row_text for club in CLUBES_LALIGA):
+        jugador, _club = encontrar_jugador_y_club(row_text, jugadores_ordenados)
+        if jugador is None or jugador in market:
             continue
-        for jugador in jugadores_ordenados:
-            if jugador in market:
-                continue
-            # Coincidencia de "palabra completa" hecha a mano en vez de \b:
-            # \b se rompe con nombres que terminan en punto (como "Rubén
-            # G."), porque el punto no cuenta como letra. Acá exigimos
-            # directamente que lo que venga antes/después NO sea una letra
-            # o número (así tampoco "Villar" matchea dentro de "Villarreal").
-            patron = r"(?<![A-Za-zÀ-ÿ0-9])" + re.escape(jugador) + r"(?![A-Za-zÀ-ÿ0-9])"
-            if not re.search(patron, row_text):
-                continue
-            equipo_requerido = DESAMBIGUAR_POR_EQUIPO.get(jugador)
-            if equipo_requerido and equipo_requerido not in row_text:
-                continue
 
-            m_diff = re.search(r"([+-]?\d[\d.]*\d|0)(?=\s)", row_text)
-            diff = parse_money(m_diff.group(1)) if m_diff else None
-            if diff is not None:
-                market[jugador] = diff
+        m_diff = re.search(r"([+-]?\d[\d.]*\d|0)(?=\s)", row_text)
+        diff = parse_money(m_diff.group(1)) if m_diff else None
+        if diff is not None:
+            market[jugador] = diff
 
-            valor = extraer_valor(row_text)
-            if valor is not None:
-                valores[jugador] = valor
-            break
+        valor = extraer_valor(row_text)
+        if valor is not None:
+            valores[jugador] = valor
 
     faltantes = [j for j in MIS_JUGADORES if j not in market]
     if faltantes:
@@ -270,17 +306,53 @@ def scrape():
     return market, valores
 
 
+def scrape_puntos():
+    resp = fetch_con_reintentos(URL_PUNTOS)
+    if resp is None:
+        print("⚠️  No pude traer los puntos, sigo sin esa parte.", file=sys.stderr)
+        return {}
+
+    soup = BeautifulSoup(resp.text, "html.parser")
+    rows = soup.select(ROW_SELECTOR)
+    if not rows:
+        print(f"⚠️  No encontré filas de puntos con el selector '{ROW_SELECTOR}'.", file=sys.stderr)
+        return {}
+
+    puntos = {}
+    jugadores_ordenados = sorted(MIS_JUGADORES, key=len, reverse=True)
+
+    for row in rows:
+        row_text = row.get_text(" ", strip=True)
+        jugador, club = encontrar_jugador_y_club(row_text, jugadores_ordenados)
+        if jugador is None or jugador in puntos:
+            continue
+        pts = extraer_puntos(row_text, club)
+        if pts is not None:
+            puntos[jugador] = pts
+
+    faltantes = [j for j in MIS_JUGADORES if j not in puntos]
+    if faltantes:
+        print(f"⚠️  Puntos: sin match ({len(faltantes)} de {len(MIS_JUGADORES)}).", file=sys.stderr)
+
+    return puntos
+
+
 if __name__ == "__main__":
     market, valores = scrape()
+    puntos = scrape_puntos()
     with open("mercado.json", "w", encoding="utf-8") as f:
         json.dump(
             {
                 "actualizado": datetime.now(timezone.utc).isoformat(),
                 "market": market,
                 "valores": valores,
+                "puntos": puntos,
             },
             f,
             ensure_ascii=False,
             indent=2,
         )
-    print(f"✅ Guardado mercado.json con {len(market)} jugadores (variación) y {len(valores)} (valor actual).")
+    print(
+        f"✅ Guardado mercado.json con {len(market)} jugadores (variación), "
+        f"{len(valores)} (valor actual) y {len(puntos)} (puntos)."
+    )
