@@ -218,7 +218,7 @@
   .balance-note{font-size:12px; color:var(--text-faint); margin-top:4px; line-height:1.5;}
   .right-stats{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:repeat(4,1fr);
     gap:8px;
     padding-left:30px;
   }
@@ -228,14 +228,16 @@
   .stat .k{font-size:10px; color:var(--text-faint); text-transform:uppercase; letter-spacing:.06em; margin-top:1px;}
   .stat.caja .v{color:var(--green);}
   .stat.total .v{color:var(--gold);}
+  .stat.puntos .v{color:#f2994a;}
   .stat.mercado .v.up{color:var(--green);}
   .stat.mercado .v.down{color:var(--red);}
   .stat.mercado .v.flat{color:var(--text-faint);}
   .stat.down .v{color:var(--red);}
   .stat.up .v{color:var(--green);}
   @media (max-width:480px){
-    .stat .v{font-size:13px;}
+    .stat .v{font-size:12.5px;}
     .name{font-size:14.5px;}
+    .right-stats{grid-template-columns:repeat(2,1fr); row-gap:10px;}
   }
   .chev{color:var(--text-faint); font-size:13px; transition:transform .2s ease; flex-shrink:0; padding-top:3px;}
   .card.open .chev{transform:rotate(90deg); color:var(--text);}
@@ -270,6 +272,8 @@
   .pos.MED{background:rgba(242,201,76,.15); color:var(--med);}
   .pos.DEL{background:rgba(239,75,58,.15); color:var(--del);}
   .tag{font-size:10px; color:var(--red); margin-left:2px; opacity:.85;}
+  .pts{font-family:'Oswald',sans-serif; font-weight:600; color:#f2994a;}
+  .pts.na{color:var(--text-faint); font-weight:400; font-size:11px;}
 
   .mkt{
     font-family:'Oswald',sans-serif;
@@ -381,7 +385,7 @@
   <header class="hero">
     <div class="eyebrow">Liga fantasy</div>
     <h1>LIGA <span>FANTASY</span></h1>
-    <p class="sub">Plantillas, saldo en caja, valor de mercado, subida/bajada diaria y actividad de compraventa de cada integrante.</p>
+    <p class="sub">Plantillas, saldo en caja, valor de mercado, subida/bajada diaria, puntos de la temporada y actividad de compraventa de cada integrante.</p>
     <div class="updated" id="updatedLine">Cargando datos…</div>
   </header>
 
@@ -400,6 +404,7 @@
       <button class="sort-btn active" data-sort="total">Plantilla</button>
       <button class="sort-btn" data-sort="caja">Caja</button>
       <button class="sort-btn" data-sort="mercado">Mercado</button>
+      <button class="sort-btn" data-sort="puntos">Puntos</button>
       <button class="edit-btn" id="editBtn">✎ Editar</button>
       <button class="save-btn" id="saveBtn" style="display:none;">💾 Guardar en GitHub</button>
       <span class="save-status" id="saveStatus"></span>
@@ -415,7 +420,7 @@
     <div id="actividad"></div>
   </div>
 
-  <footer>Valor de mercado y subida/bajada de cada jugador: LaLiga Fantasy Oficial (futbolfantasy.com/analytics/laliga-fantasy/mercado), actualizado a diario. Las plantillas (quién está en qué equipo) y la caja se editan a mano desde "✎ Editar".</footer>
+  <footer>Valor de mercado, subida/bajada y puntos de cada jugador: LaLiga Fantasy Oficial (futbolfantasy.com/analytics/laliga-fantasy), actualizado a diario. Las plantillas (quién está en qué equipo) y la caja se editan a mano desde "✎ Editar".</footer>
 </div>
 
 <script>
@@ -426,14 +431,6 @@ const GH_BRANCH = "main";
 const ASSIGN_PATH = "asignaciones.json";
 
 // ---------- Alias de nombres ----------
-// Tu roster usa los nombres tal como los escribís vos (o como los mostraba
-// la app de LaLiga Fantasy), pero futbolfantasy.com a veces usa otra forma
-// del nombre (sin la inicial, con apellido en vez de nombre, con/sin
-// acento, etc). Este diccionario traduce "nombre del roster" -> "clave que
-// usa mercado.json", SOLO para buscar la subida/bajada de mercado — no
-// hace falta tocar mercado.json ni renombrar nada en asignaciones.json.
-// Si fichás a alguien nuevo y ves que no le aparece la subida, buscalo en
-// mercado.json y agregá una línea acá.
 const ALIASES = {
   "Gerard Martín": "Gerard",
   "M. Dituro": "Dituro",
@@ -560,12 +557,11 @@ const activity = [
     saldo:97607717},
 ];
 
-// Subida/bajada y valor actual de cada jugador (todos los que trae el
-// scraper). Se cargan de mercado.json. allPlayers[name] = {valor, diff}
+// Subida/bajada, valor actual y puntos de la temporada de cada jugador
+// (todos los que trae el scraper). Se cargan de mercado.json.
+// allPlayers[name] = {valor, diff, puntos}
 let allPlayers = {};
 
-// Busca un jugador en allPlayers probando primero el nombre tal cual y,
-// si no está, el alias (ver diccionario ALIASES arriba).
 function lookupMarket(name){
   return allPlayers[name] || allPlayers[ALIASES[name]] || null;
 }
@@ -582,9 +578,6 @@ function currentValue(p){
   if(live && live.valor !== undefined && live.valor !== null) return live.valor;
   return p.v || 0;
 }
-// true si el valor que se está mostrando NO vino del scraper (mercado.json
-// no tenía un precio confiable para este jugador y se está usando el "v"
-// cargado a mano, o directamente no hay ninguno de los dos).
 function isManualValue(p){
   const live = lookupMarket(p.n);
   return !(live && live.valor !== undefined && live.valor !== null);
@@ -592,13 +585,21 @@ function isManualValue(p){
 function currentDiff(p){
   const live = lookupMarket(p.n);
   if(live && live.diff !== undefined) return live.diff;
-  return null; // sin dato
+  return null;
+}
+function currentPoints(p){
+  const live = lookupMarket(p.n);
+  if(live && live.puntos !== undefined && live.puntos !== null) return live.puntos;
+  return null;
 }
 function teamTotal(team){
   return team.players.reduce((s,p)=> s + currentValue(p), 0);
 }
 function teamMarketTotal(team){
   return team.players.reduce((s,p)=>{ const d = currentDiff(p); return s + (d||0); }, 0);
+}
+function teamPointsTotal(team){
+  return team.players.reduce((s,p)=>{ const pt = currentPoints(p); return s + (pt||0); }, 0);
 }
 function teamMarketHtml(team){
   const totalDiff = teamMarketTotal(team);
@@ -612,6 +613,11 @@ function marketCell(p){
   if(diff > 0){ return `<span class="mkt up"><span class="mkt-arrow">▲</span>€${fmtMarket(diff)}</span>`; }
   if(diff < 0){ return `<span class="mkt down"><span class="mkt-arrow">▼</span>€${fmtMarket(diff).replace('-','')}</span>`; }
   return `<span class="mkt flat">= €0</span>`;
+}
+function pointsCell(p){
+  const pts = currentPoints(p);
+  if(pts === null){ return `<span class="pts na">—</span>`; }
+  return `<span class="pts">${pts}</span>`;
 }
 
 const avatarPalette = ["#ef4b3a","#f2994a","#f2c94c","#6fcf97","#56ccf2","#9b59b6","#eb5757","#27ae60","#2f80ed","#bb6bd9"];
@@ -636,6 +642,16 @@ function countUp(el, target){
   }
   requestAnimationFrame(step);
 }
+function countUpPlain(el, target){
+  const duration = 800; const start = performance.now();
+  function step(now){
+    const t = Math.min(1, (now-start)/duration);
+    const eased = 1 - Math.pow(1-t, 3);
+    el.textContent = Math.round(target*eased);
+    if(t < 1) requestAnimationFrame(step); else el.textContent = target;
+  }
+  requestAnimationFrame(step);
+}
 
 let currentSort = "total";
 let editMode = false;
@@ -645,6 +661,7 @@ function sortValue(team, key){
   if(key === "total") return teamTotal(team);
   if(key === "caja") return team.caja;
   if(key === "mercado") return teamMarketTotal(team);
+  if(key === "puntos") return teamPointsTotal(team);
   return teamTotal(team);
 }
 function getSortedTeamNames(){
@@ -666,7 +683,6 @@ function ensureDatalist(){
 function moveOrAddPlayer(teamName, name, pos, tag){
   name = name.trim();
   if(!name) return;
-  // sacarlo de cualquier equipo que ya lo tenga
   Object.keys(teams).forEach(tn=>{
     teams[tn].players = teams[tn].players.filter(p=>p.n !== name);
   });
@@ -683,8 +699,6 @@ function updateCaja(teamName, value){
   const n = parseInt(value, 10);
   if(!isNaN(n)) teams[teamName].caja = n;
 }
-// Suma (delta positivo) o resta (delta negativo) un monto a la caja del
-// equipo, sin tener que calcular vos el total nuevo a mano.
 function adjustCaja(teamName, delta){
   if(!delta) return;
   teams[teamName].caja += delta;
@@ -719,6 +733,7 @@ function renderCards(){
           ? `<input type="number" value="${currentValue(p)}" style="width:110px;padding:4px 6px;background:var(--bg);border:1px solid var(--line);border-radius:6px;color:var(--text);font-size:12.5px;text-align:right;" onchange="updatePlayerValue('${name.replace(/'/g,"\\'")}','${p.n.replace(/'/g,"\\'")}', this.value)">`
           : (isManualValue(p) ? `<span title="Valor cargado a mano — el scraper no trajo dato confiable para este jugador">${fmt(currentValue(p))} ✎</span>` : fmt(currentValue(p)))}</td>
         <td class="num">${marketCell(p)}</td>
+        <td class="num">${pointsCell(p)}</td>
         ${editMode ? `<td class="num"><button class="rm-btn" onclick="removePlayer('${name.replace(/'/g,"\\'")}','${p.n.replace(/'/g,"\\'")}')">✕</button></td>` : ""}
       </tr>
     `).join('');
@@ -773,12 +788,16 @@ function renderCards(){
             <div class="v ${(()=>{const t=teamMarketTotal(team); return t>0?"up":(t<0?"down":"flat");})()}">${teamMarketHtml(team)}</div>
             <div class="k">Mercado</div>
           </div>
+          <div class="stat puntos">
+            <div class="v cp" data-target="${teamPointsTotal(team)}">0</div>
+            <div class="k">Puntos</div>
+          </div>
         </div>
       </div>
       <div class="squad">
         <div class="squad-inner">
           <table>
-            <thead><tr><th>Jugador</th><th class="num">Valor</th><th class="num">Mercado</th>${editMode?'<th></th>':''}</tr></thead>
+            <thead><tr><th>Jugador</th><th class="num">Valor</th><th class="num">Mercado</th><th class="num">Pts</th>${editMode?'<th></th>':''}</tr></thead>
             <tbody>${rows}</tbody>
           </table>
           ${editPanel}
@@ -791,6 +810,9 @@ function renderCards(){
   document.querySelectorAll('.cu').forEach(el=>{
     countUp(el, parseInt(el.dataset.target,10));
   });
+  document.querySelectorAll('.cp').forEach(el=>{
+    countUpPlain(el, parseInt(el.dataset.target,10));
+  });
 }
 
 // ---------- Carga de datos ----------
@@ -799,8 +821,9 @@ function applyMercado(fresh){
   allPlayers = {};
   const market = fresh.market || {};
   const valores = fresh.valores || {};
-  new Set([...Object.keys(market), ...Object.keys(valores)]).forEach(n=>{
-    allPlayers[n] = { valor: valores[n], diff: market[n] };
+  const puntos = fresh.puntos || {};
+  new Set([...Object.keys(market), ...Object.keys(valores), ...Object.keys(puntos)]).forEach(n=>{
+    allPlayers[n] = { valor: valores[n], diff: market[n], puntos: puntos[n] };
   });
   if(fresh.actualizado){
     const d = new Date(fresh.actualizado);
@@ -824,7 +847,7 @@ Promise.all([
   renderCards();
 });
 
-renderCards(); // primer render con el respaldo fijo, mientras carga la red
+renderCards();
 
 document.querySelectorAll('#sortBox .sort-btn').forEach(btn=>{
   btn.addEventListener('click', ()=>{
