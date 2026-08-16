@@ -848,9 +848,13 @@ function applyAsignaciones(fresh){
 // jornadasData.jornadas["J1"] = {
 //   cerrada: "2026-08-16T...",
 //   puntosAcumulados: { "Dituro": 8, ... },  // snapshot de TODOS los
-//     jugadores del mercado al momento de cerrar, para poder restar en la
-//     próxima jornada y quedarnos solo con lo que hizo ESA fecha.
-//   equipos: { "mercho.": { puntos: 34, players: [{n, pts}, ...] }, ... }
+//     jugadores del mercado al momento de cerrar (ANTES de que arranque
+//     esa jornada) — es la base contra la que se resta.
+//   equipos: { "mercho.": { players: [{n, pos}, ...] }, ... }  // SOLO el
+//     plantel congelado — a propósito NO guarda puntos acá. Si alguien
+//     ficha a alguien después de cerrar, ese jugador nuevo queda afuera de
+//     esta jornada (no está en la lista), pero los puntos de los que SÍ
+//     están se siguen calculando en vivo hasta que se cierre la próxima.
 // }
 let jornadasData = { jornadas: {} };
 
@@ -858,6 +862,34 @@ function cumulativePointsNow(name){
   const live = lookupMarket(name);
   if(live && live.puntos !== undefined && live.puntos !== null) return live.puntos;
   return null;
+}
+
+// Puntos de un jugador EN una jornada puntual:
+// - Si ya se cerró la jornada siguiente, el número queda fijo (total
+//   acumulado en ese cierre menos el acumulado al cerrar esta jornada).
+// - Si esta es la última jornada cerrada (todavía "en juego"), se calcula
+//   en vivo contra el total acumulado actual — va cambiando solo a medida
+//   que se juegan los partidos de la fecha.
+function pointsInJornada(jornadaKey, playerName){
+  const keys = ordenJornadas();
+  const idx = keys.indexOf(jornadaKey);
+  if(idx === -1) return null;
+
+  const baseline = jornadasData.jornadas[jornadaKey].puntosAcumulados || {};
+  const baseVal = baseline[playerName] !== undefined ? baseline[playerName]
+    : (ALIASES[playerName] && baseline[ALIASES[playerName]] !== undefined ? baseline[ALIASES[playerName]] : 0);
+
+  const nextKey = keys[idx + 1];
+  let endVal;
+  if(nextKey){
+    const nextBaseline = jornadasData.jornadas[nextKey].puntosAcumulados || {};
+    endVal = nextBaseline[playerName] !== undefined ? nextBaseline[playerName]
+      : (ALIASES[playerName] && nextBaseline[ALIASES[playerName]] !== undefined ? nextBaseline[ALIASES[playerName]] : undefined);
+  } else {
+    endVal = cumulativePointsNow(playerName);
+  }
+  if(endVal === null || endVal === undefined) return null;
+  return endVal - baseVal;
 }
 
 function ordenJornadas(){
@@ -979,14 +1011,12 @@ closeJornadaBtn.addEventListener('click', async ()=>{
   const siguienteNum = (numeros.length ? Math.max(...numeros) : 0) + 1;
   const jornadaKey = 'J' + siguienteNum;
 
-  if(!confirm(`¿Cerrar ${jornadaKey} con los planteles actuales y los puntos de hoy? Esta acción queda guardada en el historial.`)) return;
-
-  const anteriorKey = ordenJornadas()[ordenJornadas().length - 1];
-  const acumuladoAnterior = anteriorKey ? jornadasData.jornadas[anteriorKey].puntosAcumulados : {};
+  if(!confirm(`¿Cerrar ${jornadaKey} con los planteles actuales? Los puntos de esta fecha se van a seguir actualizando solos a medida que se jueguen los partidos — lo único que se congela ahora es quién está en cada equipo.`)) return;
 
   // Snapshot de TODOS los jugadores conocidos (no solo los de algún
-  // plantel), para poder restar bien la próxima vez aunque alguien se
-  // mueva de equipo entre jornadas.
+  // plantel), para poder restar bien más adelante aunque alguien se
+  // mueva de equipo entre jornadas. Esto es la base "antes de que arranque
+  // la jornada" — los puntos en sí NO se guardan acá, se calculan en vivo.
   const puntosAcumulados = {};
   Object.keys(allPlayers).forEach(n=>{
     const v = cumulativePointsNow(n);
@@ -996,15 +1026,9 @@ closeJornadaBtn.addEventListener('click', async ()=>{
   const equiposSnapshot = {};
   Object.keys(teams).forEach(teamName=>{
     const team = teams[teamName];
-    const players = team.players.map(p=>{
-      const totalAhora = cumulativePointsNow(p.n);
-      const totalAntes = acumuladoAnterior[p.n] !== undefined ? acumuladoAnterior[p.n]
-        : (ALIASES[p.n] && acumuladoAnterior[ALIASES[p.n]] !== undefined ? acumuladoAnterior[ALIASES[p.n]] : 0);
-      const pts = totalAhora !== null ? (totalAhora - totalAntes) : null;
-      return { n: p.n, pos: p.pos, pts };
-    });
-    const totalPuntos = players.reduce((s,p)=> s + (p.pts || 0), 0);
-    equiposSnapshot[teamName] = { puntos: totalPuntos, players };
+    equiposSnapshot[teamName] = {
+      players: team.players.map(p=> ({ n: p.n, pos: p.pos }))
+    };
   });
 
   jornadasData.jornadas[jornadaKey] = {
