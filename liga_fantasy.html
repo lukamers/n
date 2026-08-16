@@ -392,6 +392,7 @@
   <div class="tabs">
     <button class="tab-btn active" id="tab-equipos" onclick="showTab('equipos')">Equipos</button>
     <button class="tab-btn" id="tab-actividad" onclick="showTab('actividad')">Actividad</button>
+    <button class="tab-btn" id="tab-jornadas" onclick="showTab('jornadas')">Jornadas</button>
   </div>
 
   <div id="view-equipos" class="view">
@@ -408,6 +409,8 @@
       <button class="edit-btn" id="editBtn">✎ Editar</button>
       <button class="save-btn" id="saveBtn" style="display:none;">💾 Guardar en GitHub</button>
       <span class="save-status" id="saveStatus"></span>
+      <button class="edit-btn" id="closeJornadaBtn" style="background:var(--bg-card);">🔒 Cerrar jornada</button>
+      <span class="save-status" id="jornadaStatus"></span>
     </div>
     <div class="search-box">
       <input type="text" id="playerSearch" placeholder="🔍 Buscar jugador en la liga..." onkeyup="searchPlayer()">
@@ -418,6 +421,12 @@
   <div id="view-actividad" class="view" style="display:none;">
     <div class="section-label">Actividad de mercado por integrante</div>
     <div id="actividad"></div>
+  </div>
+
+  <div id="view-jornadas" class="view" style="display:none;">
+    <div class="section-label">Puntos por jornada</div>
+    <div class="sort-box" id="jornadaSelector"></div>
+    <div id="jornadaCards"></div>
   </div>
 
   <footer>Valor de mercado, subida/bajada y puntos de cada jugador: LaLiga Fantasy Oficial (futbolfantasy.com/analytics/laliga-fantasy), actualizado a diario. Las plantillas (quién está en qué equipo) y la caja se editan a mano desde "✎ Editar".</footer>
@@ -835,12 +844,42 @@ function applyAsignaciones(fresh){
   if(fresh && fresh.teams) teams = fresh.teams;
 }
 
+// ---------- Jornadas ----------
+// jornadasData.jornadas["J1"] = {
+//   cerrada: "2026-08-16T...",
+//   puntosAcumulados: { "Dituro": 8, ... },  // snapshot de TODOS los
+//     jugadores del mercado al momento de cerrar, para poder restar en la
+//     próxima jornada y quedarnos solo con lo que hizo ESA fecha.
+//   equipos: { "mercho.": { puntos: 34, players: [{n, pts}, ...] }, ... }
+// }
+let jornadasData = { jornadas: {} };
+
+function cumulativePointsNow(name){
+  const live = lookupMarket(name);
+  if(live && live.puntos !== undefined && live.puntos !== null) return live.puntos;
+  return null;
+}
+
+function ordenJornadas(){
+  return Object.keys(jornadasData.jornadas).sort((a,b)=>{
+    const na = parseInt(a.replace(/\D/g,''),10) || 0;
+    const nb = parseInt(b.replace(/\D/g,''),10) || 0;
+    return na - nb;
+  });
+}
+
+function applyJornadas(fresh){
+  if(fresh && fresh.jornadas) jornadasData = fresh;
+}
+
 Promise.all([
   fetch('mercado.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
   fetch('asignaciones.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
-]).then(([mercado, asign])=>{
+  fetch('jornadas.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
+]).then(([mercado, asign, jornadas])=>{
   applyMercado(mercado);
   applyAsignaciones(asign);
+  applyJornadas(jornadas);
   if(!document.getElementById('updatedLine').textContent.includes('ACTUALIZADO')){
     document.getElementById('updatedLine').textContent = '9 EQUIPOS';
   }
@@ -880,40 +919,47 @@ function getToken(){
   return t ? t.trim() : null;
 }
 
-async function saveAssignments(){
+// Sirve tanto para asignaciones.json como para jornadas.json — path es el
+// nombre del archivo en el repo, obj es lo que se guarda como JSON.
+async function saveJsonToGitHub(path, obj, commitMsg){
   const token = getToken();
-  if(!token) return;
+  if(!token) return false;
+  const apiUrl = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${path}`;
+  const getRes = await fetch(apiUrl, {
+    headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github+json' }
+  });
+  if(!getRes.ok) throw new Error('No pude leer ' + path + ' (' + getRes.status + '). Revisá el token.');
+  const getData = await getRes.json();
+  const sha = getData.sha;
+
+  const newContent = JSON.stringify(obj, null, 2);
+  const b64 = btoa(unescape(encodeURIComponent(newContent)));
+
+  const putRes = await fetch(apiUrl, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `token ${token}`,
+      'Accept': 'application/vnd.github+json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      message: commitMsg + ' — ' + new Date().toISOString(),
+      content: b64,
+      sha: sha,
+      branch: GH_BRANCH
+    })
+  });
+  if(!putRes.ok){
+    const err = await putRes.json().catch(()=>({}));
+    throw new Error(err.message || ('Error ' + putRes.status));
+  }
+  return true;
+}
+
+async function saveAssignments(){
   saveStatus.textContent = 'Guardando…';
-  const apiUrl = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${ASSIGN_PATH}`;
   try{
-    const getRes = await fetch(apiUrl, {
-      headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github+json' }
-    });
-    if(!getRes.ok) throw new Error('No pude leer el archivo actual (' + getRes.status + '). Revisá el token.');
-    const getData = await getRes.json();
-    const sha = getData.sha;
-
-    const newContent = JSON.stringify({ teams }, null, 2);
-    const b64 = btoa(unescape(encodeURIComponent(newContent)));
-
-    const putRes = await fetch(apiUrl, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `token ${token}`,
-        'Accept': 'application/vnd.github+json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        message: 'Actualizar asignaciones desde la web — ' + new Date().toISOString(),
-        content: b64,
-        sha: sha,
-        branch: GH_BRANCH
-      })
-    });
-    if(!putRes.ok){
-      const err = await putRes.json().catch(()=>({}));
-      throw new Error(err.message || ('Error ' + putRes.status));
-    }
+    await saveJsonToGitHub(ASSIGN_PATH, { teams }, 'Actualizar asignaciones desde la web');
     saveStatus.textContent = '✅ Guardado (puede tardar ~1 min en verse en la página publicada)';
   } catch(e){
     saveStatus.textContent = '❌ ' + e.message;
@@ -923,6 +969,139 @@ async function saveAssignments(){
   }
 }
 saveBtn.addEventListener('click', saveAssignments);
+
+// ---------- Cerrar jornada ----------
+const closeJornadaBtn = document.getElementById('closeJornadaBtn');
+const jornadaStatus = document.getElementById('jornadaStatus');
+
+closeJornadaBtn.addEventListener('click', async ()=>{
+  const numeros = ordenJornadas().map(j=> parseInt(j.replace(/\D/g,''),10) || 0);
+  const siguienteNum = (numeros.length ? Math.max(...numeros) : 0) + 1;
+  const jornadaKey = 'J' + siguienteNum;
+
+  if(!confirm(`¿Cerrar ${jornadaKey} con los planteles actuales y los puntos de hoy? Esta acción queda guardada en el historial.`)) return;
+
+  const anteriorKey = ordenJornadas()[ordenJornadas().length - 1];
+  const acumuladoAnterior = anteriorKey ? jornadasData.jornadas[anteriorKey].puntosAcumulados : {};
+
+  // Snapshot de TODOS los jugadores conocidos (no solo los de algún
+  // plantel), para poder restar bien la próxima vez aunque alguien se
+  // mueva de equipo entre jornadas.
+  const puntosAcumulados = {};
+  Object.keys(allPlayers).forEach(n=>{
+    const v = cumulativePointsNow(n);
+    if(v !== null) puntosAcumulados[n] = v;
+  });
+
+  const equiposSnapshot = {};
+  Object.keys(teams).forEach(teamName=>{
+    const team = teams[teamName];
+    const players = team.players.map(p=>{
+      const totalAhora = cumulativePointsNow(p.n);
+      const totalAntes = acumuladoAnterior[p.n] !== undefined ? acumuladoAnterior[p.n]
+        : (ALIASES[p.n] && acumuladoAnterior[ALIASES[p.n]] !== undefined ? acumuladoAnterior[ALIASES[p.n]] : 0);
+      const pts = totalAhora !== null ? (totalAhora - totalAntes) : null;
+      return { n: p.n, pos: p.pos, pts };
+    });
+    const totalPuntos = players.reduce((s,p)=> s + (p.pts || 0), 0);
+    equiposSnapshot[teamName] = { puntos: totalPuntos, players };
+  });
+
+  jornadasData.jornadas[jornadaKey] = {
+    cerrada: new Date().toISOString(),
+    puntosAcumulados,
+    equipos: equiposSnapshot,
+  };
+
+  jornadaStatus.textContent = 'Guardando…';
+  try{
+    await saveJsonToGitHub('jornadas.json', jornadasData, `Cerrar ${jornadaKey}`);
+    jornadaStatus.textContent = `✅ ${jornadaKey} guardada`;
+    renderJornadas();
+  } catch(e){
+    jornadaStatus.textContent = '❌ ' + e.message;
+    if(String(e.message).match(/401|403|Bad credentials/i)){
+      localStorage.removeItem('gh_token');
+    }
+  }
+});
+
+function renderJornadas(){
+  const keys = ordenJornadas();
+  const selector = document.getElementById('jornadaSelector');
+  const cardsWrap = document.getElementById('jornadaCards');
+
+  if(keys.length === 0){
+    selector.innerHTML = '';
+    cardsWrap.innerHTML = '<p style="color:var(--text-faint); font-size:13px;">Todavía no cerraste ninguna jornada. Usá el botón "🔒 Cerrar jornada" arriba cuando termine la fecha.</p>';
+    return;
+  }
+
+  if(!renderJornadas.actual || !keys.includes(renderJornadas.actual)){
+    renderJornadas.actual = keys[keys.length - 1];
+  }
+
+  selector.innerHTML = keys.map(k=>
+    `<button class="sort-btn ${k===renderJornadas.actual?'active':''}" onclick="selectJornada('${k}')">${k}</button>`
+  ).join('');
+
+  const jornada = jornadasData.jornadas[renderJornadas.actual];
+  const equiposOrdenados = Object.keys(jornada.equipos).sort((a,b)=> jornada.equipos[b].puntos - jornada.equipos[a].puntos);
+
+  cardsWrap.innerHTML = equiposOrdenados.map((teamName, i)=>{
+    const eq = jornada.equipos[teamName];
+    const you = teams[teamName] && teams[teamName].you;
+    const sortedPlayers = [...eq.players].sort((a,b)=>(b.pts||0)-(a.pts||0));
+    const rows = sortedPlayers.map(p=>`
+      <tr>
+        <td class="pname">
+          <div class="pcell">
+            <span class="pos ${p.pos}">${p.pos}</span>
+            <span>${p.n}</span>
+          </div>
+        </td>
+        <td class="num">${p.pts === null ? '<span class="pts na">—</span>' : `<span class="pts">${p.pts}</span>`}</td>
+      </tr>
+    `).join('');
+    return `
+    <div class="card">
+      <div class="card-head" onclick="this.parentElement.classList.toggle('open')">
+        <div class="head-top">
+          <div class="rank">${i+1}</div>
+          <div class="name-block">
+            <div class="name-with-logo">
+              ${mgrLogo(teamName)}
+              <div class="name">${teamName}${you?'<span class="you">vos</span>':''}</div>
+            </div>
+          </div>
+          <div class="chev">▸</div>
+        </div>
+        <div class="right-stats two-col">
+          <div class="stat puntos">
+            <div class="v">${eq.puntos}</div>
+            <div class="k">Puntos ${renderJornadas.actual}</div>
+          </div>
+          <div class="stat">
+            <div class="v">${eq.players.length}</div>
+            <div class="k">Jugadores</div>
+          </div>
+        </div>
+      </div>
+      <div class="squad">
+        <div class="squad-inner">
+          <table>
+            <thead><tr><th>Jugador</th><th class="num">Pts</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function selectJornada(k){
+  renderJornadas.actual = k;
+  renderJornadas();
+}
 
 function searchPlayer(){
   const input = document.getElementById('playerSearch').value.toLowerCase();
@@ -1010,9 +1189,12 @@ function buildActivity(){
 function showTab(name){
   document.getElementById('view-equipos').style.display = name==='equipos' ? '' : 'none';
   document.getElementById('view-actividad').style.display = name==='actividad' ? '' : 'none';
+  document.getElementById('view-jornadas').style.display = name==='jornadas' ? '' : 'none';
   document.getElementById('tab-equipos').classList.toggle('active', name==='equipos');
   document.getElementById('tab-actividad').classList.toggle('active', name==='actividad');
+  document.getElementById('tab-jornadas').classList.toggle('active', name==='jornadas');
   if(name==='actividad') buildActivity();
+  if(name==='jornadas') renderJornadas();
 }
 </script>
 </body>
