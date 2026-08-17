@@ -1070,10 +1070,21 @@ function renderJornadas(){
   ).join('');
 
   const jornada = jornadasData.jornadas[renderJornadas.actual];
-  const equiposOrdenados = Object.keys(jornada.equipos).sort((a,b)=> jornada.equipos[b].puntos - jornada.equipos[a].puntos);
+  const esUltima = renderJornadas.actual === keys[keys.length - 1];
 
-  cardsWrap.innerHTML = equiposOrdenados.map((teamName, i)=>{
+  // Puntos de cada jugador y de cada equipo se calculan en vivo (ver
+  // pointsInJornada): si esta es la última jornada cerrada todavía se
+  // están jugando partidos, así que van a ir cambiando solos.
+  const equiposConPuntos = Object.keys(jornada.equipos).map(teamName=>{
     const eq = jornada.equipos[teamName];
+    const players = eq.players.map(p=> ({ ...p, pts: pointsInJornada(renderJornadas.actual, p.n) }));
+    const totalPuntos = players.reduce((s,p)=> s + (p.pts || 0), 0);
+    return { teamName, players, totalPuntos };
+  });
+  const equiposOrdenados = [...equiposConPuntos].sort((a,b)=> b.totalPuntos - a.totalPuntos);
+
+  cardsWrap.innerHTML = equiposOrdenados.map(({teamName, players, totalPuntos}, i)=>{
+    const eq = { puntos: totalPuntos, players };
     const you = teams[teamName] && teams[teamName].you;
     const sortedPlayers = [...eq.players].sort((a,b)=>(b.pts||0)-(a.pts||0));
     const rows = sortedPlayers.map(p=>`
@@ -1095,7 +1106,7 @@ function renderJornadas(){
           <div class="name-block">
             <div class="name-with-logo">
               ${mgrLogo(teamName)}
-              <div class="name">${teamName}${you?'<span class="you">vos</span>':''}</div>
+              <div class="name">${teamName}${you?'<span class="you">vos</span>':''}${esUltima?' <span class="tag" style="color:var(--green);">· en vivo</span>':''}</div>
             </div>
           </div>
           <div class="chev">▸</div>
