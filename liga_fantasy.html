@@ -243,7 +243,7 @@
   .card.open .chev{transform:rotate(90deg); color:var(--text);}
 
   .squad{max-height:0; overflow:hidden; transition:max-height .3s ease;}
-  .card.open .squad{max-height:2000px;}
+  .card.open .squad{max-height:2400px;}
   .squad-inner{padding:0 18px 16px;}
 
   table{width:100%; border-collapse:collapse; font-size:13.5px;}
@@ -261,6 +261,7 @@
   th.num, td.num{text-align:right;}
   td{padding:8px 4px; border-bottom:1px solid #1c2230; font-variant-numeric:tabular-nums;}
   tr:last-child td{border-bottom:none;}
+  tr.suplente{opacity:.5;}
   .pname{font-weight:600;}
   .pcell{display:flex; align-items:center; gap:9px;}
   .pos{
@@ -274,6 +275,16 @@
   .tag{font-size:10px; color:var(--red); margin-left:2px; opacity:.85;}
   .pts{font-family:'Oswald',sans-serif; font-weight:600; color:#f2994a;}
   .pts.na{color:var(--text-faint); font-weight:400; font-size:11px;}
+  .rol-badge{
+    font-size:9px; font-weight:700; padding:1px 5px; border-radius:4px;
+    margin-left:4px; letter-spacing:.03em; font-family:'Oswald',sans-serif;
+    background:rgba(242,201,76,.18); color:var(--gold);
+  }
+  .rol-badge.suplente{background:rgba(139,147,167,.18); color:var(--text-faint);}
+  .rol-select{
+    padding:4px 6px; background:var(--bg); border:1px solid var(--line);
+    border-radius:6px; color:var(--text); font-size:11.5px;
+  }
 
   .mkt{
     font-family:'Oswald',sans-serif;
@@ -429,7 +440,7 @@
     <div id="jornadaCards"></div>
   </div>
 
-  <footer>Valor de mercado, subida/bajada y puntos de cada jugador: LaLiga Fantasy Oficial (futbolfantasy.com/analytics/laliga-fantasy), actualizado a diario. Las plantillas (quién está en qué equipo) y la caja se editan a mano desde "✎ Editar".</footer>
+  <footer>Valor de mercado, subida/bajada y puntos de cada jugador: LaLiga Fantasy Oficial (futbolfantasy.com/analytics/laliga-fantasy), actualizado a diario. Titular suma normal, suplente no suma, capitán suma doble. Las plantillas (quién está en qué equipo) y la caja se editan a mano desde "✎ Editar".</footer>
 </div>
 
 <script>
@@ -468,6 +479,20 @@ const ALIASES = {
   "Raúl Moro": "Raul Moro",
   "Llorente": "D. Llorente",
 };
+
+// ---------- Roles (titular / suplente / capitán) ----------
+// suplente no suma puntos, capitán suma doble, titular (o sin rol
+// definido, por defecto) suma normal.
+function roleMultiplier(rol){
+  if(rol === "suplente") return 0;
+  if(rol === "capitan") return 2;
+  return 1;
+}
+function rolBadge(rol){
+  if(rol === "capitan") return `<span class="rol-badge">C</span>`;
+  if(rol === "suplente") return `<span class="rol-badge suplente">Supl.</span>`;
+  return "";
+}
 
 // ---------- Respaldo fijo (por si asignaciones.json o mercado.json no cargan) ----------
 let teams = {
@@ -596,9 +621,13 @@ function currentDiff(p){
   if(live && live.diff !== undefined) return live.diff;
   return null;
 }
+// Puntos de temporada de este jugador, tal cual los trae el scraper (sin
+// aplicar el rol — eso solo afecta el cálculo en la pestaña Jornadas).
 function currentPoints(p){
   const live = lookupMarket(p.n);
-  if(live && live.puntos !== undefined && live.puntos !== null) return live.puntos;
+  if(live && live.puntos !== undefined && live.puntos !== null){
+    return live.puntos;
+  }
   return null;
 }
 function teamTotal(team){
@@ -695,7 +724,7 @@ function moveOrAddPlayer(teamName, name, pos, tag){
   Object.keys(teams).forEach(tn=>{
     teams[tn].players = teams[tn].players.filter(p=>p.n !== name);
   });
-  const entry = {n:name, pos: pos || "MED"};
+  const entry = {n:name, pos: pos || "MED", rol: "titular"};
   if(tag) entry.tag = tag;
   teams[teamName].players.push(entry);
   renderCards();
@@ -717,6 +746,10 @@ function updatePlayerValue(teamName, playerName, value){
   const n = parseInt(value, 10);
   const player = teams[teamName].players.find(p=>p.n === playerName);
   if(player && !isNaN(n)){ player.v = n; renderCards(); }
+}
+function updatePlayerRol(teamName, playerName, rol){
+  const player = teams[teamName].players.find(p=>p.n === playerName);
+  if(player){ player.rol = rol; renderCards(); }
 }
 
 function renderCards(){
@@ -742,7 +775,13 @@ function renderCards(){
           ? `<input type="number" value="${currentValue(p)}" style="width:110px;padding:4px 6px;background:var(--bg);border:1px solid var(--line);border-radius:6px;color:var(--text);font-size:12.5px;text-align:right;" onchange="updatePlayerValue('${name.replace(/'/g,"\\'")}','${p.n.replace(/'/g,"\\'")}', this.value)">`
           : (isManualValue(p) ? `<span title="Valor cargado a mano — el scraper no trajo dato confiable para este jugador">${fmt(currentValue(p))} ✎</span>` : fmt(currentValue(p)))}</td>
         <td class="num">${marketCell(p)}</td>
-        <td class="num">${pointsCell(p)}</td>
+        <td class="num">${editMode
+          ? `<select class="rol-select" onchange="updatePlayerRol('${name.replace(/'/g,"\\'")}','${p.n.replace(/'/g,"\\'")}', this.value)">
+              <option value="titular" ${(!p.rol||p.rol==='titular')?'selected':''}>Titular</option>
+              <option value="suplente" ${p.rol==='suplente'?'selected':''}>Suplente</option>
+              <option value="capitan" ${p.rol==='capitan'?'selected':''}>Capitán</option>
+            </select>`
+          : pointsCell(p)}</td>
         ${editMode ? `<td class="num"><button class="rm-btn" onclick="removePlayer('${name.replace(/'/g,"\\'")}','${p.n.replace(/'/g,"\\'")}')">✕</button></td>` : ""}
       </tr>
     `).join('');
@@ -806,7 +845,7 @@ function renderCards(){
       <div class="squad">
         <div class="squad-inner">
           <table>
-            <thead><tr><th>Jugador</th><th class="num">Valor</th><th class="num">Mercado</th><th class="num">Pts</th>${editMode?'<th></th>':''}</tr></thead>
+            <thead><tr><th>Jugador</th><th class="num">Valor</th><th class="num">Mercado</th><th class="num">${editMode?'Rol':'Pts'}</th>${editMode?'<th></th>':''}</tr></thead>
             <tbody>${rows}</tbody>
           </table>
           ${editPanel}
@@ -845,17 +884,6 @@ function applyAsignaciones(fresh){
 }
 
 // ---------- Jornadas ----------
-// jornadasData.jornadas["J1"] = {
-//   cerrada: "2026-08-16T...",
-//   puntosAcumulados: { "Dituro": 8, ... },  // snapshot de TODOS los
-//     jugadores del mercado al momento de cerrar (ANTES de que arranque
-//     esa jornada) — es la base contra la que se resta.
-//   equipos: { "mercho.": { players: [{n, pos}, ...] }, ... }  // SOLO el
-//     plantel congelado — a propósito NO guarda puntos acá. Si alguien
-//     ficha a alguien después de cerrar, ese jugador nuevo queda afuera de
-//     esta jornada (no está en la lista), pero los puntos de los que SÍ
-//     están se siguen calculando en vivo hasta que se cierre la próxima.
-// }
 let jornadasData = { jornadas: {} };
 
 function cumulativePointsNow(name){
@@ -864,12 +892,10 @@ function cumulativePointsNow(name){
   return null;
 }
 
-// Puntos de un jugador EN una jornada puntual:
-// - Si ya se cerró la jornada siguiente, el número queda fijo (total
-//   acumulado en ese cierre menos el acumulado al cerrar esta jornada).
-// - Si esta es la última jornada cerrada (todavía "en juego"), se calcula
-//   en vivo contra el total acumulado actual — va cambiando solo a medida
-//   que se juegan los partidos de la fecha.
+// Puntos "crudos" (sin rol) de un jugador en una jornada puntual, por
+// diferencia entre el acumulado al cerrar esta jornada y el acumulado al
+// cerrar la siguiente (o el acumulado actual, si esta jornada sigue en
+// curso).
 function pointsInJornada(jornadaKey, playerName){
   const keys = ordenJornadas();
   const idx = keys.indexOf(jornadaKey);
@@ -1011,12 +1037,8 @@ closeJornadaBtn.addEventListener('click', async ()=>{
   const siguienteNum = (numeros.length ? Math.max(...numeros) : 0) + 1;
   const jornadaKey = 'J' + siguienteNum;
 
-  if(!confirm(`¿Cerrar ${jornadaKey} con los planteles actuales? Los puntos de esta fecha se van a seguir actualizando solos a medida que se jueguen los partidos — lo único que se congela ahora es quién está en cada equipo.`)) return;
+  if(!confirm(`¿Cerrar ${jornadaKey} con los planteles actuales? Los puntos de esta fecha se van a seguir actualizando solos a medida que se jueguen los partidos — lo único que se congela ahora es quién está en cada equipo, con qué rol (titular/suplente/capitán).`)) return;
 
-  // Snapshot de TODOS los jugadores conocidos (no solo los de algún
-  // plantel), para poder restar bien más adelante aunque alguien se
-  // mueva de equipo entre jornadas. Esto es la base "antes de que arranque
-  // la jornada" — los puntos en sí NO se guardan acá, se calculan en vivo.
   const puntosAcumulados = {};
   Object.keys(allPlayers).forEach(n=>{
     const v = cumulativePointsNow(n);
@@ -1027,7 +1049,7 @@ closeJornadaBtn.addEventListener('click', async ()=>{
   Object.keys(teams).forEach(teamName=>{
     const team = teams[teamName];
     equiposSnapshot[teamName] = {
-      players: team.players.map(p=> ({ n: p.n, pos: p.pos }))
+      players: team.players.map(p=> ({ n: p.n, pos: p.pos, rol: p.rol || "titular" }))
     };
   });
 
@@ -1072,27 +1094,32 @@ function renderJornadas(){
   const jornada = jornadasData.jornadas[renderJornadas.actual];
   const esUltima = renderJornadas.actual === keys[keys.length - 1];
 
-  // Puntos de cada jugador y de cada equipo se calculan en vivo (ver
-  // pointsInJornada): si esta es la última jornada cerrada todavía se
-  // están jugando partidos, así que van a ir cambiando solos.
+  // Puntos de cada jugador (ya con el rol que tenía CONGELADO en esa
+  // jornada aplicado — titular normal, suplente 0, capitán doble) y de
+  // cada equipo, calculados en vivo: si esta es la última jornada
+  // cerrada, todavía se están jugando partidos, así que van cambiando solos.
   const equiposConPuntos = Object.keys(jornada.equipos).map(teamName=>{
     const eq = jornada.equipos[teamName];
-    const players = eq.players.map(p=> ({ ...p, pts: pointsInJornada(renderJornadas.actual, p.n) }));
+    const players = eq.players.map(p=>{
+      const crudo = pointsInJornada(renderJornadas.actual, p.n);
+      const pts = crudo === null ? null : crudo * roleMultiplier(p.rol);
+      return { ...p, pts };
+    });
     const totalPuntos = players.reduce((s,p)=> s + (p.pts || 0), 0);
     return { teamName, players, totalPuntos };
   });
   const equiposOrdenados = [...equiposConPuntos].sort((a,b)=> b.totalPuntos - a.totalPuntos);
 
   cardsWrap.innerHTML = equiposOrdenados.map(({teamName, players, totalPuntos}, i)=>{
-    const eq = { puntos: totalPuntos, players };
     const you = teams[teamName] && teams[teamName].you;
-    const sortedPlayers = [...eq.players].sort((a,b)=>(b.pts||0)-(a.pts||0));
+    const sortedPlayers = [...players].sort((a,b)=>(b.pts||0)-(a.pts||0));
     const rows = sortedPlayers.map(p=>`
-      <tr>
+      <tr class="${p.rol==='suplente' ? 'suplente' : ''}">
         <td class="pname">
           <div class="pcell">
             <span class="pos ${p.pos}">${p.pos}</span>
             <span>${p.n}</span>
+            ${rolBadge(p.rol)}
           </div>
         </td>
         <td class="num">${p.pts === null ? '<span class="pts na">—</span>' : `<span class="pts">${p.pts}</span>`}</td>
@@ -1113,11 +1140,11 @@ function renderJornadas(){
         </div>
         <div class="right-stats two-col">
           <div class="stat puntos">
-            <div class="v">${eq.puntos}</div>
+            <div class="v">${totalPuntos}</div>
             <div class="k">Puntos ${renderJornadas.actual}</div>
           </div>
           <div class="stat">
-            <div class="v">${eq.players.length}</div>
+            <div class="v">${players.length}</div>
             <div class="k">Jugadores</div>
           </div>
         </div>
