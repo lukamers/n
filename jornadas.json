@@ -2,622 +2,151 @@
   "jornadas": {
     "J1": {
       "cerrada": "2026-08-17T00:21:34.757Z",
-      "puntosAcumulados": {
-        "Santos": 0,
-        "Alemão": 0,
-        "Martín": 3,
-        "Riedel": 8,
-        "Suazo": 0,
-        "Ryan": 3,
-        "Vlachodimos": 6,
-        "Oluwaseyi": 0,
-        "Mikautadze": 9,
-        "Joaquín": 1,
-        "Sierra": 7,
-        "Aitor Mañas": 2,
-        "Oláiz": 0,
-        "Tunde": 1,
-        "Iker Muñoz": 0,
-        "Carlos Macià": 3,
-        "Altozano": 0,
-        "Santiago": -1,
-        "De la Fuente": 1,
-        "Iván Romero": 2,
-        "Salinas": 3,
-        "Jonny": 7,
-        "Sivera": 12,
-        "Swiderski": 0,
-        "Fran González": 0,
-        "Castrín": 0,
-        "Romero": 0,
-        "Enríquez": 3,
-        "Nacho Pérez": 3,
-        "Cortés": 2,
-        "Vertrouwd": 0,
-        "Toljan": 1,
-        "Davinchi": 1,
-        "Veiga": 2,
-        "Cuñat Campos": 0,
-        "Dolan": 12,
-        "Jorge Cabello": 0,
-        "C. Álvarez": 0,
-        "Oriol Rey": 4,
-        "Víctor García": 0,
-        "Hartman": 0,
-        "Calatrava": 4,
-        "Vallecillo": 0,
-        "Moscardo": 0,
-        "Sergio Martínez": 9,
-        "Hernando": 4,
-        "Carlos Sánchez": 0,
-        "Facu González": 1,
-        "Gueye": 2,
-        "Puerta": 5,
-        "Diego Diaz": 1,
-        "Iñigo Vicente": 6,
-        "Arana": 0,
-        "Canales": 4,
-        "Gulacsi": 0,
-        "Mantilla": -1,
-        "Sainz-Maza": 0,
-        "Julio Díaz": 0,
-        "Boselli": -1,
-        "Ángel Pérez": 5,
-        "Freeman": 1,
-        "Koski": 8,
-        "Vargas": 2,
-        "Eriksson": 0,
-        "Moussa": 0,
-        "Ibáñez": 5,
-        "Ratiu": 4,
-        "Isi": 3,
-        "Nteka": 2,
-        "Cárdenas": 0,
-        "Álvaro García": 8,
-        "Mayoral": 0,
-        "Iglesias": 4,
-        "Boyé": 0,
-        "S. Cardona": 0,
-        "Moleiro": 6,
-        "Unai López": 4,
-        "De Frutos": 3,
-        "Soria": 4,
-        "Olasagasti": 0,
-        "Balliu": -2,
-        "Pathé Ciss": 5,
-        "Valentín": 5,
-        "Lejeune": 1,
-        "Camello": 2,
-        "Carmona": 0,
-        "Urko": 6,
-        "Villalibre": 1,
-        "Agirrezabala": 5,
-        "Abqar": 2,
-        "Guevara": 1,
-        "Blanco": 4,
-        "Tenaglia": 17,
-        "Guridi": 9,
-        "Rebbach": 4,
-        "Protesoni": 0,
-        "Aleñá": 2,
-        "U. Núñez": 10,
-        "Djené": 3,
-        "Ayoze": 1,
-        "Dmitrovic": 11,
-        "Mario Martín": 4,
-        "Toni Martinez": 8,
-        "Gerard": 5,
-        "Ferrer": 0,
-        "Logan Costa": 0,
-        "Pape Gueye": 8,
-        "Pedro Díaz": 4,
-        "Letácek": 0,
-        "Luiz Junior": 3,
-        "Buchanan": 2,
-        "Román": 0,
-        "Valou": 0,
-        "Pablo Ramón": 3,
-        "Risco": 0,
-        "De la Sías": 0,
-        "Pau Navarro": 0,
-        "Etta Eyong": 1,
-        "Roberto": 16,
-        "Pépé": 13,
-        "Andrés Martín": 8,
-        "Terrats": 2,
-        "Kambwala": 0,
-        "Foyth": 4,
-        "Femenia": -1,
-        "Denis Suárez": 2,
-        "Akhomach": 2,
-        "Manu Sánchez": 0,
-        "Kike Salas": 1,
-        "Comesaña": -1,
-        "Batalla": 5,
-        "Mariano": 17,
-        "Manu Bueno": 2,
-        "Fran Pérez": 0,
-        "Ejuke": 1,
-        "Peque": 9,
-        "El Hilali": 8,
-        "Agoume": 3,
-        "Lozano": 0,
-        "Pere Milla": 2,
-        "Jofre": 2,
-        "Edu Expósito": 6,
-        "Fortuño": 0
-      },
+      "puntosAcumulados": {},
       "equipos": {
         "Chonaura": {
           "players": [
-            {
-              "n": "Lunin",
-              "pos": "POR"
-            },
-            {
-              "n": "Gerard Martín",
-              "pos": "DEF"
-            },
-            {
-              "n": "Kike Salas",
-              "pos": "DEF"
-            },
-            {
-              "n": "Larrubia",
-              "pos": "MED"
-            },
-            {
-              "n": "C. Álvarez",
-              "pos": "MED"
-            },
-            {
-              "n": "Etta Eyong",
-              "pos": "DEL"
-            },
-            {
-              "n": "Santiago",
-              "pos": "DEF"
-            },
-            {
-              "n": "Leo Román",
-              "pos": "DEF"
-            },
-            {
-              "n": "Veiga",
-              "pos": "DEF"
-            },
-            {
-              "n": "Yeray",
-              "pos": "DEF"
-            },
-            {
-              "n": "S. Cardona",
-              "pos": "DEF"
-            },
-            {
-              "n": "Fort",
-              "pos": "DEF"
-            },
-            {
-              "n": "Durán",
-              "pos": "DEF"
-            },
-            {
-              "n": "Óscar Marcos",
-              "pos": "DEF"
-            }
+            {"n": "Lunin", "pos": "POR"},
+            {"n": "Gerard Martín", "pos": "DEF"},
+            {"n": "Kike Salas", "pos": "DEF"},
+            {"n": "Larrubia", "pos": "MED"},
+            {"n": "C. Álvarez", "pos": "MED"},
+            {"n": "Etta Eyong", "pos": "DEL"},
+            {"n": "Santiago", "pos": "DEF"},
+            {"n": "Leo Román", "pos": "DEF"},
+            {"n": "Veiga", "pos": "DEF"},
+            {"n": "Yeray", "pos": "DEF"},
+            {"n": "S. Cardona", "pos": "DEF"},
+            {"n": "Fort", "pos": "DEF"},
+            {"n": "Durán", "pos": "DEF"},
+            {"n": "Óscar Marcos", "pos": "DEF"}
           ]
         },
         "papi floren 24 cm": {
           "players": [
-            {
-              "n": "Eriksson",
-              "pos": "POR"
-            },
-            {
-              "n": "Affengruber",
-              "pos": "DEF"
-            },
-            {
-              "n": "Noubi",
-              "pos": "DEF"
-            },
-            {
-              "n": "Starfelt",
-              "pos": "DEF"
-            },
-            {
-              "n": "Carreira",
-              "pos": "DEF"
-            },
-            {
-              "n": "Unai López",
-              "pos": "MED"
-            },
-            {
-              "n": "Cepeda",
-              "pos": "DEL"
-            },
-            {
-              "n": "Lookman",
-              "pos": "DEL"
-            },
-            {
-              "n": "Valentín",
-              "pos": "DEF"
-            },
-            {
-              "n": "Álvaro García",
-              "pos": "DEF"
-            },
-            {
-              "n": "Rueda",
-              "pos": "DEF"
-            },
-            {
-              "n": "Martín Anselmi",
-              "pos": "DEF"
-            }
+            {"n": "Eriksson", "pos": "POR"},
+            {"n": "Affengruber", "pos": "DEF"},
+            {"n": "Noubi", "pos": "DEF"},
+            {"n": "Starfelt", "pos": "DEF"},
+            {"n": "Carreira", "pos": "DEF"},
+            {"n": "Unai López", "pos": "MED"},
+            {"n": "Cepeda", "pos": "DEL"},
+            {"n": "Lookman", "pos": "DEL"},
+            {"n": "Valentín", "pos": "DEF"},
+            {"n": "Álvaro García", "pos": "DEF"},
+            {"n": "Rueda", "pos": "DEF"},
+            {"n": "Martín Anselmi", "pos": "DEF"}
           ]
         },
         "Lucky Corbechad": {
           "players": [
-            {
-              "n": "A. Abqar",
-              "pos": "DEF"
-            },
-            {
-              "n": "El Hilali",
-              "pos": "DEF"
-            },
-            {
-              "n": "Bartra",
-              "pos": "DEF"
-            },
-            {
-              "n": "Marc Roca",
-              "pos": "MED"
-            },
-            {
-              "n": "Ilaix Moriba",
-              "pos": "MED"
-            },
-            {
-              "n": "Deossa",
-              "pos": "MED"
-            },
-            {
-              "n": "Mario Soriano",
-              "pos": "MED"
-            },
-            {
-              "n": "Pathé I. Ciss",
-              "pos": "MED"
-            },
-            {
-              "n": "Guruzeta",
-              "pos": "DEL"
-            },
-            {
-              "n": "Alvarez",
-              "pos": "DEF"
-            }
+            {"n": "A. Abqar", "pos": "DEF"},
+            {"n": "El Hilali", "pos": "DEF"},
+            {"n": "Bartra", "pos": "DEF"},
+            {"n": "Marc Roca", "pos": "MED"},
+            {"n": "Ilaix Moriba", "pos": "MED"},
+            {"n": "Deossa", "pos": "MED"},
+            {"n": "Mario Soriano", "pos": "MED"},
+            {"n": "Pathé I. Ciss", "pos": "MED"},
+            {"n": "Guruzeta", "pos": "DEL"},
+            {"n": "Alvarez", "pos": "DEF"}
           ]
         },
         "Sapard0": {
           "players": [
-            {
-              "n": "Gayá",
-              "pos": "DEF"
-            },
-            {
-              "n": "Foyth",
-              "pos": "DEF"
-            },
-            {
-              "n": "Yuri",
-              "pos": "DEF"
-            },
-            {
-              "n": "Puado",
-              "pos": "MED"
-            },
-            {
-              "n": "Blanco",
-              "pos": "MED"
-            },
-            {
-              "n": "Ayoze",
-              "pos": "DEL"
-            },
-            {
-              "n": "Sorloth",
-              "pos": "DEL"
-            },
-            {
-              "n": "Gueye",
-              "pos": "DEF"
-            },
-            {
-              "n": "Vlachodimos",
-              "pos": "DEF"
-            },
-            {
-              "n": "Jauregizar",
-              "pos": "DEF"
-            }
+            {"n": "Gayá", "pos": "DEF"},
+            {"n": "Foyth", "pos": "DEF"},
+            {"n": "Yuri", "pos": "DEF"},
+            {"n": "Puado", "pos": "MED"},
+            {"n": "Blanco", "pos": "MED"},
+            {"n": "Ayoze", "pos": "DEL"},
+            {"n": "Sorloth", "pos": "DEL"},
+            {"n": "Gueye", "pos": "DEF"},
+            {"n": "Vlachodimos", "pos": "DEF"},
+            {"n": "Jauregizar", "pos": "DEF"}
           ]
         },
         "VIVIKLAUFC": {
           "players": [
-            {
-              "n": "A. Herrero",
-              "pos": "POR"
-            },
-            {
-              "n": "Cabrera",
-              "pos": "DEF"
-            },
-            {
-              "n": "Tenaglia",
-              "pos": "DEF"
-            },
-            {
-              "n": "Mouriño",
-              "pos": "DEF"
-            },
-            {
-              "n": "Aramburu",
-              "pos": "DEF"
-            },
-            {
-              "n": "Dani Lorenzo",
-              "pos": "MED"
-            },
-            {
-              "n": "G. Puerta",
-              "pos": "MED"
-            },
-            {
-              "n": "Moncayola",
-              "pos": "MED"
-            },
-            {
-              "n": "Aimar",
-              "pos": "MED"
-            },
-            {
-              "n": "Raúl Moro",
-              "pos": "DEL"
-            },
-            {
-              "n": "I. Romero",
-              "pos": "DEL"
-            },
-            {
-              "n": "Quique Sánchez",
-              "pos": "DEF"
-            }
+            {"n": "A. Herrero", "pos": "POR"},
+            {"n": "Cabrera", "pos": "DEF"},
+            {"n": "Tenaglia", "pos": "DEF"},
+            {"n": "Mouriño", "pos": "DEF"},
+            {"n": "Aramburu", "pos": "DEF"},
+            {"n": "Dani Lorenzo", "pos": "MED"},
+            {"n": "G. Puerta", "pos": "MED"},
+            {"n": "Moncayola", "pos": "MED"},
+            {"n": "Aimar", "pos": "MED"},
+            {"n": "Raúl Moro", "pos": "DEL"},
+            {"n": "I. Romero", "pos": "DEL"},
+            {"n": "Quique Sánchez", "pos": "DEF"}
           ]
         },
         "JMR1902": {
           "players": [
-            {
-              "n": "Szczesny",
-              "pos": "POR"
-            },
-            {
-              "n": "Llorente",
-              "pos": "DEF"
-            },
-            {
-              "n": "Á. Carreras",
-              "pos": "DEF"
-            },
-            {
-              "n": "Tárrega",
-              "pos": "DEF"
-            },
-            {
-              "n": "Buchanan",
-              "pos": "MED"
-            },
-            {
-              "n": "Mella",
-              "pos": "MED"
-            },
-            {
-              "n": "Endrick",
-              "pos": "DEL"
-            },
-            {
-              "n": "I. Akhomach",
-              "pos": "DEL"
-            },
-            {
-              "n": "De Frutos",
-              "pos": "DEL"
-            },
-            {
-              "n": "Raúl García",
-              "pos": "DEF"
-            },
-            {
-              "n": "Navarro",
-              "pos": "DEF"
-            },
-            {
-              "n": "Soria",
-              "pos": "DEF"
-            }
+            {"n": "Szczesny", "pos": "POR"},
+            {"n": "Llorente", "pos": "DEF"},
+            {"n": "Á. Carreras", "pos": "DEF"},
+            {"n": "Tárrega", "pos": "DEF"},
+            {"n": "Buchanan", "pos": "MED"},
+            {"n": "Mella", "pos": "MED"},
+            {"n": "Endrick", "pos": "DEL"},
+            {"n": "I. Akhomach", "pos": "DEL"},
+            {"n": "De Frutos", "pos": "DEL"},
+            {"n": "Raúl García", "pos": "DEF"},
+            {"n": "Navarro", "pos": "DEF"},
+            {"n": "Soria", "pos": "DEF"}
           ]
         },
         "karfim": {
           "players": [
-            {
-              "n": "Á. Valles",
-              "pos": "POR"
-            },
-            {
-              "n": "Areso",
-              "pos": "DEF"
-            },
-            {
-              "n": "Urko",
-              "pos": "MED"
-            },
-            {
-              "n": "Aubameyang",
-              "pos": "DEL"
-            },
-            {
-              "n": "Yamal",
-              "pos": "DEF"
-            },
-            {
-              "n": "Ugrinic",
-              "pos": "DEF"
-            },
-            {
-              "n": "Dani Martínez",
-              "pos": "DEF"
-            },
-            {
-              "n": "Ximo",
-              "pos": "DEF"
-            },
-            {
-              "n": "Rubén G.",
-              "pos": "DEF"
-            },
-            {
-              "n": "Hancko",
-              "pos": "DEF"
-            },
-            {
-              "n": "Barcia",
-              "pos": "DEF"
-            },
-            {
-              "n": "Jurado",
-              "pos": "DEF"
-            },
-            {
-              "n": "Beñat San José",
-              "pos": "DEF"
-            }
+            {"n": "Á. Valles", "pos": "POR"},
+            {"n": "Areso", "pos": "DEF"},
+            {"n": "Urko", "pos": "MED"},
+            {"n": "Aubameyang", "pos": "DEL"},
+            {"n": "Yamal", "pos": "DEF"},
+            {"n": "Ugrinic", "pos": "DEF"},
+            {"n": "Dani Martínez", "pos": "DEF"},
+            {"n": "Ximo", "pos": "DEF"},
+            {"n": "Rubén G.", "pos": "DEF"},
+            {"n": "Hancko", "pos": "DEF"},
+            {"n": "Barcia", "pos": "DEF"},
+            {"n": "Jurado", "pos": "DEF"},
+            {"n": "Beñat San José", "pos": "DEF"}
           ]
         },
         "mercho.": {
           "players": [
-            {
-              "n": "M. Dituro",
-              "pos": "POR"
-            },
-            {
-              "n": "Bellerín",
-              "pos": "DEF"
-            },
-            {
-              "n": "Huijsen",
-              "pos": "DEF"
-            },
-            {
-              "n": "De Galarreta",
-              "pos": "MED"
-            },
-            {
-              "n": "M. Román",
-              "pos": "MED"
-            },
-            {
-              "n": "Vinicius",
-              "pos": "DEL"
-            },
-            {
-              "n": "Sivera",
-              "pos": "DEF"
-            },
-            {
-              "n": "Agoumé",
-              "pos": "DEF"
-            },
-            {
-              "n": "Suazo",
-              "pos": "DEF"
-            },
-            {
-              "n": "Zubeldia",
-              "pos": "DEF"
-            },
-            {
-              "n": "Víctor García",
-              "pos": "DEF"
-            },
-            {
-              "n": "Alemão",
-              "pos": "DEF"
-            }
+            {"n": "M. Dituro", "pos": "POR"},
+            {"n": "Bellerín", "pos": "DEF"},
+            {"n": "Huijsen", "pos": "DEF"},
+            {"n": "De Galarreta", "pos": "MED"},
+            {"n": "M. Román", "pos": "MED"},
+            {"n": "Vinicius", "pos": "DEL"},
+            {"n": "Sivera", "pos": "DEF"},
+            {"n": "Agoumé", "pos": "DEF"},
+            {"n": "Suazo", "pos": "DEF"},
+            {"n": "Zubeldia", "pos": "DEF"},
+            {"n": "Víctor García", "pos": "DEF"},
+            {"n": "Alemão", "pos": "DEF"}
           ]
         },
         "EN ORTODONCIA FC": {
           "players": [
-            {
-              "n": "Iván Villar",
-              "pos": "POR"
-            },
-            {
-              "n": "Dimitrievski",
-              "pos": "POR"
-            },
-            {
-              "n": "Manuel Fernández",
-              "pos": "DEF"
-            },
-            {
-              "n": "R.P. Bigas",
-              "pos": "DEF"
-            },
-            {
-              "n": "Pedro Díaz",
-              "pos": "MED"
-            },
-            {
-              "n": "Riquelme",
-              "pos": "MED"
-            },
-            {
-              "n": "Iñigo Vicente",
-              "pos": "DEL"
-            },
-            {
-              "n": "Iñaki Williams",
-              "pos": "DEL"
-            },
-            {
-              "n": "Toni Martinez",
-              "pos": "DEF"
-            },
-            {
-              "n": "Altimira",
-              "pos": "DEF"
-            },
-            {
-              "n": "Canales",
-              "pos": "DEF"
-            },
-            {
-              "n": "Balliu",
-              "pos": "DEF"
-            },
-            {
-              "n": "Boyomo",
-              "pos": "DEF"
-            },
-            {
-              "n": "Olasagasti",
-              "pos": "DEF"
-            }
+            {"n": "Iván Villar", "pos": "POR"},
+            {"n": "Dimitrievski", "pos": "POR"},
+            {"n": "Manuel Fernández", "pos": "DEF"},
+            {"n": "R.P. Bigas", "pos": "DEF"},
+            {"n": "Pedro Díaz", "pos": "MED"},
+            {"n": "Riquelme", "pos": "MED"},
+            {"n": "Iñigo Vicente", "pos": "DEL"},
+            {"n": "Iñaki Williams", "pos": "DEL"},
+            {"n": "Toni Martinez", "pos": "DEF"},
+            {"n": "Altimira", "pos": "DEF"},
+            {"n": "Canales", "pos": "DEF"},
+            {"n": "Balliu", "pos": "DEF"},
+            {"n": "Boyomo", "pos": "DEF"},
+            {"n": "Olasagasti", "pos": "DEF"}
           ]
         }
       }
