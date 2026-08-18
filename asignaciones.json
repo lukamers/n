@@ -45,7 +45,8 @@
         },
         {
           "n": "Óscar Marcos",
-          "pos": "DEF"
+          "pos": "DEF",
+          "v": 601647
         },
         {
           "n": "Antony",
@@ -199,6 +200,11 @@
         {
           "n": "Jauregizar",
           "pos": "DEF"
+        },
+        {
+          "n": "Toljan",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
