@@ -245,6 +245,13 @@
   .squad{max-height:0; overflow:hidden; transition:max-height .3s ease;}
   .card.open .squad{max-height:2400px;}
   .squad-inner{padding:0 18px 16px;}
+  .table-scroll{
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    margin:0 -18px;
+    padding:0 18px;
+  }
+  .table-scroll table{min-width:520px;}
 
   table{width:100%; border-collapse:collapse; font-size:13.5px;}
   th{
@@ -436,6 +443,11 @@
 
   <div id="view-jornadas" class="view" style="display:none;">
     <div class="section-label">Puntos por jornada</div>
+    <div class="sort-box" id="jornadaControls">
+      <button class="edit-btn" id="editJornadaBtn">✎ Editar roles</button>
+      <button class="save-btn" id="saveJornadaBtn" style="display:none;">💾 Guardar en GitHub</button>
+      <span class="save-status" id="saveJornadaStatus"></span>
+    </div>
     <div class="sort-box" id="jornadaSelector"></div>
     <div id="jornadaCards"></div>
   </div>
@@ -775,13 +787,7 @@ function renderCards(){
           ? `<input type="number" value="${currentValue(p)}" style="width:110px;padding:4px 6px;background:var(--bg);border:1px solid var(--line);border-radius:6px;color:var(--text);font-size:12.5px;text-align:right;" onchange="updatePlayerValue('${name.replace(/'/g,"\\'")}','${p.n.replace(/'/g,"\\'")}', this.value)">`
           : (isManualValue(p) ? `<span title="Valor cargado a mano — el scraper no trajo dato confiable para este jugador">${fmt(currentValue(p))} ✎</span>` : fmt(currentValue(p)))}</td>
         <td class="num">${marketCell(p)}</td>
-        <td class="num">${editMode
-          ? `<select class="rol-select" onchange="updatePlayerRol('${name.replace(/'/g,"\\'")}','${p.n.replace(/'/g,"\\'")}', this.value)">
-              <option value="titular" ${(!p.rol||p.rol==='titular')?'selected':''}>Titular</option>
-              <option value="suplente" ${p.rol==='suplente'?'selected':''}>Suplente</option>
-              <option value="capitan" ${p.rol==='capitan'?'selected':''}>Capitán</option>
-            </select>`
-          : pointsCell(p)}</td>
+        <td class="num">${pointsCell(p)}</td>
         ${editMode ? `<td class="num"><button class="rm-btn" onclick="removePlayer('${name.replace(/'/g,"\\'")}','${p.n.replace(/'/g,"\\'")}')">✕</button></td>` : ""}
       </tr>
     `).join('');
@@ -844,10 +850,12 @@ function renderCards(){
       </div>
       <div class="squad">
         <div class="squad-inner">
+          <div class="table-scroll">
           <table>
-            <thead><tr><th>Jugador</th><th class="num">Valor</th><th class="num">Mercado</th><th class="num">${editMode?'Rol':'Pts'}</th>${editMode?'<th></th>':''}</tr></thead>
+            <thead><tr><th>Jugador</th><th class="num">Valor</th><th class="num">Mercado</th><th class="num">Pts</th>${editMode?'<th></th>':''}</tr></thead>
             <tbody>${rows}</tbody>
           </table>
+          </div>
           ${editPanel}
         </div>
       </div>
@@ -1072,6 +1080,38 @@ closeJornadaBtn.addEventListener('click', async ()=>{
   }
 });
 
+let editModeJornada = false;
+
+function updateJornadaPlayerRol(jornadaKey, teamName, playerName, rol){
+  const player = jornadasData.jornadas[jornadaKey].equipos[teamName].players.find(p=>p.n === playerName);
+  if(player){ player.rol = rol; renderJornadas(); }
+}
+
+async function saveJornadaRoles(){
+  const statusEl = document.getElementById('saveJornadaStatus');
+  statusEl.textContent = 'Guardando…';
+  try{
+    await saveJsonToGitHub('jornadas.json', jornadasData, 'Actualizar roles de jornada');
+    statusEl.textContent = '✅ Guardado (puede tardar ~1 min en verse en la página publicada)';
+  } catch(e){
+    statusEl.textContent = '❌ ' + e.message;
+    if(String(e.message).match(/401|403|Bad credentials/i)){
+      localStorage.removeItem('gh_token');
+    }
+  }
+}
+
+const editJornadaBtn = document.getElementById('editJornadaBtn');
+const saveJornadaBtn = document.getElementById('saveJornadaBtn');
+editJornadaBtn.addEventListener('click', ()=>{
+  editModeJornada = !editModeJornada;
+  editJornadaBtn.classList.toggle('on', editModeJornada);
+  editJornadaBtn.textContent = editModeJornada ? '✎ Editando…' : '✎ Editar roles';
+  saveJornadaBtn.style.display = editModeJornada ? '' : 'none';
+  renderJornadas();
+});
+saveJornadaBtn.addEventListener('click', saveJornadaRoles);
+
 function renderJornadas(){
   const keys = ordenJornadas();
   const selector = document.getElementById('jornadaSelector');
@@ -1093,6 +1133,7 @@ function renderJornadas(){
 
   const jornada = jornadasData.jornadas[renderJornadas.actual];
   const esUltima = renderJornadas.actual === keys[keys.length - 1];
+  const jkey = renderJornadas.actual;
 
   // Puntos de cada jugador (ya con el rol que tenía CONGELADO en esa
   // jornada aplicado — titular normal, suplente 0, capitán doble) y de
@@ -1119,10 +1160,16 @@ function renderJornadas(){
           <div class="pcell">
             <span class="pos ${p.pos}">${p.pos}</span>
             <span>${p.n}</span>
-            ${rolBadge(p.rol)}
+            ${editModeJornada ? "" : rolBadge(p.rol)}
           </div>
         </td>
-        <td class="num">${p.pts === null ? '<span class="pts na">—</span>' : `<span class="pts">${p.pts}</span>`}</td>
+        <td class="num">${editModeJornada
+          ? `<select class="rol-select" onchange="updateJornadaPlayerRol('${jkey}','${teamName.replace(/'/g,"\\'")}','${p.n.replace(/'/g,"\\'")}', this.value)">
+              <option value="titular" ${(!p.rol||p.rol==='titular')?'selected':''}>Titular</option>
+              <option value="suplente" ${p.rol==='suplente'?'selected':''}>Suplente</option>
+              <option value="capitan" ${p.rol==='capitan'?'selected':''}>Capitán</option>
+            </select>`
+          : (p.pts === null ? '<span class="pts na">—</span>' : `<span class="pts">${p.pts}</span>`)}</td>
       </tr>
     `).join('');
     return `
@@ -1151,10 +1198,12 @@ function renderJornadas(){
       </div>
       <div class="squad">
         <div class="squad-inner">
+          <div class="table-scroll">
           <table>
-            <thead><tr><th>Jugador</th><th class="num">Pts</th></tr></thead>
+            <thead><tr><th>Jugador</th><th class="num">${editModeJornada?'Rol':'Pts'}</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>
+          </div>
         </div>
       </div>
     </div>`;
@@ -1238,10 +1287,12 @@ function buildActivity(){
       </div>
       <div class="squad">
         <div class="squad-inner">
+          <div class="table-scroll">
           <table>
             <thead><tr><th>Jugador</th><th>Op.</th><th class="num">Monto</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>
+          </div>
         </div>
       </div>
     </div>`;
