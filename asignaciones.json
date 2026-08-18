@@ -4,15 +4,7 @@
       "caja": 9153571,
       "players": [
         {
-          "n": "Lunin",
-          "pos": "POR"
-        },
-        {
           "n": "Gerard Martín",
-          "pos": "DEF"
-        },
-        {
-          "n": "Kike Salas",
           "pos": "DEF"
         },
         {
@@ -36,10 +28,6 @@
           "pos": "DEF"
         },
         {
-          "n": "Veiga",
-          "pos": "DEF"
-        },
-        {
           "n": "Yeray",
           "pos": "DEF"
         },
@@ -58,6 +46,11 @@
         {
           "n": "Óscar Marcos",
           "pos": "DEF"
+        },
+        {
+          "n": "Antony",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -65,15 +58,7 @@
       "caja": 11899380,
       "players": [
         {
-          "n": "Eriksson",
-          "pos": "POR"
-        },
-        {
           "n": "Affengruber",
-          "pos": "DEF"
-        },
-        {
-          "n": "Noubi",
           "pos": "DEF"
         },
         {
@@ -111,20 +96,22 @@
         {
           "n": "Martín Anselmi",
           "pos": "DEF"
+        },
+        {
+          "n": "Gulacsi",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Roberto",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
     "Lucky Corbechad": {
       "caja": 30082391,
       "players": [
-        {
-          "n": "A. Abqar",
-          "pos": "DEF"
-        },
-        {
-          "n": "El Hilali",
-          "pos": "DEF"
-        },
         {
           "n": "Bartra",
           "pos": "DEF"
@@ -157,6 +144,16 @@
         {
           "n": "Alvarez",
           "pos": "DEF"
+        },
+        {
+          "n": "Noubi",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Riquelme",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -271,25 +268,13 @@
           "pos": "DEF"
         },
         {
-          "n": "Á. Carreras",
-          "pos": "DEF"
-        },
-        {
           "n": "Tárrega",
           "pos": "DEF",
           "tag": "Fichado de Chonaura"
         },
         {
-          "n": "Buchanan",
-          "pos": "MED"
-        },
-        {
           "n": "Mella",
           "pos": "MED"
-        },
-        {
-          "n": "Endrick",
-          "pos": "DEL"
         },
         {
           "n": "I. Akhomach",
@@ -310,6 +295,16 @@
         {
           "n": "Soria",
           "pos": "DEF"
+        },
+        {
+          "n": "A. Abqar",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "El Hilali",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -327,14 +322,6 @@
         {
           "n": "Urko",
           "pos": "MED"
-        },
-        {
-          "n": "Aubameyang",
-          "pos": "DEL"
-        },
-        {
-          "n": "Yamal",
-          "pos": "DEF"
         },
         {
           "n": "Ugrinic",
@@ -355,10 +342,6 @@
         },
         {
           "n": "Hancko",
-          "pos": "DEF"
-        },
-        {
-          "n": "Barcia",
           "pos": "DEF"
         },
         {
@@ -407,10 +390,6 @@
           "rol": "suplente"
         },
         {
-          "n": "Agoumé",
-          "pos": "DEF"
-        },
-        {
           "n": "Suazo",
           "pos": "DEF"
         },
@@ -419,12 +398,14 @@
           "pos": "DEF"
         },
         {
-          "n": "Víctor García",
-          "pos": "DEF"
+          "n": "Carlos Soler",
+          "pos": "DEF",
+          "rol": "titular"
         },
         {
-          "n": "Alemão",
-          "pos": "DEF"
+          "n": "Redondo",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -446,15 +427,7 @@
           "pos": "DEF"
         },
         {
-          "n": "R.P. Bigas",
-          "pos": "DEF"
-        },
-        {
           "n": "Pedro Díaz",
-          "pos": "MED"
-        },
-        {
-          "n": "Riquelme",
           "pos": "MED"
         },
         {
@@ -486,8 +459,9 @@
           "pos": "DEF"
         },
         {
-          "n": "Olasagasti",
-          "pos": "DEF"
+          "n": "Aubameyang",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     }
