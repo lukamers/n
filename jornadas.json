@@ -157,7 +157,8 @@
             },
             {
               "n": "Alvarez",
-              "pos": "DEF"
+              "pos": "DEF",
+              "rol": "capitan"
             }
           ]
         },
@@ -293,7 +294,8 @@
             },
             {
               "n": "De Frutos",
-              "pos": "DEL"
+              "pos": "DEL",
+              "rol": "capitan"
             },
             {
               "n": "Raúl García",
@@ -305,7 +307,8 @@
             },
             {
               "n": "Soria",
-              "pos": "DEF"
+              "pos": "DEF",
+              "rol": "suplente"
             }
           ]
         },
@@ -329,7 +332,8 @@
             },
             {
               "n": "Yamal",
-              "pos": "DEF"
+              "pos": "DEF",
+              "rol": "capitan"
             },
             {
               "n": "Ugrinic",
