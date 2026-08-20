@@ -1,7 +1,7 @@
 {
   "teams": {
     "Chonaura": {
-      "caja": 7014695,
+      "caja": 1598472,
       "players": [
         {
           "n": "Gerard Martín",
@@ -32,14 +32,6 @@
           "pos": "DEF"
         },
         {
-          "n": "S. Cardona",
-          "pos": "DEF"
-        },
-        {
-          "n": "Fort",
-          "pos": "DEF"
-        },
-        {
           "n": "Durán",
           "pos": "DEF"
         },
@@ -52,16 +44,22 @@
           "n": "Antony",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "José Mourinho",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Valentín Gómez",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
     "papi floren 24 cm": {
-      "caja": 14390396,
+      "caja": 36461135,
       "players": [
-        {
-          "n": "Affengruber",
-          "pos": "DEF"
-        },
         {
           "n": "Starfelt",
           "pos": "DEF"
@@ -73,10 +71,6 @@
         {
           "n": "Unai López",
           "pos": "MED"
-        },
-        {
-          "n": "Cepeda",
-          "pos": "DEL"
         },
         {
           "n": "Lookman",
@@ -107,11 +101,21 @@
           "n": "Roberto",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Ortiz",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Salinas",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
     "Lucky Corbechad": {
-      "caja": 39533377,
+      "caja": 38037175,
       "players": [
         {
           "n": "Bartra",
@@ -143,16 +147,27 @@
           "pos": "DEL"
         },
         {
-          "n": "Alvarez",
-          "pos": "DEF"
-        },
-        {
           "n": "Noubi",
           "pos": "DEF",
           "rol": "titular"
         },
         {
           "n": "Riquelme",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Mikautadze",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Iker Muñoz",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Luiz Felipe",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -209,7 +224,7 @@
       ]
     },
     "VIVIKLAUFC": {
-      "caja": 3633858,
+      "caja": 6933858,
       "players": [
         {
           "n": "A. Herrero",
@@ -259,7 +274,7 @@
       ]
     },
     "JMR1902": {
-      "caja": 50519920,
+      "caja": 44310006,
       "players": [
         {
           "n": "Szczesny",
@@ -307,11 +322,21 @@
           "n": "El Hilali",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "U. Núñez",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Luis Miguel Ramis",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
     "karfim": {
-      "caja": 183778231,
+      "caja": 170328200,
       "players": [
         {
           "n": "Á. Valles",
@@ -353,11 +378,26 @@
         {
           "n": "Beñat San José",
           "pos": "DEF"
+        },
+        {
+          "n": "Vertrouwd",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Egiluz",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Dolan",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
     "mercho.": {
-      "caja": 5792380,
+      "caja": 7936841,
       "you": true,
       "players": [
         {
@@ -392,10 +432,6 @@
           "rol": "suplente"
         },
         {
-          "n": "Suazo",
-          "pos": "DEF"
-        },
-        {
           "n": "Zubeldia",
           "pos": "DEF"
         },
@@ -408,11 +444,16 @@
           "n": "Redondo",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Riedel",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
     "EN ORTODONCIA FC": {
-      "caja": 11372652,
+      "caja": 13372652,
       "players": [
         {
           "n": "Iván Villar",
