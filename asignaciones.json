@@ -106,11 +106,6 @@
           "n": "Ortiz",
           "pos": "DEF",
           "rol": "titular"
-        },
-        {
-          "n": "Salinas",
-          "pos": "DEF",
-          "rol": "titular"
         }
       ]
     },
@@ -391,6 +386,11 @@
         },
         {
           "n": "Dolan",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Salinas",
           "pos": "DEF",
           "rol": "titular"
         }
