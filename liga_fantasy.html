@@ -85,7 +85,7 @@
   .stat.mercado .v.flat{color:var(--text-faint);}
   .stat.down .v{color:var(--red);}
   .stat.up .v{color:var(--green);}
-  @media (max-width:480px){.stat .v{font-size:12.5px;} .name{font-size:14.5px;} .right-stats{grid-template-columns:repeat(2,1fr); row-gap:10px;}}
+  @media (max-width:480px){.stat .v{font-size:12.5px;} .name{font-size:14.5px;} .right-stats{grid-template-columns:repeat(2,1fr); row-gap:14px; column-gap:12px;}}
   .chev{color:var(--text-faint); font-size:13px; transition:transform .2s ease; flex-shrink:0; padding-top:3px;}
   .card.open .chev{transform:rotate(90deg); color:var(--text);}
   .squad{max-height:0; overflow:hidden; transition:max-height .3s ease;}
@@ -107,6 +107,7 @@
   .pos.MED{background:rgba(242,201,76,.15); color:var(--med);}
   .pos.DEL{background:rgba(239,75,58,.15); color:var(--del);}
   .tag{font-size:10px; color:var(--red); margin-left:2px; opacity:.85;}
+  .tag.live{color:var(--green); opacity:1;}
   .pts{font-family:'Oswald',sans-serif; font-weight:600; color:#f2994a;}
   .pts.na{color:var(--text-faint); font-weight:400; font-size:11px;}
   .rol-badge{font-size:9px; font-weight:700; padding:1px 5px; border-radius:4px; margin-left:4px; letter-spacing:.03em; font-family:'Oswald',sans-serif; background:rgba(242,201,76,.18); color:var(--gold);}
@@ -135,6 +136,29 @@
   .dot{width:8px; height:8px; border-radius:50%;}
   .dot.up{background:var(--green);}
   .dot.down{background:var(--red);}
+  .sort-box.actions-row{margin-top:-6px;}
+
+  /* ---------- Tabla de posiciones ---------- */
+  .standings-table{width:100%; border-collapse:collapse; font-size:13px;}
+  .standings-table th{
+    text-align:center; font-family:'Oswald',sans-serif; text-transform:uppercase;
+    font-size:10px; letter-spacing:.06em; color:var(--text-faint); font-weight:600;
+    padding:8px 6px; border-bottom:1px solid var(--line);
+  }
+  .standings-table th.first, .standings-table td.first{text-align:left; padding-left:2px;}
+  .standings-table td{
+    text-align:center; padding:9px 6px; border-bottom:1px solid #1c2230;
+    font-variant-numeric:tabular-nums; color:var(--text-dim);
+  }
+  .standings-table tr.you-row{background:rgba(239,75,58,.06);}
+  .standings-row-name{display:flex; align-items:center; gap:8px; white-space:nowrap;}
+  .standings-pos{
+    font-family:'Oswald',sans-serif; font-weight:700; color:var(--text-faint);
+    width:18px; display:inline-block;
+  }
+  .standings-total{
+    font-family:'Oswald',sans-serif; font-weight:700; color:var(--gold); font-size:14px;
+  }
 
   /* ---------- Cancha (formación tipo fantasy) ---------- */
   .pitch{
@@ -152,18 +176,27 @@
   }
   .pitch::before{
     content:"";
-    position:absolute; left:50%; top:14px; bottom:14px;
-    width:1px; background:rgba(255,255,255,.14);
-    transform:translateX(-50%);
+    position:absolute; left:50%; top:50%; 
+    width:70px; height:70px; border-radius:50%;
+    border:1px solid rgba(255,255,255,.12);
+    transform:translate(-50%,-50%);
   }
   .pitch-row{display:flex; justify-content:space-evenly; align-items:flex-start; gap:6px; flex-wrap:wrap; position:relative; z-index:1;}
   .player-chip{width:64px; text-align:center; flex-shrink:0;}
   .player-avatar{
     width:44px; height:44px; margin:0 auto; border-radius:50%;
     display:flex; align-items:center; justify-content:center;
-    font-family:'Oswald',sans-serif; font-weight:700; font-size:13px;
+    font-family:'Oswald',sans-serif; font-weight:700; font-size:15px;
     color:#0c0f16; position:relative; border:2px solid rgba(255,255,255,.35);
+    background:#3a4256;
   }
+  .player-avatar.pts-up{background:var(--green);}
+  .player-avatar.pts-down{background:var(--red); color:#fff;}
+  .player-avatar.pts-na{background:#3a4256; color:var(--text-faint);}
+  .player-avatar.border-POR{border-color:var(--por);}
+  .player-avatar.border-DEF{border-color:var(--def);}
+  .player-avatar.border-MED{border-color:var(--med);}
+  .player-avatar.border-DEL{border-color:var(--del);}
   .player-cap-badge{
     position:absolute; top:-4px; left:-4px; width:16px; height:16px; border-radius:50%;
     background:var(--red); color:#fff; font-size:9px; font-weight:800;
@@ -202,6 +235,7 @@
     <button class="tab-btn active" id="tab-equipos" onclick="showTab('equipos')">Equipos</button>
     <button class="tab-btn" id="tab-actividad" onclick="showTab('actividad')">Actividad</button>
     <button class="tab-btn" id="tab-jornadas" onclick="showTab('jornadas')">Jornadas</button>
+    <button class="tab-btn" id="tab-tabla" onclick="showTab('tabla')">Tabla</button>
   </div>
 
   <div id="view-equipos" class="view">
@@ -218,7 +252,9 @@
       <button class="edit-btn" id="editBtn">✎ Editar</button>
       <button class="save-btn" id="saveBtn" style="display:none;">💾 Guardar en GitHub</button>
       <span class="save-status" id="saveStatus"></span>
-      <button class="edit-btn" id="closeJornadaBtn" style="background:var(--bg-card);">🔒 Cerrar jornada</button>
+    </div>
+    <div class="sort-box actions-row">
+      <button class="edit-btn" id="closeJornadaBtn" style="margin-left:0;">🔒 Cerrar jornada</button>
       <span class="save-status" id="jornadaStatus"></span>
     </div>
     <div class="search-box">
@@ -241,6 +277,11 @@
     </div>
     <div class="sort-box" id="jornadaSelector"></div>
     <div id="jornadaCards"></div>
+  </div>
+
+  <div id="view-tabla" class="view" style="display:none;">
+    <div class="section-label">Tabla de posiciones</div>
+    <div id="tablaWrap"></div>
   </div>
 
   <footer>Valor de mercado, subida/bajada y puntos de cada jugador: LaLiga Fantasy Oficial (futbolfantasy.com/analytics/laliga-fantasy), actualizado a diario. Titular suma normal, suplente no suma, capitán suma doble. Las plantillas (quién está en qué equipo) y la caja se editan a mano desde "✎ Editar".</footer>
@@ -869,16 +910,14 @@ function pitchHtml(players){
     if(enEsaPos.length === 0) return '';
     const chips = enEsaPos.map(p=>{
       const ptsVal = p.pts;
-      const ptsHtml = ptsVal === null
-        ? `<span class="player-pts-badge na">—</span>`
-        : `<span class="player-pts-badge">${ptsVal}</span>`;
+      const ptsDisplay = ptsVal === null ? '—' : ptsVal;
+      const ptsClass = ptsVal === null ? 'pts-na' : (ptsVal > 0 ? 'pts-up' : (ptsVal < 0 ? 'pts-down' : 'pts-na'));
       const capHtml = p.rol === 'capitan' ? `<span class="player-cap-badge">C</span>` : '';
       return `
         <div class="player-chip">
-          <div class="player-avatar" style="${playerAvatarStyle(p.n)}">
-            ${initials(p.n)}
+          <div class="player-avatar ${ptsClass} border-${p.pos}">
+            ${ptsDisplay}
             ${capHtml}
-            ${ptsHtml}
           </div>
           <div class="player-name">${p.n}</div>
         </div>
@@ -982,7 +1021,7 @@ function renderJornadas(){
           <div class="name-block">
             <div class="name-with-logo">
               ${mgrLogo(teamName)}
-              <div class="name">${teamName}${you?'<span class="you">vos</span>':''}${esUltima?' <span class="tag" style="color:var(--green);">· en vivo</span>':''}</div>
+              <div class="name">${teamName}${you?'<span class="you">vos</span>':''}${esUltima?' <span class="tag live">· en vivo</span>':''}</div>
             </div>
           </div>
           <div class="chev">▸</div>
@@ -1099,12 +1138,74 @@ function showTab(name){
   document.getElementById('view-equipos').style.display = name==='equipos' ? '' : 'none';
   document.getElementById('view-actividad').style.display = name==='actividad' ? '' : 'none';
   document.getElementById('view-jornadas').style.display = name==='jornadas' ? '' : 'none';
+  document.getElementById('view-tabla').style.display = name==='tabla' ? '' : 'none';
   document.getElementById('tab-equipos').classList.toggle('active', name==='equipos');
   document.getElementById('tab-actividad').classList.toggle('active', name==='actividad');
   document.getElementById('tab-jornadas').classList.toggle('active', name==='jornadas');
+  document.getElementById('tab-tabla').classList.toggle('active', name==='tabla');
   if(name==='actividad') buildActivity();
   if(name==='jornadas') renderJornadas();
+  if(name==='tabla') renderTabla();
+}
+
+// ---------- Tabla de posiciones ----------
+// Puntos totales de cada equipo por jornada, ya con roles aplicados
+// (capitán doble, suplente no suma) — la misma cuenta que usa la pestaña
+// Jornadas, pero sumada a lo largo de toda la temporada.
+function puntosDeEquipoEnJornada(jkey, teamName){
+  const jornada = jornadasData.jornadas[jkey];
+  const eq = jornada.equipos[teamName];
+  if(!eq) return null;
+  return eq.players.reduce((s,p)=>{
+    const crudo = pointsInJornada(jkey, p.n);
+    const pts = crudo === null ? 0 : crudo * roleMultiplier(p.rol);
+    return s + pts;
+  }, 0);
+}
+
+function renderTabla(){
+  const wrap = document.getElementById('tablaWrap');
+  const keys = ordenJornadas();
+
+  if(keys.length === 0){
+    wrap.innerHTML = '<p style="color:var(--text-faint); font-size:13px;">Todavía no hay jornadas cerradas — la tabla se arma sola a medida que uses "🔒 Cerrar jornada".</p>';
+    return;
+  }
+
+  const teamNames = new Set();
+  keys.forEach(k=> Object.keys(jornadasData.jornadas[k].equipos).forEach(tn=> teamNames.add(tn)));
+
+  const filas = [...teamNames].map(teamName=>{
+    const porJornada = keys.map(k=> puntosDeEquipoEnJornada(k, teamName));
+    const total = porJornada.reduce((s,v)=> s + (v||0), 0);
+    return { teamName, porJornada, total, you: teams[teamName] && teams[teamName].you };
+  }).sort((a,b)=> b.total - a.total);
+
+  const headCols = keys.map(k=>`<th>${k}</th>`).join('');
+  const bodyRows = filas.map((f, i)=>`
+    <tr class="${f.you ? 'you-row' : ''}">
+      <td class="first">
+        <div class="standings-row-name">
+          <span class="standings-pos">${i+1}</span>
+          ${mgrLogo(f.teamName)}
+          <span>${f.teamName}${f.you?'<span class="you">vos</span>':''}</span>
+        </div>
+      </td>
+      ${f.porJornada.map(v=> `<td>${v===null?'—':v}</td>`).join('')}
+      <td class="standings-total">${f.total}</td>
+    </tr>
+  `).join('');
+
+  wrap.innerHTML = `
+    <div class="table-scroll">
+      <table class="standings-table">
+        <thead><tr><th class="first">Equipo</th>${headCols}<th>Total</th></tr></thead>
+        <tbody>${bodyRows}</tbody>
+      </table>
+    </div>
+  `;
 }
 </script>
+
 </body>
 </html>
