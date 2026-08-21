@@ -224,6 +224,59 @@
   .bench-chip-name{font-size:11.5px;}
 
   footer{text-align:center; color:var(--text-faint); font-size:11.5px; margin-top:50px; line-height:1.6;}
+  .premios-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-bottom:20px;
+}
+
+.premio-card{
+  background:var(--bg-card);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:16px;
+  transition:all .2s ease;
+}
+
+.premio-card:hover{
+  background:var(--bg-card-hover);
+  transform:translateY(-2px);
+}
+
+.premio-titulo{
+  font-family:'Oswald',sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-size:11px;
+  color:var(--text-faint);
+  margin-bottom:10px;
+}
+
+.premio-ganador{
+  font-size:17px;
+  font-weight:700;
+}
+
+.premio-dato{
+  font-family:'Oswald',sans-serif;
+  font-size:20px;
+  font-weight:700;
+  color:var(--gold);
+  margin-top:4px;
+}
+
+.premio-sub{
+  font-size:11px;
+  color:var(--text-faint);
+  margin-top:3px;
+}
+
+@media(max-width:480px){
+  .premios-grid{
+    grid-template-columns:1fr;
+  }
+}
 </style>
 </head>
 <body>
@@ -244,6 +297,8 @@
   </div>
 
   <div id="view-equipos" class="view">
+      <div class="section-label">Premios de la jornada</div>
+  <div id="premiosJornada"></div>
     <div class="section-label">Saldos y plantillas</div>
     <div class="legend">
       <span><span class="dot up"></span> Sube en el mercado (LaLiga Fantasy Oficial)</span>
@@ -465,7 +520,176 @@ function pointsCell(p){
   if(pts === null){ return `<span class="pts na">—</span>`; }
   return `<span class="pts">${pts}</span>`;
 }
+function jornadaActual(){
+  const keys = ordenJornadas();
 
+  if(keys.length === 0) return null;
+
+  return keys[keys.length - 1];
+}
+function mejorJugadorJornada(){
+  const jornada = jornadaActual();
+
+  if(!jornada) return null;
+
+  let mejor = null;
+
+  Object.values(teams).forEach(team=>{
+    team.players.forEach(player=>{
+
+      const puntos = pointsInJornada(jornada, player.n);
+
+      if(puntos === null) return;
+
+      if(!mejor || puntos > mejor.puntos){
+        mejor = {
+          nombre: player.n,
+          puntos: puntos
+        };
+      }
+
+    });
+  });
+
+  return mejor;
+}
+function mayorSubida(){
+
+  let mejor = null;
+
+  Object.values(teams).forEach(team=>{
+    team.players.forEach(player=>{
+
+      const subida = currentDiff(player);
+
+      if(subida === null) return;
+
+      if(!mejor || subida > mejor.subida){
+        mejor = {
+          nombre: player.n,
+          subida: subida
+        };
+      }
+
+    });
+  });
+
+  return mejor;
+}
+function mayorBajada(){
+
+  let peor = null;
+
+  Object.values(teams).forEach(team=>{
+    team.players.forEach(player=>{
+
+      const bajada = currentDiff(player);
+
+      if(bajada === null) return;
+
+      if(!peor || bajada < peor.bajada){
+        peor = {
+          nombre: player.n,
+          bajada: bajada
+        };
+      }
+
+    });
+  });
+
+  return peor;
+}
+function mejorEquipoJornada(){
+
+  const jornada = jornadaActual();
+
+  if(!jornada) return null;
+
+  let mejor = null;
+
+  Object.keys(jornadasData.jornadas[jornada].equipos).forEach(teamName=>{
+
+    const puntos = puntosDeEquipoEnJornada(jornada, teamName);
+
+    if(puntos === null) return;
+
+    if(!mejor || puntos > mejor.puntos){
+      mejor = {
+        nombre: teamName,
+        puntos: puntos
+      };
+    }
+
+  });
+
+  return mejor;
+}
+function renderPremios(){
+
+  const container = document.getElementById('premiosJornada');
+
+  const jugador = mejorJugadorJornada();
+  const subida = mayorSubida();
+  const bajada = mayorBajada();
+  const equipo = mejorEquipoJornada();
+
+  if(!jugador && !subida && !bajada && !equipo){
+    container.innerHTML = `
+      <p style="color:var(--text-faint);font-size:13px;">
+        Todavía no hay datos suficientes para mostrar los premios.
+      </p>
+    `;
+    return;
+  }
+
+  const jornada = jornadaActual();
+
+  container.innerHTML = `
+    <div class="premios-grid">
+
+      ${jugador ? `
+        <div class="premio-card">
+          <div class="premio-titulo">🏆 Jugador de la jornada</div>
+          <div class="premio-ganador">${jugador.nombre}</div>
+          <div class="premio-dato">${jugador.puntos} pts</div>
+          <div class="premio-sub">${jornada}</div>
+        </div>
+      ` : ''}
+
+      ${subida ? `
+        <div class="premio-card">
+          <div class="premio-titulo">📈 Mayor subida</div>
+          <div class="premio-ganador">${subida.nombre}</div>
+          <div class="premio-dato" style="color:var(--green);">
+            +${fmt(subida.subida)}
+          </div>
+          <div class="premio-sub">Valor de mercado</div>
+        </div>
+      ` : ''}
+
+      ${bajada ? `
+        <div class="premio-card">
+          <div class="premio-titulo">📉 Mayor bajada</div>
+          <div class="premio-ganador">${bajada.nombre}</div>
+          <div class="premio-dato" style="color:var(--red);">
+            ${fmt(bajada.bajada)}
+          </div>
+          <div class="premio-sub">Valor de mercado</div>
+        </div>
+      ` : ''}
+
+      ${equipo ? `
+        <div class="premio-card">
+          <div class="premio-titulo">🔥 Equipo de la jornada</div>
+          <div class="premio-ganador">${equipo.nombre}</div>
+          <div class="premio-dato">${equipo.puntos} pts</div>
+          <div class="premio-sub">${jornada}</div>
+        </div>
+      ` : ''}
+
+    </div>
+  `;
+}
 const avatarPalette = ["#ef4b3a","#f2994a","#f2c94c","#6fcf97","#56ccf2","#9b59b6","#eb5757","#27ae60","#2f80ed","#bb6bd9"];
 function hashStr(s){ let h=0; for(let i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))>>>0; } return h; }
 function initials(name){
@@ -737,11 +961,13 @@ Promise.all([
   applyMercado(mercado);
   applyAsignaciones(asign);
   applyJornadas(jornadas);
+  renderPremios();
   if(!document.getElementById('updatedLine').textContent.includes('ACTUALIZADO')){
     document.getElementById('updatedLine').textContent = '9 EQUIPOS';
   }
   renderCards();
 });
+
 
 renderCards();
 
