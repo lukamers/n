@@ -159,6 +159,11 @@
   .standings-total{
     font-family:'Oswald',sans-serif; font-weight:700; color:var(--gold); font-size:14px;
   }
+  .incompleto-banner{
+    background:rgba(239,75,58,.12); border:1px solid var(--red-dim); color:#ff8a75;
+    font-size:12.5px; font-weight:600; padding:8px 12px; border-radius:8px;
+    margin-bottom:12px; text-align:center;
+  }
 
   /* ---------- Cancha (formación tipo fantasy) ---------- */
   .pitch{
@@ -872,6 +877,32 @@ function updateJornadaPlayerRol(jornadaKey, teamName, playerName, rol){
   if(player){ player.rol = rol; renderJornadas(); }
 }
 
+// Marca/desmarca a un equipo como "no completó equipo" en esa jornada —
+// cuando está marcado, sus puntos de esa fecha quedan directamente en 0
+// (tanto en la ficha de la jornada como en la Tabla de posiciones).
+function toggleJornadaIncompleto(jornadaKey, teamName){
+  const eq = jornadasData.jornadas[jornadaKey].equipos[teamName];
+  eq.incompleto = !eq.incompleto;
+  renderJornadas();
+}
+
+// Agrega un jugador al plantel YA CONGELADO de una jornada puntual — por
+// si hace falta corregir algo después de cerrada (ej. alguien que quedó
+// afuera por error). No afecta el plantel actual de "Equipos".
+function addPlayerToJornada(jornadaKey, teamName, name, pos){
+  name = name.trim();
+  if(!name) return;
+  const eq = jornadasData.jornadas[jornadaKey].equipos[teamName];
+  if(eq.players.some(p=>p.n === name)) return;
+  eq.players.push({ n: name, pos: pos || "MED", rol: "titular" });
+  renderJornadas();
+}
+function removePlayerFromJornada(jornadaKey, teamName, name){
+  const eq = jornadasData.jornadas[jornadaKey].equipos[teamName];
+  eq.players = eq.players.filter(p=>p.n !== name);
+  renderJornadas();
+}
+
 async function saveJornadaRoles(){
   const statusEl = document.getElementById('saveJornadaStatus');
   statusEl.textContent = 'Guardando…';
@@ -973,12 +1004,12 @@ function renderJornadas(){
       const pts = crudo === null ? null : crudo * roleMultiplier(p.rol);
       return { ...p, pts };
     });
-    const totalPuntos = players.reduce((s,p)=> s + (p.pts || 0), 0);
-    return { teamName, players, totalPuntos };
+    const totalPuntos = eq.incompleto ? 0 : players.reduce((s,p)=> s + (p.pts || 0), 0);
+    return { teamName, players, totalPuntos, incompleto: !!eq.incompleto };
   });
   const equiposOrdenados = [...equiposConPuntos].sort((a,b)=> b.totalPuntos - a.totalPuntos);
 
-  cardsWrap.innerHTML = equiposOrdenados.map(({teamName, players, totalPuntos}, i)=>{
+  cardsWrap.innerHTML = equiposOrdenados.map(({teamName, players, totalPuntos, incompleto}, i)=>{
     const you = teams[teamName] && teams[teamName].you;
 
     let contenido;
@@ -999,18 +1030,39 @@ function renderJornadas(){
               <option value="capitan" ${p.rol==='capitan'?'selected':''}>Capitán</option>
             </select>
           </td>
+          <td class="num"><button class="rm-btn" onclick="removePlayerFromJornada('${jkey}','${teamName.replace(/'/g,"\\'")}','${p.n.replace(/'/g,"\\'")}')">✕</button></td>
         </tr>
       `).join('');
+      const idSafe = teamName.replace(/[^a-zA-Z0-9]/g,'');
       contenido = `
         <div class="table-scroll">
         <table>
-          <thead><tr><th>Jugador</th><th class="num">Rol</th></tr></thead>
+          <thead><tr><th>Jugador</th><th class="num">Rol</th><th></th></tr></thead>
           <tbody>${rows}</tbody>
         </table>
         </div>
+        <div class="edit-panel">
+          <button class="edit-btn ${incompleto?'on':''}" style="${incompleto?'background:var(--red);border-color:var(--red);color:#fff;':''}" onclick="toggleJornadaIncompleto('${jkey}','${teamName.replace(/'/g,"\\'")}')">
+            ${incompleto ? '⚠️ No completó equipo (tocá para deshacer)' : '⚠️ Marcar: no completó equipo'}
+          </button>
+        </div>
+        <div class="edit-panel">
+          <input type="text" list="allPlayersList" placeholder="Agregar jugador a esta jornada" id="add-jor-name-${idSafe}">
+          <select id="add-jor-pos-${idSafe}">
+            <option value="POR">POR</option>
+            <option value="DEF" selected>DEF</option>
+            <option value="MED">MED</option>
+            <option value="DEL">DEL</option>
+          </select>
+          <button class="add-btn" onclick="
+            const nm=document.getElementById('add-jor-name-${idSafe}').value;
+            const ps=document.getElementById('add-jor-pos-${idSafe}').value;
+            addPlayerToJornada('${jkey}','${teamName.replace(/'/g,"\\'")}', nm, ps);
+          ">+ Agregar</button>
+        </div>
       `;
     } else {
-      contenido = pitchHtml(players);
+      contenido = (incompleto ? `<div class="incompleto-banner">⚠️ No completó equipo esta jornada — puntos en 0</div>` : '') + pitchHtml(players);
     }
 
     return `
@@ -1156,6 +1208,7 @@ function puntosDeEquipoEnJornada(jkey, teamName){
   const jornada = jornadasData.jornadas[jkey];
   const eq = jornada.equipos[teamName];
   if(!eq) return null;
+  if(eq.incompleto) return 0;
   return eq.players.reduce((s,p)=>{
     const crudo = pointsInJornada(jkey, p.n);
     const pts = crudo === null ? 0 : crudo * roleMultiplier(p.rol);
