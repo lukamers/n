@@ -290,6 +290,9 @@ def extraer_proxima_jornada(row_text: str):
         "local": bool(m.group(2)),
         "probabilidad": int(m.group(3)) if m.group(3) else None,
     }
+
+
+def extraer_puntos(row_text: str, club_encontrado: str):
     """Puntos totales de la temporada. En la página de puntos, el total
     aparece como el primer número (puede ser negativo) justo después del
     nombre del club, ej.:
