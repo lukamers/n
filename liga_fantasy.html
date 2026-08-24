@@ -164,6 +164,11 @@
     font-size:12.5px; font-weight:600; padding:8px 12px; border-radius:8px;
     margin-bottom:12px; text-align:center;
   }
+  .team-warning{
+    background:rgba(239,75,58,.12); border:1px solid var(--red-dim); color:#ff8a75;
+    font-size:11.5px; font-weight:600; padding:6px 10px; border-radius:8px;
+    margin-left:30px;
+  }
 
   /* ---------- Cancha (formación tipo fantasy) ---------- */
   .pitch{
@@ -231,6 +236,52 @@
   margin-bottom:20px;
 }
 
+.player-link{cursor:pointer; text-decoration:underline dotted; text-underline-offset:2px; text-decoration-color:var(--text-faint);}
+.player-link:hover{color:var(--text);}
+
+.spend-limit{
+  background:rgba(53,196,122,.1); border:1px solid #1e5c3f; color:var(--green);
+  font-size:12.5px; font-weight:600; padding:9px 12px; border-radius:8px;
+  margin-bottom:14px;
+}
+.spend-limit strong{font-family:'Oswald',sans-serif; font-weight:700;}
+.spend-limit-note{color:var(--text-faint); font-weight:400; font-size:11px;}
+
+.modal-overlay{
+  display:none; position:fixed; inset:0; background:rgba(6,8,13,.72);
+  z-index:100; align-items:flex-end; justify-content:center;
+}
+.modal-overlay.open{display:flex;}
+.modal-box{
+  background:var(--bg-card); border:1px solid var(--line); border-radius:16px 16px 0 0;
+  width:100%; max-width:520px; padding:20px 20px 26px; animation:fadeInUp .25s ease both;
+}
+@media (min-width:560px){
+  .modal-overlay{align-items:center;}
+  .modal-box{border-radius:16px; margin-bottom:0;}
+}
+.modal-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;}
+.modal-title{font-family:'Oswald',sans-serif; font-weight:700; font-size:18px;}
+.modal-close{background:none; border:none; color:var(--text-faint); font-size:20px; cursor:pointer; padding:4px 8px; line-height:1;}
+.modal-close:hover{color:var(--text);}
+.modal-chart{margin:6px 0 14px;}
+.modal-stats{display:flex; gap:20px;}
+.tendencia-box{margin-top:16px; padding-top:14px; border-top:1px solid var(--line);}
+.tendencia-label{font-family:'Oswald',sans-serif; text-transform:uppercase; letter-spacing:.08em; font-size:10.5px; color:var(--text-faint); margin-bottom:8px;}
+.tendencia-row{display:flex; gap:8px; flex-wrap:wrap;}
+.tendencia-chip{flex:1; min-width:60px; text-align:center; background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:7px 4px;}
+.tendencia-chip .v{font-family:'Oswald',sans-serif; font-weight:700; font-size:12px;}
+.tendencia-chip .k{font-size:9.5px; color:var(--text-faint); margin-top:2px;}
+.proba-badge{display:inline-block; margin-top:10px; font-size:12px; color:var(--text-dim); background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:6px 10px;}
+.partidos-box{margin-top:16px; padding-top:14px; border-top:1px solid var(--line);}
+.partido-row{display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid #1c2230; font-size:13px;}
+.partido-row:last-child{border-bottom:none;}
+.partido-rival{font-weight:600;}
+.partido-meta{color:var(--text-faint); font-size:11.5px; text-align:right;}
+.partido-local{color:var(--green); font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; margin-right:6px;}
+.partido-visitante{color:var(--text-faint); font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; margin-right:6px;}
+
+
 .premio-card{
   background:var(--bg-card);
   border:1px solid var(--line);
@@ -291,7 +342,6 @@
 
   <div class="tabs">
     <button class="tab-btn active" id="tab-equipos" onclick="showTab('equipos')">Equipos</button>
-    <button class="tab-btn" id="tab-actividad" onclick="showTab('actividad')">Actividad</button>
     <button class="tab-btn" id="tab-jornadas" onclick="showTab('jornadas')">Jornadas</button>
     <button class="tab-btn" id="tab-tabla" onclick="showTab('tabla')">Tabla</button>
   </div>
@@ -321,11 +371,65 @@
       <input type="text" id="playerSearch" placeholder="🔍 Buscar jugador en la liga..." onkeyup="searchPlayer()">
     </div>
     <div id="cards"></div>
-  </div>
 
-  <div id="view-actividad" class="view" style="display:none;">
-    <div class="section-label">Actividad de mercado por integrante</div>
-    <div id="actividad"></div>
+    <div class="section-label">Comparador de jugadores cabeza a cabeza</div>
+    <div class="sort-box" style="align-items:center;">
+      <input type="text" list="allPlayersList" id="h2hPlayer1" placeholder="Jugador 1" style="flex:1; min-width:120px; padding:8px 10px; background:var(--bg-card); border:1px solid var(--line); border-radius:8px; color:var(--text); font-size:13px;">
+      <span style="color:var(--text-faint); font-family:'Oswald',sans-serif; font-weight:700; font-size:12px;">VS</span>
+      <input type="text" list="allPlayersList" id="h2hPlayer2" placeholder="Jugador 2" style="flex:1; min-width:120px; padding:8px 10px; background:var(--bg-card); border:1px solid var(--line); border-radius:8px; color:var(--text); font-size:13px;">
+      <button class="edit-btn" onclick="renderH2H()">Comparar</button>
+    </div>
+    <div id="h2hResult"></div>
+
+    <div class="section-label">Comparador de participantes cabeza a cabeza</div>
+    <div class="sort-box" style="align-items:center;">
+      <select id="h2hTeam1" style="flex:1; min-width:120px; padding:8px 10px; background:var(--bg-card); border:1px solid var(--line); border-radius:8px; color:var(--text); font-size:13px;"></select>
+      <span style="color:var(--text-faint); font-family:'Oswald',sans-serif; font-weight:700; font-size:12px;">VS</span>
+      <select id="h2hTeam2" style="flex:1; min-width:120px; padding:8px 10px; background:var(--bg-card); border:1px solid var(--line); border-radius:8px; color:var(--text); font-size:13px;"></select>
+      <button class="edit-btn" onclick="renderTeamH2H()">Comparar</button>
+    </div>
+    <div id="teamH2hResult"></div>
+
+    <div class="section-label">Comparar jugadores por posición</div>
+    <div class="sort-box" id="comparadorPosBox">
+      <button class="sort-btn active" data-pos="TODOS">Todos</button>
+      <button class="sort-btn" data-pos="POR">POR</button>
+      <button class="sort-btn" data-pos="DEF">DEF</button>
+      <button class="sort-btn" data-pos="MED">MED</button>
+      <button class="sort-btn" data-pos="DEL">DEL</button>
+    </div>
+    <div class="sort-box" id="comparadorSortBox">
+      <button class="sort-btn active" data-csort="valor">Valor</button>
+      <button class="sort-btn" data-csort="mercado">Mercado</button>
+      <button class="sort-btn" data-csort="puntos">Puntos</button>
+      <select id="comparadorClubSelect" style="margin-left:auto; padding:8px 10px; background:var(--bg-card); border:1px solid var(--line); border-radius:8px; color:var(--text); font-size:12.5px;"></select>
+    </div>
+    <div class="card">
+      <div class="squad-inner" style="padding-top:14px;">
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Jugador</th><th>Club</th><th>Equipo</th><th class="num">Valor</th><th class="num">Mercado</th><th class="num">Pts</th></tr></thead>
+            <tbody id="comparadorBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">Chollos del mercado</div>
+    <p style="color:var(--text-faint); font-size:12.5px; margin:-6px 0 12px; line-height:1.5;">Jugadores con mejor relación puntos / valor (puntos totales cada millón de euros), fichados o libres — para detectar rendimiento barato antes de una oferta.</p>
+    <div class="card">
+      <div class="squad-inner" style="padding-top:14px;">
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>#</th><th>Jugador</th><th>Equipo</th><th class="num">Valor</th><th class="num">Pts</th><th class="num">Pts/M€</th></tr></thead>
+            <tbody id="chollosBody"></tbody>
+          </table>
+        </div>
+        <div class="edit-panel" style="border-top:none; margin-top:8px; padding-top:0;">
+          <button class="edit-btn" id="chollosToggleBtn" onclick="toggleChollos()">Ver más</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div id="view-jornadas" class="view" style="display:none;">
@@ -344,7 +448,20 @@
     <div id="tablaWrap"></div>
   </div>
 
-  <footer>Valor de mercado, subida/bajada y puntos de cada jugador: LaLiga Fantasy Oficial (futbolfantasy.com/analytics/laliga-fantasy), actualizado a diario. Titular suma normal, suplente no suma, capitán suma doble. Las plantillas (quién está en qué equipo) y la caja se editan a mano desde "✎ Editar".</footer>
+  <div class="modal-overlay" id="playerModal" onclick="if(event.target===this) closePlayerModal()">
+    <div class="modal-box">
+      <div class="modal-head">
+        <div class="modal-title" id="playerModalTitle">Jugador</div>
+        <button class="modal-close" onclick="closePlayerModal()">✕</button>
+      </div>
+      <div class="modal-chart" id="playerModalChart"></div>
+      <div class="modal-stats" id="playerModalStats"></div>
+      <div id="playerModalTendencia"></div>
+      <div id="playerModalPartidos"></div>
+    </div>
+  </div>
+
+  <footer>Valor de mercado, subida/bajada y puntos de cada jugador: LaLiga Fantasy Oficial (futbolfantasy.com/analytics/laliga-fantasy), actualizado a diario. Titular suma normal, suplente no suma, capitán suma doble. Las plantillas (quién está en qué equipo) y la caja se editan a mano desde "✎ Editar". Tocá el nombre de un jugador para ver su historial de valor.</footer>
 </div>
 
 <script>
@@ -431,46 +548,399 @@ let teams = {
   ]},
 };
 
-const activity = [
-  {name:"Chonaura",
-    ventas:[["Puado",10299342],["Foyth",12521540],["R.P. Bigas",10550000],["Isi",18184181],["Joaquín",8962666],["Almada",6696235],["Moncayola",17000000],["Unai López",11000000],["Ruggeri",7155914],["Tárrega",13000000]],
-    compras:[["Larrubia",58500000],["Renato Veiga",51000064],["Gerard Martín",40000007]],
-    saldo:65869807},
-  {name:"karfim",
-    ventas:[["Ilaix Moriba",19500000],["Asencio",7200253],["Sadiq",9628867],["D. Martínez",479882],["Gorrotxa",9142216],["Blanco",19000000],["G. Puerta",21000000],["Llorente",18500000],["Dani Lorenzo",17000000],["Ferran Jutglà",9887834],["A. Ferllo",5223911],["Le Normand",10913452],["Q. Hartman",9922110],["O. Sancet",57084470]],
-    compras:[["Areso",3900000],["Urko",6231000],["Á. Valles",40624213],["Ximo Navarro",5700000],["O. Sancet",55643121]],
-    saldo:191879921},
-  {name:"JMR1902",
-    ventas:[["Mario Soriano",25000000],["Eriksson",5250000],["Purić",510803],["Rubén García",14589919],["Asencio",6752734],["Vivian",14897117],["R. Araujo",5478928],["Sorloth",38000000],["Ángel Pérez",8194518],["Ugrinic",4477915],["C. Puga",5819801]],
-    compras:[["Eriksson",3250000],["Endrick",12000000],["Buchanan",28000000],["Á. Carreras",16500000],["Llorente",18500000],["De Frutos",60000000],["Tárrega",13000000],["Navarro",2601267],["Raúl",20999999]],
-    saldo:63398733},
-  {name:"EN ORTODONCIA FC",
-    ventas:[["C. Puga",6153799],["Oskarsson",10015947],["Turrientes",7948517],["Rubén García",14703725],["Ayoze",19000000],["Tenaglia",15223328],["Rioja",19183892],["Carreira",9500000],["Sow",8450871]],
-    compras:[["Sow",8507515],["R.P. Bigas",10550000],["Iñaki Williams",41555555],["Pedro Díaz",2500000],["Dimitrievski",19939546]],
-    saldo:129510454},
-  {name:"VIVIKLAUFC",
-    ventas:[["Isi",16566193],["Lucas Boyé",14701695],["Berenguer",9258745],["Almada",6302552],["Pepelu",8360455],["J. Musso",6107702],["Turrientes",6990586],["Diakhaby",6474946],["Johnny",7897445],["Gattoni",507196],["Ximo Navarro",5966343]],
-    compras:[["I. Romero",9000000],["G. Puerta",21000000],["Moncayola",17000000],["A. Herrero",15000000],["Aramburu",24000000],["Dani Lorenzo",17000000],["Raúl Moro",24000000],["Mouriño",77866142]],
-    saldo:5133858},
-  {name:"papi floren 24 cm",
-    ventas:[["J. Musso",6340492],["J. Romero",7019777],["V. Rosier",8255897],["Camavinga",13286513],["Mario Soriano",25000000],["Johnny",7930028],["Williot",9476977],["Diakhaby",7976583],["Berenguer",10230023],["Pepelu",7838790],["Lucas Boyé",16036802],["I. Romero",9000000],["Hugo Duro",8866534]],
-    compras:[["Mario Soriano",25000000],["Carreira",9500000],["Eriksson",5250000],["Cepeda",3500009],["Affengruber",56000009],["Unai López",11000000],["Lookman",62991611]],
-    saldo:26008389},
-  {name:"Lucky Corbechad",
-    ventas:[["Vivian",15584624],["M. Aguado",3699785],["Pol Lozano",2707864],["J. M. Giménez",6596911],["Iago Aspas",8125096],["T. Martínez",28545429],["Urko",5430986],["Egiluz",456045],["Endrick",12000000],["Buchanan",28000000],["Á. Carreras",16500000],["A. Herrero",15000000]],
-    compras:[["Cucurella",63368148],["Ilaix Moriba",19500000],["Guruzeta",19000000],["A. Abqar",9100888],["Mario Soriano",33600000],["Deossa",2050000],["Bartra",38764000],["Pathé I. Ciss",18000000]],
-    saldo:18631852},
-  {name:"Sapard0",
-    ventas:[["Eriksson",3250000],["V. Rosier",8098686],["Egiluz",494554],["Óscar Valentín",3528443],["Gorrotxa",8528716],["Oskarsson",9013915]],
-    compras:[["Blanco",19000000],["Ayoze",19000000],["Gayá",14000000],["Sorloth",31445479],["T. Martínez",25640207]],
-    saldo:42914314},
-  {name:"mercho.", you:true,
-    ventas:[["Guruzeta",19000000],["Suazo",6450172],["Aimar",16411491],["Izan M.",7597518],["Zubeldia",10997882],["Gayá",14000000],["Pere Milla",10986658],["Aramburu",24000000],["Raúl Moro",24000000],["Pathé I. Ciss",18000000]],
-    compras:[["Huijsen",31768328],["Vinicius Jr.",122067676]],
-    saldo:97607717},
-];
-
 let allPlayers = {};
+let historialData = {};
+let partidosData = {};
+
+function applyHistorial(fresh){
+  historialData = fresh || {};
+}
+function applyPartidos(fresh){
+  partidosData = (fresh && fresh.calendario) ? fresh.calendario : {};
+}
+
+function buildSparklineSVG(points){
+  const w = 460, h = 140, pad = 14;
+  const valores = points.map(p=>p.valor);
+  const min = Math.min(...valores), max = Math.max(...valores);
+  const range = (max - min) || 1;
+  const stepX = points.length > 1 ? (w - pad*2) / (points.length - 1) : 0;
+  const coords = points.map((p,i)=>{
+    const x = pad + i*stepX;
+    const y = pad + (h - pad*2) * (1 - (p.valor - min)/range);
+    return [x,y];
+  });
+  const pathD = coords.map((c,i)=> (i===0?'M':'L') + c[0].toFixed(1) + ',' + c[1].toFixed(1)).join(' ');
+  const areaD = pathD + ` L${coords[coords.length-1][0].toFixed(1)},${h-pad} L${coords[0][0].toFixed(1)},${h-pad} Z`;
+  const subiendo = points[points.length-1].valor >= points[0].valor;
+  const color = subiendo ? 'var(--green)' : 'var(--red)';
+  const fillColor = subiendo ? 'rgba(53,196,122,.12)' : 'rgba(239,75,58,.12)';
+  const lastPoint = coords[coords.length-1];
+  return `
+    <svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" style="overflow:visible; display:block;">
+      <path d="${areaD}" fill="${fillColor}" stroke="none"/>
+      <path d="${pathD}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+      <circle cx="${lastPoint[0].toFixed(1)}" cy="${lastPoint[1].toFixed(1)}" r="4" fill="${color}"/>
+    </svg>
+  `;
+}
+
+function populateTeamSelects(){
+  const sel1 = document.getElementById('h2hTeam1');
+  const sel2 = document.getElementById('h2hTeam2');
+  if(!sel1 || !sel2) return;
+  const prev1 = sel1.value, prev2 = sel2.value;
+  const options = Object.keys(teams).sort().map(t=>`<option value="${t}">${t}</option>`).join('');
+  sel1.innerHTML = `<option value="">Elegí un participante</option>` + options;
+  sel2.innerHTML = `<option value="">Elegí un participante</option>` + options;
+  if(teams[prev1]) sel1.value = prev1;
+  if(teams[prev2]) sel2.value = prev2;
+}
+
+function teamHistorialCombinado(teamName){
+  const team = teams[teamName];
+  if(!team) return [];
+  const fechas = new Set();
+  team.players.forEach(p=>{
+    const h = historialData[p.n] || historialData[ALIASES[p.n]] || [];
+    h.forEach(e=> fechas.add(e.fecha));
+  });
+  const fechasOrdenadas = [...fechas].sort();
+  return fechasOrdenadas.map(f=>{
+    let total = 0;
+    team.players.forEach(p=>{
+      const h = historialData[p.n] || historialData[ALIASES[p.n]] || [];
+      const entry = h.find(e=> e.fecha === f);
+      total += entry ? entry.valor : (p.v || 0);
+    });
+    return { fecha: f, valor: total };
+  });
+}
+
+function renderTeamH2H(){
+  const name1 = document.getElementById('h2hTeam1').value;
+  const name2 = document.getElementById('h2hTeam2').value;
+  const wrap = document.getElementById('teamH2hResult');
+
+  if(!name1 || !name2){
+    wrap.innerHTML = `<p style="color:var(--text-faint); font-size:13px; margin-top:10px;">Elegí dos participantes para comparar.</p>`;
+    return;
+  }
+
+  const t1 = teams[name1], t2 = teams[name2];
+  if(!t1 || !t2) return;
+
+  const color1 = "#56ccf2", color2 = "#f2994a";
+  const caja1 = t1.caja, caja2 = t2.caja;
+  const val1 = teamTotal(t1), val2 = teamTotal(t2);
+  const mkt1 = teamMarketTotal(t1), mkt2 = teamMarketTotal(t2);
+  const pts1 = teamPointsTotal(t1), pts2 = teamPointsTotal(t2);
+
+  const hist1 = teamHistorialCombinado(name1);
+  const hist2 = teamHistorialCombinado(name2);
+
+  wrap.innerHTML = `
+    <div class="card" style="margin-top:12px;">
+      <div class="squad-inner" style="padding-top:16px;">
+        <div class="table-scroll">
+        <table>
+          <thead><tr><th></th><th class="num">${name1}</th><th class="num">${name2}</th></tr></thead>
+          <tbody>
+            <tr><td class="pname">Caja</td><td class="num" style="${caja1>=caja2?'color:var(--green);font-weight:700;':''}">${fmt(caja1)}</td><td class="num" style="${caja2>caja1?'color:var(--green);font-weight:700;':''}">${fmt(caja2)}</td></tr>
+            <tr><td class="pname">Plantilla</td><td class="num" style="${val1>=val2?'color:var(--green);font-weight:700;':''}">${fmt(val1)}</td><td class="num" style="${val2>val1?'color:var(--green);font-weight:700;':''}">${fmt(val2)}</td></tr>
+            <tr><td class="pname">Mercado</td><td class="num" style="${mkt1>=mkt2?'font-weight:800;':''}">${teamMarketHtml(t1)}</td><td class="num" style="${mkt2>mkt1?'font-weight:800;':''}">${teamMarketHtml(t2)}</td></tr>
+            <tr><td class="pname">Puntos</td><td class="num" style="${pts1>=pts2?'color:var(--green);font-weight:700;':''}">${pts1}</td><td class="num" style="${pts2>pts1?'color:var(--green);font-weight:700;':''}">${pts2}</td></tr>
+            <tr><td class="pname">Jugadores</td><td class="num">${t1.players.length}</td><td class="num">${t2.players.length}</td></tr>
+          </tbody>
+        </table>
+        </div>
+        <div class="modal-chart" style="margin-top:16px;">
+          ${buildDualSparklineSVG(hist1, hist2, color1, color2)}
+        </div>
+        <div style="display:flex; gap:16px; font-size:11.5px; color:var(--text-faint); margin-top:6px;">
+          <span><span style="background:${color1}; display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:5px;"></span>${name1}</span>
+          <span><span style="background:${color2}; display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:5px;"></span>${name2}</span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function findOwner(marketName){
+  for(const teamName in teams){
+    const p = teams[teamName].players.find(pl => pl.n === marketName || ALIASES[pl.n] === marketName);
+    if(p) return { team: teamName, pos: p.pos };
+  }
+  return null;
+}
+
+const CHOLLOS_VALOR_MINIMO = 100000;
+let chollosExpandido = false;
+
+function renderChollos(){
+  const body = document.getElementById('chollosBody');
+  if(!body) return;
+
+  const limit = chollosExpandido ? 50 : 20;
+  const list = Object.keys(allPlayers).map(n=>{
+    const info = allPlayers[n];
+    const valor = info.valor;
+    const puntos = info.puntos;
+    if(valor === undefined || valor === null || valor < CHOLLOS_VALOR_MINIMO) return null;
+    if(puntos === undefined || puntos === null) return null;
+    const owner = findOwner(n);
+    return {
+      n, valor, puntos,
+      ratio: puntos / (valor / 1000000),
+      team: owner ? owner.team : null,
+      pos: owner ? owner.pos : null,
+    };
+  }).filter(Boolean).sort((a,b)=> b.ratio - a.ratio).slice(0, limit);
+
+  body.innerHTML = list.map((p,i)=>`
+    <tr>
+      <td class="num" style="color:var(--text-faint); font-family:'Oswald',sans-serif; font-weight:600;">${i+1}</td>
+      <td class="pname">
+        <div class="pcell">
+          ${p.pos ? `<span class="pos ${p.pos}">${p.pos}</span>` : ''}
+          <span class="player-link" onclick="showPlayerHistory('${p.n.replace(/'/g,"\\'")}')">${p.n}</span>
+        </div>
+      </td>
+      <td>${p.team || '<span style="color:var(--text-faint);">Libre</span>'}</td>
+      <td class="num">${fmt(p.valor)}</td>
+      <td class="num">${p.puntos}</td>
+      <td class="num" style="color:var(--gold); font-family:'Oswald',sans-serif; font-weight:700;">${p.ratio.toFixed(1)}</td>
+    </tr>
+  `).join('') || `<tr><td colspan="6" style="text-align:center; color:var(--text-faint); padding:14px 4px;">Todavía no hay datos suficientes de mercado para armar el ranking.</td></tr>`;
+
+  const btn = document.getElementById('chollosToggleBtn');
+  if(btn) btn.textContent = chollosExpandido ? 'Ver menos' : 'Ver más';
+}
+function toggleChollos(){
+  chollosExpandido = !chollosExpandido;
+  renderChollos();
+}
+
+function getPlayerData(name){
+  for(const teamName in teams){
+    const p = teams[teamName].players.find(pl=>pl.n === name);
+    if(p) return { ...p, team: teamName };
+  }
+  return { n: name, pos: null, team: null };
+}
+
+function buildDualSparklineSVG(hist1, hist2, color1, color2){
+  const h1 = hist1 || [];
+  const h2 = hist2 || [];
+  if(h1.length === 0 && h2.length === 0){
+    return `<p style="color:var(--text-faint); font-size:13px; margin:14px 0;">Todavía no hay historial guardado para estos jugadores.</p>`;
+  }
+  const w = 460, h = 160, pad = 14;
+  const fechas = [...new Set([...h1.map(p=>p.fecha), ...h2.map(p=>p.fecha)])].sort();
+  const allValores = [...h1.map(p=>p.valor), ...h2.map(p=>p.valor)];
+  const min = Math.min(...allValores), max = Math.max(...allValores);
+  const range = (max - min) || 1;
+  const stepX = fechas.length > 1 ? (w - pad*2) / (fechas.length - 1) : 0;
+
+  function coordsFor(hist){
+    if(hist.length === 0) return [];
+    const map = {};
+    hist.forEach(p=> map[p.fecha] = p.valor);
+    const coords = [];
+    fechas.forEach((f,i)=>{
+      if(map[f] !== undefined){
+        const x = pad + i*stepX;
+        const y = pad + (h - pad*2) * (1 - (map[f] - min)/range);
+        coords.push([x,y]);
+      }
+    });
+    return coords;
+  }
+  function pathFor(coords){
+    if(coords.length === 0) return '';
+    return coords.map((c,i)=> (i===0?'M':'L') + c[0].toFixed(1) + ',' + c[1].toFixed(1)).join(' ');
+  }
+
+  const c1 = coordsFor(h1);
+  const c2 = coordsFor(h2);
+  const path1 = pathFor(c1);
+  const path2 = pathFor(c2);
+  const last1 = c1[c1.length-1];
+  const last2 = c2[c2.length-1];
+
+  return `
+    <svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" style="overflow:visible; display:block;">
+      ${path1 ? `<path d="${path1}" fill="none" stroke="${color1}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>` : ''}
+      ${path2 ? `<path d="${path2}" fill="none" stroke="${color2}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>` : ''}
+      ${last1 ? `<circle cx="${last1[0].toFixed(1)}" cy="${last1[1].toFixed(1)}" r="4" fill="${color1}"/>` : ''}
+      ${last2 ? `<circle cx="${last2[0].toFixed(1)}" cy="${last2[1].toFixed(1)}" r="4" fill="${color2}"/>` : ''}
+    </svg>
+  `;
+}
+
+function renderH2H(){
+  const name1 = document.getElementById('h2hPlayer1').value.trim();
+  const name2 = document.getElementById('h2hPlayer2').value.trim();
+  const wrap = document.getElementById('h2hResult');
+
+  if(!name1 || !name2){
+    wrap.innerHTML = `<p style="color:var(--text-faint); font-size:13px; margin-top:10px;">Elegí dos jugadores para comparar.</p>`;
+    return;
+  }
+
+  const color1 = "#56ccf2", color2 = "#f2994a";
+  const p1 = getPlayerData(name1);
+  const p2 = getPlayerData(name2);
+
+  const v1 = currentValue(p1), v2 = currentValue(p2);
+  const pt1 = currentPoints(p1), pt2 = currentPoints(p2);
+
+  const hist1 = historialData[name1] || historialData[ALIASES[name1]] || [];
+  const hist2 = historialData[name2] || historialData[ALIASES[name2]] || [];
+
+  wrap.innerHTML = `
+    <div class="card" style="margin-top:12px;">
+      <div class="squad-inner" style="padding-top:16px;">
+        <div class="table-scroll">
+        <table>
+          <thead><tr><th></th><th class="num">${name1}</th><th class="num">${name2}</th></tr></thead>
+          <tbody>
+            <tr><td class="pname">Equipo</td><td class="num">${p1.team || '—'}</td><td class="num">${p2.team || '—'}</td></tr>
+            <tr><td class="pname">Posición</td><td class="num">${p1.pos ? `<span class="pos ${p1.pos}">${p1.pos}</span>` : '—'}</td><td class="num">${p2.pos ? `<span class="pos ${p2.pos}">${p2.pos}</span>` : '—'}</td></tr>
+            <tr><td class="pname">Valor</td><td class="num" style="${v1>=v2?'color:var(--green);font-weight:700;':''}">${fmt(v1)}</td><td class="num" style="${v2>v1?'color:var(--green);font-weight:700;':''}">${fmt(v2)}</td></tr>
+            <tr><td class="pname">Mercado</td><td class="num">${marketCell(p1)}</td><td class="num">${marketCell(p2)}</td></tr>
+            <tr><td class="pname">Puntos</td><td class="num" style="${(pt1||0)>=(pt2||0)?'color:var(--green);font-weight:700;':''}">${pt1===null?'—':pt1}</td><td class="num" style="${(pt2||0)>(pt1||0)?'color:var(--green);font-weight:700;':''}">${pt2===null?'—':pt2}</td></tr>
+          </tbody>
+        </table>
+        </div>
+        <div class="modal-chart" style="margin-top:16px;">
+          ${buildDualSparklineSVG(hist1, hist2, color1, color2)}
+        </div>
+        <div style="display:flex; gap:16px; font-size:11.5px; color:var(--text-faint); margin-top:6px;">
+          <span><span style="background:${color1}; display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:5px;"></span>${name1}</span>
+          <span><span style="background:${color2}; display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:5px;"></span>${name2}</span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderTendenciaBox(name){
+  const wrap = document.getElementById('playerModalTendencia');
+  const info = lookupMarket(name);
+  const tendencia = info && info.tendencia;
+  const proxima = info && info.proxima;
+
+  if(!tendencia && !proxima){
+    wrap.innerHTML = '';
+    return;
+  }
+
+  const periodos = [['Hoy',0],['2d',1],['3d',2],['7d',3],['14d',4],['30d',5]];
+  const chips = tendencia ? periodos.map(([label, i])=>{
+    const v = tendencia[i];
+    const color = v > 0 ? 'var(--green)' : (v < 0 ? 'var(--red)' : 'var(--text-faint)');
+    const sign = v > 0 ? '+' : (v < 0 ? '−' : '');
+    return `
+      <div class="tendencia-chip">
+        <div class="v" style="color:${color};">${sign}${fmt(Math.abs(v)).replace('€','')}</div>
+        <div class="k">${label}</div>
+      </div>
+    `;
+  }).join('') : '';
+
+  const probaHtml = (proxima && proxima.probabilidad !== null && proxima.probabilidad !== undefined)
+    ? `<div class="proba-badge">📋 ${proxima.probabilidad}% de probabilidad de salir titular en ${proxima.jornada}${proxima.local ? ' (local)' : ''}</div>`
+    : '';
+
+  wrap.innerHTML = `
+    ${tendencia ? `
+      <div class="tendencia-box">
+        <div class="tendencia-label">Variación de valor por período</div>
+        <div class="tendencia-row">${chips}</div>
+      </div>
+    ` : ''}
+    ${probaHtml}
+  `;
+}
+
+function renderPartidosBox(name){
+  const wrap = document.getElementById('playerModalPartidos');
+  const info = lookupMarket(name);
+  const club = info && info.club;
+  const partidos = club ? partidosData[club] : null;
+
+  if(!club || !partidos || partidos.length === 0){
+    wrap.innerHTML = '';
+    return;
+  }
+
+  const rows = partidos.map(p=>`
+    <div class="partido-row">
+      <div>
+        <span class="${p.local ? 'partido-local' : 'partido-visitante'}">${p.local ? 'Local' : 'Visit.'}</span>
+        <span class="partido-rival">${p.rival}</span>
+      </div>
+      <div class="partido-meta">${p.jornada} · ${p.fecha} ${p.hora}h</div>
+    </div>
+  `).join('');
+
+  wrap.innerHTML = `
+    <div class="partidos-box">
+      <div class="tendencia-label">Próximos partidos de ${club}</div>
+      ${rows}
+    </div>
+  `;
+}
+
+function showPlayerHistory(name){
+  const modal = document.getElementById('playerModal');
+  const title = document.getElementById('playerModalTitle');
+  const chartWrap = document.getElementById('playerModalChart');
+  const statsWrap = document.getElementById('playerModalStats');
+
+  title.textContent = name;
+
+  const hist = historialData[name] || historialData[ALIASES[name]] || null;
+
+  if(!hist || hist.length === 0){
+    chartWrap.innerHTML = `<p style="color:var(--text-faint); font-size:13px; margin:20px 0;">Todavía no hay historial guardado para este jugador — se va completando solo con cada actualización del mercado.</p>`;
+    statsWrap.innerHTML = '';
+  } else if(hist.length === 1){
+    chartWrap.innerHTML = `<p style="color:var(--text-faint); font-size:13px; margin:20px 0;">Solo hay un día de historial guardado todavía (${hist[0].fecha}) — el gráfico va a aparecer a medida que se acumulen más días.</p>`;
+    statsWrap.innerHTML = `
+      <div class="stat">
+        <div class="v" style="color:var(--gold);">${fmt(hist[0].valor)}</div>
+        <div class="k">Valor (${hist[0].fecha})</div>
+      </div>
+    `;
+  } else {
+    chartWrap.innerHTML = buildSparklineSVG(hist);
+    const first = hist[0].valor;
+    const last = hist[hist.length-1].valor;
+    const diff = last - first;
+    const diffColor = diff > 0 ? 'var(--green)' : (diff < 0 ? 'var(--red)' : 'var(--text-faint)');
+    const diffSign = diff > 0 ? '+' : (diff < 0 ? '−' : '');
+    statsWrap.innerHTML = `
+      <div class="stat">
+        <div class="v" style="color:var(--gold);">${fmt(last)}</div>
+        <div class="k">Valor actual</div>
+      </div>
+      <div class="stat">
+        <div class="v" style="color:${diffColor};">${diffSign}${fmt(Math.abs(diff))}</div>
+        <div class="k">Desde ${hist[0].fecha}</div>
+      </div>
+    `;
+  }
+
+  renderTendenciaBox(name);
+  renderPartidosBox(name);
+
+  modal.classList.add('open');
+}
+function closePlayerModal(){
+  document.getElementById('playerModal').classList.remove('open');
+}
 
 function lookupMarket(name){
   return allPlayers[name] || allPlayers[ALIASES[name]] || null;
@@ -499,7 +969,27 @@ function currentPoints(p){
   if(live && live.puntos !== undefined && live.puntos !== null) return live.puntos;
   return null;
 }
+function playerClub(p){
+  const live = lookupMarket(p.n);
+  return (live && live.club) ? live.club : null;
+}
+function teamWarnings(team){
+  const warnings = [];
+  if(team.players.length < 11){
+    warnings.push(`Solo ${team.players.length} jugador${team.players.length===1?'':'es'} (necesita 11)`);
+  }
+  const porCount = team.players.filter(p=>p.pos==='POR').length;
+  const defCount = team.players.filter(p=>p.pos==='DEF').length;
+  const medCount = team.players.filter(p=>p.pos==='MED').length;
+  const delCount = team.players.filter(p=>p.pos==='DEL').length;
+  if(porCount === 0) warnings.push('Sin portero');
+  if(defCount === 0) warnings.push('Sin defensores');
+  if(medCount === 0) warnings.push('Sin mediocampistas');
+  if(delCount === 0) warnings.push('Sin delanteros');
+  return warnings;
+}
 function teamTotal(team){ return team.players.reduce((s,p)=> s + currentValue(p), 0); }
+function teamMaxSpend(team){ return team.caja + 0.20 * teamTotal(team); }
 function teamMarketTotal(team){ return team.players.reduce((s,p)=>{ const d = currentDiff(p); return s + (d||0); }, 0); }
 function teamPointsTotal(team){ return team.players.reduce((s,p)=>{ const pt = currentPoints(p); return s + (pt||0); }, 0); }
 function teamMarketHtml(team){
@@ -732,6 +1222,68 @@ let currentSort = "total";
 let editMode = false;
 const cardsEl = document.getElementById('cards');
 
+function getAllPlayersFlat(){
+  const list = [];
+  Object.keys(teams).forEach(teamName=>{
+    teams[teamName].players.forEach(p=>{
+      list.push({ ...p, team: teamName });
+    });
+  });
+  return list;
+}
+
+let comparadorPos = "TODOS";
+let comparadorSort = "valor";
+let comparadorClub = "TODOS";
+
+const CLUBES_LALIGA = [
+  "Real Madrid", "Real Sociedad", "Atlético", "Athletic", "Barcelona",
+  "Villarreal", "Espanyol", "Getafe", "Levante", "Málaga", "Osasuna",
+  "Racing", "Rayo", "Sevilla", "Valencia", "Alavés", "Betis", "Celta",
+  "Deportivo", "Elche",
+];
+
+function populateClubSelect(){
+  const sel = document.getElementById('comparadorClubSelect');
+  if(!sel) return;
+  const prev = sel.value;
+  const options = [...CLUBES_LALIGA].sort().map(c=>`<option value="${c}">${c}</option>`).join('');
+  sel.innerHTML = `<option value="TODOS">Todos los clubes</option>` + options;
+  sel.value = prev || "TODOS";
+}
+
+function renderComparador(){
+  const body = document.getElementById('comparadorBody');
+  if(!body) return;
+  let list = getAllPlayersFlat();
+  if(comparadorPos !== "TODOS"){
+    list = list.filter(p=>p.pos === comparadorPos);
+  }
+  if(comparadorClub !== "TODOS"){
+    list = list.filter(p=> playerClub(p) === comparadorClub);
+  }
+  list.sort((a,b)=>{
+    if(comparadorSort === "puntos") return (currentPoints(b)||-Infinity) - (currentPoints(a)||-Infinity);
+    if(comparadorSort === "mercado") return (currentDiff(b)||-Infinity) - (currentDiff(a)||-Infinity);
+    return currentValue(b) - currentValue(a);
+  });
+  body.innerHTML = list.map(p=>`
+    <tr>
+      <td class="pname">
+        <div class="pcell">
+          <span class="pos ${p.pos}">${p.pos}</span>
+          <span class="player-link" onclick="showPlayerHistory('${p.n.replace(/'/g,"\\'")}')">${p.n}</span>
+        </div>
+      </td>
+      <td>${playerClub(p) || '<span style="color:var(--text-faint);">—</span>'}</td>
+      <td>${p.team}</td>
+      <td class="num">${isManualValue(p) ? `<span title="Valor cargado a mano">${fmt(currentValue(p))} ✎</span>` : fmt(currentValue(p))}</td>
+      <td class="num">${marketCell(p)}</td>
+      <td class="num">${pointsCell(p)}</td>
+    </tr>
+  `).join('') || `<tr><td colspan="6" style="text-align:center; color:var(--text-faint); padding:14px 4px;">No hay jugadores para este filtro</td></tr>`;
+}
+
 function sortValue(team, key){
   if(key === "total") return teamTotal(team);
   if(key === "caja") return team.caja;
@@ -790,7 +1342,7 @@ function updatePlayerRol(teamName, playerName, rol){
 }
 
 function renderCards(){
-  if(editMode) ensureDatalist();
+  ensureDatalist();
   const names = getSortedTeamNames();
   cardsEl.innerHTML = "";
   names.forEach((name, i)=>{
@@ -805,7 +1357,7 @@ function renderCards(){
         <td class="pname">
           <div class="pcell">
             <span class="pos ${p.pos}">${p.pos}</span>
-            <span>${p.n}${p.tag ? `<span class="tag"> · ${p.tag}</span>` : ""}</span>
+            <span class="player-link" onclick="showPlayerHistory('${p.n.replace(/'/g,"\\'")}')">${p.n}</span>${p.tag ? `<span class="tag"> · ${p.tag}</span>` : ""}
           </div>
         </td>
         <td class="num">${editMode
@@ -842,6 +1394,9 @@ function renderCards(){
       </div>
     ` : "";
 
+    const warnings = teamWarnings(team);
+    const warningHtml = warnings.length ? `<div class="team-warning">⚠️ ${warnings.join(' · ')}</div>` : "";
+
     card.innerHTML = `
       <div class="card-head" onclick="this.parentElement.classList.toggle('open')">
         <div class="head-top">
@@ -854,6 +1409,7 @@ function renderCards(){
           </div>
           <div class="chev">▸</div>
         </div>
+        ${warningHtml}
         <div class="right-stats">
           <div class="stat caja">
             <div class="v cu" data-target="${team.caja}">€0</div>
@@ -875,6 +1431,7 @@ function renderCards(){
       </div>
       <div class="squad">
         <div class="squad-inner">
+          <div class="spend-limit">💰 Puede gastar hasta <strong>${fmt(teamMaxSpend(team))}</strong> <span class="spend-limit-note">(caja + 20% del valor de la plantilla en deuda)</span></div>
           <div class="table-scroll">
           <table>
             <thead><tr><th>Jugador</th><th class="num">Valor</th><th class="num">Mercado</th><th class="num">Pts</th>${editMode?'<th></th>':''}</tr></thead>
@@ -890,6 +1447,8 @@ function renderCards(){
 
   document.querySelectorAll('.cu').forEach(el=>{ countUp(el, parseInt(el.dataset.target,10)); });
   document.querySelectorAll('.cp').forEach(el=>{ countUpPlain(el, parseInt(el.dataset.target,10)); });
+  renderComparador();
+  renderChollos();
 }
 
 function applyMercado(fresh){
@@ -898,8 +1457,14 @@ function applyMercado(fresh){
   const market = fresh.market || {};
   const valores = fresh.valores || {};
   const puntos = fresh.puntos || {};
-  new Set([...Object.keys(market), ...Object.keys(valores), ...Object.keys(puntos)]).forEach(n=>{
-    allPlayers[n] = { valor: valores[n], diff: market[n], puntos: puntos[n] };
+  const clubes = fresh.clubes || {};
+  const tendencias = fresh.tendencias || {};
+  const proximas = fresh.proxima_jornada || {};
+  new Set([...Object.keys(market), ...Object.keys(valores), ...Object.keys(puntos), ...Object.keys(clubes)]).forEach(n=>{
+    allPlayers[n] = {
+      valor: valores[n], diff: market[n], puntos: puntos[n], club: clubes[n] || null,
+      tendencia: tendencias[n] || null, proxima: proximas[n] || null,
+    };
   });
   if(fresh.actualizado){
     const d = new Date(fresh.actualizado);
@@ -957,19 +1522,29 @@ Promise.all([
   fetch('mercado.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
   fetch('asignaciones.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
   fetch('jornadas.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
-]).then(([mercado, asign, jornadas])=>{
+  fetch('historial.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
+  fetch('partidos.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
+]).then(([mercado, asign, jornadas, historial, partidos])=>{
   applyMercado(mercado);
   applyAsignaciones(asign);
   applyJornadas(jornadas);
+  applyHistorial(historial);
+  applyPartidos(partidos);
   renderPremios();
   if(!document.getElementById('updatedLine').textContent.includes('ACTUALIZADO')){
     document.getElementById('updatedLine').textContent = '9 EQUIPOS';
   }
   renderCards();
+  renderComparador();
+  populateTeamSelects();
+  renderChollos();
 });
 
 
 renderCards();
+renderComparador();
+populateTeamSelects();
+renderChollos();
 
 document.querySelectorAll('#sortBox .sort-btn').forEach(btn=>{
   btn.addEventListener('click', ()=>{
@@ -978,6 +1553,30 @@ document.querySelectorAll('#sortBox .sort-btn').forEach(btn=>{
     btn.classList.add('active');
     renderCards();
   });
+});
+
+document.querySelectorAll('#comparadorPosBox .sort-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    comparadorPos = btn.dataset.pos;
+    document.querySelectorAll('#comparadorPosBox .sort-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderComparador();
+  });
+});
+
+document.querySelectorAll('#comparadorSortBox .sort-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    comparadorSort = btn.dataset.csort;
+    document.querySelectorAll('#comparadorSortBox .sort-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderComparador();
+  });
+});
+
+populateClubSelect();
+document.getElementById('comparadorClubSelect').addEventListener('change', (e)=>{
+  comparadorClub = e.target.value;
+  renderComparador();
 });
 
 const editBtn = document.getElementById('editBtn');
@@ -1339,7 +1938,7 @@ function searchPlayer(){
     const rows = card.querySelectorAll('tbody tr');
     let hasMatch = false;
     rows.forEach(row=>{
-      const name = row.querySelector('.pcell span:last-child').textContent.toLowerCase();
+      const name = row.querySelector('.pcell .player-link').textContent.toLowerCase();
       if(name.includes(input)){ row.style.display = ""; hasMatch = true; }
       else{ row.style.display = "none"; }
     });
@@ -1347,81 +1946,13 @@ function searchPlayer(){
   });
 }
 
-let activityBuilt = false;
-function buildActivity(){
-  if(activityBuilt) return;
-  activityBuilt = true;
-  const byActividad = [...activity].sort((a,b)=>{
-    const totA = a.ventas.reduce((s,x)=>s+x[1],0) + a.compras.reduce((s,x)=>s+x[1],0);
-    const totB = b.ventas.reduce((s,x)=>s+x[1],0) + b.compras.reduce((s,x)=>s+x[1],0);
-    return totB - totA;
-  });
-  const actEl = document.getElementById('actividad');
-  actEl.innerHTML = byActividad.map(t=>{
-    const totalVentas = t.ventas.reduce((s,x)=>s+x[1],0);
-    const totalCompras = t.compras.reduce((s,x)=>s+x[1],0);
-    const txs = [
-      ...t.compras.map(x=>({player:x[0], amount:x[1], type:'compra'})),
-      ...t.ventas.map(x=>({player:x[0], amount:x[1], type:'venta'})),
-    ].sort((a,b)=>b.amount-a.amount);
-    const rows = txs.map(x=>`
-      <tr>
-        <td class="pname">${x.player}</td>
-        <td><span class="tx-tag ${x.type}">${x.type==='compra'?'Compró':'Vendió'}</span></td>
-        <td class="num">${fmt(x.amount)}</td>
-      </tr>
-    `).join('');
-    return `
-    <div class="card">
-      <div class="card-head" onclick="this.parentElement.classList.toggle('open')">
-        <div class="head-top">
-          <div class="rank"></div>
-          <div class="name-block">
-            <div class="name-with-logo">
-              ${mgrLogo(t.name)}
-              <div>
-                <div class="name">${t.name}${t.you?'<span class="you">vos</span>':''}</div>
-                <div class="balance-note">${t.compras.length} compras, ${t.ventas.length} ventas · saldo actual ${fmt(t.saldo)}</div>
-              </div>
-            </div>
-          </div>
-          <div class="chev">▸</div>
-        </div>
-        <div class="right-stats two-col">
-          <div class="stat down">
-            <div class="v">${fmt(totalCompras)}</div>
-            <div class="k">Gastado en compras</div>
-          </div>
-          <div class="stat up">
-            <div class="v">${fmt(totalVentas)}</div>
-            <div class="k">Recibido en ventas</div>
-          </div>
-        </div>
-      </div>
-      <div class="squad">
-        <div class="squad-inner">
-          <div class="table-scroll">
-          <table>
-            <thead><tr><th>Jugador</th><th>Op.</th><th class="num">Monto</th></tr></thead>
-            <tbody>${rows}</tbody>
-          </table>
-          </div>
-        </div>
-      </div>
-    </div>`;
-  }).join('');
-}
-
 function showTab(name){
   document.getElementById('view-equipos').style.display = name==='equipos' ? '' : 'none';
-  document.getElementById('view-actividad').style.display = name==='actividad' ? '' : 'none';
   document.getElementById('view-jornadas').style.display = name==='jornadas' ? '' : 'none';
   document.getElementById('view-tabla').style.display = name==='tabla' ? '' : 'none';
   document.getElementById('tab-equipos').classList.toggle('active', name==='equipos');
-  document.getElementById('tab-actividad').classList.toggle('active', name==='actividad');
   document.getElementById('tab-jornadas').classList.toggle('active', name==='jornadas');
   document.getElementById('tab-tabla').classList.toggle('active', name==='tabla');
-  if(name==='actividad') buildActivity();
   if(name==='jornadas') renderJornadas();
   if(name==='tabla') renderTabla();
 }
