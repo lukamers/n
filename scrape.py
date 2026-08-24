@@ -403,6 +403,9 @@ PARTIDO_LINK_RE = re.compile(
 )
 
 
+_DIAGNOSTICO_YA_IMPRESO = False
+
+
 def obtener_proximos_partidos_club(club_nombre: str, slug: str, cuantos: int = 3):
     """Trae los próximos partidos reales (rival, jornada, fecha y hora) de
     un club desde su página de calendario en FútbolFantasy. A diferencia
@@ -410,6 +413,8 @@ def obtener_proximos_partidos_club(club_nombre: str, slug: str, cuantos: int = 3
     ícono de local/visitante, sin el nombre del rival), esta página sí
     trae el nombre del rival como texto de enlace.
     """
+    global _DIAGNOSTICO_YA_IMPRESO
+
     url = f"https://www.futbolfantasy.com/laliga/equipos/{slug}/partidos"
     resp = fetch_con_reintentos(url)
     if resp is None:
@@ -418,8 +423,25 @@ def obtener_proximos_partidos_club(club_nombre: str, slug: str, cuantos: int = 3
 
     soup = BeautifulSoup(resp.text, "html.parser")
     marcador = soup.find(string=re.compile(r"Próximos partidos"))
+
     if marcador is None:
         print(f"⚠️  No encontré 'Próximos partidos' en la página de {club_nombre}.", file=sys.stderr)
+
+        if not _DIAGNOSTICO_YA_IMPRESO:
+            _DIAGNOSTICO_YA_IMPRESO = True
+            print("── DIAGNÓSTICO (solo se imprime una vez) ──────────────", file=sys.stderr)
+            print(f"   URL: {url}", file=sys.stderr)
+            print(f"   HTTP status: {resp.status_code}", file=sys.stderr)
+            print(f"   Largo de la respuesta: {len(resp.text)} caracteres", file=sys.stderr)
+            print(f"   ¿Aparece la palabra 'Jornada' en algún lado?: {'Jornada' in resp.text}", file=sys.stderr)
+            print(f"   ¿Aparece 'Próximos'? (sin 'partidos'): {'Próximos' in resp.text}", file=sys.stderr)
+            enlaces_partido = soup.find_all("a", href=re.compile(r"^/partidos/\d+-"))
+            print(f"   Enlaces a /partidos/ encontrados en TODA la página: {len(enlaces_partido)}", file=sys.stderr)
+            if enlaces_partido:
+                print(f"   Texto del primero: {enlaces_partido[0].get_text(' ', strip=True)!r}", file=sys.stderr)
+            print(f"   Primeros 500 caracteres del <body>: {soup.body.get_text(' ', strip=True)[:500] if soup.body else '(sin body)'}", file=sys.stderr)
+            print("─────────────────────────────────────────────────────", file=sys.stderr)
+
         return []
 
     partidos = []
