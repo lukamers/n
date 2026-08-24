@@ -423,10 +423,10 @@ def obtener_proximos_partidos_club(club_nombre: str, slug: str, cuantos: int = 3
         return [], {"club": club_nombre, "url": url, "motivo": "no se pudo conectar (ver reintentos arriba)"}
 
     soup = BeautifulSoup(resp.text, "html.parser")
-    marcador = soup.find(string=re.compile(r"Próximos partidos"))
+    marcadores = soup.find_all(string=re.compile(r"Próximos partidos"))
+    enlaces_pagina_completa = soup.find_all("a", href=re.compile(r"^/partidos/\d+-"))
 
-    if marcador is None:
-        enlaces_partido = soup.find_all("a", href=re.compile(r"^/partidos/\d+-"))
+    if not marcadores:
         diag = {
             "club": club_nombre,
             "url": url,
@@ -434,17 +434,17 @@ def obtener_proximos_partidos_club(club_nombre: str, slug: str, cuantos: int = 3
             "largo_respuesta": len(resp.text),
             "tiene_palabra_jornada": "Jornada" in resp.text,
             "tiene_palabra_proximos": "Próximos" in resp.text,
-            "enlaces_a_partidos_en_toda_la_pagina": len(enlaces_partido),
-            "texto_primer_enlace": enlaces_partido[0].get_text(" ", strip=True) if enlaces_partido else None,
+            "enlaces_a_partidos_en_toda_la_pagina": len(enlaces_pagina_completa),
+            "texto_primer_enlace": enlaces_pagina_completa[0].get_text(" ", strip=True) if enlaces_pagina_completa else None,
             "primeros_300_caracteres_body": soup.body.get_text(" ", strip=True)[:300] if soup.body else "(sin body)",
         }
         return [], diag
 
     partidos = []
     textos_vistos = []
-    for a in marcador.find_all_next("a", href=re.compile(r"^/partidos/\d+-")):
+    for a in enlaces_pagina_completa:
         texto = a.get_text(" ", strip=True)
-        if len(textos_vistos) < 5:
+        if len(textos_vistos) < 8:
             textos_vistos.append(texto)
         m = PARTIDO_LINK_RE.match(texto)
         if not m:
@@ -470,7 +470,8 @@ def obtener_proximos_partidos_club(club_nombre: str, slug: str, cuantos: int = 3
         return [], {
             "club": club_nombre,
             "url": url,
-            "motivo": "se encontró 'Próximos partidos' pero ningún enlace matcheó el patrón esperado",
+            "motivo": "se encontró 'Próximos partidos' y hay enlaces a /partidos/, pero ninguno matcheó el patrón esperado",
+            "cantidad_enlaces_a_partidos": len(enlaces_pagina_completa),
             "textos_reales_de_los_primeros_enlaces": textos_vistos,
         }
 
