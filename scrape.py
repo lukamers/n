@@ -5,6 +5,12 @@ jugadores de LaLiga (no solo los que ya tenés fichados), la subida/bajada de
 hoy Y el valor actual, en mercado.json. La página web usa ese archivo para
 autocompletar cualquier jugador al asignarlo a un equipo.
 
+Además, cada corrida va sumando el valor actual de cada jugador a
+historial.json — un registro día por día que la web usa para dibujar el
+mini gráfico de tendencia cuando tocás un jugador. Si corrés el script
+varias veces el mismo día, se actualiza la entrada de ese día en vez de
+duplicarla.
+
 INSTALAR (una sola vez):
     pip install requests beautifulsoup4
 
@@ -40,6 +46,11 @@ ESPERA_BASE_SEGUNDOS = 15
 ROW_SELECTOR = "table tr"
 
 VALOR_MINIMO = 10_000
+
+# Cuántos días de historial guardar por jugador como máximo. Con esto
+# historial.json no crece sin límite; 120 días alcanza y sobra para ver
+# tendencias de la temporada.
+HISTORIAL_MAX_DIAS = 120
 
 DESAMBIGUAR_POR_EQUIPO = {
     "Navarro": "Athletic",  # Robert Navarro, no Marcos Navarro (Valencia)
@@ -238,7 +249,47 @@ def extraer_valor(row_text: str):
     return None
 
 
-def extraer_puntos(row_text: str, club_encontrado: str):
+def extraer_tendencia(row_text: str, club_encontrado: str):
+    """Variación de valor en los últimos 2, 3, 7, 14 y 30 días (además de
+    hoy). La fila trae, justo después del nombre y club, un bloque de 6
+    números seguidos: hoy, 2 días, 3 días, 7 días, 14 días, 30 días. Ese
+    bloque es siempre el primero que aparece, antes del bloque de
+    porcentajes — por eso alcanza con tomar los primeros 6 números después
+    del club.
+    """
+    idx = row_text.find(club_encontrado)
+    if idx == -1:
+        return None
+    resto = row_text[idx + len(club_encontrado):]
+    tokens = re.findall(r"[+-]?\d[\d.]*\d|0", resto)
+    if len(tokens) < 6:
+        return None
+    valores = []
+    for t in tokens[:6]:
+        v = parse_money(t)
+        valores.append(v if v is not None else 0)
+    return valores
+
+
+def extraer_proxima_jornada(row_text: str):
+    """Próxima jornada del jugador (ej. 'J3'), si juega de local (aparece
+    el ícono 🏠 pegado al lado) y el % de probabilidad de salir de
+    titular, cuando el sitio lo muestra (no todos los jugadores lo
+    tienen). Todo esto viene justo después del ancla 'días'/'Hoy' que ya
+    usa extraer_valor.
+    """
+    m_anchor = re.search(r"días|Hoy", row_text)
+    if not m_anchor:
+        return None
+    resto = row_text[m_anchor.end():]
+    m = re.match(r"\s*(J\d+)(\s*🏠)?(?:\s*(\d{1,3})%)?", resto)
+    if not m:
+        return None
+    return {
+        "jornada": m.group(1),
+        "local": bool(m.group(2)),
+        "probabilidad": int(m.group(3)) if m.group(3) else None,
+    }
     """Puntos totales de la temporada. En la página de puntos, el total
     aparece como el primer número (puede ser negativo) justo después del
     nombre del club, ej.:
@@ -276,15 +327,21 @@ def scrape():
 
     market = {}
     valores = {}
+    clubes = {}
+    tendencias = {}
+    proximas = {}
     # ordenar por longitud descendente para que nombres largos (ej. "Andrés
     # Martín") se prioricen sobre substrings cortos que podrían matchear antes
     jugadores_ordenados = sorted(MIS_JUGADORES, key=len, reverse=True)
 
     for row in rows:
         row_text = row.get_text(" ", strip=True)
-        jugador, _club = encontrar_jugador_y_club(row_text, jugadores_ordenados)
+        jugador, club = encontrar_jugador_y_club(row_text, jugadores_ordenados)
         if jugador is None or jugador in market:
             continue
+
+        if club:
+            clubes[jugador] = club
 
         m_diff = re.search(r"([+-]?\d[\d.]*\d|0)(?=\s)", row_text)
         diff = parse_money(m_diff.group(1)) if m_diff else None
@@ -295,6 +352,15 @@ def scrape():
         if valor is not None:
             valores[jugador] = valor
 
+        if club:
+            tendencia = extraer_tendencia(row_text, club)
+            if tendencia is not None:
+                tendencias[jugador] = tendencia
+
+        proxima = extraer_proxima_jornada(row_text)
+        if proxima is not None:
+            proximas[jugador] = proxima
+
     faltantes = [j for j in MIS_JUGADORES if j not in market]
     if faltantes:
         print(f"⚠️  Sin match ({len(faltantes)} de {len(MIS_JUGADORES)}).", file=sys.stderr)
@@ -303,7 +369,94 @@ def scrape():
     if sin_valor:
         print(f"⚠️  Con subida pero sin valor confiable ({len(sin_valor)}): {', '.join(sin_valor[:20])}{'...' if len(sin_valor)>20 else ''}", file=sys.stderr)
 
-    return market, valores
+    return market, valores, clubes, tendencias, proximas
+
+
+CLUB_SLUGS = {
+    "Real Madrid": "real-madrid",
+    "Real Sociedad": "real-sociedad",
+    "Atlético": "atletico",
+    "Athletic": "athletic",
+    "Barcelona": "barcelona",
+    "Villarreal": "villarreal",
+    "Espanyol": "espanyol",
+    "Getafe": "getafe",
+    "Levante": "levante",
+    "Málaga": "malaga",
+    "Osasuna": "osasuna",
+    "Racing": "racing",
+    "Rayo": "rayo-vallecano",
+    "Sevilla": "sevilla",
+    "Valencia": "valencia",
+    "Alavés": "alaves",
+    "Betis": "betis",
+    "Celta": "celta",
+    "Deportivo": "deportivo",
+    "Elche": "elche",
+}
+
+PARTIDO_LINK_RE = re.compile(
+    r"^(?:LaLiga\s+)?(.+?)\s+Jornada\s+(\d+)\s+(\S+)\s+(\d{2}/\d{2})\s+(\d{2}:\d{2})h\s+(.+)$"
+)
+
+
+def obtener_proximos_partidos_club(club_nombre: str, slug: str, cuantos: int = 3):
+    """Trae los próximos partidos reales (rival, jornada, fecha y hora) de
+    un club desde su página de calendario en FútbolFantasy. A diferencia
+    de la tabla de mercado (que solo muestra el número de jornada y un
+    ícono de local/visitante, sin el nombre del rival), esta página sí
+    trae el nombre del rival como texto de enlace.
+    """
+    url = f"https://www.futbolfantasy.com/laliga/equipos/{slug}/partidos"
+    resp = fetch_con_reintentos(url)
+    if resp is None:
+        print(f"⚠️  No pude traer el calendario de {club_nombre}, sigo sin esa parte.", file=sys.stderr)
+        return []
+
+    soup = BeautifulSoup(resp.text, "html.parser")
+    marcador = soup.find(string=re.compile(r"Próximos partidos"))
+    if marcador is None:
+        print(f"⚠️  No encontré 'Próximos partidos' en la página de {club_nombre}.", file=sys.stderr)
+        return []
+
+    partidos = []
+    for a in marcador.find_all_next("a", href=re.compile(r"^/partidos/\d+-")):
+        texto = a.get_text(" ", strip=True)
+        m = PARTIDO_LINK_RE.match(texto)
+        if not m:
+            continue
+        equipo_a, jornada, _dia, fecha, hora, equipo_b = m.groups()
+        if club_nombre in equipo_a:
+            rival, local = equipo_b.strip(), True
+        elif club_nombre in equipo_b:
+            rival, local = equipo_a.strip(), False
+        else:
+            continue
+        partidos.append({
+            "jornada": f"J{jornada}",
+            "rival": rival,
+            "local": local,
+            "fecha": fecha,
+            "hora": hora,
+        })
+        if len(partidos) >= cuantos:
+            break
+
+    return partidos
+
+
+def obtener_calendario():
+    """Recorre los 20 clubes de LaLiga y arma el calendario de próximos
+    partidos de cada uno. Hace una request por club (con una pausa corta
+    entre cada una para no saturar el sitio).
+    """
+    calendario = {}
+    for club_nombre, slug in CLUB_SLUGS.items():
+        partidos = obtener_proximos_partidos_club(club_nombre, slug)
+        if partidos:
+            calendario[club_nombre] = partidos
+        time.sleep(1)
+    return calendario
 
 
 def scrape_puntos():
@@ -337,8 +490,41 @@ def scrape_puntos():
     return puntos
 
 
+def actualizar_historial(valores):
+    """Suma el valor de hoy al historial de cada jugador en historial.json.
+
+    Estructura: { "Nombre Jugador": [{"fecha": "2026-08-23", "valor": 123456}, ...], ... }
+
+    Si ya hay una entrada de hoy (por correr el script más de una vez el
+    mismo día), la actualiza en vez de duplicarla. Recorta cada lista a
+    HISTORIAL_MAX_DIAS entradas como máximo.
+    """
+    ruta = "historial.json"
+    try:
+        with open(ruta, "r", encoding="utf-8") as f:
+            historial = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        historial = {}
+
+    hoy = datetime.now(timezone.utc).date().isoformat()
+
+    for jugador, valor in valores.items():
+        lista = historial.setdefault(jugador, [])
+        if lista and lista[-1].get("fecha") == hoy:
+            lista[-1]["valor"] = valor
+        else:
+            lista.append({"fecha": hoy, "valor": valor})
+        if len(lista) > HISTORIAL_MAX_DIAS:
+            historial[jugador] = lista[-HISTORIAL_MAX_DIAS:]
+
+    with open(ruta, "w", encoding="utf-8") as f:
+        json.dump(historial, f, ensure_ascii=False, indent=2)
+
+    return historial
+
+
 if __name__ == "__main__":
-    market, valores = scrape()
+    market, valores, clubes, tendencias, proximas = scrape()
     puntos = scrape_puntos()
     with open("mercado.json", "w", encoding="utf-8") as f:
         json.dump(
@@ -347,6 +533,9 @@ if __name__ == "__main__":
                 "market": market,
                 "valores": valores,
                 "puntos": puntos,
+                "clubes": clubes,
+                "tendencias": tendencias,
+                "proxima_jornada": proximas,
             },
             f,
             ensure_ascii=False,
@@ -354,5 +543,22 @@ if __name__ == "__main__":
         )
     print(
         f"✅ Guardado mercado.json con {len(market)} jugadores (variación), "
-        f"{len(valores)} (valor actual) y {len(puntos)} (puntos)."
+        f"{len(valores)} (valor actual), {len(puntos)} (puntos), {len(clubes)} (club), "
+        f"{len(tendencias)} (tendencia 2-30 días) y {len(proximas)} (próxima jornada)."
     )
+
+    historial = actualizar_historial(valores)
+    print(f"✅ Actualizado historial.json — {len(historial)} jugadores con historial guardado.")
+
+    calendario = obtener_calendario()
+    with open("partidos.json", "w", encoding="utf-8") as f:
+        json.dump(
+            {
+                "actualizado": datetime.now(timezone.utc).isoformat(),
+                "calendario": calendario,
+            },
+            f,
+            ensure_ascii=False,
+            indent=2,
+        )
+    print(f"✅ Guardado partidos.json con calendario de {len(calendario)} de 20 clubes.")
