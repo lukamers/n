@@ -441,8 +441,11 @@ def obtener_proximos_partidos_club(club_nombre: str, slug: str, cuantos: int = 3
         return [], diag
 
     partidos = []
+    textos_vistos = []
     for a in marcador.find_all_next("a", href=re.compile(r"^/partidos/\d+-")):
         texto = a.get_text(" ", strip=True)
+        if len(textos_vistos) < 5:
+            textos_vistos.append(texto)
         m = PARTIDO_LINK_RE.match(texto)
         if not m:
             continue
@@ -468,6 +471,7 @@ def obtener_proximos_partidos_club(club_nombre: str, slug: str, cuantos: int = 3
             "club": club_nombre,
             "url": url,
             "motivo": "se encontró 'Próximos partidos' pero ningún enlace matcheó el patrón esperado",
+            "textos_reales_de_los_primeros_enlaces": textos_vistos,
         }
 
     return partidos, None
