@@ -412,37 +412,33 @@ def obtener_proximos_partidos_club(club_nombre: str, slug: str, cuantos: int = 3
     de la tabla de mercado (que solo muestra el número de jornada y un
     ícono de local/visitante, sin el nombre del rival), esta página sí
     trae el nombre del rival como texto de enlace.
-    """
-    global _DIAGNOSTICO_YA_IMPRESO
 
+    Devuelve (partidos, diagnostico). "diagnostico" es None si todo salió
+    bien; si no encontró nada, trae un dict con pistas de qué pasó (para
+    poder mostrarlo al final del log sin que se pierda en el medio).
+    """
     url = f"https://www.futbolfantasy.com/laliga/equipos/{slug}/partidos"
     resp = fetch_con_reintentos(url)
     if resp is None:
-        print(f"⚠️  No pude traer el calendario de {club_nombre}, sigo sin esa parte.", file=sys.stderr)
-        return []
+        return [], {"club": club_nombre, "url": url, "motivo": "no se pudo conectar (ver reintentos arriba)"}
 
     soup = BeautifulSoup(resp.text, "html.parser")
     marcador = soup.find(string=re.compile(r"Próximos partidos"))
 
     if marcador is None:
-        print(f"⚠️  No encontré 'Próximos partidos' en la página de {club_nombre}.", file=sys.stderr)
-
-        if not _DIAGNOSTICO_YA_IMPRESO:
-            _DIAGNOSTICO_YA_IMPRESO = True
-            print("── DIAGNÓSTICO (solo se imprime una vez) ──────────────", file=sys.stderr)
-            print(f"   URL: {url}", file=sys.stderr)
-            print(f"   HTTP status: {resp.status_code}", file=sys.stderr)
-            print(f"   Largo de la respuesta: {len(resp.text)} caracteres", file=sys.stderr)
-            print(f"   ¿Aparece la palabra 'Jornada' en algún lado?: {'Jornada' in resp.text}", file=sys.stderr)
-            print(f"   ¿Aparece 'Próximos'? (sin 'partidos'): {'Próximos' in resp.text}", file=sys.stderr)
-            enlaces_partido = soup.find_all("a", href=re.compile(r"^/partidos/\d+-"))
-            print(f"   Enlaces a /partidos/ encontrados en TODA la página: {len(enlaces_partido)}", file=sys.stderr)
-            if enlaces_partido:
-                print(f"   Texto del primero: {enlaces_partido[0].get_text(' ', strip=True)!r}", file=sys.stderr)
-            print(f"   Primeros 500 caracteres del <body>: {soup.body.get_text(' ', strip=True)[:500] if soup.body else '(sin body)'}", file=sys.stderr)
-            print("─────────────────────────────────────────────────────", file=sys.stderr)
-
-        return []
+        enlaces_partido = soup.find_all("a", href=re.compile(r"^/partidos/\d+-"))
+        diag = {
+            "club": club_nombre,
+            "url": url,
+            "http_status": resp.status_code,
+            "largo_respuesta": len(resp.text),
+            "tiene_palabra_jornada": "Jornada" in resp.text,
+            "tiene_palabra_proximos": "Próximos" in resp.text,
+            "enlaces_a_partidos_en_toda_la_pagina": len(enlaces_partido),
+            "texto_primer_enlace": enlaces_partido[0].get_text(" ", strip=True) if enlaces_partido else None,
+            "primeros_300_caracteres_body": soup.body.get_text(" ", strip=True)[:300] if soup.body else "(sin body)",
+        }
+        return [], diag
 
     partidos = []
     for a in marcador.find_all_next("a", href=re.compile(r"^/partidos/\d+-")):
@@ -467,21 +463,32 @@ def obtener_proximos_partidos_club(club_nombre: str, slug: str, cuantos: int = 3
         if len(partidos) >= cuantos:
             break
 
-    return partidos
+    if not partidos:
+        return [], {
+            "club": club_nombre,
+            "url": url,
+            "motivo": "se encontró 'Próximos partidos' pero ningún enlace matcheó el patrón esperado",
+        }
+
+    return partidos, None
 
 
 def obtener_calendario():
     """Recorre los 20 clubes de LaLiga y arma el calendario de próximos
     partidos de cada uno. Hace una request por club (con una pausa corta
-    entre cada una para no saturar el sitio).
+    entre cada una para no saturar el sitio). Si un club falla, guarda el
+    diagnóstico del primero que falló para poder mostrarlo al final.
     """
     calendario = {}
+    primer_diagnostico = None
     for club_nombre, slug in CLUB_SLUGS.items():
-        partidos = obtener_proximos_partidos_club(club_nombre, slug)
+        partidos, diag = obtener_proximos_partidos_club(club_nombre, slug)
         if partidos:
             calendario[club_nombre] = partidos
+        elif primer_diagnostico is None and diag is not None:
+            primer_diagnostico = diag
         time.sleep(1)
-    return calendario
+    return calendario, primer_diagnostico
 
 
 def scrape_puntos():
@@ -575,7 +582,7 @@ if __name__ == "__main__":
     historial = actualizar_historial(valores)
     print(f"✅ Actualizado historial.json — {len(historial)} jugadores con historial guardado.")
 
-    calendario = obtener_calendario()
+    calendario, diagnostico = obtener_calendario()
     with open("partidos.json", "w", encoding="utf-8") as f:
         json.dump(
             {
@@ -587,3 +594,8 @@ if __name__ == "__main__":
             indent=2,
         )
     print(f"✅ Guardado partidos.json con calendario de {len(calendario)} de 20 clubes.")
+    if diagnostico:
+        print("── DIAGNÓSTICO calendario (por qué no encontró partidos) ──")
+        for clave, valor in diagnostico.items():
+            print(f"   {clave}: {valor}")
+        print("─────────────────────────────────────────────────────────")
