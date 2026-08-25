@@ -375,92 +375,84 @@ def scrape():
     return market, valores, clubes, tendencias, proximas
 
 
-CLUB_SLUGS = {
-    "Real Madrid": "real-madrid",
-    "Real Sociedad": "real-sociedad",
-    "Atlético": "atletico",
-    "Athletic": "athletic",
-    "Barcelona": "barcelona",
-    "Villarreal": "villarreal",
-    "Espanyol": "espanyol",
-    "Getafe": "getafe",
-    "Levante": "levante",
-    "Málaga": "malaga",
-    "Osasuna": "osasuna",
-    "Racing": "racing",
-    "Rayo": "rayo-vallecano",
-    "Sevilla": "sevilla",
-    "Valencia": "valencia",
-    "Alavés": "alaves",
-    "Betis": "betis",
-    "Celta": "celta",
-    "Deportivo": "deportivo",
-    "Elche": "elche",
+# Slug + ID de cada equipo en promiedos.com.ar (ej. "team/real-madrid/bdb").
+# A diferencia de FútbolFantasy, esta página SÍ trae los próximos partidos
+# en HTML plano (sin JavaScript), con el nombre del rival como texto real
+# además de la imagen del escudo — por eso la usamos para esta parte.
+PROMIEDOS_SLUGS = {
+    "Real Madrid": "real-madrid/bdb",
+    "Real Sociedad": "real-sociedad/bfe",
+    "Atlético": "atletico-madrid/bde",
+    "Athletic": "athletic-bilbao/bee",
+    "Barcelona": "fc-barcelona/bdc",
+    "Villarreal": "villarreal/bdd",
+    "Espanyol": "espanyol/bdg",
+    "Getafe": "getafe/bea",
+    "Levante": "levante/bfa",
+    "Málaga": "malaga/bfc",
+    "Osasuna": "osasuna/bed",
+    "Racing": "racing-santander/bdh",
+    "Rayo": "rayo-vallecano/bhe",
+    "Sevilla": "sevilla/bdf",
+    "Valencia": "valencia/bdj",
+    "Alavés": "alaves/bgi",
+    "Betis": "real-betis/beg",
+    "Celta": "celta-vigo/bfi",
+    "Deportivo": "deportivo-la-coruna/bei",
+    "Elche": "elche/bfg",
 }
 
-PARTIDO_LINK_RE = re.compile(
-    r"^(?:LaLiga\s+)?(.+?)\s+Jornada\s+(\d+)\s+(\S+)\s+(\d{2}/\d{2})\s+(\d{2}:\d{2})h\s+(.+)$"
-)
 
-
-_DIAGNOSTICO_YA_IMPRESO = False
-
-
-def obtener_proximos_partidos_club(club_nombre: str, slug: str, cuantos: int = 3):
-    """Trae los próximos partidos reales (rival, jornada, fecha y hora) de
-    un club desde su página de calendario en FútbolFantasy. A diferencia
-    de la tabla de mercado (que solo muestra el número de jornada y un
-    ícono de local/visitante, sin el nombre del rival), esta página sí
-    trae el nombre del rival como texto de enlace.
+def obtener_proximos_partidos_club(club_nombre: str, slug: str, cuantos: int = 5):
+    """Trae los próximos partidos reales (rival, fecha y hora) de un club
+    desde su ficha en promiedos.com.ar. Esta página es HTML servido
+    directo (sin JavaScript), y la tabla "PRÓXIMOS PARTIDOS" trae el
+    nombre del rival tanto en el atributo alt de su escudo como en texto
+    visible, así que es confiable extraerlo de acá.
 
     Devuelve (partidos, diagnostico). "diagnostico" es None si todo salió
-    bien; si no encontró nada, trae un dict con pistas de qué pasó (para
-    poder mostrarlo al final del log sin que se pierda en el medio).
+    bien; si no encontró nada, trae un dict con pistas de qué pasó.
     """
-    url = f"https://www.futbolfantasy.com/laliga/equipos/{slug}/partidos"
+    url = f"https://www.promiedos.com.ar/team/{slug}"
     resp = fetch_con_reintentos(url)
     if resp is None:
         return [], {"club": club_nombre, "url": url, "motivo": "no se pudo conectar (ver reintentos arriba)"}
 
     soup = BeautifulSoup(resp.text, "html.parser")
-    marcadores = soup.find_all(string=re.compile(r"Próximos partidos"))
-    enlaces_pagina_completa = soup.find_all("a", href=re.compile(r"^/partidos/\d+-"))
-
-    if not marcadores:
-        diag = {
+    marcador = soup.find(string=re.compile(r"PR[ÓO]XIMOS PARTIDOS", re.IGNORECASE))
+    if marcador is None:
+        return [], {
             "club": club_nombre,
             "url": url,
+            "motivo": "no encontré 'PRÓXIMOS PARTIDOS' en la página",
             "http_status": resp.status_code,
             "largo_respuesta": len(resp.text),
-            "tiene_palabra_jornada": "Jornada" in resp.text,
-            "tiene_palabra_proximos": "Próximos" in resp.text,
-            "enlaces_a_partidos_en_toda_la_pagina": len(enlaces_pagina_completa),
-            "texto_primer_enlace": enlaces_pagina_completa[0].get_text(" ", strip=True) if enlaces_pagina_completa else None,
-            "primeros_300_caracteres_body": soup.body.get_text(" ", strip=True)[:300] if soup.body else "(sin body)",
         }
-        return [], diag
+
+    tabla = marcador.find_next("table")
+    if tabla is None:
+        return [], {"club": club_nombre, "url": url, "motivo": "encontré el título pero no una tabla después"}
 
     partidos = []
-    textos_vistos = []
-    for a in enlaces_pagina_completa:
-        texto = a.get_text(" ", strip=True)
-        if len(textos_vistos) < 8:
-            textos_vistos.append(texto)
-        m = PARTIDO_LINK_RE.match(texto)
-        if not m:
-            continue
-        equipo_a, jornada, _dia, fecha, hora, equipo_b = m.groups()
-        if club_nombre in equipo_a:
-            rival, local = equipo_b.strip(), True
-        elif club_nombre in equipo_b:
-            rival, local = equipo_a.strip(), False
-        else:
+    filas = tabla.find_all("tr")
+    for fila in filas:
+        celdas = fila.find_all("td")
+        if len(celdas) < 4:
+            continue  # fila de encabezado u otra cosa que no es un partido
+        dia = celdas[0].get_text(strip=True)
+        local_visitante = celdas[1].get_text(strip=True)
+        celda_rival = celdas[2]
+        img = celda_rival.find("img")
+        rival = (img.get("alt") or "").strip() if img else ""
+        if not rival:
+            rival = celda_rival.get_text(strip=True)
+        hora = celdas[3].get_text(strip=True)
+        if not dia or not rival:
             continue
         partidos.append({
-            "jornada": f"J{jornada}",
             "rival": rival,
-            "local": local,
-            "fecha": fecha,
+            "local": local_visitante.strip().upper() == "L",
+            "fecha": dia,
             "hora": hora,
         })
         if len(partidos) >= cuantos:
@@ -470,9 +462,8 @@ def obtener_proximos_partidos_club(club_nombre: str, slug: str, cuantos: int = 3
         return [], {
             "club": club_nombre,
             "url": url,
-            "motivo": "se encontró 'Próximos partidos' y hay enlaces a /partidos/, pero ninguno matcheó el patrón esperado",
-            "cantidad_enlaces_a_partidos": len(enlaces_pagina_completa),
-            "textos_reales_de_los_primeros_enlaces": textos_vistos,
+            "motivo": "encontré la tabla de 'PRÓXIMOS PARTIDOS' pero no pude parsear ninguna fila",
+            "filas_en_la_tabla": len(filas),
         }
 
     return partidos, None
@@ -486,7 +477,7 @@ def obtener_calendario():
     """
     calendario = {}
     primer_diagnostico = None
-    for club_nombre, slug in CLUB_SLUGS.items():
+    for club_nombre, slug in PROMIEDOS_SLUGS.items():
         partidos, diag = obtener_proximos_partidos_club(club_nombre, slug)
         if partidos:
             calendario[club_nombre] = partidos
