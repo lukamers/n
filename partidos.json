@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-08-25T17:21:12.450296+00:00",
+  "actualizado": "2026-08-25T20:54:38.650215+00:00",
   "calendario": {
     "Real Madrid": [
       {
@@ -457,12 +457,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Betis",
-        "local": true,
-        "fecha": "25/08",
-        "hora": "14:00"
-      },
-      {
         "rival": "Deportivo",
         "local": false,
         "fecha": "30/08",
@@ -478,6 +472,12 @@
         "rival": "Sevilla",
         "local": false,
         "fecha": "13/09",
+        "hora": "12:00"
+      },
+      {
+        "rival": "Alavés",
+        "local": false,
+        "fecha": "16/09",
         "hora": "12:00"
       }
     ],
@@ -521,12 +521,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Valencia",
-        "local": false,
-        "fecha": "25/08",
-        "hora": "14:00"
-      },
-      {
         "rival": "Levante UD",
         "local": false,
         "fecha": "29/08",
@@ -542,6 +536,12 @@
         "rival": "Villarreal",
         "local": false,
         "fecha": "13/09",
+        "hora": "12:00"
+      },
+      {
+        "rival": "Getafe",
+        "local": true,
+        "fecha": "16/09",
         "hora": "12:00"
       }
     ],
