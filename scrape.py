@@ -33,7 +33,7 @@ import sys
 import time
 from datetime import datetime, timezone
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, NavigableString, Tag
 
 URL = "https://www.futbolfantasy.com/analytics/laliga-fantasy/mercado"
 URL_PUNTOS = "https://www.futbolfantasy.com/analytics/laliga-fantasy/puntos"
@@ -487,6 +487,161 @@ def obtener_calendario():
     return calendario, primer_diagnostico
 
 
+# Slug de cada club en la sección "laliga/equipos/{slug}/plantilla" de
+# FútbolFantasy (mismo sitio que usamos para el mercado). A diferencia de
+# la página de partidos, esta SÍ es HTML servido directo, con los
+# jugadores agrupados por título "Porteros" / "Defensas" / "Mediocampistas"
+# / "Delanteros".
+CLUB_SLUGS_PLANTILLA = {
+    "Alavés": "alaves",
+    "Athletic": "athletic",
+    "Atlético": "atletico",
+    "Barcelona": "barcelona",
+    "Betis": "betis",
+    "Celta": "celta",
+    "Deportivo": "deportivo",
+    "Elche": "elche",
+    "Espanyol": "espanyol",
+    "Getafe": "getafe",
+    "Levante": "levante",
+    "Málaga": "malaga",
+    "Osasuna": "osasuna",
+    "Racing": "racing",
+    "Rayo": "rayo-vallecano",
+    "Real Madrid": "real-madrid",
+    "Real Sociedad": "real-sociedad",
+    "Sevilla": "sevilla",
+    "Valencia": "valencia",
+    "Villarreal": "villarreal",
+}
+
+# Técnicos actuales de cada club. A diferencia de la plantilla de
+# jugadores, esto no se scrapea (los DT cambian pocas veces por
+# temporada) — si un club cambia de entrenador, hay que actualizar esta
+# lista a mano.
+DIRECTORES_TECNICOS = {
+    "José Mourinho": "Real Madrid",
+    "Quique Sánchez": "Alavés",
+    "Edin Terzic": "Athletic",
+    "Diego Simeone": "Atlético",
+    "Hansi Flick": "Barcelona",
+    "Manuel Pellegrini": "Betis",
+    "Claudio Giráldez": "Celta",
+    "Antonio Hidalgo": "Deportivo",
+    "Pellegrino Matarazzo": "Elche",
+    "Manolo González": "Espanyol",
+    "Pepe Bordalás": "Getafe",
+    "Julián Calero": "Levante",
+    "Sergio Pellicer": "Málaga",
+    "Luis Miguel Ramis": "Osasuna",
+    "José Alberto López": "Racing",
+    "Beñat San José": "Rayo",
+    "Sergio Francisco": "Real Sociedad",
+    "Matías Almeyda": "Sevilla",
+    "Carlos Corberán": "Valencia",
+    "Martín Anselmi": "Villarreal",
+}
+
+_ETIQUETAS_POSICION = {"Porteros": "POR", "Defensas": "DEF", "Mediocampistas": "MED", "Delanteros": "DEL"}
+_ETIQUETAS_IGNORAR = {"Cedidos en otros equipos", "Cedidos"}
+
+
+def obtener_posiciones_club(club_nombre: str, slug: str):
+    """Trae la plantilla del club agrupada por posición real (Porteros /
+    Defensas / Mediocampistas / Delanteros) desde FútbolFantasy. Devuelve
+    (dict nombre_completo -> POR/DEF/MED/DEL, diagnostico).
+    """
+    url = f"https://www.futbolfantasy.com/laliga/equipos/{slug}/plantilla"
+    resp = fetch_con_reintentos(url)
+    if resp is None:
+        return {}, {"club": club_nombre, "url": url, "motivo": "no se pudo conectar (ver reintentos arriba)"}
+
+    soup = BeautifulSoup(resp.text, "html.parser")
+    seccion_actual = None
+    resultado = {}
+    hrefs_vistos = set()
+
+    for node in soup.descendants:
+        if isinstance(node, NavigableString):
+            texto = node.strip()
+            if not texto:
+                continue
+            if texto in _ETIQUETAS_POSICION:
+                seccion_actual = _ETIQUETAS_POSICION[texto]
+            elif texto in _ETIQUETAS_IGNORAR:
+                seccion_actual = None
+        elif isinstance(node, Tag) and node.name == "a":
+            href = node.get("href", "") or ""
+            if href.startswith("/jugadores/") and seccion_actual and href not in hrefs_vistos:
+                nombre = re.sub(r"^\d+\.\s*", "", node.get_text(strip=True)).strip()
+                if nombre:
+                    resultado[nombre] = seccion_actual
+                    hrefs_vistos.add(href)
+
+    if not resultado:
+        return {}, {
+            "club": club_nombre,
+            "url": url,
+            "motivo": "no encontré jugadores agrupados por posición",
+            "http_status": resp.status_code,
+            "largo_respuesta": len(resp.text),
+        }
+
+    return resultado, None
+
+
+def emparejar_nombre_corto(nombre_corto: str, nombres_completos: dict):
+    """Busca a qué nombre completo del plantel corresponde un nombre corto
+    de los que usa el mercado (ej. 'Tárrega' -> 'César Tárrega'). Devuelve
+    la posición si encuentra una única coincidencia razonable, si no None.
+    """
+    if nombre_corto in nombres_completos:
+        return nombres_completos[nombre_corto]
+
+    candidatos = [n for n in nombres_completos if nombre_corto in n or n.endswith(nombre_corto)]
+    if len(candidatos) == 1:
+        return nombres_completos[candidatos[0]]
+
+    ultima_palabra = nombre_corto.split()[-1]
+    candidatos2 = [n for n in nombres_completos if ultima_palabra and ultima_palabra in n]
+    if len(candidatos2) == 1:
+        return nombres_completos[candidatos2[0]]
+
+    return None
+
+
+def obtener_posiciones(clubes_por_jugador: dict):
+    """Recorre los 20 clubes, trae su plantel real agrupado por posición,
+    y arma un diccionario final {jugador (nombre corto tal cual lo usa el
+    mercado): "POR"/"DEF"/"MED"/"DEL"/"DT"}, usando "clubes_por_jugador"
+    (jugador -> club) para achicar la búsqueda de coincidencias a jugadores
+    del mismo club y evitar confundir homónimos.
+    """
+    posiciones = {}
+    primer_diagnostico = None
+
+    jugadores_por_club = {}
+    for jugador, club in clubes_por_jugador.items():
+        jugadores_por_club.setdefault(club, []).append(jugador)
+
+    for club_nombre, slug in CLUB_SLUGS_PLANTILLA.items():
+        nombres_completos, diag = obtener_posiciones_club(club_nombre, slug)
+        if diag is not None and primer_diagnostico is None:
+            primer_diagnostico = diag
+
+        for jugador in jugadores_por_club.get(club_nombre, []):
+            pos = emparejar_nombre_corto(jugador, nombres_completos)
+            if pos:
+                posiciones[jugador] = pos
+
+        time.sleep(1)
+
+    for jugador, club in DIRECTORES_TECNICOS.items():
+        posiciones[jugador] = "DT"
+
+    return posiciones, primer_diagnostico
+
+
 def scrape_puntos():
     resp = fetch_con_reintentos(URL_PUNTOS)
     if resp is None:
@@ -595,3 +750,21 @@ if __name__ == "__main__":
         for clave, valor in diagnostico.items():
             print(f"   {clave}: {valor}")
         print("─────────────────────────────────────────────────────────")
+
+    posiciones, diag_posiciones = obtener_posiciones(clubes)
+    with open("posiciones.json", "w", encoding="utf-8") as f:
+        json.dump(
+            {
+                "actualizado": datetime.now(timezone.utc).isoformat(),
+                "posiciones": posiciones,
+            },
+            f,
+            ensure_ascii=False,
+            indent=2,
+        )
+    print(f"✅ Guardado posiciones.json con la posición real de {len(posiciones)} jugadores.")
+    if diag_posiciones:
+        print("── DIAGNÓSTICO posiciones (por qué no encontró plantel en algún club) ──")
+        for clave, valor in diag_posiciones.items():
+            print(f"   {clave}: {valor}")
+        print("──────────────────────────────────────────────────────────────────────")
