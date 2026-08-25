@@ -1,4 +1,645 @@
 {
-  "actualizado": "2026-08-25T01:34:00.224183+00:00",
-  "calendario": {}
+  "actualizado": "2026-08-25T01:50:24.340565+00:00",
+  "calendario": {
+    "Real Madrid": [
+      {
+        "rival": "vs Equipo",
+        "local": false,
+        "fecha": "Día",
+        "hora": "Hora"
+      },
+      {
+        "rival": "Real Sociedad",
+        "local": true,
+        "fecha": "26/08",
+        "hora": "14:00"
+      },
+      {
+        "rival": "Málaga CF",
+        "local": true,
+        "fecha": "30/08",
+        "hora": "10:00"
+      },
+      {
+        "rival": "Betis",
+        "local": false,
+        "fecha": "04/09",
+        "hora": "14:00"
+      },
+      {
+        "rival": "Rayo",
+        "local": true,
+        "fecha": "13/09",
+        "hora": "12:00"
+      }
+    ],
+    "Real Sociedad": [
+      {
+        "rival": "vs Equipo",
+        "local": false,
+        "fecha": "Día",
+        "hora": "Hora"
+      },
+      {
+        "rival": "Real Madrid",
+        "local": false,
+        "fecha": "26/08",
+        "hora": "14:00"
+      },
+      {
+        "rival": "Espanyol",
+        "local": true,
+        "fecha": "29/08",
+        "hora": "12:00"
+      },
+      {
+        "rival": "Celta",
+        "local": true,
+        "fecha": "03/09",
+        "hora": "14:00"
+      },
+      {
+        "rival": "Elche CF",
+        "local": false,
+        "fecha": "07/09",
+        "hora": "14:30"
+      }
+    ],
+    "Atlético": [
+      {
+        "rival": "vs Equipo",
+        "local": false,
+        "fecha": "Día",
+        "hora": "Hora"
+      },
+      {
+        "rival": "Sevilla",
+        "local": false,
+        "fecha": "29/08",
+        "hora": "14:30"
+      },
+      {
+        "rival": "Athletic",
+        "local": false,
+        "fecha": "05/09",
+        "hora": "09:15"
+      },
+      {
+        "rival": "Real Sociedad",
+        "local": false,
+        "fecha": "13/09",
+        "hora": "12:00"
+      },
+      {
+        "rival": "Osasuna",
+        "local": true,
+        "fecha": "16/09",
+        "hora": "12:00"
+      }
+    ],
+    "Athletic": [
+      {
+        "rival": "vs Equipo",
+        "local": false,
+        "fecha": "Día",
+        "hora": "Hora"
+      },
+      {
+        "rival": "Barcelona",
+        "local": false,
+        "fecha": "27/08",
+        "hora": "14:00"
+      },
+      {
+        "rival": "Celta",
+        "local": false,
+        "fecha": "30/08",
+        "hora": "14:30"
+      },
+      {
+        "rival": "Atlético",
+        "local": true,
+        "fecha": "05/09",
+        "hora": "09:15"
+      },
+      {
+        "rival": "Elche CF",
+        "local": true,
+        "fecha": "13/09",
+        "hora": "12:00"
+      }
+    ],
+    "Barcelona": [
+      {
+        "rival": "vs Equipo",
+        "local": false,
+        "fecha": "Día",
+        "hora": "Hora"
+      },
+      {
+        "rival": "Athletic",
+        "local": true,
+        "fecha": "27/08",
+        "hora": "14:00"
+      },
+      {
+        "rival": "Rayo",
+        "local": true,
+        "fecha": "31/08",
+        "hora": "14:30"
+      },
+      {
+        "rival": "Valencia",
+        "local": false,
+        "fecha": "06/09",
+        "hora": "09:15"
+      },
+      {
+        "rival": "Levante UD",
+        "local": false,
+        "fecha": "13/09",
+        "hora": "12:00"
+      }
+    ],
+    "Villarreal": [
+      {
+        "rival": "vs Equipo",
+        "local": false,
+        "fecha": "Día",
+        "hora": "Hora"
+      },
+      {
+        "rival": "Alavés",
+        "local": false,
+        "fecha": "28/08",
+        "hora": "14:30"
+      },
+      {
+        "rival": "Deportivo",
+        "local": true,
+        "fecha": "05/09",
+        "hora": "14:00"
+      },
+      {
+        "rival": "Betis",
+        "local": true,
+        "fecha": "13/09",
+        "hora": "12:00"
+      },
+      {
+        "rival": "Málaga CF",
+        "local": false,
+        "fecha": "16/09",
+        "hora": "12:00"
+      }
+    ],
+    "Espanyol": [
+      {
+        "rival": "vs Equipo",
+        "local": false,
+        "fecha": "Día",
+        "hora": "Hora"
+      },
+      {
+        "rival": "Real Sociedad",
+        "local": false,
+        "fecha": "29/08",
+        "hora": "12:00"
+      },
+      {
+        "rival": "Sevilla",
+        "local": true,
+        "fecha": "06/09",
+        "hora": "14:00"
+      },
+      {
+        "rival": "Osasuna",
+        "local": false,
+        "fecha": "13/09",
+        "hora": "12:00"
+      },
+      {
+        "rival": "Rayo",
+        "local": false,
+        "fecha": "16/09",
+        "hora": "12:00"
+      }
+    ],
+    "Getafe": [
+      {
+        "rival": "vs Equipo",
+        "local": false,
+        "fecha": "Día",
+        "hora": "Hora"
+      },
+      {
+        "rival": "Partizan",
+        "local": false,
+        "fecha": "27/08",
+        "hora": "14:00"
+      },
+      {
+        "rival": "Osasuna",
+        "local": false,
+        "fecha": "31/08",
+        "hora": "12:30"
+      },
+      {
+        "rival": "Celta",
+        "local": true,
+        "fecha": "07/09",
+        "hora": "12:00"
+      },
+      {
+        "rival": "Deportivo",
+        "local": true,
+        "fecha": "13/09",
+        "hora": "12:00"
+      }
+    ],
+    "Levante": [
+      {
+        "rival": "vs Equipo",
+        "local": false,
+        "fecha": "Día",
+        "hora": "Hora"
+      },
+      {
+        "rival": "Betis",
+        "local": true,
+        "fecha": "29/08",
+        "hora": "10:00"
+      },
+      {
+        "rival": "Málaga CF",
+        "local": false,
+        "fecha": "06/09",
+        "hora": "11:30"
+      },
+      {
+        "rival": "Barcelona",
+        "local": true,
+        "fecha": "13/09",
+        "hora": "12:00"
+      },
+      {
+        "rival": "Athletic",
+        "local": true,
+        "fecha": "16/09",
+        "hora": "12:00"
+      }
+    ],
+    "Málaga": [
+      {
+        "rival": "vs Equipo",
+        "local": false,
+        "fecha": "Día",
+        "hora": "Hora"
+      },
+      {
+        "rival": "Real Madrid",
+        "local": false,
+        "fecha": "30/08",
+        "hora": "10:00"
+      },
+      {
+        "rival": "Levante UD",
+        "local": true,
+        "fecha": "06/09",
+        "hora": "11:30"
+      },
+      {
+        "rival": "Celta",
+        "local": false,
+        "fecha": "13/09",
+        "hora": "12:00"
+      },
+      {
+        "rival": "Villarreal",
+        "local": true,
+        "fecha": "16/09",
+        "hora": "12:00"
+      }
+    ],
+    "Osasuna": [
+      {
+        "rival": "vs Equipo",
+        "local": false,
+        "fecha": "Día",
+        "hora": "Hora"
+      },
+      {
+        "rival": "Celta",
+        "local": false,
+        "fecha": "27/08",
+        "hora": "13:30"
+      },
+      {
+        "rival": "Getafe",
+        "local": true,
+        "fecha": "31/08",
+        "hora": "12:30"
+      },
+      {
+        "rival": "Alavés",
+        "local": false,
+        "fecha": "06/09",
+        "hora": "11:30"
+      },
+      {
+        "rival": "Espanyol",
+        "local": true,
+        "fecha": "13/09",
+        "hora": "12:00"
+      }
+    ],
+    "Racing": [
+      {
+        "rival": "vs Equipo",
+        "local": false,
+        "fecha": "Día",
+        "hora": "Hora"
+      },
+      {
+        "rival": "Elche CF",
+        "local": true,
+        "fecha": "28/08",
+        "hora": "12:00"
+      },
+      {
+        "rival": "Rayo",
+        "local": false,
+        "fecha": "05/09",
+        "hora": "11:30"
+      },
+      {
+        "rival": "Alavés",
+        "local": true,
+        "fecha": "13/09",
+        "hora": "12:00"
+      },
+      {
+        "rival": "Barcelona",
+        "local": false,
+        "fecha": "16/09",
+        "hora": "12:00"
+      }
+    ],
+    "Rayo": [
+      {
+        "rival": "vs Equipo",
+        "local": false,
+        "fecha": "Día",
+        "hora": "Hora"
+      },
+      {
+        "rival": "Barcelona",
+        "local": false,
+        "fecha": "31/08",
+        "hora": "14:30"
+      },
+      {
+        "rival": "Racing de Santander",
+        "local": true,
+        "fecha": "05/09",
+        "hora": "11:30"
+      },
+      {
+        "rival": "Real Madrid",
+        "local": false,
+        "fecha": "13/09",
+        "hora": "12:00"
+      },
+      {
+        "rival": "Espanyol",
+        "local": true,
+        "fecha": "16/09",
+        "hora": "12:00"
+      }
+    ],
+    "Sevilla": [
+      {
+        "rival": "vs Equipo",
+        "local": false,
+        "fecha": "Día",
+        "hora": "Hora"
+      },
+      {
+        "rival": "Atlético",
+        "local": true,
+        "fecha": "29/08",
+        "hora": "14:30"
+      },
+      {
+        "rival": "Espanyol",
+        "local": false,
+        "fecha": "06/09",
+        "hora": "14:00"
+      },
+      {
+        "rival": "Valencia",
+        "local": true,
+        "fecha": "13/09",
+        "hora": "12:00"
+      },
+      {
+        "rival": "Deportivo",
+        "local": false,
+        "fecha": "16/09",
+        "hora": "12:00"
+      }
+    ],
+    "Valencia": [
+      {
+        "rival": "vs Equipo",
+        "local": false,
+        "fecha": "Día",
+        "hora": "Hora"
+      },
+      {
+        "rival": "Betis",
+        "local": true,
+        "fecha": "25/08",
+        "hora": "14:00"
+      },
+      {
+        "rival": "Deportivo",
+        "local": false,
+        "fecha": "30/08",
+        "hora": "12:30"
+      },
+      {
+        "rival": "Barcelona",
+        "local": true,
+        "fecha": "06/09",
+        "hora": "09:15"
+      },
+      {
+        "rival": "Sevilla",
+        "local": false,
+        "fecha": "13/09",
+        "hora": "12:00"
+      }
+    ],
+    "Alavés": [
+      {
+        "rival": "vs Equipo",
+        "local": false,
+        "fecha": "Día",
+        "hora": "Hora"
+      },
+      {
+        "rival": "Villarreal",
+        "local": true,
+        "fecha": "28/08",
+        "hora": "14:30"
+      },
+      {
+        "rival": "Osasuna",
+        "local": true,
+        "fecha": "06/09",
+        "hora": "11:30"
+      },
+      {
+        "rival": "Racing de Santander",
+        "local": false,
+        "fecha": "13/09",
+        "hora": "12:00"
+      },
+      {
+        "rival": "Valencia",
+        "local": true,
+        "fecha": "16/09",
+        "hora": "12:00"
+      }
+    ],
+    "Betis": [
+      {
+        "rival": "vs Equipo",
+        "local": false,
+        "fecha": "Día",
+        "hora": "Hora"
+      },
+      {
+        "rival": "Valencia",
+        "local": false,
+        "fecha": "25/08",
+        "hora": "14:00"
+      },
+      {
+        "rival": "Levante UD",
+        "local": false,
+        "fecha": "29/08",
+        "hora": "10:00"
+      },
+      {
+        "rival": "Real Madrid",
+        "local": true,
+        "fecha": "04/09",
+        "hora": "14:00"
+      },
+      {
+        "rival": "Villarreal",
+        "local": false,
+        "fecha": "13/09",
+        "hora": "12:00"
+      }
+    ],
+    "Celta": [
+      {
+        "rival": "vs Equipo",
+        "local": false,
+        "fecha": "Día",
+        "hora": "Hora"
+      },
+      {
+        "rival": "Osasuna",
+        "local": true,
+        "fecha": "27/08",
+        "hora": "13:30"
+      },
+      {
+        "rival": "Athletic",
+        "local": true,
+        "fecha": "30/08",
+        "hora": "14:30"
+      },
+      {
+        "rival": "Real Sociedad",
+        "local": false,
+        "fecha": "03/09",
+        "hora": "14:00"
+      },
+      {
+        "rival": "Getafe",
+        "local": false,
+        "fecha": "07/09",
+        "hora": "12:00"
+      }
+    ],
+    "Deportivo": [
+      {
+        "rival": "vs Equipo",
+        "local": false,
+        "fecha": "Día",
+        "hora": "Hora"
+      },
+      {
+        "rival": "Valencia",
+        "local": true,
+        "fecha": "30/08",
+        "hora": "12:30"
+      },
+      {
+        "rival": "Villarreal",
+        "local": false,
+        "fecha": "05/09",
+        "hora": "14:00"
+      },
+      {
+        "rival": "Getafe",
+        "local": false,
+        "fecha": "13/09",
+        "hora": "12:00"
+      },
+      {
+        "rival": "Sevilla",
+        "local": true,
+        "fecha": "16/09",
+        "hora": "12:00"
+      }
+    ],
+    "Elche": [
+      {
+        "rival": "vs Equipo",
+        "local": false,
+        "fecha": "Día",
+        "hora": "Hora"
+      },
+      {
+        "rival": "Racing de Santander",
+        "local": false,
+        "fecha": "28/08",
+        "hora": "12:00"
+      },
+      {
+        "rival": "Real Sociedad",
+        "local": true,
+        "fecha": "07/09",
+        "hora": "14:30"
+      },
+      {
+        "rival": "Athletic",
+        "local": false,
+        "fecha": "13/09",
+        "hora": "12:00"
+      },
+      {
+        "rival": "Real Madrid",
+        "local": true,
+        "fecha": "16/09",
+        "hora": "12:00"
+      }
+    ]
+  }
 }
