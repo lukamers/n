@@ -8,10 +8,6 @@
           "pos": "DEF"
         },
         {
-          "n": "Leo Román",
-          "pos": "DEF"
-        },
-        {
           "n": "Yeray",
           "pos": "DEF"
         },
@@ -35,11 +31,6 @@
           "rol": "titular"
         },
         {
-          "n": "Valentín Gómez",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Huijsen",
           "pos": "DEF",
           "rol": "titular"
@@ -56,6 +47,16 @@
         },
         {
           "n": "Canales",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Sivera",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Carlos Macià",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -142,11 +143,6 @@
           "tag": "Fichado de mercho."
         },
         {
-          "n": "Noubi",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Riquelme",
           "pos": "DEF",
           "rol": "titular"
@@ -186,10 +182,6 @@
     "Sapard0": {
       "caja": 64068674,
       "players": [
-        {
-          "n": "Gayá",
-          "pos": "DEF"
-        },
         {
           "n": "Foyth",
           "pos": "DEF"
@@ -355,10 +347,6 @@
           "pos": "DEF"
         },
         {
-          "n": "Ximo",
-          "pos": "DEF"
-        },
-        {
           "n": "Rubén G.",
           "pos": "DEF"
         },
@@ -394,6 +382,11 @@
           "n": "Aguado",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Nacho Pérez",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -410,17 +403,6 @@
           "pos": "MED"
         },
         {
-          "n": "Vinicius",
-          "pos": "DEL",
-          "tag": "Fichado del mercado",
-          "v": 103723742
-        },
-        {
-          "n": "Sivera",
-          "pos": "DEF",
-          "rol": "suplente"
-        },
-        {
           "n": "Redondo",
           "pos": "DEF",
           "rol": "titular"
@@ -432,6 +414,11 @@
         },
         {
           "n": "Á. Valles",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Iñigo Vicente",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -453,10 +440,6 @@
         {
           "n": "Manuel Fernández",
           "pos": "DEF"
-        },
-        {
-          "n": "Iñigo Vicente",
-          "pos": "DEL"
         },
         {
           "n": "Toni Martinez",
@@ -484,6 +467,21 @@
         },
         {
           "n": "Álvaro García",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Ximo",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Gayà",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Luismi",
           "pos": "DEF",
           "rol": "titular"
         }
