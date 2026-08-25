@@ -23,6 +23,7 @@
     --def: #35c47a;
     --med: #f2c94c;
     --del: #ef4b3a;
+    --dt: #bb6bd9;
   }
   *{box-sizing:border-box;}
   body{
@@ -106,6 +107,7 @@
   .pos.DEF{background:rgba(53,196,122,.15); color:var(--def);}
   .pos.MED{background:rgba(242,201,76,.15); color:var(--med);}
   .pos.DEL{background:rgba(239,75,58,.15); color:var(--del);}
+  .pos.DT{background:rgba(187,107,217,.15); color:var(--dt);}
   .tag{font-size:10px; color:var(--red); margin-left:2px; opacity:.85;}
   .tag.live{color:var(--green); opacity:1;}
   .pts{font-family:'Oswald',sans-serif; font-weight:600; color:#f2994a;}
@@ -207,6 +209,7 @@
   .player-avatar.border-DEF{border-color:var(--def);}
   .player-avatar.border-MED{border-color:var(--med);}
   .player-avatar.border-DEL{border-color:var(--del);}
+  .player-avatar.border-DT{border-color:var(--dt);}
   .player-cap-badge{
     position:absolute; top:-4px; left:-4px; width:16px; height:16px; border-radius:50%;
     background:var(--red); color:#fff; font-size:9px; font-weight:800;
@@ -397,6 +400,7 @@
       <button class="sort-btn" data-pos="DEF">DEF</button>
       <button class="sort-btn" data-pos="MED">MED</button>
       <button class="sort-btn" data-pos="DEL">DEL</button>
+      <button class="sort-btn" data-pos="DT">DT</button>
     </div>
     <div class="sort-box" id="comparadorSortBox">
       <button class="sort-btn active" data-csort="valor">Valor</button>
@@ -551,12 +555,24 @@ let teams = {
 let allPlayers = {};
 let historialData = {};
 let partidosData = {};
+let posicionesData = {};
 
 function applyHistorial(fresh){
   historialData = fresh || {};
 }
 function applyPartidos(fresh){
   partidosData = (fresh && fresh.calendario) ? fresh.calendario : {};
+}
+function applyPosiciones(fresh){
+  posicionesData = (fresh && fresh.posiciones) ? fresh.posiciones : {};
+}
+// Posición real de un jugador: prioriza el dato que trae el scraper
+// (posiciones.json, sacado del plantel oficial) y solo si no lo tiene
+// usa la posición cargada a mano en la plantilla. Así un jugador mal
+// cargado (ej. un DT guardado como DEF) se corrige solo en toda la
+// página sin tener que editarlo manualmente.
+function realPos(p){
+  return posicionesData[p.n] || posicionesData[ALIASES[p.n]] || p.pos;
 }
 
 function buildSparklineSVG(points){
@@ -669,7 +685,7 @@ function renderTeamH2H(){
 function findOwner(marketName){
   for(const teamName in teams){
     const p = teams[teamName].players.find(pl => pl.n === marketName || ALIASES[pl.n] === marketName);
-    if(p) return { team: teamName, pos: p.pos };
+    if(p) return { team: teamName, pos: realPos(p) };
   }
   return null;
 }
@@ -978,10 +994,10 @@ function teamWarnings(team){
   if(team.players.length < 11){
     warnings.push(`Solo ${team.players.length} jugador${team.players.length===1?'':'es'} (necesita 11)`);
   }
-  const porCount = team.players.filter(p=>p.pos==='POR').length;
-  const defCount = team.players.filter(p=>p.pos==='DEF').length;
-  const medCount = team.players.filter(p=>p.pos==='MED').length;
-  const delCount = team.players.filter(p=>p.pos==='DEL').length;
+  const porCount = team.players.filter(p=>realPos(p)==='POR').length;
+  const defCount = team.players.filter(p=>realPos(p)==='DEF').length;
+  const medCount = team.players.filter(p=>realPos(p)==='MED').length;
+  const delCount = team.players.filter(p=>realPos(p)==='DEL').length;
   if(porCount === 0) warnings.push('Sin portero');
   if(defCount === 0) warnings.push('Sin defensores');
   if(medCount === 0) warnings.push('Sin mediocampistas');
@@ -1257,7 +1273,7 @@ function renderComparador(){
   if(!body) return;
   let list = getAllPlayersFlat();
   if(comparadorPos !== "TODOS"){
-    list = list.filter(p=>p.pos === comparadorPos);
+    list = list.filter(p=>realPos(p) === comparadorPos);
   }
   if(comparadorClub !== "TODOS"){
     list = list.filter(p=> playerClub(p) === comparadorClub);
@@ -1271,7 +1287,7 @@ function renderComparador(){
     <tr>
       <td class="pname">
         <div class="pcell">
-          <span class="pos ${p.pos}">${p.pos}</span>
+          <span class="pos ${realPos(p)}">${realPos(p)}</span>
           <span class="player-link" onclick="showPlayerHistory('${p.n.replace(/'/g,"\\'")}')">${p.n}</span>
         </div>
       </td>
@@ -1356,7 +1372,7 @@ function renderCards(){
       <tr>
         <td class="pname">
           <div class="pcell">
-            <span class="pos ${p.pos}">${p.pos}</span>
+            <span class="pos ${realPos(p)}">${realPos(p)}</span>
             <span class="player-link" onclick="showPlayerHistory('${p.n.replace(/'/g,"\\'")}')">${p.n}</span>${p.tag ? `<span class="tag"> · ${p.tag}</span>` : ""}
           </div>
         </td>
@@ -1383,6 +1399,7 @@ function renderCards(){
           <option value="DEF" selected>DEF</option>
           <option value="MED">MED</option>
           <option value="DEL">DEL</option>
+          <option value="DT">DT</option>
         </select>
         <input type="text" placeholder="Tag opcional (ej: Fichado del mercado)" id="add-tag-${i}">
         <button class="add-btn" onclick="
@@ -1524,12 +1541,14 @@ Promise.all([
   fetch('jornadas.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
   fetch('historial.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
   fetch('partidos.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
-]).then(([mercado, asign, jornadas, historial, partidos])=>{
+  fetch('posiciones.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
+]).then(([mercado, asign, jornadas, historial, partidos, posiciones])=>{
   applyMercado(mercado);
   applyAsignaciones(asign);
   applyJornadas(jornadas);
   applyHistorial(historial);
   applyPartidos(partidos);
+  applyPosiciones(posiciones);
   renderPremios();
   if(!document.getElementById('updatedLine').textContent.includes('ACTUALIZADO')){
     document.getElementById('updatedLine').textContent = '9 EQUIPOS';
@@ -1672,7 +1691,7 @@ closeJornadaBtn.addEventListener('click', async ()=>{
   Object.keys(teams).forEach(teamName=>{
     const team = teams[teamName];
     equiposSnapshot[teamName] = {
-      players: team.players.map(p=> ({ n: p.n, pos: p.pos, rol: p.rol || "titular" }))
+      players: team.players.map(p=> ({ n: p.n, pos: realPos(p), rol: p.rol || "titular" }))
     };
   });
 
@@ -1759,10 +1778,10 @@ saveJornadaBtn.addEventListener('click', saveJornadaRoles);
 function pitchHtml(players){
   const titulares = players.filter(p=> p.rol !== 'suplente');
   const suplentes = players.filter(p=> p.rol === 'suplente');
-  const orden = ['DEL','MED','DEF','POR'];
+  const orden = ['DT','DEL','MED','DEF','POR'];
 
   const rows = orden.map(pos=>{
-    const enEsaPos = titulares.filter(p=> p.pos === pos);
+    const enEsaPos = titulares.filter(p=> realPos(p) === pos);
     if(enEsaPos.length === 0) return '';
     const chips = enEsaPos.map(p=>{
       const ptsVal = p.pts;
@@ -1771,7 +1790,7 @@ function pitchHtml(players){
       const capHtml = p.rol === 'capitan' ? `<span class="player-cap-badge">C</span>` : '';
       return `
         <div class="player-chip">
-          <div class="player-avatar ${ptsClass} border-${p.pos}">
+          <div class="player-avatar ${ptsClass} border-${realPos(p)}">
             ${ptsDisplay}
             ${capHtml}
           </div>
@@ -1844,7 +1863,7 @@ function renderJornadas(){
         <tr class="${p.rol==='suplente' ? 'suplente' : ''}">
           <td class="pname">
             <div class="pcell">
-              <span class="pos ${p.pos}">${p.pos}</span>
+              <span class="pos ${realPos(p)}">${realPos(p)}</span>
               <span>${p.n}</span>
             </div>
           </td>
@@ -1878,6 +1897,7 @@ function renderJornadas(){
             <option value="DEF" selected>DEF</option>
             <option value="MED">MED</option>
             <option value="DEL">DEL</option>
+            <option value="DT">DT</option>
           </select>
           <button class="add-btn" onclick="
             const nm=document.getElementById('add-jor-name-${idSafe}').value;
