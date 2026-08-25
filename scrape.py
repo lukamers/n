@@ -579,12 +579,16 @@ def obtener_posiciones_club(club_nombre: str, slug: str):
                     hrefs_vistos.add(href)
 
     if not resultado:
+        enlaces_jugadores = soup.find_all("a", href=re.compile(r"^/jugadores/"))
         return {}, {
             "club": club_nombre,
             "url": url,
             "motivo": "no encontré jugadores agrupados por posición",
             "http_status": resp.status_code,
             "largo_respuesta": len(resp.text),
+            "tiene_substring_porteros": "orteros" in resp.text,
+            "enlaces_a_jugadores_en_toda_la_pagina": len(enlaces_jugadores),
+            "texto_primeros_3_enlaces": [a.get_text(" ", strip=True) for a in enlaces_jugadores[:3]],
         }
 
     return resultado, None
