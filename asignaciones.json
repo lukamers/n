@@ -4,22 +4,6 @@
       "caja": 1650564,
       "players": [
         {
-          "n": "Gerard Martín",
-          "pos": "DEF"
-        },
-        {
-          "n": "Larrubia",
-          "pos": "MED"
-        },
-        {
-          "n": "C. Álvarez",
-          "pos": "MED"
-        },
-        {
-          "n": "Etta Eyong",
-          "pos": "DEL"
-        },
-        {
           "n": "Santiago",
           "pos": "DEF"
         },
@@ -54,16 +38,32 @@
           "n": "Valentín Gómez",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Huijsen",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "U. Núñez",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Tenaglia",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Canales",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
     "papi floren 24 cm": {
       "caja": 54570724,
       "players": [
-        {
-          "n": "Starfelt",
-          "pos": "DEF"
-        },
         {
           "n": "Carreira",
           "pos": "DEF"
@@ -73,15 +73,7 @@
           "pos": "MED"
         },
         {
-          "n": "Lookman",
-          "pos": "DEL"
-        },
-        {
           "n": "Valentín",
-          "pos": "DEF"
-        },
-        {
-          "n": "Álvaro García",
           "pos": "DEF"
         },
         {
@@ -89,21 +81,37 @@
           "pos": "DEF"
         },
         {
-          "n": "Martín Anselmi",
-          "pos": "DEF"
-        },
-        {
-          "n": "Gulacsi",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Roberto",
           "pos": "DEF",
           "rol": "titular"
         },
         {
-          "n": "Ortiz",
+          "n": "Dituro",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Djené",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Gerard",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Altimira",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Guridi",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Luis García",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -121,10 +129,6 @@
           "pos": "MED"
         },
         {
-          "n": "Ilaix Moriba",
-          "pos": "MED"
-        },
-        {
           "n": "Deossa",
           "pos": "MED"
         },
@@ -136,10 +140,6 @@
           "n": "Pathé I. Ciss",
           "pos": "MED",
           "tag": "Fichado de mercho."
-        },
-        {
-          "n": "Guruzeta",
-          "pos": "DEL"
         },
         {
           "n": "Noubi",
@@ -165,6 +165,21 @@
           "n": "Luiz Felipe",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Koski",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Ibáñez",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Diego Simeone",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -177,10 +192,6 @@
         },
         {
           "n": "Foyth",
-          "pos": "DEF"
-        },
-        {
-          "n": "Yuri",
           "pos": "DEF"
         },
         {
@@ -208,11 +219,22 @@
           "pos": "DEF"
         },
         {
-          "n": "Jauregizar",
-          "pos": "DEF"
+          "n": "Toljan",
+          "pos": "DEF",
+          "rol": "titular"
         },
         {
-          "n": "Toljan",
+          "n": "Galán",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Hugo González",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Akhomach",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -227,10 +249,6 @@
         },
         {
           "n": "Cabrera",
-          "pos": "DEF"
-        },
-        {
-          "n": "Tenaglia",
           "pos": "DEF"
         },
         {
@@ -289,10 +307,6 @@
           "pos": "MED"
         },
         {
-          "n": "I. Akhomach",
-          "pos": "DEL"
-        },
-        {
           "n": "De Frutos",
           "pos": "DEL"
         },
@@ -319,11 +333,6 @@
           "rol": "titular"
         },
         {
-          "n": "U. Núñez",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Luis Miguel Ramis",
           "pos": "DEF",
           "rol": "titular"
@@ -333,10 +342,6 @@
     "karfim": {
       "caja": 76570182,
       "players": [
-        {
-          "n": "Á. Valles",
-          "pos": "POR"
-        },
         {
           "n": "Areso",
           "pos": "DEF"
@@ -348,11 +353,6 @@
         {
           "n": "Ugrinic",
           "pos": "DEF"
-        },
-        {
-          "n": "Dani Martínez",
-          "pos": "DEF",
-          "v": 415311
         },
         {
           "n": "Ximo",
@@ -367,20 +367,11 @@
           "pos": "DEF"
         },
         {
-          "n": "Jurado",
-          "pos": "DEF"
-        },
-        {
           "n": "Beñat San José",
           "pos": "DEF"
         },
         {
           "n": "Vertrouwd",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Egiluz",
           "pos": "DEF",
           "rol": "titular"
         },
@@ -393,6 +384,16 @@
           "n": "Salinas",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Baena",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Aguado",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -401,20 +402,8 @@
       "you": true,
       "players": [
         {
-          "n": "M. Dituro",
-          "pos": "POR"
-        },
-        {
           "n": "Bellerín",
           "pos": "DEF"
-        },
-        {
-          "n": "Huijsen",
-          "pos": "DEF"
-        },
-        {
-          "n": "De Galarreta",
-          "pos": "MED"
         },
         {
           "n": "M. Román",
@@ -432,21 +421,17 @@
           "rol": "suplente"
         },
         {
-          "n": "Zubeldia",
-          "pos": "DEF"
-        },
-        {
-          "n": "Carlos Soler",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Redondo",
           "pos": "DEF",
           "rol": "titular"
         },
         {
           "n": "Riedel",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Á. Valles",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -470,15 +455,7 @@
           "pos": "DEF"
         },
         {
-          "n": "Pedro Díaz",
-          "pos": "MED"
-        },
-        {
           "n": "Iñigo Vicente",
-          "pos": "DEL"
-        },
-        {
-          "n": "Iñaki Williams",
           "pos": "DEL"
         },
         {
@@ -486,23 +463,27 @@
           "pos": "DEF"
         },
         {
-          "n": "Altimira",
-          "pos": "DEF"
-        },
-        {
-          "n": "Canales",
-          "pos": "DEF"
-        },
-        {
-          "n": "Balliu",
-          "pos": "DEF"
-        },
-        {
-          "n": "Boyomo",
-          "pos": "DEF"
-        },
-        {
           "n": "Aubameyang",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Peque",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Carlos Corberán",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Ortiz",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Álvaro García",
           "pos": "DEF",
           "rol": "titular"
         }
