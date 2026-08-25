@@ -31,6 +31,7 @@ import json
 import re
 import sys
 import time
+import unicodedata
 from datetime import datetime, timezone
 import requests
 from bs4 import BeautifulSoup, NavigableString, Tag
@@ -492,27 +493,32 @@ def obtener_calendario():
 # la página de partidos, esta SÍ es HTML servido directo, con los
 # jugadores agrupados por título "Porteros" / "Defensas" / "Mediocampistas"
 # / "Delanteros".
-CLUB_SLUGS_PLANTILLA = {
-    "Alavés": "alaves",
-    "Athletic": "athletic",
-    "Atlético": "atletico",
-    "Barcelona": "barcelona",
-    "Betis": "betis",
-    "Celta": "celta",
-    "Deportivo": "deportivo",
-    "Elche": "elche",
-    "Espanyol": "espanyol",
-    "Getafe": "getafe",
-    "Levante": "levante",
-    "Málaga": "malaga",
-    "Osasuna": "osasuna",
-    "Racing": "racing",
-    "Rayo": "rayo-vallecano",
-    "Real Madrid": "real-madrid",
-    "Real Sociedad": "real-sociedad",
-    "Sevilla": "sevilla",
-    "Valencia": "valencia",
-    "Villarreal": "villarreal",
+# ID + slug de cada club en comuniate.com (ej. "89/alaves" para
+# https://www.comuniate.com/plantilla/89/alaves). A diferencia de
+# FútbolFantasy, esta página SÍ es HTML servido directo (sin
+# JavaScript), y trae la plantilla agrupada por posición con nombres
+# cortos muy parecidos a los que ya usa el mercado.
+COMUNIATE_RUTAS = {
+    "Alavés": "89/alaves",
+    "Athletic": "1/athletic-club",
+    "Atlético": "2/atletico",
+    "Barcelona": "3/barcelona",
+    "Betis": "4/betis",
+    "Celta": "5/celta",
+    "Deportivo": "6/deportivo",
+    "Elche": "75/elche",
+    "Espanyol": "7/espanyol",
+    "Getafe": "8/getafe",
+    "Levante": "10/levante",
+    "Málaga": "65/malaga",
+    "Osasuna": "12/osasuna",
+    "Racing": "14/racing",
+    "Rayo": "70/rayo-vallecano",
+    "Real Madrid": "15/real-madrid",
+    "Real Sociedad": "13/real-sociedad",
+    "Sevilla": "17/sevilla",
+    "Valencia": "18/valencia",
+    "Villarreal": "19/villarreal",
 }
 
 # Técnicos actuales de cada club. A diferencia de la plantilla de
@@ -542,16 +548,36 @@ DIRECTORES_TECNICOS = {
     "Martín Anselmi": "Villarreal",
 }
 
-_ETIQUETAS_POSICION = {"Porteros": "POR", "Defensas": "DEF", "Mediocampistas": "MED", "Delanteros": "DEL"}
-_ETIQUETAS_IGNORAR = {"Cedidos en otros equipos", "Cedidos"}
+
+def _normalizar(s: str) -> str:
+    """Saca acentos y pasa a minúsculas, para poder comparar 'Martinez'
+    con 'Martínez' sin que la tilde arruine el match."""
+    sin_acentos = "".join(
+        c for c in unicodedata.normalize("NFD", s) if unicodedata.category(c) != "Mn"
+    )
+    return sin_acentos.lower().strip()
 
 
-def obtener_posiciones_club(club_nombre: str, slug: str):
+def _detectar_seccion(texto: str):
+    limpio = re.sub(r"[^A-Za-zÀ-ÿ]", "", texto).upper()
+    limpio = _normalizar(limpio).upper()
+    if limpio == "PORTEROS":
+        return "POR"
+    if limpio == "DEFENSAS":
+        return "DEF"
+    if limpio == "MEDIOS":
+        return "MED"
+    if limpio == "DELANTEROS":
+        return "DEL"
+    return None
+
+
+def obtener_posiciones_club(club_nombre: str, ruta: str):
     """Trae la plantilla del club agrupada por posición real (Porteros /
-    Defensas / Mediocampistas / Delanteros) desde FútbolFantasy. Devuelve
+    Defensas / Medios / Delanteros) desde comuniate.com. Devuelve
     (dict nombre_completo -> POR/DEF/MED/DEL, diagnostico).
     """
-    url = f"https://www.futbolfantasy.com/laliga/equipos/{slug}/plantilla"
+    url = f"https://www.comuniate.com/plantilla/{ruta}"
     resp = fetch_con_reintentos(url)
     if resp is None:
         return {}, {"club": club_nombre, "url": url, "motivo": "no se pudo conectar (ver reintentos arriba)"}
@@ -566,27 +592,25 @@ def obtener_posiciones_club(club_nombre: str, slug: str):
             texto = node.strip()
             if not texto:
                 continue
-            if texto in _ETIQUETAS_POSICION:
-                seccion_actual = _ETIQUETAS_POSICION[texto]
-            elif texto in _ETIQUETAS_IGNORAR:
-                seccion_actual = None
+            seccion_detectada = _detectar_seccion(texto)
+            if seccion_detectada:
+                seccion_actual = seccion_detectada
         elif isinstance(node, Tag) and node.name == "a":
             href = node.get("href", "") or ""
-            if href.startswith("/jugadores/") and seccion_actual and href not in hrefs_vistos:
-                nombre = re.sub(r"^\d+\.\s*", "", node.get_text(strip=True)).strip()
+            if "/jugadores/" in href and seccion_actual and href not in hrefs_vistos:
+                nombre = node.get_text(strip=True)
                 if nombre:
                     resultado[nombre] = seccion_actual
                     hrefs_vistos.add(href)
 
     if not resultado:
-        enlaces_jugadores = soup.find_all("a", href=re.compile(r"^/jugadores/"))
+        enlaces_jugadores = soup.find_all("a", href=re.compile(r"/jugadores/"))
         return {}, {
             "club": club_nombre,
             "url": url,
             "motivo": "no encontré jugadores agrupados por posición",
             "http_status": resp.status_code,
             "largo_respuesta": len(resp.text),
-            "tiene_substring_porteros": "orteros" in resp.text,
             "enlaces_a_jugadores_en_toda_la_pagina": len(enlaces_jugadores),
             "texto_primeros_3_enlaces": [a.get_text(" ", strip=True) for a in enlaces_jugadores[:3]],
         }
@@ -596,20 +620,24 @@ def obtener_posiciones_club(club_nombre: str, slug: str):
 
 def emparejar_nombre_corto(nombre_corto: str, nombres_completos: dict):
     """Busca a qué nombre completo del plantel corresponde un nombre corto
-    de los que usa el mercado (ej. 'Tárrega' -> 'César Tárrega'). Devuelve
-    la posición si encuentra una única coincidencia razonable, si no None.
+    de los que usa el mercado (ej. 'Tárrega' -> 'César Tárrega'), sin que
+    importen tildes ('Toni Martinez' vs 'Toni Martínez'). Devuelve la
+    posición si encuentra una única coincidencia razonable, si no None.
     """
-    if nombre_corto in nombres_completos:
-        return nombres_completos[nombre_corto]
+    corto_norm = _normalizar(nombre_corto)
+    mapa_norm = {_normalizar(n): pos for n, pos in nombres_completos.items()}
 
-    candidatos = [n for n in nombres_completos if nombre_corto in n or n.endswith(nombre_corto)]
+    if corto_norm in mapa_norm:
+        return mapa_norm[corto_norm]
+
+    candidatos = [n for n in mapa_norm if corto_norm in n or n.endswith(corto_norm)]
     if len(candidatos) == 1:
-        return nombres_completos[candidatos[0]]
+        return mapa_norm[candidatos[0]]
 
-    ultima_palabra = nombre_corto.split()[-1]
-    candidatos2 = [n for n in nombres_completos if ultima_palabra and ultima_palabra in n]
+    ultima_palabra = corto_norm.split()[-1] if corto_norm.split() else corto_norm
+    candidatos2 = [n for n in mapa_norm if ultima_palabra and ultima_palabra in n]
     if len(candidatos2) == 1:
-        return nombres_completos[candidatos2[0]]
+        return mapa_norm[candidatos2[0]]
 
     return None
 
@@ -628,8 +656,8 @@ def obtener_posiciones(clubes_por_jugador: dict):
     for jugador, club in clubes_por_jugador.items():
         jugadores_por_club.setdefault(club, []).append(jugador)
 
-    for club_nombre, slug in CLUB_SLUGS_PLANTILLA.items():
-        nombres_completos, diag = obtener_posiciones_club(club_nombre, slug)
+    for club_nombre, ruta in COMUNIATE_RUTAS.items():
+        nombres_completos, diag = obtener_posiciones_club(club_nombre, ruta)
         if diag is not None and primer_diagnostico is None:
             primer_diagnostico = diag
 
