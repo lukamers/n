@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-08-25T20:54:12.700307+00:00",
+  "actualizado": "2026-08-25T22:07:07.269575+00:00",
   "market": {
     "Karrikaburu": -5382,
     "Oláiz": -6541,
@@ -6149,8 +6149,8 @@
       "probabilidad": null
     },
     "Panach": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Aitor Mañas": {
@@ -6189,8 +6189,8 @@
       "probabilidad": null
     },
     "Jurado": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Marchal": {
@@ -6404,8 +6404,8 @@
       "probabilidad": 80
     },
     "Fontanet": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Gaitán": {
@@ -6439,7 +6439,7 @@
       "probabilidad": null
     },
     "Fidalgo": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
@@ -6519,8 +6519,8 @@
       "probabilidad": 0
     },
     "Ugrinic": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Bigas": {
@@ -6639,17 +6639,17 @@
       "probabilidad": 50
     },
     "Valentín Gómez": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
     "Deossa": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
     "Junior": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
@@ -6809,7 +6809,7 @@
       "probabilidad": 80
     },
     "Corralejo": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
@@ -6829,8 +6829,8 @@
       "probabilidad": 60
     },
     "Blázquez": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Suazo": {
@@ -6869,7 +6869,7 @@
       "probabilidad": null
     },
     "Bernal": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
@@ -6904,7 +6904,7 @@
       "probabilidad": null
     },
     "Manuel Pellegrini": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
@@ -6974,8 +6974,8 @@
       "probabilidad": null
     },
     "Carlos Corberán": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Diego Simeone": {
@@ -7199,13 +7199,13 @@
       "probabilidad": 90
     },
     "De Haas": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Dieng": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Gulacsi": {
@@ -7354,8 +7354,8 @@
       "probabilidad": 70
     },
     "Dimitrievski": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Ratiu": {
@@ -7454,13 +7454,13 @@
       "probabilidad": 70
     },
     "Valles": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
     "Copete": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Herrera": {
@@ -7524,8 +7524,8 @@
       "probabilidad": 95
     },
     "Sadiq": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Pacheco": {
@@ -7579,23 +7579,23 @@
       "probabilidad": 10
     },
     "Diakhaby": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Canós": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Javi Guerra": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Duro": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Olasagasti": {
@@ -7644,7 +7644,7 @@
       "probabilidad": 30
     },
     "Fran García": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
@@ -7704,8 +7704,8 @@
       "probabilidad": 70
     },
     "Rivero": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Egiluz": {
@@ -7784,7 +7784,7 @@
       "probabilidad": 50
     },
     "Riquelme": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
@@ -7829,8 +7829,8 @@
       "probabilidad": 90
     },
     "Rioja": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Tenaglia": {
@@ -7964,7 +7964,7 @@
       "probabilidad": 80
     },
     "Ruibal": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
@@ -8019,22 +8019,22 @@
       "probabilidad": 60
     },
     "Isco": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
     "Bellerín": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
     "Guido": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Abde": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
@@ -8044,18 +8044,18 @@
       "probabilidad": 50
     },
     "Bartra": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
     "Marc Roca": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
     "Almeida": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Marrero": {
@@ -8064,8 +8064,8 @@
       "probabilidad": 30
     },
     "Gayà": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Pau Navarro": {
@@ -8074,7 +8074,7 @@
       "probabilidad": 30
     },
     "Manu González": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
@@ -8104,7 +8104,7 @@
       "probabilidad": 20
     },
     "Lo Celso": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
@@ -8134,8 +8134,8 @@
       "probabilidad": 0
     },
     "Otorbi": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Iturbe": {
@@ -8149,7 +8149,7 @@
       "probabilidad": null
     },
     "Natan": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
@@ -8199,8 +8199,8 @@
       "probabilidad": 70
     },
     "Diego López": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Jon Martín": {
@@ -8314,7 +8314,7 @@
       "probabilidad": 10
     },
     "Antony": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
@@ -8344,7 +8344,7 @@
       "probabilidad": 10
     },
     "Cucho": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
@@ -8424,7 +8424,7 @@
       "probabilidad": 0
     },
     "Fornals": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
@@ -8469,18 +8469,18 @@
       "probabilidad": 70
     },
     "Pepelu": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Foulquier": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Jesús Vázquez": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Fran Pérez": {
@@ -8494,13 +8494,13 @@
       "probabilidad": 50
     },
     "Tárrega": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Iranzo": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Akhomach": {
@@ -8544,7 +8544,7 @@
       "probabilidad": 30
     },
     "Losada": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
@@ -8574,8 +8574,8 @@
       "probabilidad": 90
     },
     "Danjuma": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Pépé": {
@@ -8589,7 +8589,7 @@
       "probabilidad": 80
     },
     "D. Llorente": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
@@ -8654,12 +8654,12 @@
       "probabilidad": 30
     },
     "Raba": {
-      "jornada": "J1",
-      "local": true,
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Conde": {
-      "jornada": "J1",
+      "jornada": "J3",
       "local": false,
       "probabilidad": null
     },
