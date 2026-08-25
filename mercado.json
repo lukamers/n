@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-08-25T08:36:15.950040+00:00",
+  "actualizado": "2026-08-25T14:20:14.959201+00:00",
   "market": {
     "Karrikaburu": -5382,
     "Oláiz": -6541,
@@ -80,68 +80,69 @@
     "Ballestero": 0,
     "Martínez Bastida": 0,
     "Ximo": -66769,
-    "Pinillos": 0,
+    "Redondo": 49900,
     "Jorge Cabello": -12796,
     "C. Álvarez": -425255,
     "Oriol Rey": 4199,
     "Gorrotxategi": -156109,
     "Ugrinic": 63140,
     "Bigas": -114252,
-    "Redondo": 49900,
+    "Pinillos": 0,
+    "Dolan": 404804,
     "Rego": -125526,
-    "Brugui": -43378,
     "Esquivel": 0,
     "Joselu": 0,
     "Víctor García": -38153,
     "Cuñat Campos": -20348,
-    "Toljan": -88753,
-    "Dolan": 404804,
-    "Cortés": -12730,
+    "Brugui": -43378,
+    "Dituro": 77783,
+    "Carlos Espí": 647822,
+    "Jonny": 195357,
+    "Santiago": -4709,
     "Aguado": 194511,
     "De la Fuente": -258438,
     "Iván Romero": -124645,
     "Salinas": -20321,
     "Huijsen": 912158,
     "Alexander-Arnold": -387415,
-    "Jonny": 195357,
+    "Junior": -79675,
     "Luiz Felipe": -93887,
-    "Dituro": 77783,
     "Hancko": 423474,
     "Sivera": 704003,
     "Martim Neto": -11234,
     "Valentín Gómez": -38976,
     "Deossa": -42573,
-    "Junior": -79675,
-    "Carlos Espí": 647822,
-    "Primo": 0,
+    "Toljan": -88753,
+    "Cortés": -12730,
     "Taufik": 0,
     "Mikautadze": 1352432,
-    "Sancris": -7133,
+    "Riedel": 201809,
     "Carlos Soler": 45915,
     "Folgado": 0,
     "Álex Costa": 0,
     "Joaquín": 605607,
     "Cardoso": -13264,
-    "Montero": 0,
+    "Oluwaseyi": -52980,
     "Diangana": -22741,
     "Alemão": -84565,
     "Laporte": -894905,
     "Santos": 0,
     "Adam Boayar": 0,
     "Bardghji": -69641,
-    "Riedel": 201809,
-    "Oluwaseyi": -52980,
+    "Montero": 0,
+    "Vlachodimos": 874412,
+    "Primo": 0,
+    "Josan": -21002,
     "Vertrouwd": 7227,
-    "Davinchi": -68610,
     "Becerra": 0,
     "Radu": 3812,
     "Rueda": -82694,
     "Niculaesei": 0,
     "Mendoza": 44330,
     "Echegoyen": 0,
-    "Josan": -21002,
+    "Davinchi": -68610,
+    "Ryan": 149910,
     "Thiago": 0,
-    "Vlachodimos": 874412,
     "Veiga": -436552,
     "Corralejo": 0,
     "Nacho Pérez": 4881,
@@ -149,10 +150,9 @@
     "Sierra": 49543,
     "Blázquez": 0,
     "Suazo": 7012,
-    "Ryan": 149910,
     "Barcia": -27686,
     "Pablo García": 0,
-    "Á. Núñez": -84172,
+    "Affengruber": -581945,
     "Ortiz": -13123,
     "Padilla": -24608,
     "Lozano": -8764,
@@ -247,9 +247,9 @@
     "Chupete": -1105493,
     "Larrubia": -1166966,
     "Yeremay": -1071563,
-    "Santiago": -4709,
+    "Á. Núñez": -84172,
     "Fortea": 0,
-    "Affengruber": -581945,
+    "Febas": 129138,
     "Cárdenas": 51883,
     "Catena": -463454,
     "Herrando": -18974,
@@ -291,8 +291,7 @@
     "Pacheco": -100066,
     "Turrientes": -160410,
     "Le Normand": -157865,
-    "Marrero": -21765,
-    "Febas": 129138,
+    "John C.": -8712,
     "Urko": 67355,
     "Pedrosa": 0,
     "Kubo": 290388,
@@ -395,6 +394,7 @@
     "Bartra": 794035,
     "Marc Roca": 236251,
     "Almeida": -57142,
+    "Marrero": -21765,
     "Gayà": 264896,
     "Pau Navarro": -217835,
     "Manu González": 0,
@@ -422,27 +422,26 @@
     "Durán": -17695,
     "Logan Costa": -25972,
     "Javi Rodríguez": 355894,
-    "Hugo Álvarez Hugo Álvarez": -20647,
     "Diego López": -49098,
     "Jon Martín": -943555,
     "Aramburu": -128566,
     "Luiz Junior": -188962,
     "Guille": 0,
     "Boiro": -3297,
-    "Bekhoucha": 0,
+    "Fran González": -8749,
     "Mariezkurrena": 0,
     "Castrín": 42164,
     "Diatta": -5097,
     "Swiderski": -6541,
+    "Bekhoucha": 0,
+    "Yáñez": 0,
     "Arguibide": 0,
-    "D. Aguado": 0,
     "Molina": 0,
     "Fortuny": 0,
     "Vencedor": 0,
     "Bambo": -20134,
-    "John C.": -8712,
-    "Fran González": -8749,
-    "Yáñez": 0,
+    "D. Aguado": 0,
+    "Juanpe": 0,
     "Valera": -389954,
     "Pablo Ramón": 96662,
     "Sannadi": -1619,
@@ -451,13 +450,13 @@
     "Lago": -12408,
     "Mestre": 0,
     "Buchanan": -115485,
-    "Juanpe": 0,
+    "Osambela": 0,
     "Cucho": 1024769,
     "Rubén Gómez": -5545,
     "Valou": -6520,
     "Rayane": 0,
-    "Osambela": 0,
     "Ferrer": -9523,
+    "Hugo Álvarez Hugo Álvarez": -20647,
     "Jauregizar": -747983,
     "Agoume": 220985,
     "Kike Salas": -211503,
@@ -603,68 +602,69 @@
     "Ballestero": 602316,
     "Martínez Bastida": 602324,
     "Ximo": 5191695,
-    "Pinillos": 501929,
+    "Redondo": 1126743,
     "Jorge Cabello": 686917,
     "C. Álvarez": 16848350,
     "Oriol Rey": 812278,
     "Gorrotxategi": 4860177,
     "Ugrinic": 3604413,
     "Bigas": 3932929,
-    "Redondo": 1126743,
+    "Pinillos": 501929,
+    "Dolan": 9168563,
     "Rego": 3974237,
-    "Brugui": 1720571,
     "Esquivel": 602292,
     "Joselu": 602319,
     "Víctor García": 1613806,
     "Cuñat Campos": 868162,
-    "Toljan": 3395911,
-    "Dolan": 9168563,
-    "Cortés": 685339,
+    "Brugui": 1720571,
+    "Dituro": 8838851,
+    "Carlos Espí": 11560804,
+    "Jonny": 6890747,
+    "Santiago": 492839,
     "Aguado": 4958206,
     "De la Fuente": 11254800,
     "Iván Romero": 6536478,
     "Salinas": 907961,
     "Huijsen": 40164511,
     "Alexander-Arnold": 21106125,
-    "Jonny": 6890747,
+    "Junior": 2847192,
     "Luiz Felipe": 2896435,
-    "Dituro": 8838851,
     "Hancko": 43657067,
     "Sivera": 37339053,
     "Martim Neto": 1642331,
     "Valentín Gómez": 1447858,
     "Deossa": 1921859,
-    "Junior": 2847192,
-    "Carlos Espí": 11560804,
-    "Primo": 1104126,
+    "Toljan": 3395911,
+    "Cortés": 685339,
     "Taufik": 602316,
     "Mikautadze": 68330131,
-    "Sancris": 551012,
+    "Riedel": 5807886,
     "Carlos Soler": 33983297,
     "Folgado": 702606,
     "Álex Costa": 602284,
     "Joaquín": 13051621,
     "Cardoso": 698154,
-    "Montero": 602316,
+    "Oluwaseyi": 2179598,
     "Diangana": 925607,
     "Alemão": 2953108,
     "Laporte": 45456679,
     "Santos": 702606,
     "Adam Boayar": 702711,
     "Bardghji": 2197518,
-    "Riedel": 5807886,
-    "Oluwaseyi": 2179598,
+    "Montero": 602316,
+    "Vlachodimos": 22927185,
+    "Primo": 1104126,
+    "Josan": 883870,
     "Vertrouwd": 901165,
-    "Davinchi": 2705399,
     "Becerra": 581700,
     "Radu": 35842835,
     "Rueda": 4194589,
     "Niculaesei": 803099,
     "Mendoza": 969492,
     "Echegoyen": 562286,
-    "Josan": 883870,
+    "Davinchi": 2705399,
+    "Ryan": 13519874,
     "Thiago": 7026082,
-    "Vlachodimos": 22927185,
     "Veiga": 33291221,
     "Corralejo": 602248,
     "Nacho Pérez": 605086,
@@ -672,10 +672,9 @@
     "Sierra": 1040931,
     "Blázquez": 581656,
     "Suazo": 4910152,
-    "Ryan": 13519874,
     "Barcia": 1044287,
     "Pablo García": 468964,
-    "Á. Núñez": 3017851,
+    "Affengruber": 29047080,
     "Ortiz": 1257953,
     "Padilla": 970405,
     "Lozano": 590150,
@@ -770,9 +769,9 @@
     "Chupete": 41854635,
     "Larrubia": 44238352,
     "Yeremay": 41770905,
-    "Santiago": 492839,
+    "Á. Núñez": 3017851,
     "Fortea": 802099,
-    "Affengruber": 29047080,
+    "Febas": 23868347,
     "Cárdenas": 738088,
     "Catena": 30883272,
     "Herrando": 1380552,
@@ -814,8 +813,7 @@
     "Pacheco": 3348685,
     "Turrientes": 6139895,
     "Le Normand": 13115020,
-    "Marrero": 922063,
-    "Febas": 23868347,
+    "John C.": 588915,
     "Urko": 5333566,
     "Pedrosa": 3312788,
     "Kubo": 27861757,
@@ -918,6 +916,7 @@
     "Bartra": 28514361,
     "Marc Roca": 5841668,
     "Almeida": 1996731,
+    "Marrero": 922063,
     "Gayà": 10304418,
     "Pau Navarro": 7166082,
     "Manu González": 581691,
@@ -945,27 +944,26 @@
     "Durán": 837438,
     "Logan Costa": 1009100,
     "Javi Rodríguez": 9593544,
-    "Hugo Álvarez Hugo Álvarez": 2574478,
     "Diego López": 1576689,
     "Jon Martín": 28175411,
     "Aramburu": 18096541,
     "Luiz Junior": 34682571,
     "Guille": 702705,
     "Boiro": 458955,
-    "Bekhoucha": 1104254,
+    "Fran González": 589787,
     "Mariezkurrena": 677966,
     "Castrín": 3827300,
     "Diatta": 502138,
     "Swiderski": 536806,
+    "Bekhoucha": 1104254,
+    "Yáñez": 702606,
     "Arguibide": 582013,
-    "D. Aguado": 774109,
     "Molina": 602234,
     "Fortuny": 602234,
     "Vencedor": 2208253,
     "Bambo": 863040,
-    "John C.": 588915,
-    "Fran González": 589787,
-    "Yáñez": 702606,
+    "D. Aguado": 774109,
+    "Juanpe": 602234,
     "Valera": 20548884,
     "Pablo Ramón": 762936,
     "Sannadi": 418671,
@@ -974,13 +972,13 @@
     "Lago": 677616,
     "Mestre": 677860,
     "Buchanan": 15734780,
-    "Juanpe": 602234,
+    "Osambela": 501932,
     "Cucho": 44580975,
     "Rubén Gómez": 512909,
     "Valou": 536290,
     "Rayane": 678006,
-    "Osambela": 501932,
     "Ferrer": 608370,
+    "Hugo Álvarez Hugo Álvarez": 2574478,
     "Jauregizar": 25617747,
     "Agoume": 5909030,
     "Kike Salas": 9660266,
@@ -1506,68 +1504,69 @@
     "Ballestero": "Alavés",
     "Martínez Bastida": "Elche",
     "Ximo": "Deportivo",
-    "Pinillos": "Alavés",
+    "Redondo": "Elche",
     "Jorge Cabello": "Levante",
     "C. Álvarez": "Levante",
     "Oriol Rey": "Levante",
     "Gorrotxategi": "Real Sociedad",
     "Ugrinic": "Valencia",
     "Bigas": "Elche",
-    "Redondo": "Elche",
+    "Pinillos": "Alavés",
+    "Dolan": "Espanyol",
     "Rego": "Athletic",
-    "Brugui": "Levante",
     "Esquivel": "Atlético",
     "Joselu": "Getafe",
     "Víctor García": "Levante",
     "Cuñat Campos": "Levante",
-    "Toljan": "Levante",
-    "Dolan": "Espanyol",
-    "Cortés": "Levante",
+    "Brugui": "Levante",
+    "Dituro": "Elche",
+    "Carlos Espí": "Real Madrid",
+    "Jonny": "Alavés",
+    "Santiago": "Elche",
     "Aguado": "Elche",
     "De la Fuente": "Levante",
     "Iván Romero": "Levante",
     "Salinas": "Málaga",
     "Huijsen": "Real Madrid",
     "Alexander-Arnold": "Real Madrid",
-    "Jonny": "Alavés",
+    "Junior": "Betis",
     "Luiz Felipe": "Rayo",
-    "Dituro": "Elche",
     "Hancko": "Atlético",
     "Sivera": "Alavés",
     "Martim Neto": "Elche",
     "Valentín Gómez": "Betis",
     "Deossa": "Betis",
-    "Junior": "Betis",
-    "Carlos Espí": "Real Madrid",
-    "Primo": "Levante",
+    "Toljan": "Levante",
+    "Cortés": "Levante",
     "Taufik": "Atlético",
     "Mikautadze": "Villarreal",
-    "Sancris": "Getafe",
+    "Riedel": "Espanyol",
     "Carlos Soler": "Real Sociedad",
     "Folgado": "Real Sociedad",
     "Álex Costa": "Sevilla",
     "Joaquín": "Sevilla",
     "Cardoso": "Sevilla",
-    "Montero": "Alavés",
+    "Oluwaseyi": "Villarreal",
     "Diangana": "Elche",
     "Alemão": "Rayo",
     "Laporte": "Athletic",
     "Santos": "Athletic",
     "Adam Boayar": "Elche",
     "Bardghji": "Barcelona",
-    "Riedel": "Espanyol",
-    "Oluwaseyi": "Villarreal",
+    "Montero": "Alavés",
+    "Vlachodimos": "Sevilla",
+    "Primo": "Levante",
+    "Josan": "Elche",
     "Vertrouwd": "Rayo",
-    "Davinchi": "Getafe",
     "Becerra": "Rayo",
     "Radu": "Celta",
     "Rueda": "Celta",
     "Niculaesei": "Elche",
     "Mendoza": "Atlético",
     "Echegoyen": "Osasuna",
-    "Josan": "Elche",
+    "Davinchi": "Getafe",
+    "Ryan": "Levante",
     "Thiago": "Real Madrid",
-    "Vlachodimos": "Sevilla",
     "Veiga": "Villarreal",
     "Corralejo": "Betis",
     "Nacho Pérez": "Levante",
@@ -1575,10 +1574,9 @@
     "Sierra": "Sevilla",
     "Blázquez": "Valencia",
     "Suazo": "Sevilla",
-    "Ryan": "Levante",
     "Barcia": "Deportivo",
     "Pablo García": "Deportivo",
-    "Á. Núñez": "Celta",
+    "Affengruber": "Elche",
     "Ortiz": "Atlético",
     "Padilla": "Elche",
     "Lozano": "Rayo",
@@ -1673,9 +1671,9 @@
     "Chupete": "Málaga",
     "Larrubia": "Málaga",
     "Yeremay": "Deportivo",
-    "Santiago": "Elche",
+    "Á. Núñez": "Celta",
     "Fortea": "Real Madrid",
-    "Affengruber": "Elche",
+    "Febas": "Celta",
     "Cárdenas": "Rayo",
     "Catena": "Osasuna",
     "Herrando": "Osasuna",
@@ -1717,8 +1715,7 @@
     "Pacheco": "Real Sociedad",
     "Turrientes": "Real Sociedad",
     "Le Normand": "Atlético",
-    "Marrero": "Real Sociedad",
-    "Febas": "Celta",
+    "John C.": "Elche",
     "Urko": "Espanyol",
     "Pedrosa": "Sevilla",
     "Kubo": "Real Sociedad",
@@ -1821,6 +1818,7 @@
     "Bartra": "Betis",
     "Marc Roca": "Betis",
     "Almeida": "Valencia",
+    "Marrero": "Real Sociedad",
     "Gayà": "Valencia",
     "Pau Navarro": "Villarreal",
     "Manu González": "Betis",
@@ -1848,27 +1846,26 @@
     "Durán": "Celta",
     "Logan Costa": "Villarreal",
     "Javi Rodríguez": "Celta",
-    "Hugo Álvarez Hugo Álvarez": "Celta",
     "Diego López": "Valencia",
     "Jon Martín": "Real Sociedad",
     "Aramburu": "Real Sociedad",
     "Luiz Junior": "Villarreal",
     "Guille": "Barcelona",
     "Boiro": "Athletic",
-    "Bekhoucha": "Getafe",
+    "Fran González": "Sevilla",
     "Mariezkurrena": "Real Sociedad",
     "Castrín": "Sevilla",
     "Diatta": "Villarreal",
     "Swiderski": "Alavés",
+    "Bekhoucha": "Getafe",
+    "Yáñez": "Real Madrid",
     "Arguibide": "Osasuna",
-    "D. Aguado": "Real Madrid",
     "Molina": "Rayo",
     "Fortuny": "Real Madrid",
     "Vencedor": "Athletic",
     "Bambo": "Elche",
-    "John C.": "Elche",
-    "Fran González": "Sevilla",
-    "Yáñez": "Real Madrid",
+    "D. Aguado": "Real Madrid",
+    "Juanpe": "Rayo",
     "Valera": "Elche",
     "Pablo Ramón": "Racing",
     "Sannadi": "Athletic",
@@ -1877,13 +1874,13 @@
     "Lago": "Celta",
     "Mestre": "Real Madrid",
     "Buchanan": "Villarreal",
-    "Juanpe": "Rayo",
+    "Osambela": "Osasuna",
     "Cucho": "Betis",
     "Rubén Gómez": "Villarreal",
     "Valou": "Getafe",
     "Rayane": "Atlético",
-    "Osambela": "Osasuna",
     "Ferrer": "Getafe",
+    "Hugo Álvarez Hugo Álvarez": "Celta",
     "Jauregizar": "Athletic",
     "Agoume": "Sevilla",
     "Kike Salas": "Sevilla",
@@ -2582,13 +2579,13 @@
       -250282,
       -1332778
     ],
-    "Pinillos": [
-      0,
-      0,
-      0,
-      0,
-      0,
-      0
+    "Redondo": [
+      49900,
+      89456,
+      127046,
+      289510,
+      186803,
+      -278830
     ],
     "Jorge Cabello": [
       -12796,
@@ -2638,13 +2635,21 @@
       -1776953,
       -4071891
     ],
-    "Redondo": [
-      49900,
-      89456,
-      127046,
-      289510,
-      186803,
-      -278830
+    "Pinillos": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "Dolan": [
+      404804,
+      784221,
+      1222508,
+      2875315,
+      3086813,
+      1765386
     ],
     "Rego": [
       -125526,
@@ -2653,14 +2658,6 @@
       -874201,
       -1044588,
       -1044588
-    ],
-    "Brugui": [
-      -43378,
-      -92101,
-      -140806,
-      -341143,
-      -842718,
-      -2222287
     ],
     "Esquivel": [
       0,
@@ -2694,29 +2691,45 @@
       -274136,
       -336982
     ],
-    "Toljan": [
-      -88753,
-      -181975,
-      -269351,
-      -616440,
-      -1076920,
-      -1989636
+    "Brugui": [
+      -43378,
+      -92101,
+      -140806,
+      -341143,
+      -842718,
+      -2222287
     ],
-    "Dolan": [
-      404804,
-      784221,
-      1222508,
-      2875315,
-      3086813,
-      1765386
+    "Dituro": [
+      77783,
+      220229,
+      438210,
+      1105082,
+      1978569,
+      1873051
     ],
-    "Cortés": [
-      -12730,
-      -24878,
-      -36040,
-      -82854,
-      -117661,
-      -117661
+    "Carlos Espí": [
+      647822,
+      1178668,
+      1377815,
+      2278491,
+      3500462,
+      8029675
+    ],
+    "Jonny": [
+      195357,
+      369637,
+      552581,
+      1302619,
+      1379800,
+      226739
+    ],
+    "Santiago": [
+      -4709,
+      -8502,
+      -10960,
+      -32726,
+      -93248,
+      -303880
     ],
     "Aguado": [
       194511,
@@ -2766,13 +2779,13 @@
       -3035029,
       -8271613
     ],
-    "Jonny": [
-      195357,
-      369637,
-      552581,
-      1302619,
-      1379800,
-      226739
+    "Junior": [
+      -79675,
+      -158950,
+      -231714,
+      -465640,
+      -900001,
+      -2495646
     ],
     "Luiz Felipe": [
       -93887,
@@ -2781,14 +2794,6 @@
       -668330,
       -1218842,
       -1218842
-    ],
-    "Dituro": [
-      77783,
-      220229,
-      438210,
-      1105082,
-      1978569,
-      1873051
     ],
     "Hancko": [
       423474,
@@ -2830,29 +2835,21 @@
       -24092,
       -413287
     ],
-    "Junior": [
-      -79675,
-      -158950,
-      -231714,
-      -465640,
-      -900001,
-      -2495646
+    "Toljan": [
+      -88753,
+      -181975,
+      -269351,
+      -616440,
+      -1076920,
+      -1989636
     ],
-    "Carlos Espí": [
-      647822,
-      1178668,
-      1377815,
-      2278491,
-      3500462,
-      8029675
-    ],
-    "Primo": [
-      0,
-      0,
-      0,
-      0,
-      0,
-      0
+    "Cortés": [
+      -12730,
+      -24878,
+      -36040,
+      -82854,
+      -117661,
+      -117661
     ],
     "Taufik": [
       0,
@@ -2870,13 +2867,13 @@
       9059632,
       16804051
     ],
-    "Sancris": [
-      -7133,
-      -13451,
-      -18540,
-      -51968,
-      -138097,
-      -443290
+    "Riedel": [
+      201809,
+      358076,
+      545845,
+      1237270,
+      907695,
+      287268
     ],
     "Carlos Soler": [
       45915,
@@ -2918,13 +2915,13 @@
       -227189,
       -703944
     ],
-    "Montero": [
-      0,
-      0,
-      0,
-      0,
-      0,
-      0
+    "Oluwaseyi": [
+      -52980,
+      -115115,
+      -174674,
+      -432324,
+      -820460,
+      -2069701
     ],
     "Diangana": [
       -22741,
@@ -2974,21 +2971,37 @@
       -1225076,
       -2621047
     ],
-    "Riedel": [
-      201809,
-      358076,
-      545845,
-      1237270,
-      907695,
-      287268
+    "Montero": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
     ],
-    "Oluwaseyi": [
-      -52980,
-      -115115,
-      -174674,
-      -432324,
-      -820460,
-      -2069701
+    "Vlachodimos": [
+      874412,
+      1444075,
+      1936496,
+      3863767,
+      6629912,
+      7870706
+    ],
+    "Primo": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "Josan": [
+      -21002,
+      -41767,
+      -61905,
+      -157522,
+      -320780,
+      -320780
     ],
     "Vertrouwd": [
       7227,
@@ -2997,14 +3010,6 @@
       -51833,
       -102560,
       -102560
-    ],
-    "Davinchi": [
-      -68610,
-      -128213,
-      -183882,
-      -319838,
-      -306204,
-      -306204
     ],
     "Becerra": [
       0,
@@ -3054,13 +3059,21 @@
       0,
       0
     ],
-    "Josan": [
-      -21002,
-      -41767,
-      -61905,
-      -157522,
-      -320780,
-      -320780
+    "Davinchi": [
+      -68610,
+      -128213,
+      -183882,
+      -319838,
+      -306204,
+      -306204
+    ],
+    "Ryan": [
+      149910,
+      223647,
+      359062,
+      853250,
+      -30778,
+      -30778
     ],
     "Thiago": [
       0,
@@ -3069,14 +3082,6 @@
       0,
       0,
       0
-    ],
-    "Vlachodimos": [
-      874412,
-      1444075,
-      1936496,
-      3863767,
-      6629912,
-      7870706
     ],
     "Veiga": [
       -436552,
@@ -3134,14 +3139,6 @@
       -497501,
       -1707857
     ],
-    "Ryan": [
-      149910,
-      223647,
-      359062,
-      853250,
-      -30778,
-      -30778
-    ],
     "Barcia": [
       -27686,
       -55413,
@@ -3158,13 +3155,13 @@
       0,
       -44679
     ],
-    "Á. Núñez": [
-      -84172,
-      -167630,
-      -237155,
-      -490833,
-      -858857,
-      -2217497
+    "Affengruber": [
+      -581945,
+      -978048,
+      -1320958,
+      -2647011,
+      -4203228,
+      4470323
     ],
     "Ortiz": [
       -13123,
@@ -3918,13 +3915,13 @@
       -14914693,
       -1022837
     ],
-    "Santiago": [
-      -4709,
-      -8502,
-      -10960,
-      -32726,
-      -93248,
-      -303880
+    "Á. Núñez": [
+      -84172,
+      -167630,
+      -237155,
+      -490833,
+      -858857,
+      -2217497
     ],
     "Fortea": [
       0,
@@ -3934,13 +3931,13 @@
       0,
       0
     ],
-    "Affengruber": [
-      -581945,
-      -978048,
-      -1320958,
-      -2647011,
-      -4203228,
-      4470323
+    "Febas": [
+      129138,
+      88389,
+      -146162,
+      -691790,
+      679362,
+      -1228541
     ],
     "Cárdenas": [
       51883,
@@ -4270,21 +4267,13 @@
       3081741,
       1164946
     ],
-    "Marrero": [
-      -21765,
-      -43442,
-      -64862,
-      -147701,
-      -314873,
-      -855745
-    ],
-    "Febas": [
-      129138,
-      88389,
-      -146162,
-      -691790,
-      679362,
-      -1228541
+    "John C.": [
+      -8712,
+      -16675,
+      -23477,
+      -64504,
+      -161298,
+      -508685
     ],
     "Urko": [
       67355,
@@ -5102,6 +5091,14 @@
       -689987,
       -1993607
     ],
+    "Marrero": [
+      -21765,
+      -43442,
+      -64862,
+      -147701,
+      -314873,
+      -855745
+    ],
     "Gayà": [
       264896,
       308566,
@@ -5318,14 +5315,6 @@
       -444108,
       -444108
     ],
-    "Hugo Álvarez Hugo Álvarez": [
-      -20647,
-      -49280,
-      -97459,
-      -296490,
-      -587722,
-      -1726724
-    ],
     "Diego López": [
       -49098,
       -99072,
@@ -5374,13 +5363,13 @@
       -63978,
       -214704
     ],
-    "Bekhoucha": [
-      0,
-      0,
-      0,
-      0,
-      0,
-      0
+    "Fran González": [
+      -8749,
+      -16750,
+      -23592,
+      -54824,
+      -85600,
+      -112835
     ],
     "Mariezkurrena": [
       0,
@@ -5414,7 +5403,7 @@
       -65510,
       -65510
     ],
-    "Arguibide": [
+    "Bekhoucha": [
       0,
       0,
       0,
@@ -5422,7 +5411,15 @@
       0,
       0
     ],
-    "D. Aguado": [
+    "Yáñez": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "Arguibide": [
       0,
       0,
       0,
@@ -5462,23 +5459,15 @@
       -310285,
       208575
     ],
-    "John C.": [
-      -8712,
-      -16675,
-      -23477,
-      -64504,
-      -161298,
-      -508685
+    "D. Aguado": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
     ],
-    "Fran González": [
-      -8749,
-      -16750,
-      -23592,
-      -54824,
-      -85600,
-      -112835
-    ],
-    "Yáñez": [
+    "Juanpe": [
       0,
       0,
       0,
@@ -5550,7 +5539,7 @@
       -3399793,
       -3004989
     ],
-    "Juanpe": [
+    "Osambela": [
       0,
       0,
       0,
@@ -5590,14 +5579,6 @@
       0,
       0
     ],
-    "Osambela": [
-      0,
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
     "Ferrer": [
       -9523,
       -18330,
@@ -5605,6 +5586,14 @@
       -67421,
       -94335,
       -94335
+    ],
+    "Hugo Álvarez Hugo Álvarez": [
+      -20647,
+      -49280,
+      -97459,
+      -296490,
+      -587722,
+      -1726724
     ],
     "Jauregizar": [
       -747983,
@@ -6463,7 +6452,7 @@
     "Fidalgo": {
       "jornada": "J1",
       "local": false,
-      "probabilidad": 30
+      "probabilidad": 40
     },
     "Mesonero": {
       "jornada": "J1",
@@ -6515,10 +6504,10 @@
       "local": true,
       "probabilidad": 80
     },
-    "Pinillos": {
+    "Redondo": {
       "jornada": "J3",
-      "local": true,
-      "probabilidad": null
+      "local": false,
+      "probabilidad": 50
     },
     "Jorge Cabello": {
       "jornada": "J3",
@@ -6538,32 +6527,32 @@
     "Gorrotxategi": {
       "jornada": "J1",
       "local": false,
-      "probabilidad": 20
+      "probabilidad": 0
     },
     "Ugrinic": {
       "jornada": "J1",
       "local": true,
-      "probabilidad": 60
+      "probabilidad": 50
     },
     "Bigas": {
       "jornada": "J3",
       "local": false,
       "probabilidad": 50
     },
-    "Redondo": {
+    "Pinillos": {
+      "jornada": "J3",
+      "local": true,
+      "probabilidad": null
+    },
+    "Dolan": {
       "jornada": "J3",
       "local": false,
-      "probabilidad": 50
+      "probabilidad": 80
     },
     "Rego": {
       "jornada": "J1",
       "local": false,
       "probabilidad": 30
-    },
-    "Brugui": {
-      "jornada": "J3",
-      "local": true,
-      "probabilidad": 60
     },
     "Esquivel": {
       "jornada": "J3",
@@ -6585,20 +6574,30 @@
       "local": true,
       "probabilidad": 5
     },
-    "Toljan": {
+    "Brugui": {
       "jornada": "J3",
       "local": true,
-      "probabilidad": 30
+      "probabilidad": 60
     },
-    "Dolan": {
+    "Dituro": {
       "jornada": "J3",
       "local": false,
-      "probabilidad": 80
+      "probabilidad": 90
     },
-    "Cortés": {
+    "Carlos Espí": {
+      "jornada": "J1",
+      "local": true,
+      "probabilidad": 20
+    },
+    "Jonny": {
       "jornada": "J3",
       "local": true,
-      "probabilidad": 30
+      "probabilidad": 80
+    },
+    "Santiago": {
+      "jornada": "J3",
+      "local": false,
+      "probabilidad": 0
     },
     "Aguado": {
       "jornada": "J3",
@@ -6630,20 +6629,15 @@
       "local": true,
       "probabilidad": 50
     },
-    "Jonny": {
-      "jornada": "J3",
-      "local": true,
-      "probabilidad": 80
+    "Junior": {
+      "jornada": "J1",
+      "local": false,
+      "probabilidad": 30
     },
     "Luiz Felipe": {
       "jornada": "J3",
       "local": false,
       "probabilidad": 0
-    },
-    "Dituro": {
-      "jornada": "J3",
-      "local": false,
-      "probabilidad": 90
     },
     "Hancko": {
       "jornada": "J3",
@@ -6670,20 +6664,15 @@
       "local": false,
       "probabilidad": 30
     },
-    "Junior": {
-      "jornada": "J1",
-      "local": false,
-      "probabilidad": 30
-    },
-    "Carlos Espí": {
-      "jornada": "J1",
-      "local": true,
-      "probabilidad": 20
-    },
-    "Primo": {
+    "Toljan": {
       "jornada": "J3",
       "local": true,
-      "probabilidad": 0
+      "probabilidad": 30
+    },
+    "Cortés": {
+      "jornada": "J3",
+      "local": true,
+      "probabilidad": 30
     },
     "Taufik": {
       "jornada": "J3",
@@ -6695,10 +6684,10 @@
       "local": false,
       "probabilidad": 90
     },
-    "Sancris": {
+    "Riedel": {
       "jornada": "J3",
       "local": false,
-      "probabilidad": 0
+      "probabilidad": 60
     },
     "Carlos Soler": {
       "jornada": "J1",
@@ -6725,10 +6714,10 @@
       "local": true,
       "probabilidad": 0
     },
-    "Montero": {
+    "Oluwaseyi": {
       "jornada": "J3",
-      "local": true,
-      "probabilidad": null
+      "local": false,
+      "probabilidad": 20
     },
     "Diangana": {
       "jornada": "J3",
@@ -6760,25 +6749,30 @@
       "local": true,
       "probabilidad": 0
     },
-    "Riedel": {
+    "Montero": {
       "jornada": "J3",
-      "local": false,
-      "probabilidad": 60
+      "local": true,
+      "probabilidad": null
     },
-    "Oluwaseyi": {
+    "Vlachodimos": {
+      "jornada": "J3",
+      "local": true,
+      "probabilidad": 95
+    },
+    "Primo": {
+      "jornada": "J3",
+      "local": true,
+      "probabilidad": 0
+    },
+    "Josan": {
       "jornada": "J3",
       "local": false,
-      "probabilidad": 20
+      "probabilidad": 10
     },
     "Vertrouwd": {
       "jornada": "J3",
       "local": false,
       "probabilidad": 60
-    },
-    "Davinchi": {
-      "jornada": "J3",
-      "local": false,
-      "probabilidad": 30
     },
     "Becerra": {
       "jornada": "J3",
@@ -6810,20 +6804,20 @@
       "local": false,
       "probabilidad": null
     },
-    "Josan": {
+    "Davinchi": {
       "jornada": "J3",
       "local": false,
-      "probabilidad": 10
+      "probabilidad": 30
+    },
+    "Ryan": {
+      "jornada": "J3",
+      "local": true,
+      "probabilidad": 95
     },
     "Thiago": {
       "jornada": "J1",
       "local": true,
       "probabilidad": 0
-    },
-    "Vlachodimos": {
-      "jornada": "J3",
-      "local": true,
-      "probabilidad": 95
     },
     "Veiga": {
       "jornada": "J3",
@@ -6860,11 +6854,6 @@
       "local": true,
       "probabilidad": 80
     },
-    "Ryan": {
-      "jornada": "J3",
-      "local": true,
-      "probabilidad": 95
-    },
     "Barcia": {
       "jornada": "J3",
       "local": true,
@@ -6875,10 +6864,10 @@
       "local": true,
       "probabilidad": null
     },
-    "Á. Núñez": {
-      "jornada": "J1",
-      "local": true,
-      "probabilidad": 30
+    "Affengruber": {
+      "jornada": "J3",
+      "local": false,
+      "probabilidad": 90
     },
     "Ortiz": {
       "jornada": "J3",
@@ -6898,7 +6887,7 @@
     "Bernal": {
       "jornada": "J1",
       "local": false,
-      "probabilidad": 70
+      "probabilidad": 60
     },
     "Niño": {
       "jornada": "J3",
@@ -7233,7 +7222,7 @@
     "Dieng": {
       "jornada": "J1",
       "local": true,
-      "probabilidad": 50
+      "probabilidad": 40
     },
     "Gulacsi": {
       "jornada": "J3",
@@ -7350,20 +7339,20 @@
       "local": true,
       "probabilidad": 40
     },
-    "Santiago": {
-      "jornada": "J3",
-      "local": false,
-      "probabilidad": 0
+    "Á. Núñez": {
+      "jornada": "J1",
+      "local": true,
+      "probabilidad": 30
     },
     "Fortea": {
       "jornada": "J1",
       "local": true,
       "probabilidad": null
     },
-    "Affengruber": {
-      "jornada": "J3",
-      "local": false,
-      "probabilidad": 90
+    "Febas": {
+      "jornada": "J1",
+      "local": true,
+      "probabilidad": 60
     },
     "Cárdenas": {
       "jornada": "J3",
@@ -7513,7 +7502,7 @@
     "Oroz": {
       "jornada": "J1",
       "local": false,
-      "probabilidad": 50
+      "probabilidad": 60
     },
     "Kike Barja": {
       "jornada": "J1",
@@ -7533,7 +7522,7 @@
     "Rubén G.": {
       "jornada": "J1",
       "local": false,
-      "probabilidad": 50
+      "probabilidad": 60
     },
     "Courtois": {
       "jornada": "J1",
@@ -7553,7 +7542,7 @@
     "Sadiq": {
       "jornada": "J1",
       "local": true,
-      "probabilidad": 50
+      "probabilidad": 40
     },
     "Pacheco": {
       "jornada": "J1",
@@ -7570,15 +7559,10 @@
       "local": false,
       "probabilidad": 0
     },
-    "Marrero": {
-      "jornada": "J1",
+    "John C.": {
+      "jornada": "J3",
       "local": false,
-      "probabilidad": 30
-    },
-    "Febas": {
-      "jornada": "J1",
-      "local": true,
-      "probabilidad": 50
+      "probabilidad": 20
     },
     "Urko": {
       "jornada": "J3",
@@ -7628,7 +7612,7 @@
     "Duro": {
       "jornada": "J1",
       "local": true,
-      "probabilidad": 50
+      "probabilidad": 60
     },
     "Olasagasti": {
       "jornada": "J3",
@@ -7728,7 +7712,7 @@
     "Marín": {
       "jornada": "J1",
       "local": false,
-      "probabilidad": 10
+      "probabilidad": 0
     },
     "Eric Garcia": {
       "jornada": "J1",
@@ -8090,6 +8074,11 @@
       "local": true,
       "probabilidad": 20
     },
+    "Marrero": {
+      "jornada": "J1",
+      "local": false,
+      "probabilidad": 30
+    },
     "Gayà": {
       "jornada": "J1",
       "local": true,
@@ -8225,11 +8214,6 @@
       "local": true,
       "probabilidad": 70
     },
-    "Hugo Álvarez Hugo Álvarez": {
-      "jornada": "J1",
-      "local": true,
-      "probabilidad": 40
-    },
     "Diego López": {
       "jornada": "J1",
       "local": true,
@@ -8260,10 +8244,10 @@
       "local": false,
       "probabilidad": 50
     },
-    "Bekhoucha": {
+    "Fran González": {
       "jornada": "J3",
-      "local": false,
-      "probabilidad": null
+      "local": true,
+      "probabilidad": 5
     },
     "Mariezkurrena": {
       "jornada": "J1",
@@ -8285,15 +8269,20 @@
       "local": true,
       "probabilidad": null
     },
+    "Bekhoucha": {
+      "jornada": "J3",
+      "local": false,
+      "probabilidad": null
+    },
+    "Yáñez": {
+      "jornada": "J1",
+      "local": true,
+      "probabilidad": null
+    },
     "Arguibide": {
       "jornada": "J1",
       "local": false,
       "probabilidad": 70
-    },
-    "D. Aguado": {
-      "jornada": "J1",
-      "local": true,
-      "probabilidad": null
     },
     "Molina": {
       "jornada": "J3",
@@ -8315,19 +8304,14 @@
       "local": false,
       "probabilidad": 0
     },
-    "John C.": {
-      "jornada": "J3",
-      "local": false,
-      "probabilidad": 20
-    },
-    "Fran González": {
-      "jornada": "J3",
-      "local": true,
-      "probabilidad": 5
-    },
-    "Yáñez": {
+    "D. Aguado": {
       "jornada": "J1",
       "local": true,
+      "probabilidad": null
+    },
+    "Juanpe": {
+      "jornada": "J3",
+      "local": false,
       "probabilidad": null
     },
     "Valera": {
@@ -8370,10 +8354,10 @@
       "local": false,
       "probabilidad": 30
     },
-    "Juanpe": {
-      "jornada": "J3",
+    "Osambela": {
+      "jornada": "J1",
       "local": false,
-      "probabilidad": null
+      "probabilidad": 10
     },
     "Cucho": {
       "jornada": "J1",
@@ -8395,15 +8379,15 @@
       "local": false,
       "probabilidad": null
     },
-    "Osambela": {
-      "jornada": "J1",
-      "local": false,
-      "probabilidad": 10
-    },
     "Ferrer": {
       "jornada": "J3",
       "local": false,
       "probabilidad": null
+    },
+    "Hugo Álvarez Hugo Álvarez": {
+      "jornada": "J1",
+      "local": true,
+      "probabilidad": 40
     },
     "Jauregizar": {
       "jornada": "J1",
@@ -8438,7 +8422,7 @@
     "Moriba": {
       "jornada": "J1",
       "local": true,
-      "probabilidad": 70
+      "probabilidad": 50
     },
     "Guedes": {
       "jornada": "J1",
@@ -8503,7 +8487,7 @@
     "Pepelu": {
       "jornada": "J1",
       "local": true,
-      "probabilidad": 50
+      "probabilidad": 70
     },
     "Foulquier": {
       "jornada": "J1",
@@ -8633,7 +8617,7 @@
     "Abel Bretones Bretones": {
       "jornada": "J1",
       "local": false,
-      "probabilidad": 60
+      "probabilidad": 50
     },
     "Pedro Díaz": {
       "jornada": "J3",
@@ -8643,7 +8627,7 @@
     "L. Sucic": {
       "jornada": "J1",
       "local": false,
-      "probabilidad": 60
+      "probabilidad": 70
     },
     "Letácek": {
       "jornada": "J3",
@@ -8698,7 +8682,7 @@
     "Raul Moro": {
       "jornada": "J1",
       "local": false,
-      "probabilidad": 70
+      "probabilidad": 50
     },
     "Boyomo": {
       "jornada": "J1",
