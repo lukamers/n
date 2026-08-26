@@ -1367,8 +1367,12 @@ function renderCards(){
     card.className = 'card';
     card.style.animationDelay = (i*0.06)+'s';
 
-    const sortedPlayers = [...team.players].sort((a,b)=>currentValue(b)-currentValue(a));
-    const rows = sortedPlayers.map(p=>`
+const ORDEN_POS = {POR:0, DEF:1, MED:2, DEL:3, DT:4};
+const sortedPlayers = [...team.players].sort((a,b)=>{
+  const diff = ORDEN_POS[realPos(a)] - ORDEN_POS[realPos(b)];
+  if(diff !== 0) return diff;
+  return a.n.localeCompare(b.n, 'es');
+});    const rows = sortedPlayers.map(p=>`
       <tr>
         <td class="pname">
           <div class="pcell">
