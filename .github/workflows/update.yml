@@ -3,7 +3,7 @@ name: Actualizar mercado
 on:
   schedule:
     # Todos los días a las 08:00 UTC (ajustá la hora a tu gusto)
-    - cron: "0 8 * * *"
+    - cron: "0 0 * * *"
   workflow_dispatch: {}   # también podés dispararlo a mano desde GitHub
 
 permissions:
