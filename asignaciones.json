@@ -18,7 +18,7 @@
         {
           "n": "Óscar Marcos",
           "pos": "DEF",
-          "v": 601647
+          "v": 1082525
         },
         {
           "n": "Antony",
@@ -154,11 +154,6 @@
         },
         {
           "n": "Iker Muñoz",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Luiz Felipe",
           "pos": "DEF",
           "rol": "titular"
         },
@@ -419,6 +414,11 @@
         },
         {
           "n": "Iñigo Vicente",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Manuel Pellegrini",
           "pos": "DEF",
           "rol": "titular"
         }
