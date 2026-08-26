@@ -991,8 +991,9 @@ function playerClub(p){
 }
 function teamWarnings(team){
   const warnings = [];
-  if(team.players.length < 11){
-    warnings.push(`Solo ${team.players.length} jugador${team.players.length===1?'':'es'} (necesita 11)`);
+  const jugadoresSinDT = team.players.filter(p=>realPos(p) !== 'DT').length;
+  if(jugadoresSinDT < 11){
+    warnings.push(`Solo ${jugadoresSinDT} jugador${jugadoresSinDT===1?'':'es'} (necesita 11, sin contar DT)`);
   }
   const porCount = team.players.filter(p=>realPos(p)==='POR').length;
   const defCount = team.players.filter(p=>realPos(p)==='DEF').length;
@@ -1003,6 +1004,7 @@ function teamWarnings(team){
   if(medCount === 0) warnings.push('Sin mediocampistas');
   if(delCount === 0) warnings.push('Sin delanteros');
   return warnings;
+}
 }
 function teamTotal(team){ return team.players.reduce((s,p)=> s + currentValue(p), 0); }
 function teamMaxSpend(team){ return team.caja + 0.20 * teamTotal(team); }
