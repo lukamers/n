@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-08-26T00:30:37.935248+00:00",
+  "actualizado": "2026-08-27T01:42:47.109937+00:00",
   "calendario": {
     "Real Madrid": [
       {
@@ -7,12 +7,6 @@
         "local": false,
         "fecha": "Día",
         "hora": "Hora"
-      },
-      {
-        "rival": "Real Sociedad",
-        "local": true,
-        "fecha": "26/08",
-        "hora": "14:00"
       },
       {
         "rival": "Málaga CF",
@@ -31,6 +25,12 @@
         "local": true,
         "fecha": "13/09",
         "hora": "12:00"
+      },
+      {
+        "rival": "Elche CF",
+        "local": false,
+        "fecha": "16/09",
+        "hora": "12:00"
       }
     ],
     "Real Sociedad": [
@@ -39,12 +39,6 @@
         "local": false,
         "fecha": "Día",
         "hora": "Hora"
-      },
-      {
-        "rival": "Real Madrid",
-        "local": false,
-        "fecha": "26/08",
-        "hora": "14:00"
       },
       {
         "rival": "Espanyol",
@@ -63,6 +57,12 @@
         "local": false,
         "fecha": "07/09",
         "hora": "14:30"
+      },
+      {
+        "rival": "Atlético",
+        "local": true,
+        "fecha": "13/09",
+        "hora": "12:00"
       }
     ],
     "Atlético": [
