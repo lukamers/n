@@ -66,10 +66,6 @@
       "caja": 57870724,
       "players": [
         {
-          "n": "Carreira",
-          "pos": "DEF"
-        },
-        {
           "n": "Unai López",
           "pos": "MED"
         },
@@ -171,6 +167,11 @@
           "n": "Diego Simeone",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Oblak",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -222,6 +223,11 @@
         },
         {
           "n": "Akhomach",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Carreira",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -342,10 +348,6 @@
           "pos": "DEF"
         },
         {
-          "n": "Rubén G.",
-          "pos": "DEF"
-        },
-        {
           "n": "Hancko",
           "pos": "DEF"
         },
@@ -380,6 +382,16 @@
         },
         {
           "n": "Nacho Pérez",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Ryan",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Castrín",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -419,6 +431,11 @@
         },
         {
           "n": "Manuel Pellegrini",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Bellingham",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -466,11 +483,6 @@
           "rol": "titular"
         },
         {
-          "n": "Álvaro García",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Ximo",
           "pos": "DEF",
           "rol": "titular"
@@ -482,6 +494,11 @@
         },
         {
           "n": "Luismi",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Rubén G.",
           "pos": "DEF",
           "rol": "titular"
         }
