@@ -393,6 +393,20 @@
     </div>
     <div id="teamH2hResult"></div>
 
+    <div class="section-label">Evolución de todos los equipos</div>
+    <p style="color:var(--text-faint); font-size:12.5px; margin:-6px 0 12px; line-height:1.5;">Las 9 plantillas superpuestas en el mismo gráfico — pasá el cursor por la leyenda para identificar a cada uno.</p>
+    <div class="card">
+      <div class="squad-inner" style="padding-top:16px;">
+        <div class="tendencia-label">Patrimonio (valor total de la plantilla actual, día a día)</div>
+        <div id="allTeamsPatrimonioChart"></div>
+        <div class="tendencia-label" style="margin-top:20px;">Mercado (subida/bajada acumulada desde el primer día registrado)</div>
+        <div id="allTeamsMercadoChart"></div>
+        <div class="tendencia-label" style="margin-top:20px;">Puntos (acumulados jornada a jornada)</div>
+        <div id="allTeamsPuntosChart"></div>
+        <div id="allTeamsLegend" style="display:flex; gap:14px; flex-wrap:wrap; font-size:11.5px; color:var(--text-faint); margin-top:14px;"></div>
+      </div>
+    </div>
+
     <div class="section-label">Comparar jugadores por posición</div>
     <div class="sort-box" id="comparadorPosBox">
       <button class="sort-btn active" data-pos="TODOS">Todos</button>
@@ -519,12 +533,6 @@ let teams = {
     {n:"Yuri", pos:"DEF"}, {n:"Puado", pos:"MED"}, {n:"Blanco", pos:"MED"},
     {n:"Maguette", pos:"MED"}, {n:"Camavinga", pos:"MED"}, {n:"Sadiq", pos:"DEL"},
     {n:"Ayoze", pos:"DEL"}, {n:"Sorloth", pos:"DEL"}, {n:"T. Martínez", pos:"DEL"},
-  ]},
-  "VIVIKLAUFC": {caja:5133858, players:[
-    {n:"A. Herrero", pos:"POR"}, {n:"Cabrera", pos:"DEF"}, {n:"Tenaglia", pos:"DEF"},
-    {n:"Mouriño", pos:"DEF"}, {n:"Aramburu", pos:"DEF"}, {n:"Dani Lorenzo", pos:"MED"},
-    {n:"G. Puerta", pos:"MED"}, {n:"Moncayola", pos:"MED"}, {n:"Aimar", pos:"MED"},
-    {n:"Raúl Moro", pos:"DEL"}, {n:"I. Romero", pos:"DEL", v:6832126},
   ]},
   "JMR1902": {caja:63398733, players:[
     {n:"Szczesny", pos:"POR"}, {n:"Llorente", pos:"DEF"}, {n:"Á. Carreras", pos:"DEF"},
@@ -1213,6 +1221,12 @@ function playerAvatarStyle(name){
   const c2 = avatarPalette[(hashStr('p2-'+name)+3) % avatarPalette.length];
   return `background:linear-gradient(135deg, ${c1}, ${c2})`;
 }
+// Color estable por equipo, para las 9 curvas superpuestas de "Evolución
+// de todos los equipos" — así cada participante siempre tiene el mismo
+// color en los 3 gráficos (patrimonio / mercado / puntos).
+function teamColor(name){
+  return avatarPalette[hashStr('teamline-'+name) % avatarPalette.length];
+}
 function countUp(el, target){
   const duration = 800; const start = performance.now();
   function step(now){
@@ -1470,6 +1484,116 @@ const sortedPlayers = [...team.players].sort((a,b)=>{
   document.querySelectorAll('.cp').forEach(el=>{ countUpPlain(el, parseInt(el.dataset.target,10)); });
   renderComparador();
   renderChollos();
+  renderAllTeamsCharts();
+}
+
+// ---------- Evolución de todos los equipos (9 curvas superpuestas) ----------
+// Arma un gráfico de líneas con una curva por equipo, alineando todas las
+// series por fecha (o por jornada, según lo que reciba). "seriesMap" es
+// { nombreEquipo: [{fecha, valor}, ...] }.
+function buildMultiLineSVG(seriesMap){
+  const names = Object.keys(seriesMap).filter(n=> seriesMap[n] && seriesMap[n].length > 0);
+  const w = 640, h = 220, pad = 16;
+  const fechas = [...new Set(names.flatMap(n=> seriesMap[n].map(p=>p.fecha)))].sort();
+
+  if(fechas.length < 2){
+    return `<p style="color:var(--text-faint); font-size:13px; margin:14px 0;">Todavía no hay suficiente historial acumulado para graficar esto.</p>`;
+  }
+
+  const allValores = names.flatMap(n=> seriesMap[n].map(p=>p.valor));
+  let min = Math.min(...allValores);
+  let max = Math.max(...allValores);
+  if(min > 0) min = 0;
+  if(max < 0) max = 0;
+  const range = (max - min) || 1;
+  const stepX = (w - pad*2) / (fechas.length - 1);
+
+  function coordsFor(points){
+    const map = {};
+    points.forEach(p=> map[p.fecha] = p.valor);
+    const coords = [];
+    fechas.forEach((f,i)=>{
+      if(map[f] !== undefined){
+        const x = pad + i*stepX;
+        const y = pad + (h - pad*2) * (1 - (map[f]-min)/range);
+        coords.push([x,y]);
+      }
+    });
+    return coords;
+  }
+
+  let zeroLine = '';
+  if(min < 0 && max > 0){
+    const y0 = pad + (h - pad*2) * (1 - (0-min)/range);
+    zeroLine = `<line x1="${pad}" y1="${y0.toFixed(1)}" x2="${w-pad}" y2="${y0.toFixed(1)}" stroke="rgba(255,255,255,.14)" stroke-width="1" stroke-dasharray="3,3"/>`;
+  }
+
+  const paths = names.map(name=>{
+    const coords = coordsFor(seriesMap[name]);
+    if(coords.length === 0) return '';
+    const d = coords.map((c,i)=> (i===0?'M':'L') + c[0].toFixed(1) + ',' + c[1].toFixed(1)).join(' ');
+    const color = teamColor(name);
+    const last = coords[coords.length-1];
+    const isYou = teams[name] && teams[name].you;
+    return `<path d="${d}" fill="none" stroke="${color}" stroke-width="${isYou?3:2}" stroke-linejoin="round" stroke-linecap="round" opacity="${isYou?1:0.85}"/>`
+      + `<circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="${isYou?4.5:3.5}" fill="${color}"/>`;
+  }).join('');
+
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" style="overflow:visible; display:block;">${zeroLine}${paths}</svg>`;
+}
+
+function buildTeamsLegendHtml(names){
+  return names.map(n=>{
+    const you = teams[n] && teams[n].you;
+    return `<span style="${you?'color:var(--text); font-weight:700;':''}"><span style="background:${teamColor(n)}; display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:5px;"></span>${n}${you?' (vos)':''}</span>`;
+  }).join('');
+}
+
+function renderAllTeamsCharts(){
+  const patrimonioEl = document.getElementById('allTeamsPatrimonioChart');
+  const mercadoEl = document.getElementById('allTeamsMercadoChart');
+  const puntosEl = document.getElementById('allTeamsPuntosChart');
+  const legendEl = document.getElementById('allTeamsLegend');
+  if(!patrimonioEl || !mercadoEl || !puntosEl) return;
+
+  const names = Object.keys(teams);
+
+  // Patrimonio: valor total de la plantilla ACTUAL, día a día (mismo dato
+  // que ya usa el comparador cabeza a cabeza de participantes).
+  const patrimonioMap = {};
+  names.forEach(n=> patrimonioMap[n] = teamHistorialCombinado(n));
+  patrimonioEl.innerHTML = buildMultiLineSVG(patrimonioMap);
+
+  // Mercado: variación acumulada del patrimonio día a día (día n menos
+  // día n-1, sumado) — es una aproximación al movimiento real de mercado
+  // de la plantilla; si hubo fichajes en el medio, ese cambio de plantel
+  // también se refleja acá, no solo la subida/bajada oficial.
+  const mercadoMap = {};
+  names.forEach(n=>{
+    const serie = patrimonioMap[n];
+    let acc = 0;
+    mercadoMap[n] = serie.map((p,i)=>{
+      if(i > 0) acc += (p.valor - serie[i-1].valor);
+      return { fecha: p.fecha, valor: acc };
+    });
+  });
+  mercadoEl.innerHTML = buildMultiLineSVG(mercadoMap);
+
+  // Puntos: acumulados jornada a jornada (misma cuenta que la Tabla de
+  // posiciones, pero mostrada como evolución en vez de solo el total).
+  const jornadaKeys = ordenJornadas();
+  const puntosMap = {};
+  names.forEach(n=>{
+    let acc = 0;
+    puntosMap[n] = jornadaKeys.map(k=>{
+      const pts = puntosDeEquipoEnJornada(k, n);
+      acc += (pts || 0);
+      return { fecha: k, valor: acc };
+    });
+  });
+  puntosEl.innerHTML = buildMultiLineSVG(puntosMap);
+
+  legendEl.innerHTML = buildTeamsLegendHtml(names);
 }
 
 function applyMercado(fresh){
@@ -1555,12 +1679,13 @@ Promise.all([
   applyPosiciones(posiciones);
   renderPremios();
   if(!document.getElementById('updatedLine').textContent.includes('ACTUALIZADO')){
-    document.getElementById('updatedLine').textContent = '9 EQUIPOS';
+    document.getElementById('updatedLine').textContent = '8 EQUIPOS';
   }
   renderCards();
   renderComparador();
   populateTeamSelects();
   renderChollos();
+  renderAllTeamsCharts();
 });
 
 
@@ -1568,6 +1693,7 @@ renderCards();
 renderComparador();
 populateTeamSelects();
 renderChollos();
+renderAllTeamsCharts();
 
 document.querySelectorAll('#sortBox .sort-btn').forEach(btn=>{
   btn.addEventListener('click', ()=>{
