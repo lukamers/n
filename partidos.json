@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-08-28T08:30:44.368332+00:00",
+  "actualizado": "2026-08-28T19:44:03.920201+00:00",
   "calendario": {
     "Real Madrid": [
       {
@@ -169,12 +169,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Alavés",
-        "local": false,
-        "fecha": "28/08",
-        "hora": "14:30"
-      },
-      {
         "rival": "Deportivo",
         "local": true,
         "fecha": "05/09",
@@ -190,6 +184,12 @@
         "rival": "Málaga CF",
         "local": false,
         "fecha": "16/09",
+        "hora": "12:00"
+      },
+      {
+        "rival": "Levante UD",
+        "local": true,
+        "fecha": "20/09",
         "hora": "12:00"
       }
     ],
@@ -361,12 +361,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Elche CF",
-        "local": true,
-        "fecha": "28/08",
-        "hora": "12:00"
-      },
-      {
         "rival": "Rayo",
         "local": false,
         "fecha": "05/09",
@@ -382,6 +376,12 @@
         "rival": "Barcelona",
         "local": false,
         "fecha": "16/09",
+        "hora": "12:00"
+      },
+      {
+        "rival": "Celta",
+        "local": false,
+        "fecha": "20/09",
         "hora": "12:00"
       }
     ],
@@ -489,12 +489,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Villarreal",
-        "local": true,
-        "fecha": "28/08",
-        "hora": "14:30"
-      },
-      {
         "rival": "Osasuna",
         "local": true,
         "fecha": "06/09",
@@ -510,6 +504,12 @@
         "rival": "Valencia",
         "local": true,
         "fecha": "16/09",
+        "hora": "12:00"
+      },
+      {
+        "rival": "Athletic",
+        "local": false,
+        "fecha": "20/09",
         "hora": "12:00"
       }
     ],
@@ -617,12 +617,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Racing de Santander",
-        "local": false,
-        "fecha": "28/08",
-        "hora": "12:00"
-      },
-      {
         "rival": "Real Sociedad",
         "local": true,
         "fecha": "07/09",
@@ -638,6 +632,12 @@
         "rival": "Real Madrid",
         "local": true,
         "fecha": "16/09",
+        "hora": "12:00"
+      },
+      {
+        "rival": "Espanyol",
+        "local": false,
+        "fecha": "20/09",
         "hora": "12:00"
       }
     ]
