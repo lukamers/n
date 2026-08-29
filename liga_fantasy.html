@@ -1230,7 +1230,7 @@ const CLUB_CRESTS = {
   "Elche": ["ELC", "#00693e", "#f5f5f5", "#0c0f16"],
 };
 
-function clubBadge(club, size = 18, extraStyle = ""){
+function renderInitialBadge(club, size, extraStyle){
   const crest = CLUB_CRESTS[club];
   if(!crest) return '';
   const [code, c1, c2, textColor] = crest;
@@ -1243,6 +1243,47 @@ function clubBadge(club, size = 18, extraStyle = ""){
     box-shadow:0 0 0 1px rgba(255,255,255,.18);${extraStyle}
   ">${code}</span>`;
 }
+
+// Escudo real via TheSportsDB (API pública gratuita, uso personal/no
+// comercial). CLUB_LOGO_URLS se llena de forma asíncrona al cargar la
+// página (ver loadClubCrests más abajo); mientras tanto, y si algún
+// escudo falla al cargar, se usa el círculo de iniciales como respaldo.
+let CLUB_LOGO_URLS = {};
+
+function clubBadge(club, size = 18, extraStyle = ""){
+  if(!club || !CLUB_CRESTS[club]) return '';
+  const url = CLUB_LOGO_URLS[club];
+  const fallbackHtml = renderInitialBadge(club, size, extraStyle).replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  if(url){
+    return `<img src="${url}" alt="${club}" title="${club}" style="width:${size}px;height:${size}px;min-width:${size}px;object-fit:contain;flex-shrink:0;${extraStyle}" onerror="this.outerHTML='${fallbackHtml}';">`;
+  }
+  return renderInitialBadge(club, size, extraStyle);
+}
+
+const THESPORTSDB_TEAM_NAMES = {
+  "Atlético": "Atletico Madrid",
+  "Athletic": "Athletic Bilbao",
+  "Málaga": "Malaga",
+};
+
+async function loadClubCrests(){
+  const clubs = Object.keys(CLUB_CRESTS);
+  await Promise.all(clubs.map(async club => {
+    try {
+      const query = encodeURIComponent(THESPORTSDB_TEAM_NAMES[club] || club);
+      const res = await fetch(`https://www.thesportsdb.com/api/v1/json/3/searchteams.php?t=${query}`);
+      if(!res.ok) return;
+      const data = await res.json();
+      const team = data && data.teams && data.teams[0];
+      const url = team && team.strBadge;
+      if(url) CLUB_LOGO_URLS[club] = url;
+    } catch(e){ /* se queda con el fallback de iniciales */ }
+  }));
+  renderCards();
+  renderComparador();
+  renderChollos();
+}
+loadClubCrests();
 
 const avatarPalette = ["#ef4b3a","#f2994a","#f2c94c","#6fcf97","#56ccf2","#9b59b6","#eb5757","#27ae60","#2f80ed","#bb6bd9"];
 function hashStr(s){ let h=0; for(let i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))>>>0; } return h; }
