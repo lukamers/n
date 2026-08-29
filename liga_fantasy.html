@@ -718,6 +718,7 @@ function renderChollos(){
       ratio: puntos / (valor / 1000000),
       team: owner ? owner.team : null,
       pos: owner ? owner.pos : null,
+      club: info.club,
     };
   }).filter(Boolean).sort((a,b)=> b.ratio - a.ratio).slice(0, limit);
 
@@ -727,6 +728,7 @@ function renderChollos(){
       <td class="pname">
         <div class="pcell">
           ${p.pos ? `<span class="pos ${p.pos}">${p.pos}</span>` : ''}
+          ${clubBadge(p.club)}
           <span class="player-link" onclick="showPlayerHistory('${p.n.replace(/'/g,"\\'")}')">${p.n}</span>
         </div>
       </td>
@@ -923,7 +925,8 @@ function showPlayerHistory(name){
   const chartWrap = document.getElementById('playerModalChart');
   const statsWrap = document.getElementById('playerModalStats');
 
-  title.textContent = name;
+  const clubInfo = lookupMarket(name);
+  title.innerHTML = `${clubBadge(clubInfo && clubInfo.club, 22)} ${name}`;
 
   const hist = historialData[name] || historialData[ALIASES[name]] || null;
 
@@ -1204,6 +1207,43 @@ function renderPremios(){
     </div>
   `;
 }
+const CLUB_CRESTS = {
+  "Real Madrid": ["RMA", "#f5f5f5", "#c9a227", "#1b1b1b"],
+  "Real Sociedad": ["RSO", "#0057b8", "#001a70", "#ffffff"],
+  "Atlético": ["ATM", "#cb3524", "#1b2a5b", "#ffffff"],
+  "Athletic": ["ATH", "#ee2523", "#f5f5f5", "#1b1b1b"],
+  "Barcelona": ["BAR", "#a50044", "#004d98", "#ffffff"],
+  "Villarreal": ["VIL", "#ffe667", "#f7d046", "#0c0f16"],
+  "Espanyol": ["ESP", "#0057a8", "#00305e", "#ffffff"],
+  "Getafe": ["GET", "#005ca9", "#0a2a4d", "#ffffff"],
+  "Levante": ["LEV", "#b0062c", "#00529f", "#ffffff"],
+  "Málaga": ["MAL", "#1f6fb2", "#0d2f52", "#ffffff"],
+  "Osasuna": ["OSA", "#d2122e", "#0b1c3d", "#ffffff"],
+  "Racing": ["RAC", "#00964b", "#f5f5f5", "#0c0f16"],
+  "Rayo": ["RAY", "#e2231a", "#f5f5f5", "#1b1b1b"],
+  "Sevilla": ["SEV", "#d81a1a", "#f5f5f5", "#1b1b1b"],
+  "Valencia": ["VAL", "#ee7f00", "#1b1b1b", "#ffffff"],
+  "Alavés": ["ALA", "#0055a5", "#001a4d", "#ffffff"],
+  "Betis": ["BET", "#00954c", "#f5f5f5", "#0c0f16"],
+  "Celta": ["CEL", "#82c4e8", "#4a90c2", "#0c0f16"],
+  "Deportivo": ["DEP", "#0a3a8f", "#001a4d", "#ffffff"],
+  "Elche": ["ELC", "#00693e", "#f5f5f5", "#0c0f16"],
+};
+
+function clubBadge(club, size = 18, extraStyle = ""){
+  const crest = CLUB_CRESTS[club];
+  if(!crest) return '';
+  const [code, c1, c2, textColor] = crest;
+  return `<span class="club-badge" title="${club}" style="
+    width:${size}px;height:${size}px;min-width:${size}px;
+    background:linear-gradient(135deg, ${c1}, ${c2});
+    border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
+    font-family:'Oswald',sans-serif;font-weight:700;font-size:${Math.round(size*0.34)}px;
+    color:${textColor};letter-spacing:-.02em;flex-shrink:0;
+    box-shadow:0 0 0 1px rgba(255,255,255,.18);${extraStyle}
+  ">${code}</span>`;
+}
+
 const avatarPalette = ["#ef4b3a","#f2994a","#f2c94c","#6fcf97","#56ccf2","#9b59b6","#eb5757","#27ae60","#2f80ed","#bb6bd9"];
 function hashStr(s){ let h=0; for(let i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))>>>0; } return h; }
 function initials(name){
@@ -1302,6 +1342,7 @@ function renderComparador(){
       <td class="pname">
         <div class="pcell">
           <span class="pos ${realPos(p)}">${realPos(p)}</span>
+          ${clubBadge(playerClub(p))}
           <span class="player-link" onclick="showPlayerHistory('${p.n.replace(/'/g,"\\'")}')">${p.n}</span>
         </div>
       </td>
@@ -1391,6 +1432,7 @@ const sortedPlayers = [...team.players].sort((a,b)=>{
         <td class="pname">
           <div class="pcell">
             <span class="pos ${realPos(p)}">${realPos(p)}</span>
+            ${clubBadge(playerClub(p))}
             <span class="player-link" onclick="showPlayerHistory('${p.n.replace(/'/g,"\\'")}')">${p.n}</span>${p.tag ? `<span class="tag"> · ${p.tag}</span>` : ""}
           </div>
         </td>
