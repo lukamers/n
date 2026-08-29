@@ -233,52 +233,6 @@
         }
       ]
     },
-    "VIVIKLAUFC": {
-      "caja": 35975104,
-      "players": [
-        {
-          "n": "A. Herrero",
-          "pos": "POR"
-        },
-        {
-          "n": "Cabrera",
-          "pos": "DEF"
-        },
-        {
-          "n": "Aramburu",
-          "pos": "DEF"
-        },
-        {
-          "n": "Dani Lorenzo",
-          "pos": "MED"
-        },
-        {
-          "n": "G. Puerta",
-          "pos": "MED"
-        },
-        {
-          "n": "Moncayola",
-          "pos": "MED"
-        },
-        {
-          "n": "Aimar",
-          "pos": "MED"
-        },
-        {
-          "n": "Raúl Moro",
-          "pos": "DEL"
-        },
-        {
-          "n": "I. Romero",
-          "pos": "DEL",
-          "v": 6832126
-        },
-        {
-          "n": "Quique Sánchez",
-          "pos": "DEF"
-        }
-      ]
-    },
     "JMR1902": {
       "caja": 62876310,
       "players": [
