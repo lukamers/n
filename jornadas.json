@@ -1275,6 +1275,921 @@
           ]
         }
       }
+    },
+    "J3": {
+      "cerrada": "2026-08-30T22:00:36.357Z",
+      "puntosAcumulados": {
+        "Sivera": 30,
+        "Dani Martínez": 8,
+        "Unai Santos": 0,
+        "Iker Muñoz": 8,
+        "Oláiz": 0,
+        "Aitor Mañas": 3,
+        "Carrera": 0,
+        "Cestero": 0,
+        "Ferran": 6,
+        "Carlos Macià": 5,
+        "Manuel Ángel": 0,
+        "Álvaro": 1,
+        "Javi Navarro": 0,
+        "Beitia": -2,
+        "Lebarbier": 0,
+        "Al Lal": 0,
+        "Marchal": 0,
+        "Panach": 0,
+        "Julio Díaz": 2,
+        "Cubo": 0,
+        "Germán Parreño": 0,
+        "Quagliata": 4,
+        "Loureiro": 4,
+        "Ochieng": 1,
+        "Noubi": 5,
+        "Comas": 0,
+        "Ximo": 5,
+        "Pablo García": 8,
+        "Riki": 0,
+        "Morcillo": 0,
+        "Antañón": 0,
+        "Burcio": 0,
+        "Thiago": 3,
+        "Martín": 7,
+        "Romero": 0,
+        "Boselli": 1,
+        "Ángel Pérez": 24,
+        "Cepeda": 10,
+        "Freeman": 4,
+        "Koski": 23,
+        "Fidalgo": 0,
+        "Tete Morente": 12,
+        "Lookman": 19,
+        "Vargas": 2,
+        "Sangaré": 8,
+        "Espart": 21,
+        "Villares": 5,
+        "Ugrinic": 9,
+        "Bigas": 2,
+        "Redondo": 9,
+        "Rego": 0,
+        "Esquivel": 0,
+        "Oriol Rey": 12,
+        "Víctor García": 4,
+        "Cuñat Campos": 0,
+        "Toljan": 5,
+        "Carlos Espí": 9,
+        "Cortés": 0,
+        "Vertrouwd": 3,
+        "Gorrotxategi": 2,
+        "C. Álvarez": 0,
+        "Radu": 12,
+        "Huijsen": 13,
+        "Alexander-Arnold": 2,
+        "Jonny": 21,
+        "Hancko": 21,
+        "Martim Neto": 5,
+        "Jorge Cabello": 0,
+        "Valentín Gómez": 13,
+        "Junior": 1,
+        "Dituro": 8,
+        "Dolan": 19,
+        "Brugui": 18,
+        "Rueda": 1,
+        "Monreal": 0,
+        "Laporte": 4,
+        "Joaquín": 7,
+        "Cardoso": 2,
+        "Mikautadze": 25,
+        "Diangana": 0,
+        "Alemão": 0,
+        "Santos": 0,
+        "Folgado": 0,
+        "Aller": 0,
+        "Carlos Soler": 14,
+        "Nacho Pérez": 13,
+        "Mendoza": 8,
+        "Echegoyen": 0,
+        "Josan": 2,
+        "Davinchi": 1,
+        "Veiga": 8,
+        "Altozano": 0,
+        "Riedel": 10,
+        "Sierra": 19,
+        "Suazo": 5,
+        "Ryan": 26,
+        "Vlachodimos": 18,
+        "Oluwaseyi": 4,
+        "Iván Romero": 8,
+        "Lozano": 2,
+        "Padilla": 0,
+        "Bernal": 13,
+        "Serrano": 6,
+        "Calatrava": 15,
+        "Román": 15,
+        "Ortiz": 5,
+        "Niño": 11,
+        "Mella": 3,
+        "Eriksson": 0,
+        "Enríquez": 2,
+        "Lobete": 2,
+        "Jauregi": 1,
+        "Haitam": 2,
+        "Jiménez": 0,
+        "Lorenzo": 10,
+        "Mantilla": 2,
+        "Sainz-Maza": 0,
+        "Hernando": 10,
+        "Salinas": 1,
+        "Carlos Sánchez": 0,
+        "Facu González": 4,
+        "Rafa Rodríguez": 2,
+        "Merino": 6,
+        "Sergio Martínez": 12,
+        "Carlos López": 0,
+        "Mario": 8,
+        "Luismi": 13,
+        "Bil Nsongo": 6,
+        "Eddahchouri": 1,
+        "Osorio": 0,
+        "Herrero": 12,
+        "Moussa": 0,
+        "Puga": 8,
+        "Rafita": 10,
+        "Galilea": 10,
+        "Recio": 7,
+        "Pastor": 0,
+        "Gueye": 5,
+        "Puerta": 9,
+        "Dieng": 2,
+        "Moscardo": 2,
+        "Gulacsi": 0,
+        "Amatucci": 10,
+        "De Haas": 1,
+        "Bernardo Silva": 8,
+        "Vallecillo": 0,
+        "Iñigo Vicente": 24,
+        "Arana": 1,
+        "Guliashvili": 0,
+        "Canales": 1,
+        "Diego Diaz": 1,
+        "Chupete": 10,
+        "Hjulmand": 9,
+        "Larrubia": 4,
+        "Yeremay": 2,
+        "Dumfries": 5,
+        "Hartman": 0,
+        "Cucurella": 5,
+        "Konaté": 10,
+        "Aubameyang": 20,
+        "Deossa": 13,
+        "De la Fuente": 20,
+        "De Frutos": 12,
+        "Dimitrievski": 15,
+        "Ratiu": 7,
+        "Isi": 5,
+        "Nteka": 5,
+        "Cárdenas": 1,
+        "Unai López": 12,
+        "Álvaro García": 10,
+        "Balliu": -2,
+        "Herrando": 12,
+        "Pathé Ciss": 12,
+        "Valentín": 7,
+        "Lejeune": 6,
+        "Camello": 9,
+        "Courtois": 10,
+        "Bellingham": 28,
+        "Catena": 16,
+        "Moncayola": 7,
+        "S. Cardona": 0,
+        "Moleiro": 13,
+        "Valles": 27,
+        "Herrera": 12,
+        "Torró": 7,
+        "Oroz": 8,
+        "Kike Barja": 11,
+        "Areso": -1,
+        "Aitor": 0,
+        "Rubén G.": 14,
+        "Moi Gómez": 10,
+        "Budimir": 15,
+        "Ibáñez": 17,
+        "Vinicius": 16,
+        "Camavinga": 2,
+        "Boyé": 15,
+        "Le Normand": 8,
+        "Marrero": 0,
+        "Urko": 8,
+        "Dmitrovic": 23,
+        "Aguado": 12,
+        "Mariano": 25,
+        "Manu Bueno": 2,
+        "Pacheco": 0,
+        "Diakhaby": 6,
+        "Javi Guerra": 13,
+        "Duro": 3,
+        "Almeida": 0,
+        "Rivero": 0,
+        "Gayà": 7,
+        "Turrientes": 6,
+        "Sadiq": 3,
+        "Lunin": 0,
+        "Remiro": 16,
+        "Valverde": 15,
+        "Fran García": 13,
+        "Brahim": 2,
+        "Rüdiger": 0,
+        "Güler": 18,
+        "Olasagasti": 22,
+        "Aihen": 2,
+        "Zubeldia": 1,
+        "Barrenetxea": 8,
+        "Oyarzabal": 18,
+        "Zakharyan": 2,
+        "Kubo": 7,
+        "Villar": 15,
+        "Eric Garcia": 19,
+        "Pepelu": 12,
+        "Koke": 15,
+        "Agirrezabala": 17,
+        "R. de Galarreta": 0,
+        "Yuri": -2,
+        "Villalibre": 5,
+        "Giménez": 3,
+        "N. Williams": 6,
+        "Oblak": 21,
+        "M. Llorente": 17,
+        "Galán": 4,
+        "Barrios": 23,
+        "Riquelme": 26,
+        "Balde": 0,
+        "Guruzeta": 0,
+        "I. Williams": 6,
+        "Pedri": 16,
+        "Rebbach": 13,
+        "Abqar": 4,
+        "Guevara": 1,
+        "Blanco": 17,
+        "Rioja": 3,
+        "Tenaglia": 30,
+        "Guridi": 9,
+        "Protesoni": 2,
+        "Sancet": 8,
+        "Pubill": 13,
+        "Unai Simón": 11,
+        "Paredes": 10,
+        "Yeray": 12,
+        "Berenguer": 4,
+        "Gavi": 1,
+        "Raphinha": 39,
+        "Djené": 14,
+        "Dotor": 10,
+        "Aspas": 9,
+        "Iván Villar": 0,
+        "Swedberg": 4,
+        "Sotelo": 3,
+        "Starfelt": 1,
+        "Aleñá": 6,
+        "Carmona": 1,
+        "Soria": 19,
+        "Mayoral": 2,
+        "Iglesias": 0,
+        "U. Núñez": 17,
+        "Chust": 5,
+        "A. Christensen": 11,
+        "Bellerín": 6,
+        "M. Alonso": 13,
+        "Koundé": 4,
+        "Yamal": 13,
+        "Cubarsí": 8,
+        "Fermín": 32,
+        "Guido": 14,
+        "Navarro": 2,
+        "Abde": 2,
+        "Ayoze": 7,
+        "Bartra": 21,
+        "Marc Roca": 17,
+        "Isco": 10,
+        "Foulquier": 0,
+        "De la Sías": 0,
+        "Óskarsson": 11,
+        "Pau Navarro": 0,
+        "Etta Eyong": 10,
+        "Szczesny": 0,
+        "Risco": 2,
+        "Roberto": 27,
+        "Pablo Ramón": 11,
+        "Alfon": 2,
+        "Antony": 19,
+        "Gerard": 20,
+        "Natan": 11,
+        "Durán": 5,
+        "Javi Rodríguez": 11,
+        "Hugo Álvarez Hugo Álvarez": 6,
+        "Jon Martín": 5,
+        "Manu González": 0,
+        "Aramburu": 9,
+        "Jesús Vázquez": 7,
+        "Logan Costa": 0,
+        "Iturbe": 0,
+        "Otorbi": 0,
+        "Sannadi": 2,
+        "El-Abdellaoui": 2,
+        "Musso": 0,
+        "Diatta": 0,
+        "Swiderski": 0,
+        "Arguibide": 10,
+        "Castrín": 9,
+        "Febas": 7,
+        "Affengruber": 6,
+        "Á. Núñez": 0,
+        "Santiago": 5,
+        "Lago": 1,
+        "Valou": -1,
+        "Mestre": 0,
+        "Valera": 8,
+        "Buchanan": 11,
+        "Cucho": 15,
+        "Rubén Gómez": 0,
+        "Osambela": 4,
+        "Fran González": 0,
+        "Toni Martinez": 13,
+        "Luiz Junior": 12,
+        "Olmo": 5,
+        "Moriba": 3,
+        "Agoume": 12,
+        "Guedes": 6,
+        "Mario Martín": 4,
+        "Fornals": 16,
+        "Joan Garcia": 23,
+        "Giuliano": 18,
+        "Pere Milla": 3,
+        "Jofre": 5,
+        "Edu Expósito": 13,
+        "Batalla": 13,
+        "A. F. Carreras": 6,
+        "Baena": 29,
+        "Fran Pérez": 2,
+        "Hugo González": 0,
+        "Tárrega": 14,
+        "Comesaña": 6,
+        "Foyth": 16,
+        "Femenia": -1,
+        "Kike Salas": 2,
+        "Terrats": 11,
+        "Denis Suárez": 10,
+        "Akhomach": 5,
+        "Altimira": 10,
+        "Manu Sánchez": 8,
+        "Raúl García": 13,
+        "El Hilali": 12,
+        "Danjuma": 6,
+        "Pépé": 25,
+        "Pape Gueye": 13,
+        "Losada": 0,
+        "D. Llorente": 11,
+        "Abel Bretones Bretones": 14,
+        "Pedro Díaz": 4,
+        "L. Sucic": 16,
+        "Letácek": 0,
+        "Alvarez": 2,
+        "Jauregizar": 2,
+        "Boiro": 1,
+        "Ferrer": 0,
+        "Leo Román": 12,
+        "Andrés Martín": 18,
+        "Ejuke": 16,
+        "Peque": 12,
+        "Sergio Gómez": 6,
+        "Carreira": 8,
+        "Carlos Martín": 2,
+        "Mbappé": 27,
+        "Raba": 0,
+        "Raul Moro": 2,
+        "Boyomo": 0,
+        "Fortuño": 0,
+        "Tunde": 1,
+        "Rafa": 0,
+        "Aguirre": 0,
+        "Kambwala": 0
+      },
+      "equipos": {
+        "Chonaura": {
+          "players": [
+            {
+              "n": "Santiago",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Yeray",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Durán",
+              "pos": "DEL",
+              "rol": "titular"
+            },
+            {
+              "n": "Óscar Marcos",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Antony",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "José Mourinho",
+              "pos": "DT",
+              "rol": "titular"
+            },
+            {
+              "n": "Huijsen",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "U. Núñez",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Tenaglia",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Canales",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Sivera",
+              "pos": "POR",
+              "rol": "titular"
+            },
+            {
+              "n": "Carlos Macià",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Carlos Espí",
+              "pos": "DEL",
+              "rol": "titular"
+            }
+          ]
+        },
+        "papi floren 24 cm": {
+          "players": [
+            {
+              "n": "Unai López",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Roberto",
+              "pos": "DEL",
+              "rol": "titular"
+            },
+            {
+              "n": "Dituro",
+              "pos": "POR",
+              "rol": "titular"
+            },
+            {
+              "n": "Djené",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Gerard",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Altimira",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Guridi",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Luis García",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Peque",
+              "pos": "MED",
+              "rol": "titular"
+            }
+          ]
+        },
+        "Lucky Corbechad": {
+          "players": [
+            {
+              "n": "Bartra",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Marc Roca",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Deossa",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Mario Soriano",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Pathé I. Ciss",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Riquelme",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Mikautadze",
+              "pos": "DEL",
+              "rol": "titular"
+            },
+            {
+              "n": "Iker Muñoz",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Koski",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Ibáñez",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Diego Simeone",
+              "pos": "DT",
+              "rol": "titular"
+            },
+            {
+              "n": "Oblak",
+              "pos": "POR",
+              "rol": "titular"
+            }
+          ]
+        },
+        "Sapard0": {
+          "players": [
+            {
+              "n": "Foyth",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Puado",
+              "pos": "DEL",
+              "rol": "titular"
+            },
+            {
+              "n": "Blanco",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Ayoze",
+              "pos": "DEL",
+              "rol": "titular"
+            },
+            {
+              "n": "Gueye",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Vlachodimos",
+              "pos": "POR",
+              "rol": "titular"
+            },
+            {
+              "n": "Galán",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Hugo González",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Akhomach",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Carreira",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Beñat San José",
+              "pos": "DT",
+              "rol": "titular"
+            },
+            {
+              "n": "A. F. Carreras",
+              "pos": "DEF",
+              "rol": "titular"
+            }
+          ]
+        },
+        "JMR1902": {
+          "players": [
+            {
+              "n": "Szczesny",
+              "pos": "POR",
+              "rol": "titular"
+            },
+            {
+              "n": "Llorente",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Tárrega",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Mella",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "De Frutos",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Raúl García",
+              "pos": "DEL",
+              "rol": "titular"
+            },
+            {
+              "n": "Navarro",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Soria",
+              "pos": "POR",
+              "rol": "titular"
+            },
+            {
+              "n": "A. Abqar",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "El Hilali",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Luis Miguel Ramis",
+              "pos": "DT",
+              "rol": "titular"
+            },
+            {
+              "n": "Valentín",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Vertrouwd",
+              "pos": "DEF",
+              "rol": "titular"
+            }
+          ]
+        },
+        "karfim": {
+          "players": [
+            {
+              "n": "Areso",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Hancko",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Dolan",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Salinas",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Baena",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Aguado",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Nacho Pérez",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Ryan",
+              "pos": "POR",
+              "rol": "titular"
+            },
+            {
+              "n": "Castrín",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Hansi Flick",
+              "pos": "DT",
+              "rol": "titular"
+            },
+            {
+              "n": "Joan Garcia",
+              "pos": "POR",
+              "rol": "titular"
+            },
+            {
+              "n": "Paredes",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Ugrinic",
+              "pos": "MED",
+              "rol": "titular"
+            }
+          ]
+        },
+        "mercho.": {
+          "players": [
+            {
+              "n": "Bellerín",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "M. Román",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Redondo",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Riedel",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Á. Valles",
+              "pos": "POR",
+              "rol": "titular"
+            },
+            {
+              "n": "Iñigo Vicente",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Manuel Pellegrini",
+              "pos": "DT",
+              "rol": "titular"
+            },
+            {
+              "n": "Bellingham",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Gorosabel",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Pastor",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Bigas",
+              "pos": "DEF",
+              "rol": "titular"
+            }
+          ]
+        },
+        "EN ORTODONCIA FC": {
+          "players": [
+            {
+              "n": "Iván Villar",
+              "pos": "POR",
+              "rol": "titular"
+            },
+            {
+              "n": "Dimitrievski",
+              "pos": "POR",
+              "rol": "titular"
+            },
+            {
+              "n": "Manuel Fernández",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Toni Martinez",
+              "pos": "DEL",
+              "rol": "titular"
+            },
+            {
+              "n": "Aubameyang",
+              "pos": "DEL",
+              "rol": "titular"
+            },
+            {
+              "n": "Carlos Corberán",
+              "pos": "DT",
+              "rol": "titular"
+            },
+            {
+              "n": "Ortiz",
+              "pos": "DEL",
+              "rol": "titular"
+            },
+            {
+              "n": "Ximo",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Gayà",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Luismi",
+              "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Rubén G.",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Jon Martín",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Urko",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Rueda",
+              "pos": "DEF",
+              "rol": "titular"
+            }
+          ]
+        }
+      }
     }
   }
 }
