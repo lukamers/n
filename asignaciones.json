@@ -59,6 +59,11 @@
           "n": "Carlos Macià",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Carlos Espí",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -68,14 +73,6 @@
         {
           "n": "Unai López",
           "pos": "MED"
-        },
-        {
-          "n": "Valentín",
-          "pos": "DEF"
-        },
-        {
-          "n": "Rueda",
-          "pos": "DEF"
         },
         {
           "n": "Roberto",
@@ -109,6 +106,11 @@
         },
         {
           "n": "Luis García",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Peque",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -195,21 +197,12 @@
           "pos": "DEL"
         },
         {
-          "n": "Sorloth",
-          "pos": "DEL"
-        },
-        {
           "n": "Gueye",
           "pos": "DEF"
         },
         {
           "n": "Vlachodimos",
           "pos": "DEF"
-        },
-        {
-          "n": "Toljan",
-          "pos": "DEF",
-          "rol": "titular"
         },
         {
           "n": "Galán",
@@ -228,6 +221,16 @@
         },
         {
           "n": "Carreira",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Beñat San José",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "A. F. Carreras",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -283,6 +286,16 @@
           "n": "Luis Miguel Ramis",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Valentín",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Vertrouwd",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -294,25 +307,8 @@
           "pos": "DEF"
         },
         {
-          "n": "Urko",
-          "pos": "MED"
-        },
-        {
-          "n": "Ugrinic",
-          "pos": "DEF"
-        },
-        {
           "n": "Hancko",
           "pos": "DEF"
-        },
-        {
-          "n": "Beñat San José",
-          "pos": "DEF"
-        },
-        {
-          "n": "Vertrouwd",
-          "pos": "DEF",
-          "rol": "titular"
         },
         {
           "n": "Dolan",
@@ -346,6 +342,26 @@
         },
         {
           "n": "Castrín",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Hansi Flick",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Joan Garcia",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Paredes",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Ugrinic",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -392,6 +408,21 @@
           "n": "Bellingham",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Gorosabel",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Pastor",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Bigas",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -422,11 +453,6 @@
           "rol": "titular"
         },
         {
-          "n": "Peque",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Carlos Corberán",
           "pos": "DEF",
           "rol": "titular"
@@ -453,6 +479,21 @@
         },
         {
           "n": "Rubén G.",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Jon Martín",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Urko",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Rueda",
           "pos": "DEF",
           "rol": "titular"
         }
