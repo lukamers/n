@@ -12,10 +12,6 @@
           "pos": "DEF"
         },
         {
-          "n": "Durán",
-          "pos": "DEF"
-        },
-        {
           "n": "Óscar Marcos",
           "pos": "DEF",
           "v": 1082525
@@ -64,6 +60,11 @@
           "n": "Carlos Espí",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Moi Gómez",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -73,11 +74,6 @@
         {
           "n": "Unai López",
           "pos": "MED"
-        },
-        {
-          "n": "Roberto",
-          "pos": "DEF",
-          "rol": "titular"
         },
         {
           "n": "Dituro",
@@ -113,6 +109,11 @@
           "n": "Peque",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Sierra",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -129,10 +130,6 @@
         },
         {
           "n": "Deossa",
-          "pos": "MED"
-        },
-        {
-          "n": "Mario Soriano",
           "pos": "MED"
         },
         {
@@ -181,10 +178,6 @@
       "caja": 64068674,
       "players": [
         {
-          "n": "Foyth",
-          "pos": "DEF"
-        },
-        {
           "n": "Puado",
           "pos": "MED"
         },
@@ -193,15 +186,7 @@
           "pos": "MED"
         },
         {
-          "n": "Ayoze",
-          "pos": "DEL"
-        },
-        {
           "n": "Gueye",
-          "pos": "DEF"
-        },
-        {
-          "n": "Vlachodimos",
           "pos": "DEF"
         },
         {
@@ -220,17 +205,17 @@
           "rol": "titular"
         },
         {
-          "n": "Carreira",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Beñat San José",
           "pos": "DEF",
           "rol": "titular"
         },
         {
-          "n": "A. F. Carreras",
+          "n": "Ryan",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Hancko",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -269,10 +254,6 @@
           "pos": "DEF"
         },
         {
-          "n": "Soria",
-          "pos": "DEF"
-        },
-        {
           "n": "A. Abqar",
           "pos": "DEF",
           "rol": "titular"
@@ -303,40 +284,12 @@
       "caja": 155558369,
       "players": [
         {
-          "n": "Areso",
-          "pos": "DEF"
-        },
-        {
-          "n": "Hancko",
-          "pos": "DEF"
-        },
-        {
           "n": "Dolan",
           "pos": "DEF",
           "rol": "titular"
         },
         {
-          "n": "Salinas",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Baena",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Aguado",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Nacho Pérez",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Ryan",
           "pos": "DEF",
           "rol": "titular"
         },
@@ -364,6 +317,11 @@
           "n": "Ugrinic",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Foyth",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -371,10 +329,6 @@
       "caja": 215838596,
       "you": true,
       "players": [
-        {
-          "n": "Bellerín",
-          "pos": "DEF"
-        },
         {
           "n": "M. Román",
           "pos": "MED"
@@ -410,11 +364,6 @@
           "rol": "titular"
         },
         {
-          "n": "Gorosabel",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Pastor",
           "pos": "DEF",
           "rol": "titular"
@@ -423,16 +372,32 @@
           "n": "Bigas",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Serrano",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Roberto",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Recio",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Soria",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
     "EN ORTODONCIA FC": {
       "caja": 85779805,
       "players": [
-        {
-          "n": "Iván Villar",
-          "pos": "POR"
-        },
         {
           "n": "Dimitrievski",
           "pos": "POR",
@@ -444,16 +409,7 @@
           "pos": "DEF"
         },
         {
-          "n": "Toni Martinez",
-          "pos": "DEF"
-        },
-        {
           "n": "Aubameyang",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Carlos Corberán",
           "pos": "DEF",
           "rol": "titular"
         },
@@ -464,11 +420,6 @@
         },
         {
           "n": "Ximo",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Gayà",
           "pos": "DEF",
           "rol": "titular"
         },
@@ -488,12 +439,27 @@
           "rol": "titular"
         },
         {
-          "n": "Urko",
+          "n": "Rueda",
           "pos": "DEF",
           "rol": "titular"
         },
         {
-          "n": "Rueda",
+          "n": "Claudio Giráldez",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Lago",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Vlachodimos",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Durán",
           "pos": "DEF",
           "rol": "titular"
         }
