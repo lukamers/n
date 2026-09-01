@@ -182,10 +182,6 @@
           "pos": "MED"
         },
         {
-          "n": "Blanco",
-          "pos": "MED"
-        },
-        {
           "n": "Gueye",
           "pos": "DEF"
         },
@@ -216,6 +212,11 @@
         },
         {
           "n": "Hancko",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Ugrinic",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -250,15 +251,6 @@
           "pos": "DEF"
         },
         {
-          "n": "Navarro",
-          "pos": "DEF"
-        },
-        {
-          "n": "A. Abqar",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "El Hilali",
           "pos": "DEF",
           "rol": "titular"
@@ -275,6 +267,21 @@
         },
         {
           "n": "Vertrouwd",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Antonio Hidalgo",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Dimitrievski",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Blanco",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -314,12 +321,17 @@
           "rol": "titular"
         },
         {
-          "n": "Ugrinic",
+          "n": "Foyth",
           "pos": "DEF",
           "rol": "titular"
         },
         {
-          "n": "Foyth",
+          "n": "Navarro",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Aubameyang",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -354,17 +366,7 @@
           "rol": "titular"
         },
         {
-          "n": "Manuel Pellegrini",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Bellingham",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Pastor",
           "pos": "DEF",
           "rol": "titular"
         },
@@ -399,24 +401,8 @@
       "caja": 60817886,
       "players": [
         {
-          "n": "Dimitrievski",
-          "pos": "POR",
-          "tag": "Fichado del mercado",
-          "v": 17555555
-        },
-        {
           "n": "Manuel Fernández",
           "pos": "DEF"
-        },
-        {
-          "n": "Aubameyang",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Ortiz",
-          "pos": "DEF",
-          "rol": "titular"
         },
         {
           "n": "Ximo",
@@ -460,6 +446,11 @@
         },
         {
           "n": "Durán",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Bil Nsongo",
           "pos": "DEF",
           "rol": "titular"
         }
