@@ -114,6 +114,11 @@
           "n": "Román",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Thiago",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -136,11 +141,6 @@
           "n": "Pathé I. Ciss",
           "pos": "MED",
           "tag": "Fichado de mercho."
-        },
-        {
-          "n": "Mikautadze",
-          "pos": "DEF",
-          "rol": "titular"
         },
         {
           "n": "Iker Muñoz",
@@ -169,6 +169,11 @@
         },
         {
           "n": "Giuliano",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Espart",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -244,10 +249,6 @@
           "pos": "MED"
         },
         {
-          "n": "De Frutos",
-          "pos": "DEL"
-        },
-        {
           "n": "Raúl García",
           "pos": "DEF"
         },
@@ -278,6 +279,11 @@
         },
         {
           "n": "Blanco",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Pablo Ramón",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -313,11 +319,6 @@
         },
         {
           "n": "Paredes",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Foyth",
           "pos": "DEF",
           "rol": "titular"
         },
@@ -390,6 +391,11 @@
           "n": "Riquelme",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Tete Morente",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -447,6 +453,11 @@
         },
         {
           "n": "Gueye",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Remiro",
           "pos": "DEF",
           "rol": "titular"
         }
