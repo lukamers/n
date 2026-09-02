@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-09-02T02:24:13.920748+00:00",
+  "actualizado": "2026-09-02T21:27:03.721117+00:00",
   "calendario": {
     "Real Madrid": [
       {
@@ -117,16 +117,16 @@
         "hora": "09:30"
       },
       {
+        "rival": "Levante UD",
+        "local": false,
+        "fecha": "16/09",
+        "hora": "12:30"
+      },
+      {
         "rival": "Alavés",
         "local": true,
         "fecha": "19/09",
         "hora": "07:15"
-      },
-      {
-        "rival": "Rayo",
-        "local": false,
-        "fecha": "11/10",
-        "hora": "10:00"
       }
     ],
     "Barcelona": [
@@ -147,6 +147,18 @@
         "local": true,
         "fecha": "09/09",
         "hora": "09:45"
+      },
+      {
+        "rival": "Levante UD",
+        "local": false,
+        "fecha": "13/09",
+        "hora": "07:15"
+      },
+      {
+        "rival": "Racing de Santander",
+        "local": true,
+        "fecha": "16/09",
+        "hora": "12:30"
       }
     ],
     "Villarreal": [
@@ -457,16 +469,16 @@
         "hora": "12:00"
       },
       {
+        "rival": "Alavés",
+        "local": false,
+        "fecha": "15/09",
+        "hora": "11:00"
+      },
+      {
         "rival": "Real Sociedad",
         "local": true,
         "fecha": "20/09",
         "hora": "12:00"
-      },
-      {
-        "rival": "Racing de Santander",
-        "local": false,
-        "fecha": "11/10",
-        "hora": "10:00"
       }
     ],
     "Alavés": [
