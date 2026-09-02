@@ -253,11 +253,13 @@
 .modal-overlay{
   display:none; position:fixed; inset:0; background:rgba(6,8,13,.72);
   z-index:100; align-items:flex-end; justify-content:center;
+  overscroll-behavior:contain;
 }
 .modal-overlay.open{display:flex;}
 .modal-box{
   background:var(--bg-card); border:1px solid var(--line); border-radius:16px 16px 0 0;
   width:100%; max-width:520px; padding:20px 20px 26px; animation:fadeInUp .25s ease both;
+  max-height:85vh; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain;
 }
 @media (min-width:560px){
   .modal-overlay{align-items:center;}
@@ -998,10 +1000,34 @@ function showPlayerHistory(name){
   renderTendenciaBox(name);
   renderPartidosBox(name);
 
+  lockBodyScroll();
   modal.classList.add('open');
 }
 function closePlayerModal(){
   document.getElementById('playerModal').classList.remove('open');
+  unlockBodyScroll();
+}
+
+// Al abrir el modal de un jugador, "congelamos" el fondo en su posición
+// actual. Sin esto, en el celular el dedo termina scrolleando la página
+// de atrás (invisible, tapada por el modal) en vez del modal — al cerrar,
+// la página aparece salteada o el modal queda trabado sin poder cerrarlo.
+let scrollYAlAbrirModal = 0;
+function lockBodyScroll(){
+  scrollYAlAbrirModal = window.scrollY;
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${scrollYAlAbrirModal}px`;
+  document.body.style.left = '0';
+  document.body.style.right = '0';
+  document.body.style.width = '100%';
+}
+function unlockBodyScroll(){
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.left = '';
+  document.body.style.right = '';
+  document.body.style.width = '';
+  window.scrollTo(0, scrollYAlAbrirModal);
 }
 
 function lookupMarket(name){
@@ -1299,6 +1325,9 @@ const THESPORTSDB_TEAM_NAMES = {
   "Atlético": "Atletico Madrid",
   "Athletic": "Athletic Bilbao",
   "Málaga": "Malaga",
+  "Racing": "Racing Santander",
+  "Deportivo": "Deportivo La Coruna",
+  "Rayo": "Rayo Vallecano",
 };
 
 async function loadClubCrests(){
@@ -1309,7 +1338,12 @@ async function loadClubCrests(){
       const res = await fetch(`https://www.thesportsdb.com/api/v1/json/3/searchteams.php?t=${query}`);
       if(!res.ok) return;
       const data = await res.json();
-      const team = data && data.teams && data.teams[0];
+      const candidatos = (data && data.teams) || [];
+      // Resguardo extra contra homónimos de otros países (ej. Racing Club
+      // de Avellaneda en Argentina, Deportivo Cali en Colombia): preferimos
+      // el primer resultado marcado como España; si ninguno lo está,
+      // dejamos el primero como antes en vez de quedarnos sin escudo.
+      const team = candidatos.find(t => (t.strCountry || '').toLowerCase() === 'spain') || candidatos[0];
       const url = team && team.strBadge;
       if(url) CLUB_LOGO_URLS[club] = url;
     } catch(e){ /* se queda con el fallback de iniciales */ }
