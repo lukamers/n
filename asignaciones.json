@@ -91,11 +91,6 @@
           "rol": "titular"
         },
         {
-          "n": "Altimira",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Guridi",
           "pos": "DEF",
           "rol": "titular"
@@ -112,6 +107,11 @@
         },
         {
           "n": "Sierra",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Román",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -136,11 +136,6 @@
           "n": "Pathé I. Ciss",
           "pos": "MED",
           "tag": "Fichado de mercho."
-        },
-        {
-          "n": "Riquelme",
-          "pos": "DEF",
-          "rol": "titular"
         },
         {
           "n": "Mikautadze",
@@ -171,6 +166,11 @@
           "n": "Oblak",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Giuliano",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -180,10 +180,6 @@
         {
           "n": "Puado",
           "pos": "MED"
-        },
-        {
-          "n": "Gueye",
-          "pos": "DEF"
         },
         {
           "n": "Galán",
@@ -217,6 +213,11 @@
         },
         {
           "n": "Ugrinic",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Gayà",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -262,11 +263,6 @@
         },
         {
           "n": "Valentín",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Vertrouwd",
           "pos": "DEF",
           "rol": "titular"
         },
@@ -334,6 +330,11 @@
           "n": "Aubameyang",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Fermín",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -346,17 +347,7 @@
           "pos": "MED"
         },
         {
-          "n": "Redondo",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Riedel",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Á. Valles",
           "pos": "DEF",
           "rol": "titular"
         },
@@ -394,6 +385,11 @@
           "n": "Soria",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Riquelme",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -403,11 +399,6 @@
         {
           "n": "Manuel Fernández",
           "pos": "DEF"
-        },
-        {
-          "n": "Ximo",
-          "pos": "DEF",
-          "rol": "titular"
         },
         {
           "n": "Luismi",
@@ -451,6 +442,11 @@
         },
         {
           "n": "Bil Nsongo",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Gueye",
           "pos": "DEF",
           "rol": "titular"
         }
