@@ -32,6 +32,7 @@ import re
 import sys
 import time
 import unicodedata
+from collections import Counter
 from datetime import datetime, timezone
 import requests
 from bs4 import BeautifulSoup, NavigableString, Tag
@@ -293,24 +294,67 @@ def extraer_proxima_jornada(row_text: str):
     }
 
 
-def extraer_puntos(row_text: str, club_encontrado: str):
-    """Puntos totales de la temporada. En la página de puntos, el total
-    aparece como el primer número (puede ser negativo) justo después del
-    nombre del club, ej.:
-        "Rubén GarcíaRubén G. Osasuna 174 1 12 19 1 7 4 ..."
-    Acá "174" es el total de puntos.
+def extraer_puntos_detalle(row_text: str, club_encontrado: str):
+    """Extrae los datos de puntos de la fila.
+
+    La página de puntos deja en el HTML, para cada jugador, un bloque FIJO
+    de 15 valores justo después del club (aunque en pantalla solo se vea
+    uno según el filtro "Toda la temporada / Últimas 5 / Últimas 3 /
+    Última jornada" elegido — los 15 están siempre presentes en el HTML).
+    Confirmado inspeccionando filas reales, el orden es:
+
+        0: Puntos — toda la temporada
+        1: Puntos — ÚLTIMA JORNADA JUGADA          <- lo que necesitamos
+        2: Puntos — últimas 3 jornadas
+        3: Puntos — últimas 5 jornadas
+        4: Racha (indicador de forma reciente)
+        5-6: sin identificar (no los usamos)
+        7: Partidos jugados — toda la temporada
+        8: Partidos jugados — última jornada (1 si jugó, 0 si no)
+        9: Partidos jugados — últimas 3 jornadas
+        10: Partidos jugados — últimas 5 jornadas
+        11-14: Media de puntos de cada una de esas 4 ventanas
+
+    Justo después de este bloque de 15 viene la próxima jornada del
+    equipo (ej. "J4"), que usamos para saber qué número de jornada es
+    "la última jugada" (próxima - 1).
+
+    Devuelve (detalle_dict, numero_de_proxima_jornada) o (None, None) si
+    no se pudo parsear la fila.
     """
     idx = row_text.find(club_encontrado)
     if idx == -1:
-        return None
-    resto = row_text[idx + len(club_encontrado):]
-    m = re.search(r"-?\d+", resto)
-    if not m:
-        return None
-    try:
-        return int(m.group(0))
-    except ValueError:
-        return None
+        return None, None
+    resto = row_text[idx + len(club_encontrado):].strip()
+    tokens = resto.split()
+
+    bloque = []
+    marca_jornada = None
+    for t in tokens:
+        if re.fullmatch(r"J\d+", t):
+            marca_jornada = t
+            break
+        bloque.append(t)
+
+    if marca_jornada is None or len(bloque) < 15:
+        return None, None
+    bloque = bloque[:15]
+
+    def num(t):
+        if t == "-":
+            return None
+        try:
+            return float(t) if "." in t else int(t)
+        except ValueError:
+            return None
+
+    detalle = {
+        "total": num(bloque[0]),
+        "ultima_jornada": num(bloque[1]),
+        "jugo_ultima_jornada": bool(num(bloque[8])),
+    }
+    proxima_num = int(marca_jornada[1:])
+    return detalle, proxima_num
 
 
 def scrape():
@@ -675,34 +719,91 @@ def obtener_posiciones(clubes_por_jugador: dict):
 
 
 def scrape_puntos():
+    """Devuelve (puntos_totales, puntos_ultima_jornada, jornada_actual_num).
+
+    puntos_totales: {jugador: puntos acumulados en toda la temporada}
+      (igual que antes — se sigue usando para "Chollos" y el total que
+      se ve en las plantillas).
+    puntos_ultima_jornada: {jugador: puntos que sacó ESPECÍFICAMENTE en
+      la última jornada ya jugada}, tal como los reporta el sitio.
+    jornada_actual_num: número de esa última jornada jugada (ej. 3 si la
+      próxima es J4), calculado por voto mayoritario entre todos los
+      jugadores (por si algún equipo tiene su calendario corrido por un
+      partido aplazado).
+    """
     resp = fetch_con_reintentos(URL_PUNTOS)
     if resp is None:
         print("⚠️  No pude traer los puntos, sigo sin esa parte.", file=sys.stderr)
-        return {}
+        return {}, {}, None
 
     soup = BeautifulSoup(resp.text, "html.parser")
     rows = soup.select(ROW_SELECTOR)
     if not rows:
         print(f"⚠️  No encontré filas de puntos con el selector '{ROW_SELECTOR}'.", file=sys.stderr)
-        return {}
+        return {}, {}, None
 
-    puntos = {}
+    puntos_totales = {}
+    puntos_ultima_jornada = {}
+    proximas_detectadas = []
     jugadores_ordenados = sorted(MIS_JUGADORES, key=len, reverse=True)
 
     for row in rows:
         row_text = row.get_text(" ", strip=True)
         jugador, club = encontrar_jugador_y_club(row_text, jugadores_ordenados)
-        if jugador is None or jugador in puntos:
+        if jugador is None or jugador in puntos_totales:
             continue
-        pts = extraer_puntos(row_text, club)
-        if pts is not None:
-            puntos[jugador] = pts
+        detalle, proxima_num = extraer_puntos_detalle(row_text, club)
+        if detalle is None:
+            continue
+        if detalle["total"] is not None:
+            puntos_totales[jugador] = detalle["total"]
+        if proxima_num is not None and proxima_num > 1:
+            proximas_detectadas.append(proxima_num)
+            if detalle["ultima_jornada"] is not None:
+                puntos_ultima_jornada[jugador] = detalle["ultima_jornada"]
 
-    faltantes = [j for j in MIS_JUGADORES if j not in puntos]
+    faltantes = [j for j in MIS_JUGADORES if j not in puntos_totales]
     if faltantes:
         print(f"⚠️  Puntos: sin match ({len(faltantes)} de {len(MIS_JUGADORES)}).", file=sys.stderr)
 
-    return puntos
+    jornada_actual_num = None
+    if proximas_detectadas:
+        proxima_mas_comun = Counter(proximas_detectadas).most_common(1)[0][0]
+        jornada_actual_num = proxima_mas_comun - 1
+
+    return puntos_totales, puntos_ultima_jornada, jornada_actual_num
+
+
+def actualizar_puntos_por_jornada(puntos_ultima_jornada, jornada_actual_num):
+    """Guarda los puntos reales de la ÚLTIMA jornada jugada (tal como los
+    calcula el sitio oficial, no reconstruidos por diferencia de
+    acumulados) en puntos_jornadas.json — un registro permanente jornada
+    por jornada (J1, J2, J3, ...).
+
+    Cada corrida solo toca la entrada de la jornada que el sitio marca
+    como "recién jugada" en ese momento; las jornadas anteriores quedan
+    congeladas para siempre — el sitio deja de exponer el detalle de una
+    jornada vieja apenas arranca la siguiente, así que esto hay que
+    capturarlo mientras está disponible, no se puede reconstruir después.
+    """
+    ruta = "puntos_jornadas.json"
+    try:
+        with open(ruta, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        data = {}
+
+    data.setdefault("puntos", {})
+    if jornada_actual_num is not None and jornada_actual_num >= 1:
+        clave = f"J{jornada_actual_num}"
+        data["puntos"][clave] = puntos_ultima_jornada
+
+    data["actualizado"] = datetime.now(timezone.utc).isoformat()
+
+    with open(ruta, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+    return data
 
 
 def actualizar_historial(valores):
@@ -740,7 +841,7 @@ def actualizar_historial(valores):
 
 if __name__ == "__main__":
     market, valores, clubes, tendencias, proximas = scrape()
-    puntos = scrape_puntos()
+    puntos, puntos_ultima_jornada, jornada_actual_num = scrape_puntos()
     with open("mercado.json", "w", encoding="utf-8") as f:
         json.dump(
             {
@@ -758,9 +859,19 @@ if __name__ == "__main__":
         )
     print(
         f"✅ Guardado mercado.json con {len(market)} jugadores (variación), "
-        f"{len(valores)} (valor actual), {len(puntos)} (puntos), {len(clubes)} (club), "
+        f"{len(valores)} (valor actual), {len(puntos)} (puntos totales), {len(clubes)} (club), "
         f"{len(tendencias)} (tendencia 2-30 días) y {len(proximas)} (próxima jornada)."
     )
+
+    puntos_jornadas_data = actualizar_puntos_por_jornada(puntos_ultima_jornada, jornada_actual_num)
+    if jornada_actual_num:
+        print(
+            f"✅ Actualizado puntos_jornadas.json — jornada J{jornada_actual_num} con "
+            f"{len(puntos_ultima_jornada)} jugadores (puntos reales de esa jornada específica, "
+            f"no reconstruidos)."
+        )
+    else:
+        print("⚠️  No pude determinar la última jornada jugada para puntos_jornadas.json todavía.")
 
     historial = actualizar_historial(valores)
     print(f"✅ Actualizado historial.json — {len(historial)} jugadores con historial guardado.")
