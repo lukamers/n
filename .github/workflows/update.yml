@@ -25,10 +25,10 @@ jobs:
       - name: Correr scraper
         run: python scrape.py
 
-      - name: Commitear mercado.json, historial.json y partidos.json si cambiaron
+      - name: Commitear mercado.json, historial.json, partidos.json y puntos_jornadas.json si cambiaron
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add mercado.json historial.json partidos.json posiciones.json
+          git add mercado.json historial.json partidos.json posiciones.json puntos_jornadas.json
           git diff --staged --quiet || git commit -m "Actualizar mercado $(date -u +%F)"
           git push
