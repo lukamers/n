@@ -1774,6 +1774,7 @@ function applyAsignaciones(fresh){
 }
 
 let jornadasData = { jornadas: {} };
+let puntosJornadasData = {};
 
 function cumulativePointsNow(name){
   const live = lookupMarket(name);
@@ -1782,6 +1783,19 @@ function cumulativePointsNow(name){
 }
 
 function pointsInJornada(jornadaKey, playerName){
+  // Fuente principal: los puntos REALES de esa jornada específica, tal
+  // como los calcula el sitio oficial (puntos_jornadas.json) — mucho más
+  // preciso que reconstruirlos por diferencia de acumulados, que es lo
+  // que se usaba antes y lo que venía dando puntos mal tomados.
+  const real = puntosJornadasData[jornadaKey];
+  if(real){
+    if(real[playerName] !== undefined) return real[playerName];
+    if(ALIASES[playerName] && real[ALIASES[playerName]] !== undefined) return real[ALIASES[playerName]];
+  }
+
+  // Respaldo (jornadas cerradas ANTES de tener este dato exacto, ej. J1
+  // y J2 la primera vez que se usa esto): reconstruimos por diferencia
+  // de acumulados, como se hacía antes.
   const keys = ordenJornadas();
   const idx = keys.indexOf(jornadaKey);
   if(idx === -1) return null;
@@ -1814,6 +1828,9 @@ function ordenJornadas(){
 function applyJornadas(fresh){
   if(fresh && fresh.jornadas) jornadasData = fresh;
 }
+function applyPuntosJornadas(fresh){
+  puntosJornadasData = (fresh && fresh.puntos) || {};
+}
 
 Promise.all([
   fetch('mercado.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
@@ -1822,13 +1839,15 @@ Promise.all([
   fetch('historial.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
   fetch('partidos.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
   fetch('posiciones.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
-]).then(([mercado, asign, jornadas, historial, partidos, posiciones])=>{
+  fetch('puntos_jornadas.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
+]).then(([mercado, asign, jornadas, historial, partidos, posiciones, puntosJornadas])=>{
   applyMercado(mercado);
   applyAsignaciones(asign);
   applyJornadas(jornadas);
   applyHistorial(historial);
   applyPartidos(partidos);
   applyPosiciones(posiciones);
+  applyPuntosJornadas(puntosJornadas);
   renderPremios();
   if(!document.getElementById('updatedLine').textContent.includes('ACTUALIZADO')){
     document.getElementById('updatedLine').textContent = '8 EQUIPOS';
