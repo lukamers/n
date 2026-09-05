@@ -22,9 +22,17 @@ CÓMO AJUSTAR EL SELECTOR (si hace falta):
 4. Corré el script una vez a mano (python scrape.py) y revisá que
    mercado.json te quede con sentido antes de dejarlo en automático.
 
-Si fichan a alguien que no aparece en el autocompletado de la web, sumalo
-a mano en la lista MIS_JUGADORES de abajo (una línea) y va a aparecer la
-próxima vez que corra el scraper.
+El plantel de cada club (quién juega dónde) se recopila SOLO desde
+comuniate.com en cada corrida — no hay ninguna lista fija de nombres para
+mantener a mano. Así, cualquier fichaje real (entra o sale un jugador de
+un club de Primera) aparece solo la próxima vez que corra el scraper, sin
+tocar el código. Los entrenadores se detectan directo desde la fila "ENT"
+de futbolfantasy, por la misma razón.
+
+Si comuniate.com falla para ALGÚN club puntual ese día (caído, cambio de
+diseño, timeout), el scraper no se queda sin ese club entero: usa el
+plantel que había guardado la corrida anterior en roster.json como
+respaldo para ese club específico, y sigue con el resto normal.
 """
 
 import json
@@ -54,12 +62,6 @@ VALOR_MINIMO = 10_000
 # tendencias de la temporada.
 HISTORIAL_MAX_DIAS = 120
 
-DESAMBIGUAR_POR_EQUIPO = {
-    "Navarro": "Athletic",  # Robert Navarro, no Marcos Navarro (Valencia)
-    "Álvaro García": "Rayo",  # no el otro Álvaro García más barato
-    "Dani Martínez": "Atlético",  # no otro Dani Martínez homónimo
-}
-
 CLUBES_LALIGA = [
     "Real Madrid", "Real Sociedad", "Atlético", "Athletic", "Barcelona",
     "Villarreal", "Espanyol", "Getafe", "Levante", "Málaga", "Osasuna",
@@ -70,95 +72,6 @@ CLUBES_LALIGA = [
 # Catálogo completo de jugadores de LaLiga Fantasy Oficial (todos los
 # equipos, ~540 jugadores). El script solo guarda estos si aparecen en la
 # tabla del mercado.
-MIS_JUGADORES = [
-    "A. Christensen", "A. F. Carreras", "A. Riquelme", "Abde",
-    "Abel Bretones Bretones", "Abqar", "Adam Boayar", "Adrián Pérez", "Affengruber",
-    "Agirrezabala", "Agoume", "Aguado", "Aguirre", "Aihen", "Aitor", "Aitor Mañas",
-    "Akhomach", "Al Lal", "Aleksandrov", "Alemão", "Alexander-Arnold", "Aleñá",
-    "Alfon", "Aller", "Almeida", "Altimira", "Altozano", "Alvarez", "Amatucci",
-    "Andrés Martín", "Antañón", "Antonio Hidalgo", "Antony", "Aramburu", "Arana",
-    "Arcos", "Areso", "Arguibide", "Arriaga", "Arriaza", "Asencio", "Aspas",
-    "Astiazaran", "Aubameyang", "Ayoze", "Baena", "Balde", "Ballestero", "Balliu",
-    "Bambo", "Barcia", "Bardghji", "Barrenetxea", "Barrios", "Barry", "Bartra",
-    "Batalla", "Becerra", "Beitia", "Bekhoucha", "Bellerín", "Bellingham", "Benito",
-    "Berenguer", "Bernal", "Bernardo Silva", "Beñat San José", "Bigas", "Bil Nsongo",
-    "Blanco", "Blázquez", "Boiro", "Boselli", "Boyomo", "Boyé", "Boñar", "Brahim",
-    "Brugui", "Buchanan", "Budimir", "Burcio", "C. Álvarez", "Cabrera", "Calatrava",
-    "Calero", "Camavinga", "Camello", "Canales", "Canedo", "Canós", "Cardoso",
-    "Carles Pérez", "Carlos Corberán", "Carlos Espí", "Carlos López", "Carlos Macià",
-    "Carlos Martín", "Carlos Soler", "Carlos Sánchez", "Carmona", "Carreira",
-    "Carrera", "Casadó", "Castrín", "Catena", "Cepeda", "Cestero", "Chupete", "Chust",
-    "Claudio Giráldez", "Comas", "Comesaña", "Conde", "Copete", "Corralejo", "Cortés",
-    "Courtois", "Crespo", "Cubarsí", "Cubo", "Cucho", "Cucurella", "Cuñat Campos",
-    "Cárdenas", "Céspedes", "D. Aguado", "D. Llorente", "Dani Martínez",
-    "Dani Sánchez", "Danjuma", "Davinchi", "De Frutos", "De Haas", "De la Fuente",
-    "De la Sías", "Delgado", "Denis Suárez", "Deossa", "Diakhaby", "Diangana",
-    "Diatta", "Diego Diaz", "Diego López", "Diego Simeone", "Dieng", "Dimitrievski",
-    "Dituro", "Djaló", "Djené", "Dmitrovic", "Dolan", "Dotor", "Dumfries", "Duro",
-    "Durán", "Echegoyen", "Eddahchouri", "Edin Terzic", "Edu Expósito", "Egiluz",
-    "Ejuke", "El Hilali", "El-Abdellaoui", "Endrick", "Enríquez", "Eric Garcia",
-    "Eriksson", "Espart", "Esquivel", "Etta Eyong", "F. de Jong", "Facu González",
-    "Febas", "Femenia", "Fermín", "Ferran", "Ferrer", "Fidalgo", "Folgado", "Fontanet",
-    "Fornals", "Fort", "Fortea", "Fortuny", "Fortuño", "Foulquier", "Foyth", "Fraga",
-    "Fran García", "Fran González", "Fran Pérez", "Freeman", "Gaitán", "Galilea",
-    "Galán", "Garcés", "Gattoni", "Gavi", "Gayà", "Gerard", "Germán Parreño",
-    "Giménez", "Giuliano", "Gorosabel", "Gorrotxategi", "Guedes", "Guevara", "Gueye",
-    "Guido", "Guille", "Gulacsi", "Guliashvili", "Guridi", "Guruzeta", "Güler",
-    "Haitam", "Hancko", "Hansi Flick", "Hartman", "Hernando", "Herrando", "Herrera",
-    "Herrero", "Hierro", "Hjulmand", "Hugo González", "Hugo Ríos",
-    "Hugo Álvarez Hugo Álvarez", "Huijsen", "I. Williams", "Ibáñez", "Iglesias",
-    "Iker Muñoz", "Iranzo", "Isco", "Isi", "Iturbe", "Iván Romero", "Iván Villar",
-    "Izei", "Iñigo Vicente", "Jauregi", "Jauregizar", "Javi Guerra", "Javi Muñoz",
-    "Javi Navarro", "Javi Rodríguez", "Jesús Vázquez", "Jiménez", "Joan Garcia",
-    "Joan Martínez", "Joaquín", "Jofre", "John C.", "Jon Martín", "Jonny",
-    "Jorge Cabello", "Josan", "Joselu", "José Alberto López", "José Mourinho",
-    "Juan Funes", "Juan Hernández", "Juanmi", "Juanpe", "Julio Díaz", "Junior",
-    "Jurado", "Jutglà", "Kambwala", "Karrikaburu", "Kike Barja", "Kike García",
-    "Kike Salas", "Kita", "Koke", "Konaté", "Koski", "Koundé", "Krug", "Kubo",
-    "L. Sucic", "Lago", "Lamini Fati", "Laporte", "Laro Gómez", "Larrubia",
-    "Le Normand", "Lebarbier", "Lejeune", "Leo Román", "Letácek", "Lo Celso", "Lobete",
-    "Logan Costa", "Lookman", "Lorenzo", "Losada", "Loureiro", "Lozano", "Luis Castro",
-    "Luis García", "Luis Miguel Ramis", "Luismi", "Luiz Felipe", "Luiz Junior",
-    "Lunin", "M. Alonso", "M. Llorente", "Manolo González", "Mantilla", "Manu Bueno",
-    "Manu Fernández", "Manu González", "Manu Sánchez", "Manuel Pellegrini",
-    "Manuel Ángel", "Marc Roca", "Marchal", "Marcão", "Mariano", "Mariezkurrena",
-    "Mario", "Mario Martín", "Marqués", "Marrero", "Martim Neto", "Martín",
-    "Martín Anselmi", "Martínez Bastida", "Marín", "Mayoral", "Mbappé", "Meixús",
-    "Mella", "Mendoza", "Mendy", "Merino", "Mesonero", "Mestre", "Miguel Rubio",
-    "Mikautadze", "Militão", "Moi Gómez", "Moleiro", "Molina", "Moncayola", "Monreal",
-    "Montero", "Montes", "Morcillo", "Moriba", "Moscardo", "Mouriño", "Moussa",
-    "Murillo", "Musso", "N. Williams", "Nacho Pérez", "Nakoha", "Natan", "Navarro",
-    "Niculaesei", "Niño", "Noubi", "Noé Carrillo", "Nteka", "Oblak", "Ochieng",
-    "Ochoa", "Odriozola", "Olasagasti", "Olmo", "Oluwaseyi", "Oláiz", "Oriol Rey",
-    "Oroz", "Ortiz", "Osambela", "Oso", "Osorio", "Otorbi", "Oyarzabal",
-    "Pablo García", "Pablo Ramón", "Pacheco", "Padilla", "Panach", "Pape Gueye",
-    "Paredes", "Pastor", "Pathé Ciss", "Patino", "Pau Navarro", "Pedri", "Pedro Díaz",
-    "Pedrosa", "Pellegrino Matarazzo", "Pep Chavarría", "Pepe Bordalás", "Pepelu",
-    "Peque", "Pere Milla", "Pinillos", "Prados", "Primo", "Protesoni", "Puado",
-    "Pubill", "Puerta", "Puerto", "Puga", "Puric", "Pépé", "Quagliata",
-    "Quique Sánchez", "R. de Galarreta", "Raba", "Radu", "Rafa", "Rafa Rodríguez",
-    "Rafita", "Raphinha", "Ratiu", "Raul Moro", "Rayane", "Raúl García", "Rebbach",
-    "Recio", "Redondo", "Rego", "Remiro", "Riedel", "Riki", "Rioja", "Riquelme",
-    "Risco", "Rivero", "Roberto", "Rodrygo", "Romero", "Román", "Rosier", "Rosón",
-    "Rubén G.", "Rubén Gómez", "Rubén López", "Rubén Sánchez", "Rueda", "Ruggeri",
-    "Ruibal", "Ryan", "Rüdiger", "S. Cardona", "Sadiq", "Sainz-Maza", "Salinas",
-    "Samu Fernández", "Sancet", "Sancris", "Sangaré", "Sannadi", "Santaella",
-    "Santi Franco", "Santiago", "Santos", "Selton", "Sergio Gómez", "Sergio Martínez",
-    "Serrano", "Sierra", "Sivera", "Solórzano", "Soria", "Sotelo", "Spina", "Starfelt",
-    "Suazo", "Swedberg", "Swiderski", "Szczesny", "Sörloth", "Taufik", "Tchouaméni",
-    "Teijo", "Tenaglia", "Terrats", "Tete Morente", "Thiago", "Toljan",
-    "Toni Fernández", "Toni Martinez", "Torrents", "Torró", "Tunde", "Turrientes",
-    "Tárrega", "U. Núñez", "Uche", "Ugrinic", "Unai López", "Unai Santos",
-    "Unai Simón", "Urko", "Valentín", "Valentín Gómez", "Valera", "Vallecillo",
-    "Valles", "Valou", "Valverde", "Vargas", "Vecino", "Veiga", "Vencedor",
-    "Vertrouwd", "Villalibre", "Villar", "Villares", "Vinicius", "Vivian",
-    "Vlachodimos", "Víctor García", "Ximo", "Yamal", "Yassin", "Yeray", "Yeremay",
-    "Youssef", "Yuri", "Yáñez", "Zakharyan", "Zubeldia", "Á. Núñez", "Álex Costa",
-    "Álex Sánchez", "Álvaro", "Álvaro García", "Ángel Pérez", "Íñigo Pérez",
-    "Óscar Marcos", "Óskarsson",
-]
-
-
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (compatible; LigaFantasyBot/1.0; personal use)"
 }
@@ -192,33 +105,6 @@ def fetch_con_reintentos(url: str):
                 time.sleep(espera)
     print(f"❌ No pude conectarme a {url} después de {MAX_REINTENTOS} intentos: {ultimo_error}", file=sys.stderr)
     return None
-
-
-def encontrar_jugador_y_club(row_text: str, jugadores_ordenados):
-    """Busca cuál de MIS_JUGADORES aparece en esta fila (como palabra
-    completa, con el mismo cuidado de "Rubén G." / "Villarreal" que en
-    extraer_valor) y devuelve (nombre_jugador, club_encontrado) o
-    (None, None) si no matchea ninguno o la fila no pertenece a la tabla
-    principal (sin club real de LaLiga)."""
-    club_encontrado = next((c for c in CLUBES_LALIGA if c in row_text), None)
-    if not club_encontrado:
-        return None, None
-    for jugador in jugadores_ordenados:
-        # Ojo: solo exigimos límite del lado DERECHO (que no venga pegada
-        # otra letra después). El de la izquierda se sacó a propósito: el
-        # sitio pega el nombre corto directo después del nombre completo
-        # sin espacio (ej. "GarcíaRubén G."), así que exigir límite a la
-        # izquierda rechazaba nombres cortos válidos como "Rubén G.". El
-        # límite derecho solo ya alcanza para evitar que "Villar" matchee
-        # dentro de "Villarreal".
-        patron = re.escape(jugador) + r"(?![A-Za-zÀ-ÿ0-9])"
-        if not re.search(patron, row_text):
-            continue
-        equipo_requerido = DESAMBIGUAR_POR_EQUIPO.get(jugador)
-        if equipo_requerido and equipo_requerido not in row_text:
-            continue
-        return jugador, club_encontrado
-    return None, None
 
 
 def extraer_valor(row_text: str):
@@ -357,73 +243,6 @@ def extraer_puntos_detalle(row_text: str, club_encontrado: str):
     return detalle, proxima_num
 
 
-def scrape():
-    resp = fetch_con_reintentos(URL)
-    if resp is None:
-        sys.exit(1)
-
-    soup = BeautifulSoup(resp.text, "html.parser")
-
-    rows = soup.select(ROW_SELECTOR)
-    if not rows:
-        print(
-            f"⚠️  No encontré filas con el selector '{ROW_SELECTOR}'. "
-            "Abrí el sitio, inspeccioná la tabla y ajustá ROW_SELECTOR arriba.",
-            file=sys.stderr,
-        )
-        sys.exit(1)
-
-    market = {}
-    valores = {}
-    clubes = {}
-    tendencias = {}
-    proximas = {}
-    # ordenar por longitud descendente para que nombres largos (ej. "Andrés
-    # Martín") se prioricen sobre substrings cortos que podrían matchear antes
-    jugadores_ordenados = sorted(MIS_JUGADORES, key=len, reverse=True)
-
-    for row in rows:
-        row_text = row.get_text(" ", strip=True)
-        jugador, club = encontrar_jugador_y_club(row_text, jugadores_ordenados)
-        if jugador is None or jugador in market:
-            continue
-
-        if club:
-            clubes[jugador] = club
-
-        m_diff = re.search(r"([+-]?\d[\d.]*\d|0)(?=\s)", row_text)
-        diff = parse_money(m_diff.group(1)) if m_diff else None
-        if diff is not None:
-            market[jugador] = diff
-
-        valor = extraer_valor(row_text)
-        if valor is not None:
-            valores[jugador] = valor
-
-        if club:
-            tendencia = extraer_tendencia(row_text, club)
-            if tendencia is not None:
-                tendencias[jugador] = tendencia
-
-        proxima = extraer_proxima_jornada(row_text)
-        if proxima is not None:
-            proximas[jugador] = proxima
-
-    faltantes = [j for j in MIS_JUGADORES if j not in market]
-    if faltantes:
-        print(f"⚠️  Sin match ({len(faltantes)} de {len(MIS_JUGADORES)}).", file=sys.stderr)
-
-    sin_valor = [j for j in market if j not in valores]
-    if sin_valor:
-        print(f"⚠️  Con subida pero sin valor confiable ({len(sin_valor)}): {', '.join(sin_valor[:20])}{'...' if len(sin_valor)>20 else ''}", file=sys.stderr)
-
-    return market, valores, clubes, tendencias, proximas
-
-
-# Slug + ID de cada equipo en promiedos.com.ar (ej. "team/real-madrid/bdb").
-# A diferencia de FútbolFantasy, esta página SÍ trae los próximos partidos
-# en HTML plano (sin JavaScript), con el nombre del rival como texto real
-# además de la imagen del escudo — por eso la usamos para esta parte.
 PROMIEDOS_SLUGS = {
     "Real Madrid": "real-madrid/bdb",
     "Real Sociedad": "real-sociedad/bfe",
@@ -565,33 +384,6 @@ COMUNIATE_RUTAS = {
     "Villarreal": "19/villarreal",
 }
 
-# Técnicos actuales de cada club. A diferencia de la plantilla de
-# jugadores, esto no se scrapea (los DT cambian pocas veces por
-# temporada) — si un club cambia de entrenador, hay que actualizar esta
-# lista a mano.
-DIRECTORES_TECNICOS = {
-    "José Mourinho": "Real Madrid",
-    "Quique Sánchez": "Alavés",
-    "Edin Terzic": "Athletic",
-    "Diego Simeone": "Atlético",
-    "Hansi Flick": "Barcelona",
-    "Manuel Pellegrini": "Betis",
-    "Claudio Giráldez": "Celta",
-    "Antonio Hidalgo": "Deportivo",
-    "Pellegrino Matarazzo": "Elche",
-    "Manolo González": "Espanyol",
-    "Pepe Bordalás": "Getafe",
-    "Julián Calero": "Levante",
-    "Sergio Pellicer": "Málaga",
-    "Luis Miguel Ramis": "Osasuna",
-    "José Alberto López": "Racing",
-    "Beñat San José": "Rayo",
-    "Sergio Francisco": "Real Sociedad",
-    "Matías Almeyda": "Sevilla",
-    "Carlos Corberán": "Valencia",
-    "Martín Anselmi": "Villarreal",
-}
-
 
 def _normalizar(s: str) -> str:
     """Saca acentos y pasa a minúsculas, para poder comparar 'Martinez'
@@ -662,74 +454,214 @@ def obtener_posiciones_club(club_nombre: str, ruta: str):
     return resultado, None
 
 
-def emparejar_nombre_corto(nombre_corto: str, nombres_completos: dict):
-    """Busca a qué nombre completo del plantel corresponde un nombre corto
-    de los que usa el mercado (ej. 'Tárrega' -> 'César Tárrega'), sin que
-    importen tildes ('Toni Martinez' vs 'Toni Martínez'). Devuelve la
-    posición si encuentra una única coincidencia razonable, si no None.
+ROSTER_CACHE_PATH = "roster.json"
+
+
+def cargar_roster_previo():
+    """Lee el último plantel completo guardado con éxito (roster.json).
+    Sirve como red de contención: si comuniate.com falla para algún club
+    puntual hoy, usamos lo que ya teníamos guardado de ese club en vez de
+    perder todos sus jugadores del mercado por un problema de un solo día.
     """
-    corto_norm = _normalizar(nombre_corto)
-    mapa_norm = {_normalizar(n): pos for n, pos in nombres_completos.items()}
-
-    if corto_norm in mapa_norm:
-        return mapa_norm[corto_norm]
-
-    candidatos = [n for n in mapa_norm if corto_norm in n or n.endswith(corto_norm)]
-    if len(candidatos) == 1:
-        return mapa_norm[candidatos[0]]
-
-    ultima_palabra = corto_norm.split()[-1] if corto_norm.split() else corto_norm
-    candidatos2 = [n for n in mapa_norm if ultima_palabra and ultima_palabra in n]
-    if len(candidatos2) == 1:
-        return mapa_norm[candidatos2[0]]
-
-    return None
+    try:
+        with open(ROSTER_CACHE_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data.get("roster_por_club", {})
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
 
 
-def obtener_posiciones(clubes_por_jugador: dict):
-    """Recorre los 20 clubes, trae su plantel real agrupado por posición,
-    y arma un diccionario final {jugador (nombre corto tal cual lo usa el
-    mercado): "POR"/"DEF"/"MED"/"DEL"/"DT"}, usando "clubes_por_jugador"
-    (jugador -> club) para achicar la búsqueda de coincidencias a jugadores
-    del mismo club y evitar confundir homónimos.
+def guardar_roster_cache(roster_por_club: dict):
+    with open(ROSTER_CACHE_PATH, "w", encoding="utf-8") as f:
+        json.dump(
+            {
+                "actualizado": datetime.now(timezone.utc).isoformat(),
+                "roster_por_club": roster_por_club,
+            },
+            f,
+            ensure_ascii=False,
+            indent=2,
+        )
+
+
+def obtener_roster_completo():
+    """Recorre los 20 clubes de LaLiga en comuniate.com y arma el plantel
+    real de cada uno (nombre completo -> POR/DEF/MED/DEL). Esto reemplaza
+    a la vieja lista fija MIS_JUGADORES: como se scrapea en cada corrida,
+    cualquier fichaje nuevo entra solo, sin tocar el código.
+
+    Si algún club puntual falla hoy (comuniate.com caído, cambio de
+    diseño, timeout), se usa el plantel de ese club guardado en la
+    corrida anterior (roster.json) en vez de perderlo por completo. Solo
+    si NUNCA se pudo traer ese club (ni hoy ni antes) queda vacío.
     """
-    posiciones = {}
+    roster_previo = cargar_roster_previo()
+    roster_por_club = {}
     primer_diagnostico = None
-
-    jugadores_por_club = {}
-    for jugador, club in clubes_por_jugador.items():
-        jugadores_por_club.setdefault(club, []).append(jugador)
+    clubes_con_fallback = []
 
     for club_nombre, ruta in COMUNIATE_RUTAS.items():
-        nombres_completos, diag = obtener_posiciones_club(club_nombre, ruta)
+        nombres, diag = obtener_posiciones_club(club_nombre, ruta)
+        if not nombres and roster_previo.get(club_nombre):
+            nombres = roster_previo[club_nombre]
+            clubes_con_fallback.append(club_nombre)
+        roster_por_club[club_nombre] = nombres
         if diag is not None and primer_diagnostico is None:
             primer_diagnostico = diag
-
-        for jugador in jugadores_por_club.get(club_nombre, []):
-            pos = emparejar_nombre_corto(jugador, nombres_completos)
-            if pos:
-                posiciones[jugador] = pos
-
         time.sleep(1)
 
-    for jugador, club in DIRECTORES_TECNICOS.items():
-        posiciones[jugador] = "DT"
+    if clubes_con_fallback:
+        print(
+            f"⚠️  comuniate.com falló hoy para {len(clubes_con_fallback)} club(es) "
+            f"({', '.join(clubes_con_fallback)}) — usé el plantel guardado de la corrida "
+            "anterior para no perderlos.",
+            file=sys.stderr,
+        )
 
-    return posiciones, primer_diagnostico
+    # Guardamos el resultado (ya con los fallbacks aplicados) para que la
+    # PRÓXIMA corrida tenga de dónde sacar respaldo si hiciera falta.
+    guardar_roster_cache(roster_por_club)
+
+    return roster_por_club, primer_diagnostico
 
 
-def scrape_puntos():
+def identificar_fila(row_text: str, roster_por_club: dict):
+    """Identifica a quién corresponde una fila de la tabla (jugador o
+    entrenador), sin depender de ninguna lista fija de nombres.
+
+    Cada fila de futbolfantasy viene con el nombre completo pegado
+    directo al nombre corto, sin espacio, seguido del club, por ej.:
+        "Antonio SiveraSivera Alavés 634.931 ..."
+    (nombre completo="Antonio Sivera", nombre corto="Sivera")
+
+    Para los entrenadores la fila arranca con "ENT " y el nombre viene
+    duplicado en vez de tener una versión corta separada:
+        "ENT Diego SimeoneDiego Simeone Atlético ..."
+
+    Devuelve (nombre_corto, nombre_completo, club, posición) o
+    (None, None, None, None) si no se pudo identificar.
+    """
+    club_encontrado = next((c for c in CLUBES_LALIGA if c in row_text), None)
+    if not club_encontrado:
+        return None, None, None, None
+
+    idx_club = row_text.find(club_encontrado)
+    prefijo = row_text[:idx_club]
+
+    if prefijo.startswith("ENT "):
+        bloque = prefijo[4:].strip()
+        mitad = len(bloque) // 2
+        if mitad > 0 and len(bloque) % 2 == 0 and bloque[:mitad] == bloque[mitad:]:
+            nombre = bloque[:mitad]
+            return nombre, nombre, club_encontrado, "DT"
+        return None, None, None, None
+
+    candidatos = roster_por_club.get(club_encontrado, {})
+    if not candidatos:
+        return None, None, None, None
+
+    # Comparación sin tildes/mayúsculas pero SIN sacar espacios (para que
+    # los índices sigan alineados 1 a 1 con el texto original y podamos
+    # cortar el nombre corto en el lugar correcto).
+    def _plano(s):
+        return "".join(
+            c for c in unicodedata.normalize("NFD", s) if unicodedata.category(c) != "Mn"
+        ).lower()
+
+    prefijo_plano = _plano(prefijo)
+    for nombre_completo in sorted(candidatos.keys(), key=len, reverse=True):
+        idx = prefijo_plano.find(_plano(nombre_completo))
+        if idx == -1:
+            continue
+        nombre_corto = row_text[idx + len(nombre_completo): idx_club].strip()
+        if not nombre_corto:
+            continue
+        return nombre_corto, nombre_completo, club_encontrado, candidatos[nombre_completo]
+
+    return None, None, None, None
+
+
+def scrape(roster_por_club):
+    resp = fetch_con_reintentos(URL)
+    if resp is None:
+        sys.exit(1)
+
+    soup = BeautifulSoup(resp.text, "html.parser")
+    rows = soup.select(ROW_SELECTOR)
+    if not rows:
+        print(
+            f"⚠️  No encontré filas con el selector '{ROW_SELECTOR}'. "
+            "Abrí el sitio, inspeccioná la tabla y ajustá ROW_SELECTOR arriba.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+    market = {}
+    valores = {}
+    clubes = {}
+    tendencias = {}
+    proximas = {}
+    posiciones = {}
+    encontrados = set()
+    # nombre_completo (tal como lo tiene comuniate.com) -> nombre_corto (tal
+    # como lo usa nuestro mercado). Lo necesitamos para poder cruzar los
+    # nombres de analiticafantasy.com (que suele usar nombres más
+    # completos) contra nuestras claves cortas de siempre.
+    completo_a_corto = {}
+
+    for row in rows:
+        row_text = row.get_text(" ", strip=True)
+        jugador, nombre_completo, club, pos = identificar_fila(row_text, roster_por_club)
+        if jugador is None or jugador in market:
+            continue
+
+        encontrados.add((club, nombre_completo))
+        clubes[jugador] = club
+        posiciones[jugador] = pos
+        completo_a_corto[nombre_completo] = jugador
+
+        m_diff = re.search(r"([+-]?\d[\d.]*\d|0)(?=\s)", row_text)
+        diff = parse_money(m_diff.group(1)) if m_diff else None
+        if diff is not None:
+            market[jugador] = diff
+
+        valor = extraer_valor(row_text)
+        if valor is not None:
+            valores[jugador] = valor
+
+        tendencia = extraer_tendencia(row_text, club)
+        if tendencia is not None:
+            tendencias[jugador] = tendencia
+
+        proxima = extraer_proxima_jornada(row_text)
+        if proxima is not None:
+            proximas[jugador] = proxima
+
+    total_roster = {
+        (club, nombre)
+        for club, jugadores in roster_por_club.items()
+        for nombre in jugadores
+    }
+    faltantes = total_roster - encontrados
+    if faltantes:
+        muestra = ", ".join(f"{n} ({c})" for c, n in sorted(faltantes)[:20])
+        print(f"⚠️  Sin match en el mercado ({len(faltantes)} de {len(total_roster)}): {muestra}{'...' if len(faltantes)>20 else ''}", file=sys.stderr)
+
+    sin_valor = [j for j in market if j not in valores]
+    if sin_valor:
+        print(f"⚠️  Con subida pero sin valor confiable ({len(sin_valor)}): {', '.join(sin_valor[:20])}{'...' if len(sin_valor)>20 else ''}", file=sys.stderr)
+
+    return market, valores, clubes, tendencias, proximas, posiciones, completo_a_corto
+
+
+def scrape_puntos(roster_por_club):
     """Devuelve (puntos_totales, puntos_ultima_jornada, jornada_actual_num).
 
-    puntos_totales: {jugador: puntos acumulados en toda la temporada}
-      (igual que antes — se sigue usando para "Chollos" y el total que
-      se ve en las plantillas).
-    puntos_ultima_jornada: {jugador: puntos que sacó ESPECÍFICAMENTE en
-      la última jornada ya jugada}, tal como los reporta el sitio.
-    jornada_actual_num: número de esa última jornada jugada (ej. 3 si la
-      próxima es J4), calculado por voto mayoritario entre todos los
-      jugadores (por si algún equipo tiene su calendario corrido por un
-      partido aplazado).
+    puntos_totales: {jugador: puntos acumulados en toda la temporada}.
+    puntos_ultima_jornada: {jugador: puntos que sacó ESPECÍFICAMENTE en la
+      última jornada ya jugada}, tal como los reporta el sitio.
+    jornada_actual_num: número de esa última jornada jugada, calculado
+      por voto mayoritario entre todos los jugadores.
     """
     resp = fetch_con_reintentos(URL_PUNTOS)
     if resp is None:
@@ -745,11 +677,10 @@ def scrape_puntos():
     puntos_totales = {}
     puntos_ultima_jornada = {}
     proximas_detectadas = []
-    jugadores_ordenados = sorted(MIS_JUGADORES, key=len, reverse=True)
 
     for row in rows:
         row_text = row.get_text(" ", strip=True)
-        jugador, club = encontrar_jugador_y_club(row_text, jugadores_ordenados)
+        jugador, nombre_completo, club, pos = identificar_fila(row_text, roster_por_club)
         if jugador is None or jugador in puntos_totales:
             continue
         detalle, proxima_num = extraer_puntos_detalle(row_text, club)
@@ -762,10 +693,6 @@ def scrape_puntos():
             if detalle["ultima_jornada"] is not None:
                 puntos_ultima_jornada[jugador] = detalle["ultima_jornada"]
 
-    faltantes = [j for j in MIS_JUGADORES if j not in puntos_totales]
-    if faltantes:
-        print(f"⚠️  Puntos: sin match ({len(faltantes)} de {len(MIS_JUGADORES)}).", file=sys.stderr)
-
     jornada_actual_num = None
     if proximas_detectadas:
         proxima_mas_comun = Counter(proximas_detectadas).most_common(1)[0][0]
@@ -774,7 +701,173 @@ def scrape_puntos():
     return puntos_totales, puntos_ultima_jornada, jornada_actual_num
 
 
-def actualizar_puntos_por_jornada(puntos_ultima_jornada, jornada_actual_num):
+# ---------------------------------------------------------------------------
+# Puntos por jornada específica — vía analiticafantasy.com
+#
+# A diferencia de futbolfantasy.com (que solo expone "la última jornada
+# jugada" respecto al momento en que se consulta, y por lo tanto no sirve
+# para rellenar jornadas viejas si el scraper no corrió esa semana puntual),
+# analiticafantasy.com tiene una URL FIJA por número de jornada:
+#   https://www.analiticafantasy.com/puntuaciones-fantasy-jornada/la-liga-fantasy/{temporada}/{N}
+# Eso nos deja pedir el detalle exacto de CUALQUIER jornada ya jugada, en
+# cualquier momento — así que en vez de depender de que el scraper corra
+# religiosamente todas las semanas sin fallar, en cada corrida chequeamos
+# qué jornadas faltan en puntos_jornadas.json y las vamos completando todas,
+# por más atraso que haya.
+# ---------------------------------------------------------------------------
+
+ANALITICA_TEMPORADA = "2026"
+ANALITICA_BASE = "https://www.analiticafantasy.com/puntuaciones-fantasy-jornada/la-liga-fantasy"
+
+# Patrón de cada jugador en la página: la imagen trae como alt "Foto de
+# {nombre completo}", pegado sin espacio a la posición ("PT"/"DF"/"MC"/"DL")
+# y los puntos de esa jornada, seguido del nombre "de pantalla" (a veces
+# igual al completo, a veces más corto) y el link a su ficha.
+PATRON_JUGADOR_ANALITICA = re.compile(
+    r"Foto de ([^0-9]+?)(PT|DF|MC|DL)(-?\d+)\s+([^\n\[\]]+?)\s*(?:\]|\(|\s+https?://)"
+)
+
+
+def _jornada_actual_analitica():
+    """Consulta la página base (sin número de jornada) para saber hasta
+    qué jornada tiene datos analiticafantasy.com ahora mismo. Devuelve el
+    número de jornada, o None si no se pudo determinar.
+    """
+    resp = fetch_con_reintentos(f"{ANALITICA_BASE}/{ANALITICA_TEMPORADA}")
+    if resp is None:
+        return None
+    m = re.search(r"Jornada\s+(\d+)", resp.text)
+    return int(m.group(1)) if m else None
+
+
+def _parsear_puntuaciones_analitica(html_text: str):
+    """Extrae (nombre_completo, posicion, puntos, nombre_pantalla) de cada
+    jugador en el HTML de una página de puntuaciones por jornada. Usa el
+    texto plano (igual que si fuera get_text) porque el patrón alt="Foto
+    de ..." es estable sin importar los tags exactos alrededor.
+    """
+    texto = BeautifulSoup(html_text, "html.parser").get_text(" ", strip=True)
+    # El regex de arriba está pensado para el texto ya "aplanado"; probamos
+    # también contra el HTML crudo por si el separador entre nombre/posición
+    # y el link varía.
+    matches = PATRON_JUGADOR_ANALITICA.findall(texto)
+    if not matches:
+        matches = PATRON_JUGADOR_ANALITICA.findall(html_text)
+    resultado = []
+    for nombre_completo, pos, pts, pantalla in matches:
+        resultado.append((nombre_completo.strip(), pos, int(pts), pantalla.strip()))
+    return resultado
+
+
+def _resolver_nombres_analitica(matches, completo_a_corto):
+    """Cruza los nombres que trae analiticafantasy.com contra nuestro
+    mapeo nombre_completo -> nombre_corto, con el mismo criterio que se
+    usó para cargar J1/J2 a mano: match exacto primero (confiable), y
+    solo si no hay match exacto se intenta por substring — pero si dos
+    jugadores DISTINTOS (ej. dos apellidos "Romero" de clubes distintos)
+    calzan con el mismo nombre corto y traen puntos distintos, se
+    descarta esa entrada en vez de adivinar cuál es.
+    """
+    corto_por_completo_norm = {_normalizar(c): s for c, s in completo_a_corto.items()}
+
+    exactos = {}
+    candidatos_substr = {}
+
+    for nombre_completo, pos, pts, pantalla in matches:
+        for candidato in (pantalla, nombre_completo):
+            n = _normalizar(candidato)
+            corto = corto_por_completo_norm.get(n)
+            if corto:
+                exactos[corto] = pts
+                break
+        else:
+            n = _normalizar(pantalla)
+            posibles = [
+                corto for completo_norm, corto in corto_por_completo_norm.items()
+                if re.search(r"(?<![a-z])" + re.escape(n) + r"(?![a-z])", completo_norm)
+                or re.search(r"(?<![a-z])" + re.escape(completo_norm.split()[-1]) + r"(?![a-z])", n)
+            ]
+            posibles = list(dict.fromkeys(posibles))
+            if len(posibles) == 1:
+                candidatos_substr.setdefault(posibles[0], []).append(pts)
+
+    resultado = dict(exactos)
+    for corto, valores_posibles in candidatos_substr.items():
+        if corto in resultado:
+            continue
+        if len(set(valores_posibles)) == 1:
+            resultado[corto] = valores_posibles[0]
+        # si hay valores distintos para el mismo nombre corto, es
+        # ambiguo -> lo dejamos afuera a propósito.
+
+    return resultado
+
+
+def obtener_puntos_jornada_analitica(jornada_num: int, completo_a_corto: dict):
+    """Trae y parsea los puntos reales de UNA jornada específica desde
+    analiticafantasy.com. Devuelve un dict {nombre_corto: puntos}, o None
+    si no se pudo traer/parsear la página.
+    """
+    url = f"{ANALITICA_BASE}/{ANALITICA_TEMPORADA}/{jornada_num}"
+    resp = fetch_con_reintentos(url)
+    if resp is None:
+        return None
+    matches = _parsear_puntuaciones_analitica(resp.text)
+    if len(matches) < 100:
+        # Si trae muy pocos jugadores es señal de que el sitio cambió de
+        # diseño o la página no es la que esperamos — mejor no guardar
+        # datos a medias.
+        print(
+            f"⚠️  Jornada {jornada_num}: analiticafantasy.com devolvió muy pocos "
+            f"jugadores ({len(matches)}) — no lo guardo, puede haber cambiado el diseño.",
+            file=sys.stderr,
+        )
+        return None
+    return _resolver_nombres_analitica(matches, completo_a_corto)
+
+
+def completar_puntos_jornadas_faltantes(completo_a_corto: dict):
+    """Revisa puntos_jornadas.json, calcula qué jornadas faltan (desde J1
+    hasta la última jornada que ya tiene datos en analiticafantasy.com) y
+    las va completando todas en esta misma corrida — así no importa si el
+    scraper no corrió religiosamente todas las semanas, se pone al día
+    solo.
+    """
+    ruta = "puntos_jornadas.json"
+    try:
+        with open(ruta, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        data = {}
+    data.setdefault("puntos", {})
+
+    jornada_tope = _jornada_actual_analitica()
+    if jornada_tope is None:
+        print("⚠️  No pude determinar hasta qué jornada tiene datos analiticafantasy.com.", file=sys.stderr)
+        return data
+
+    faltantes = [n for n in range(1, jornada_tope + 1) if f"J{n}" not in data["puntos"]]
+    if not faltantes:
+        print(f"ℹ️  puntos_jornadas.json ya tiene todas las jornadas hasta J{jornada_tope}, nada que completar.")
+        return data
+
+    print(f"ℹ️  Completando jornadas faltantes: {', '.join('J'+str(n) for n in faltantes)}")
+    for n in faltantes:
+        puntos = obtener_puntos_jornada_analitica(n, completo_a_corto)
+        if puntos:
+            data["puntos"][f"J{n}"] = puntos
+            print(f"   ✅ J{n}: {len(puntos)} jugadores")
+        else:
+            print(f"   ⚠️  J{n}: no se pudo completar, se reintentará en la próxima corrida", file=sys.stderr)
+        time.sleep(2)
+
+    data["actualizado"] = datetime.now(timezone.utc).isoformat()
+    with open(ruta, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+    return data
+
+
+
     """Guarda los puntos reales de la ÚLTIMA jornada jugada (tal como los
     calcula el sitio oficial, no reconstruidos por diferencia de
     acumulados) en puntos_jornadas.json — un registro permanente jornada
@@ -840,8 +933,18 @@ def actualizar_historial(valores):
 
 
 if __name__ == "__main__":
-    market, valores, clubes, tendencias, proximas = scrape()
-    puntos, puntos_ultima_jornada, jornada_actual_num = scrape_puntos()
+    roster_por_club, diag_roster = obtener_roster_completo()
+    total_roster = sum(len(v) for v in roster_por_club.values())
+    print(f"ℹ️  Plantel real recopilado: {total_roster} jugadores en {len(roster_por_club)} clubes.")
+    if diag_roster:
+        print("── DIAGNÓSTICO plantel (por qué no pude leer algún club directamente) ──")
+        for clave, valor in diag_roster.items():
+            print(f"   {clave}: {valor}")
+        print("─────────────────────────────────────────────────────────")
+
+    market, valores, clubes, tendencias, proximas, posiciones, completo_a_corto = scrape(roster_por_club)
+    puntos, _puntos_ultima_jornada_ff, _jornada_actual_ff = scrape_puntos(roster_por_club)
+
     with open("mercado.json", "w", encoding="utf-8") as f:
         json.dump(
             {
@@ -863,15 +966,11 @@ if __name__ == "__main__":
         f"{len(tendencias)} (tendencia 2-30 días) y {len(proximas)} (próxima jornada)."
     )
 
-    puntos_jornadas_data = actualizar_puntos_por_jornada(puntos_ultima_jornada, jornada_actual_num)
-    if jornada_actual_num:
-        print(
-            f"✅ Actualizado puntos_jornadas.json — jornada J{jornada_actual_num} con "
-            f"{len(puntos_ultima_jornada)} jugadores (puntos reales de esa jornada específica, "
-            f"no reconstruidos)."
-        )
-    else:
-        print("⚠️  No pude determinar la última jornada jugada para puntos_jornadas.json todavía.")
+    # Puntos por jornada específica: se completan TODAS las que falten
+    # (no solo "la última"), desde analiticafantasy.com — así el sistema
+    # se pone al día solo aunque el scraper se haya salteado alguna
+    # semana, sin necesidad de cargar nada a mano.
+    completar_puntos_jornadas_faltantes(completo_a_corto)
 
     historial = actualizar_historial(valores)
     print(f"✅ Actualizado historial.json — {len(historial)} jugadores con historial guardado.")
@@ -894,7 +993,6 @@ if __name__ == "__main__":
             print(f"   {clave}: {valor}")
         print("─────────────────────────────────────────────────────────")
 
-    posiciones, diag_posiciones = obtener_posiciones(clubes)
     with open("posiciones.json", "w", encoding="utf-8") as f:
         json.dump(
             {
@@ -905,9 +1003,7 @@ if __name__ == "__main__":
             ensure_ascii=False,
             indent=2,
         )
-    print(f"✅ Guardado posiciones.json con la posición real de {len(posiciones)} jugadores.")
-    if diag_posiciones:
-        print("── DIAGNÓSTICO posiciones (por qué no encontró plantel en algún club) ──")
-        for clave, valor in diag_posiciones.items():
-            print(f"   {clave}: {valor}")
-        print("──────────────────────────────────────────────────────────────────────")
+    print(
+        f"✅ Guardado posiciones.json con la posición real de {len(posiciones)} "
+        f"jugadores/DTs — calculada en la misma pasada del mercado, sin scrapear de nuevo."
+    )
