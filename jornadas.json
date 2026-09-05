@@ -12,7 +12,8 @@
             },
             {
               "n": "Gerard Martín",
-              "pos": "DEF"
+              "pos": "DEF",
+              "rol": "capitan"
             },
             {
               "n": "Kike Salas",
@@ -417,6 +418,11 @@
             {
               "n": "Alemão",
               "pos": "DEF"
+            },
+            {
+              "n": "Ede",
+              "pos": "DEF",
+              "rol": "titular"
             }
           ]
         },
