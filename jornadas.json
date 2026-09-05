@@ -2627,11 +2627,6 @@
               "rol": "titular"
             },
             {
-              "n": "Yeray",
-              "pos": "DEF",
-              "rol": "titular"
-            },
-            {
               "n": "Óscar Marcos",
               "pos": "DEF",
               "rol": "titular"
@@ -2919,6 +2914,11 @@
             },
             {
               "n": "Pablo Ramón",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Yeray",
               "pos": "DEF",
               "rol": "titular"
             }
