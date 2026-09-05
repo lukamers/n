@@ -8,10 +8,6 @@
           "pos": "DEF"
         },
         {
-          "n": "Yeray",
-          "pos": "DEF"
-        },
-        {
           "n": "Óscar Marcos",
           "pos": "DEF",
           "v": 1082525
@@ -73,6 +69,11 @@
         },
         {
           "n": "Aramburu",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Moncayola",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -453,11 +454,6 @@
           "rol": "titular"
         },
         {
-          "n": "Claudio Giráldez",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Lago",
           "pos": "DEF",
           "rol": "titular"
@@ -484,6 +480,11 @@
         },
         {
           "n": "Maguette",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Javier Hernández",
           "pos": "DEF",
           "rol": "titular"
         }
