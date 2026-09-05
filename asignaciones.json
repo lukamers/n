@@ -17,11 +17,6 @@
           "v": 1082525
         },
         {
-          "n": "Antony",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "José Mourinho",
           "pos": "DEF",
           "rol": "titular"
@@ -63,6 +58,21 @@
         },
         {
           "n": "Moi Gómez",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Amatucci",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Bretones",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Aramburu",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -336,6 +346,21 @@
           "n": "Fermín",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Ochieng",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Ponce",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Jofre",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -396,16 +421,17 @@
           "n": "Tete Morente",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Grimaldo",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
     "EN ORTODONCIA FC": {
       "caja": 149198284,
       "players": [
-        {
-          "n": "Manuel Fernández",
-          "pos": "DEF"
-        },
         {
           "n": "Luismi",
           "pos": "DEF",
@@ -452,12 +478,12 @@
           "rol": "titular"
         },
         {
-          "n": "Gueye",
+          "n": "Remiro",
           "pos": "DEF",
           "rol": "titular"
         },
         {
-          "n": "Remiro",
+          "n": "Maguette",
           "pos": "DEF",
           "rol": "titular"
         }
