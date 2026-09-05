@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-09-04T02:27:11.253601+00:00",
+  "actualizado": "2026-09-05T02:28:20.752216+00:00",
   "calendario": {
     "Real Madrid": [
       {
@@ -7,12 +7,6 @@
         "local": false,
         "fecha": "Día",
         "hora": "Hora"
-      },
-      {
-        "rival": "Betis",
-        "local": false,
-        "fecha": "04/09",
-        "hora": "14:00"
       },
       {
         "rival": "Inter",
@@ -31,6 +25,12 @@
         "local": false,
         "fecha": "15/09",
         "hora": "14:30"
+      },
+      {
+        "rival": "Atlético",
+        "local": false,
+        "fecha": "20/09",
+        "hora": "09:15"
       }
     ],
     "Real Sociedad": [
@@ -521,12 +521,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Real Madrid",
-        "local": true,
-        "fecha": "04/09",
-        "hora": "14:00"
-      },
-      {
         "rival": "Lille",
         "local": false,
         "fecha": "08/09",
@@ -543,6 +537,12 @@
         "local": true,
         "fecha": "17/09",
         "hora": "12:00"
+      },
+      {
+        "rival": "Deportivo",
+        "local": false,
+        "fecha": "20/09",
+        "hora": "11:30"
       }
     ],
     "Celta": [
