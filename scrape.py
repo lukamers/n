@@ -742,18 +742,46 @@ def _jornada_actual_analitica():
 
 def _parsear_puntuaciones_analitica(html_text: str):
     """Extrae (nombre_completo, posicion, puntos, nombre_pantalla) de cada
-    jugador en el HTML de una página de puntuaciones por jornada. Usa el
-    texto plano (igual que si fuera get_text) porque el patrón alt="Foto
-    de ..." es estable sin importar los tags exactos alrededor.
+    jugador en el HTML de una página de puntuaciones por jornada.
+
+    Método principal: leer directo el atributo alt="Foto de {nombre}" de
+    cada <img>, y sacar la posición/puntos/nombre de pantalla del texto
+    visible del link que envuelve esa imagen. Esto es más confiable que
+    buscar el patrón sobre el texto ya aplanado, porque el atributo alt
+    NO aparece en get_text() — depender de eso podía dejar afuera
+    jornadas enteras según cómo esté armado el HTML real de cada página.
+
+    Si por algún motivo no se encuentra ningún <img alt="Foto de ..."> (el
+    sitio cambió de estructura), se prueba como respaldo el regex viejo
+    sobre el texto plano y sobre el HTML crudo.
     """
-    texto = BeautifulSoup(html_text, "html.parser").get_text(" ", strip=True)
-    # El regex de arriba está pensado para el texto ya "aplanado"; probamos
-    # también contra el HTML crudo por si el separador entre nombre/posición
-    # y el link varía.
+    soup = BeautifulSoup(html_text, "html.parser")
+    resultado = []
+
+    for img in soup.find_all("img", alt=True):
+        alt = img.get("alt", "") or ""
+        m = re.match(r"Foto de (.+)", alt.strip())
+        if not m:
+            continue
+        nombre_completo = m.group(1).strip()
+
+        contenedor = img.find_parent("a") or img.parent
+        texto_cercano = contenedor.get_text(" ", strip=True) if contenedor else ""
+        m2 = re.search(r"(PT|DF|MC|DL)\s*(-?\d+)\s*(.*)$", texto_cercano)
+        if not m2:
+            continue
+        pos, pts, pantalla = m2.group(1), int(m2.group(2)), m2.group(3).strip()
+        resultado.append((nombre_completo, pos, pts, pantalla or nombre_completo))
+
+    if resultado:
+        return resultado
+
+    # Respaldo: el método viejo, por si el sitio no usa <img alt="..."> tal
+    # como lo esperamos.
+    texto = soup.get_text(" ", strip=True)
     matches = PATRON_JUGADOR_ANALITICA.findall(texto)
     if not matches:
         matches = PATRON_JUGADOR_ANALITICA.findall(html_text)
-    resultado = []
     for nombre_completo, pos, pts, pantalla in matches:
         resultado.append((nombre_completo.strip(), pos, int(pts), pantalla.strip()))
     return resultado
@@ -811,6 +839,7 @@ def obtener_puntos_jornada_analitica(jornada_num: int, completo_a_corto: dict):
     url = f"{ANALITICA_BASE}/{ANALITICA_TEMPORADA}/{jornada_num}"
     resp = fetch_con_reintentos(url)
     if resp is None:
+        print(f"⚠️  Jornada {jornada_num}: no se pudo conectar a {url}.", file=sys.stderr)
         return None
     matches = _parsear_puntuaciones_analitica(resp.text)
     if len(matches) < 100:
@@ -818,12 +847,21 @@ def obtener_puntos_jornada_analitica(jornada_num: int, completo_a_corto: dict):
         # diseño o la página no es la que esperamos — mejor no guardar
         # datos a medias.
         print(
-            f"⚠️  Jornada {jornada_num}: analiticafantasy.com devolvió muy pocos "
-            f"jugadores ({len(matches)}) — no lo guardo, puede haber cambiado el diseño.",
+            f"⚠️  Jornada {jornada_num}: la página trajo muy pocos jugadores "
+            f"({len(matches)} de ~450 esperados) — no lo guardo, puede haber "
+            "cambiado el diseño del sitio o la carga de esa página en particular.",
             file=sys.stderr,
         )
         return None
-    return _resolver_nombres_analitica(matches, completo_a_corto)
+    resuelto = _resolver_nombres_analitica(matches, completo_a_corto)
+    if len(resuelto) < len(matches) * 0.5:
+        print(
+            f"⚠️  Jornada {jornada_num}: la página trajo {len(matches)} jugadores pero "
+            f"solo pude identificar {len(resuelto)} contra nuestro roster — revisar "
+            "si comuniate.com y analiticafantasy.com dejaron de coincidir en los nombres.",
+            file=sys.stderr,
+        )
+    return resuelto
 
 
 def completar_puntos_jornadas_faltantes(completo_a_corto: dict):
