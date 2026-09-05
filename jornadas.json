@@ -2744,6 +2744,16 @@
               "n": "Thiago",
               "pos": "MED",
               "rol": "titular"
+            },
+            {
+              "n": "Aarón",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Dotor",
+              "pos": "DEF",
+              "rol": "titular"
             }
           ]
         },
@@ -2852,6 +2862,11 @@
               "n": "Gayà",
               "pos": "DEF",
               "rol": "titular"
+            },
+            {
+              "n": "Guridi",
+              "pos": "DEF",
+              "rol": "titular"
             }
           ]
         },
@@ -2921,6 +2936,16 @@
               "n": "Yeray",
               "pos": "DEF",
               "rol": "titular"
+            },
+            {
+              "n": "Gijselhart",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Abdelkarim Abdelkarim",
+              "pos": "DEF",
+              "rol": "titular"
             }
           ]
         },
@@ -2984,6 +3009,16 @@
             {
               "n": "Jofre",
               "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Diatta",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Agirrezabala",
+              "pos": "DEF",
               "rol": "titular"
             }
           ]
@@ -3107,6 +3142,16 @@
             {
               "n": "Maguette",
               "pos": "MED",
+              "rol": "titular"
+            },
+            {
+              "n": "Kang-In Lee",
+              "pos": "DEF",
+              "rol": "capitan"
+            },
+            {
+              "n": "Herrero",
+              "pos": "DEF",
               "rol": "titular"
             }
           ]
