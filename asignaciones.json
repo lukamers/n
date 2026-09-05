@@ -13,11 +13,6 @@
           "v": 1082525
         },
         {
-          "n": "José Mourinho",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Huijsen",
           "pos": "DEF",
           "rol": "titular"
@@ -102,11 +97,6 @@
           "rol": "titular"
         },
         {
-          "n": "Guridi",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Luis García",
           "pos": "DEF",
           "rol": "titular"
@@ -128,6 +118,16 @@
         },
         {
           "n": "Thiago",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Aarón",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Dotor",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -236,6 +236,11 @@
           "n": "Gayà",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Guridi",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -295,6 +300,16 @@
         },
         {
           "n": "Pablo Ramón",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Gijselhart",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Abdelkarim Abdelkarim",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -360,6 +375,16 @@
         },
         {
           "n": "Jofre",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Diatta",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Agirrezabala",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -485,6 +510,21 @@
         },
         {
           "n": "Javier Hernández",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "José Mourinho",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Kang-In Lee",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Herrero",
           "pos": "DEF",
           "rol": "titular"
         }
