@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-09-05T19:14:13.879861+00:00",
+  "actualizado": "2026-09-05T19:33:25.188558+00:00",
   "roster_por_club": {
     "Alavés": {
       "Sivera": "POR",
@@ -179,13 +179,13 @@
       "Leo Román": "POR",
       "Álvaro Fernández": "POR",
       "Germán Parreño": "POR",
-      "Bright Ede": "DEF",
       "Lucas Noubi": "DEF",
+      "Bright Ede": "DEF",
+      "Ximo Navarro": "DEF",
       "Adriá Altimira": "DEF",
       "Quagliata": "DEF",
-      "Ximo Navarro": "DEF",
-      "Loureiro": "DEF",
       "José Giménez": "DEF",
+      "Loureiro": "DEF",
       "Angeliño": "DEF",
       "Dani Barcia": "DEF",
       "Arnau Comas": "DEF",
@@ -196,8 +196,8 @@
       "Asp Jensen": "MED",
       "Mella": "MED",
       "Yeremay": "MED",
-      "Gijselhart": "MED",
       "Riki Rodríguez": "MED",
+      "Gijselhart": "MED",
       "Adama Traoré": "MED",
       "Marc Casadó": "MED",
       "Noé Carrillo": "MED",
@@ -561,8 +561,8 @@
       "Carlos Romero": "DEF",
       "Santiago Mouriño": "DEF",
       "Alex Freeman": "DEF",
-      "Sergi Cardona": "DEF",
       "Logan Costa": "DEF",
+      "Sergi Cardona": "DEF",
       "Pau Navarro": "DEF",
       "Pape Gueye": "MED",
       "Alberto Moleiro": "MED",
@@ -574,8 +574,8 @@
       "Diatta": "MED",
       "Nicolas Pépé": "DEL",
       "Gerard Moreno": "DEL",
-      "Mikautadze": "DEL",
       "Ayoze Pérez": "DEL",
+      "Mikautadze": "DEL",
       "Oluwaseyi": "DEL"
     }
   }
