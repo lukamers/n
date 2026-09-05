@@ -742,14 +742,23 @@ def _jornada_actual_analitica():
 
 def _parsear_puntuaciones_analitica(html_text: str):
     """Extrae (nombre_completo, posicion, puntos, nombre_pantalla) de cada
-    jugador en el HTML de una página de puntuaciones por jornada.
+    jugador Y entrenador en el HTML de una página de puntuaciones por
+    jornada.
 
     Método principal: leer directo el atributo alt="Foto de {nombre}" de
     cada <img>, y sacar la posición/puntos/nombre de pantalla del texto
-    visible del link que envuelve esa imagen. Esto es más confiable que
-    buscar el patrón sobre el texto ya aplanado, porque el atributo alt
-    NO aparece en get_text() — depender de eso podía dejar afuera
-    jornadas enteras según cómo esté armado el HTML real de cada página.
+    visible cerca de esa imagen. Esto es más confiable que buscar el
+    patrón sobre el texto ya aplanado, porque el atributo alt NO aparece
+    en get_text() — depender de eso podía dejar afuera jornadas enteras
+    según cómo esté armado el HTML real de cada página.
+
+    Los jugadores van dentro de un link a su ficha (<a href="/jugadores/
+    ...">), con la posición+puntos+nombre de pantalla como texto visible
+    de ese mismo link. Los ENTRENADORES vienen con una estructura
+    distinta: sin link, con "DT{puntos}" como texto suelto cerca de la
+    imagen y el nombre repetido aparte — por eso probamos con más de un
+    nivel de contenedor (el padre directo de la imagen, y si no alcanza,
+    el abuelo) hasta encontrar uno que tenga el patrón posición+puntos.
 
     Si por algún motivo no se encuentra ningún <img alt="Foto de ..."> (el
     sitio cambió de estructura), se prueba como respaldo el regex viejo
@@ -757,6 +766,7 @@ def _parsear_puntuaciones_analitica(html_text: str):
     """
     soup = BeautifulSoup(html_text, "html.parser")
     resultado = []
+    patron_pos = r"(PT|DF|MC|DL|DT)\s*(-?\d+)\s*(.*)$"
 
     for img in soup.find_all("img", alt=True):
         alt = img.get("alt", "") or ""
@@ -765,11 +775,28 @@ def _parsear_puntuaciones_analitica(html_text: str):
             continue
         nombre_completo = m.group(1).strip()
 
-        contenedor = img.find_parent("a") or img.parent
-        texto_cercano = contenedor.get_text(" ", strip=True) if contenedor else ""
-        m2 = re.search(r"(PT|DF|MC|DL)\s*(-?\d+)\s*(.*)$", texto_cercano)
+        # Probamos, en orden, el link que envuelve la imagen (caso
+        # jugador), el padre directo, y el abuelo (caso entrenador, que
+        # no tiene link y puede tener la posición+puntos en un hermano
+        # en vez de en el padre inmediato).
+        candidatos_contenedor = []
+        link = img.find_parent("a")
+        if link:
+            candidatos_contenedor.append(link)
+        if img.parent:
+            candidatos_contenedor.append(img.parent)
+            if img.parent.parent:
+                candidatos_contenedor.append(img.parent.parent)
+
+        m2 = None
+        for contenedor in candidatos_contenedor:
+            texto_cercano = contenedor.get_text(" ", strip=True)
+            m2 = re.search(patron_pos, texto_cercano)
+            if m2:
+                break
         if not m2:
             continue
+
         pos, pts, pantalla = m2.group(1), int(m2.group(2)), m2.group(3).strip()
         resultado.append((nombre_completo, pos, pts, pantalla or nombre_completo))
 
@@ -789,12 +816,21 @@ def _parsear_puntuaciones_analitica(html_text: str):
 
 def _resolver_nombres_analitica(matches, completo_a_corto):
     """Cruza los nombres que trae analiticafantasy.com contra nuestro
-    mapeo nombre_completo -> nombre_corto, con el mismo criterio que se
-    usó para cargar J1/J2 a mano: match exacto primero (confiable), y
-    solo si no hay match exacto se intenta por substring — pero si dos
-    jugadores DISTINTOS (ej. dos apellidos "Romero" de clubes distintos)
-    calzan con el mismo nombre corto y traen puntos distintos, se
-    descarta esa entrada en vez de adivinar cuál es.
+    mapeo nombre_completo -> nombre_corto, en tres niveles de confianza
+    decreciente — el mismo criterio que se usó para cargar J1/J2 a mano:
+
+    1. Match exacto (confiable).
+    2. Substring de palabra completa (ej. "De Galarreta" dentro de
+       "Íñigo Ruiz de Galarreta").
+    3. Prefijo de la primera palabra (ej. "Vini" es prefijo de
+       "Vinicius" — apodos comunes en jugadores brasileños/portugueses
+       que analiticafantasy.com no siempre deletrea igual que
+       comuniate.com).
+
+    En los niveles 2 y 3, si dos jugadores DISTINTOS (ej. dos apellidos
+    "Romero" de clubes distintos) calzan con el mismo nombre corto y
+    traen puntos distintos, se descarta esa entrada en vez de adivinar
+    cuál es.
     """
     corto_por_completo_norm = {_normalizar(c): s for c, s in completo_a_corto.items()}
 
@@ -816,6 +852,22 @@ def _resolver_nombres_analitica(matches, completo_a_corto):
                 or re.search(r"(?<![a-z])" + re.escape(completo_norm.split()[-1]) + r"(?![a-z])", n)
             ]
             posibles = list(dict.fromkeys(posibles))
+
+            if not posibles:
+                # Nivel 3: apodo como prefijo del nombre real (ej. "Vini"
+                # es el arranque de "Vinicius"). Exigimos al menos 3
+                # letras para evitar falsos positivos con nombres cortos.
+                primera_palabra = n.split()[0] if n.split() else n
+                if len(primera_palabra) >= 3:
+                    posibles = [
+                        corto for completo_norm, corto in corto_por_completo_norm.items()
+                        if completo_norm.split() and (
+                            completo_norm.split()[0].startswith(primera_palabra)
+                            or primera_palabra.startswith(completo_norm.split()[0])
+                        )
+                    ]
+                    posibles = list(dict.fromkeys(posibles))
+
             if len(posibles) == 1:
                 candidatos_substr.setdefault(posibles[0], []).append(pts)
 
