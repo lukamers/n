@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-09-06T02:24:37.367845+00:00",
+  "actualizado": "2026-09-06T02:32:24.829439+00:00",
   "market": {
     "Sivera": 355625,
     "Julio Díaz": 1573,
@@ -128,6 +128,25 @@
     "Yeboah": -25474,
     "M. Sarr": -365999,
     "Ponce": -29379,
+    "Luis Castro": -12613,
+    "Hansi Flick": -145917,
+    "Manuel Pellegrini": -69177,
+    "Claudio Giráldez": -32056,
+    "Antonio Hidalgo": -19074,
+    "Martín Anselmi": -18727,
+    "Manolo González": -10037,
+    "Pepe Bordalás": -740340,
+    "Juan Funes": -12880,
+    "Edin Terzic": -127429,
+    "Luis Miguel Ramis": -15613,
+    "José Alberto López": -7169,
+    "Beñat San José": -18727,
+    "José Mourinho": -231825,
+    "Pellegrino Matarazzo": -58493,
+    "Luis García": -5365,
+    "Carlos Corberán": -2359,
+    "Diego Simeone": -100832,
+    "Quique Sánchez": -5365,
     "Revivo": -144094,
     "Bouare": 0,
     "Jonathan David": -777001,
@@ -451,6 +470,7 @@
     "Comesaña": -560133,
     "Gerard": 440064,
     "Sörloth": -341324,
+    "Raúl García": -1109,
     "Baena": 1261501,
     "Femenia": -15328,
     "Terrats": 231823,
@@ -461,6 +481,7 @@
     "Manu Sánchez": -59145,
     "Edu Expósito": -473476,
     "Fornals": -822966,
+    "Rubén Sánchez": 1637,
     "Novoa": -6561,
     "Pépé": -632238,
     "Pape Gueye": -867835,
@@ -477,6 +498,7 @@
     "Mario Martín": -77530,
     "Olmo": -687376,
     "Danjuma": -75866,
+    "Íñigo Pérez": -31866,
     "Ejuke": 175512,
     "Rosier": -87865,
     "Peque": -2408,
@@ -624,6 +646,25 @@
     "Yeboah": 1074710,
     "M. Sarr": 13332020,
     "Ponce": 1168425,
+    "Luis Castro": 766041,
+    "Hansi Flick": 5675467,
+    "Manuel Pellegrini": 2123592,
+    "Claudio Giráldez": 1232687,
+    "Antonio Hidalgo": 921116,
+    "Martín Anselmi": 912795,
+    "Manolo González": 704212,
+    "Pepe Bordalás": 18231487,
+    "Juan Funes": 772467,
+    "Edin Terzic": 3521620,
+    "Luis Miguel Ramis": 838048,
+    "José Alberto López": 635395,
+    "Beñat San José": 912795,
+    "José Mourinho": 7193493,
+    "Pellegrino Matarazzo": 1867179,
+    "Luis García": 592103,
+    "Carlos Corberán": 519943,
+    "Diego Simeone": 2945154,
+    "Quique Sánchez": 592103,
     "Revivo": 4878446,
     "Bouare": 800000,
     "Jonathan David": 37974039,
@@ -947,6 +988,7 @@
     "Comesaña": 22020380,
     "Gerard": 32486337,
     "Sörloth": 12501271,
+    "Raúl García": 1639002,
     "Baena": 66125890,
     "Femenia": 2670414,
     "Terrats": 6506730,
@@ -957,6 +999,7 @@
     "Manu Sánchez": 4933060,
     "Edu Expósito": 28254314,
     "Fornals": 53535433,
+    "Rubén Sánchez": 424046,
     "Novoa": 620806,
     "Pépé": 65401966,
     "Pape Gueye": 42405881,
@@ -973,6 +1016,7 @@
     "Mario Martín": 3050502,
     "Olmo": 47816167,
     "Danjuma": 4922779,
+    "Íñigo Pérez": 1228117,
     "Ejuke": 4427556,
     "Rosier": 2928841,
     "Peque": 2924660,
@@ -1213,6 +1257,7 @@
     "Catena": 24,
     "Herrera": 22,
     "Budimir": 26,
+    "Raúl García": 13,
     "Herrando": 15,
     "Oroz": 12,
     "Moncayola": 14,
@@ -1538,6 +1583,25 @@
     "Yeboah": "Osasuna",
     "M. Sarr": "Real Sociedad",
     "Ponce": "Elche",
+    "Luis Castro": "Levante",
+    "Hansi Flick": "Barcelona",
+    "Manuel Pellegrini": "Betis",
+    "Claudio Giráldez": "Celta",
+    "Antonio Hidalgo": "Deportivo",
+    "Martín Anselmi": "Elche",
+    "Manolo González": "Espanyol",
+    "Pepe Bordalás": "Getafe",
+    "Juan Funes": "Málaga",
+    "Edin Terzic": "Athletic",
+    "Luis Miguel Ramis": "Osasuna",
+    "José Alberto López": "Racing",
+    "Beñat San José": "Rayo",
+    "José Mourinho": "Real Madrid",
+    "Pellegrino Matarazzo": "Real Sociedad",
+    "Luis García": "Sevilla",
+    "Carlos Corberán": "Valencia",
+    "Diego Simeone": "Atlético",
+    "Quique Sánchez": "Alavés",
     "Revivo": "Elche",
     "Bouare": "Rayo",
     "Jonathan David": "Atlético",
@@ -1861,6 +1925,7 @@
     "Comesaña": "Villarreal",
     "Gerard": "Villarreal",
     "Sörloth": "Atlético",
+    "Raúl García": "Osasuna",
     "Baena": "Atlético",
     "Femenia": "Getafe",
     "Terrats": "Getafe",
@@ -1871,6 +1936,7 @@
     "Manu Sánchez": "Levante",
     "Edu Expósito": "Espanyol",
     "Fornals": "Betis",
+    "Rubén Sánchez": "Elche",
     "Novoa": "Alavés",
     "Pépé": "Villarreal",
     "Pape Gueye": "Villarreal",
@@ -1887,6 +1953,7 @@
     "Mario Martín": "Getafe",
     "Olmo": "Barcelona",
     "Danjuma": "Valencia",
+    "Íñigo Pérez": "Villarreal",
     "Ejuke": "Sevilla",
     "Rosier": "Osasuna",
     "Peque": "Sevilla",
@@ -2922,6 +2989,158 @@
       -202680,
       -457922,
       0
+    ],
+    "Luis Castro": [
+      -12613,
+      -28575,
+      -46039,
+      -120273,
+      -280165,
+      -906702
+    ],
+    "Hansi Flick": [
+      -145917,
+      -297998,
+      -448264,
+      -972834,
+      -2343617,
+      -6650840
+    ],
+    "Manuel Pellegrini": [
+      -69177,
+      -144061,
+      -222901,
+      -567300,
+      -1282176,
+      -3668551
+    ],
+    "Claudio Giráldez": [
+      -32056,
+      -68273,
+      -106834,
+      -274623,
+      -639920,
+      -1989807
+    ],
+    "Antonio Hidalgo": [
+      -19074,
+      -41767,
+      -66242,
+      -171566,
+      -399719,
+      -1279354
+    ],
+    "Martín Anselmi": [
+      -18727,
+      -41058,
+      -65157,
+      -168814,
+      -393306,
+      -1259360
+    ],
+    "Manolo González": [
+      -10037,
+      -23316,
+      -37984,
+      -99822,
+      -232499,
+      -758127
+    ],
+    "Pepe Bordalás": [
+      -740340,
+      -1514351,
+      -2321449,
+      -5897232,
+      -13744899,
+      -42876318
+    ],
+    "Juan Funes": [
+      -12880,
+      -29122,
+      -46876,
+      -122399,
+      -285122,
+      -922151
+    ],
+    "Edin Terzic": [
+      -127429,
+      -262991,
+      -405038,
+      -1031722,
+      -2404539,
+      -7501774
+    ],
+    "Luis Miguel Ramis": [
+      -15613,
+      -34701,
+      -55420,
+      -144090,
+      -335679,
+      -1079740
+    ],
+    "José Alberto López": [
+      -7169,
+      -17460,
+      -29017,
+      -77057,
+      -179443,
+      -592756
+    ],
+    "Beñat San José": [
+      -18727,
+      -41058,
+      -65157,
+      -168814,
+      -393306,
+      -1259360
+    ],
+    "José Mourinho": [
+      -231825,
+      -473542,
+      -700720,
+      -1559197,
+      -3733448,
+      -11251805
+    ],
+    "Pellegrino Matarazzo": [
+      -58493,
+      -122247,
+      -189495,
+      -484489,
+      -1129072,
+      -3465768
+    ],
+    "Luis García": [
+      -5365,
+      -13777,
+      -23377,
+      -62740,
+      -146072,
+      -488734
+    ],
+    "Carlos Corberán": [
+      -2359,
+      -7641,
+      -13978,
+      -38873,
+      -90442,
+      -315330
+    ],
+    "Diego Simeone": [
+      -100832,
+      -205356,
+      -305766,
+      -730753,
+      -1671199,
+      -4609426
+    ],
+    "Quique Sánchez": [
+      -5365,
+      -13777,
+      -23377,
+      -62740,
+      -146072,
+      -488734
     ],
     "Revivo": [
       -144094,
@@ -5507,6 +5726,14 @@
       -6027602,
       -14057138
     ],
+    "Raúl García": [
+      -1109,
+      17588,
+      33674,
+      117325,
+      47247,
+      -546776
+    ],
     "Baena": [
       1261501,
       2221566,
@@ -5586,6 +5813,14 @@
       -7432609,
       -2891010,
       -9713780
+    ],
+    "Rubén Sánchez": [
+      1637,
+      519,
+      -1483,
+      -7152,
+      -16508,
+      -84883
     ],
     "Novoa": [
       -6561,
@@ -5714,6 +5949,14 @@
       -449440,
       -101153,
       389157
+    ],
+    "Íñigo Pérez": [
+      -31866,
+      -67883,
+      -106238,
+      -273111,
+      -630542,
+      -1661457
     ],
     "Ejuke": [
       175512,
@@ -6495,6 +6738,101 @@
       "jornada": "J4",
       "local": true,
       "probabilidad": 50
+    },
+    "Luis Castro": {
+      "jornada": "J4",
+      "local": false,
+      "probabilidad": null
+    },
+    "Hansi Flick": {
+      "jornada": "J4",
+      "local": false,
+      "probabilidad": null
+    },
+    "Manuel Pellegrini": {
+      "jornada": "J5",
+      "local": false,
+      "probabilidad": null
+    },
+    "Claudio Giráldez": {
+      "jornada": "J4",
+      "local": false,
+      "probabilidad": null
+    },
+    "Antonio Hidalgo": {
+      "jornada": "J5",
+      "local": false,
+      "probabilidad": null
+    },
+    "Martín Anselmi": {
+      "jornada": "J4",
+      "local": true,
+      "probabilidad": null
+    },
+    "Manolo González": {
+      "jornada": "J4",
+      "local": true,
+      "probabilidad": null
+    },
+    "Pepe Bordalás": {
+      "jornada": "J4",
+      "local": true,
+      "probabilidad": null
+    },
+    "Juan Funes": {
+      "jornada": "J4",
+      "local": true,
+      "probabilidad": null
+    },
+    "Edin Terzic": {
+      "jornada": "J5",
+      "local": true,
+      "probabilidad": null
+    },
+    "Luis Miguel Ramis": {
+      "jornada": "J4",
+      "local": false,
+      "probabilidad": null
+    },
+    "José Alberto López": {
+      "jornada": "J5",
+      "local": true,
+      "probabilidad": null
+    },
+    "Beñat San José": {
+      "jornada": "J5",
+      "local": false,
+      "probabilidad": null
+    },
+    "José Mourinho": {
+      "jornada": "J5",
+      "local": true,
+      "probabilidad": null
+    },
+    "Pellegrino Matarazzo": {
+      "jornada": "J4",
+      "local": false,
+      "probabilidad": null
+    },
+    "Luis García": {
+      "jornada": "J4",
+      "local": false,
+      "probabilidad": null
+    },
+    "Carlos Corberán": {
+      "jornada": "J4",
+      "local": true,
+      "probabilidad": null
+    },
+    "Diego Simeone": {
+      "jornada": "J5",
+      "local": false,
+      "probabilidad": null
+    },
+    "Quique Sánchez": {
+      "jornada": "J4",
+      "local": true,
+      "probabilidad": null
     },
     "Revivo": {
       "jornada": "J4",
@@ -8111,6 +8449,11 @@
       "local": false,
       "probabilidad": 0
     },
+    "Raúl García": {
+      "jornada": "J4",
+      "local": false,
+      "probabilidad": 20
+    },
     "Baena": {
       "jornada": "J5",
       "local": false,
@@ -8160,6 +8503,11 @@
       "jornada": "J5",
       "local": false,
       "probabilidad": 70
+    },
+    "Rubén Sánchez": {
+      "jornada": "J4",
+      "local": true,
+      "probabilidad": 30
     },
     "Novoa": {
       "jornada": "J4",
@@ -8240,6 +8588,11 @@
       "jornada": "J4",
       "local": true,
       "probabilidad": 50
+    },
+    "Íñigo Pérez": {
+      "jornada": "J5",
+      "local": true,
+      "probabilidad": null
     },
     "Ejuke": {
       "jornada": "J4",
