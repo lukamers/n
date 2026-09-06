@@ -419,11 +419,6 @@
           "rol": "titular"
         },
         {
-          "n": "Serrano",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Roberto",
           "pos": "DEF",
           "rol": "titular"
@@ -450,6 +445,11 @@
         },
         {
           "n": "Grimaldo",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Francho",
           "pos": "DEF",
           "rol": "titular"
         }
