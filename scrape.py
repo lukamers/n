@@ -525,6 +525,36 @@ def obtener_roster_completo():
     return roster_por_club, primer_diagnostico
 
 
+def _nombre_duplicado(bloque: str):
+    """Los entrenadores vienen con el nombre pegado dos veces seguidas
+    (ej. "Luis CastroLuis Castro"), pero según cómo separe el HTML real
+    los dos bloques de texto, a veces queda un espacio de más en el medio
+    ("Luis Castro Luis Castro"). Probamos primero el caso pegado (sin
+    tocar nada) y, si no matchea, probamos sacando cada espacio uno por
+    uno hasta encontrar el que hace que las dos mitades sean idénticas.
+    Devuelve el nombre limpio, o None si no se pudo confirmar el
+    duplicado.
+    """
+    def _mitad_igual(s):
+        m = len(s) // 2
+        if m > 0 and len(s) % 2 == 0 and s[:m] == s[m:]:
+            return s[:m]
+        return None
+
+    nombre = _mitad_igual(bloque)
+    if nombre:
+        return nombre
+
+    posiciones_espacio = [i for i, ch in enumerate(bloque) if ch == " "]
+    for i in posiciones_espacio:
+        candidato = bloque[:i] + bloque[i + 1:]
+        nombre = _mitad_igual(candidato)
+        if nombre:
+            return nombre
+
+    return None
+
+
 def identificar_fila(row_text: str, roster_por_club: dict):
     """Identifica a quién corresponde una fila de la tabla (jugador o
     entrenador), sin depender de ninguna lista fija de nombres.
@@ -550,9 +580,8 @@ def identificar_fila(row_text: str, roster_por_club: dict):
 
     if prefijo.startswith("ENT "):
         bloque = prefijo[4:].strip()
-        mitad = len(bloque) // 2
-        if mitad > 0 and len(bloque) % 2 == 0 and bloque[:mitad] == bloque[mitad:]:
-            nombre = bloque[:mitad]
+        nombre = _nombre_duplicado(bloque)
+        if nombre:
             return nombre, nombre, club_encontrado, "DT"
         return None, None, None, None
 
@@ -577,6 +606,29 @@ def identificar_fila(row_text: str, roster_por_club: dict):
         if not nombre_corto:
             continue
         return nombre_corto, nombre_completo, club_encontrado, candidatos[nombre_completo]
+
+    # Respaldo: comuniate.com a veces lista un nombre más largo del que
+    # realmente usa futbolfantasy.com (ej. "Raúl García de Haro" en
+    # comuniate vs "Raúl García" en futbolfantasy). Si el nombre completo
+    # exacto no matcheó arriba, probamos recortando palabras desde el
+    # final hasta encontrar la versión más larga que sí aparezca. Nunca
+    # recortamos a una sola palabra (demasiado ambiguo, muchos jugadores
+    # comparten apellido) y exigimos un mínimo de caracteres.
+    for nombre_completo in sorted(candidatos.keys(), key=len, reverse=True):
+        palabras = nombre_completo.split()
+        if len(palabras) < 2:
+            continue
+        for corte in range(len(palabras) - 1, 1, -1):
+            version_corta = " ".join(palabras[:corte])
+            if len(version_corta) < 4:
+                continue
+            idx = prefijo_plano.find(_plano(version_corta))
+            if idx == -1:
+                continue
+            nombre_corto = row_text[idx + len(version_corta): idx_club].strip()
+            if not nombre_corto:
+                continue
+            return nombre_corto, nombre_completo, club_encontrado, candidatos[nombre_completo]
 
     return None, None, None, None
 
