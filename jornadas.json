@@ -2974,7 +2974,7 @@
             {
               "n": "Joan Garcia",
               "pos": "POR",
-              "rol": "titular"
+              "rol": "capitan"
             },
             {
               "n": "Paredes",
@@ -3018,6 +3018,11 @@
             },
             {
               "n": "Agirrezabala",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Ángel Pérez",
               "pos": "DEF",
               "rol": "titular"
             }
