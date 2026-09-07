@@ -71,6 +71,21 @@
           "n": "Moncayola",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Djené",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Gerard",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Juan Funes",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -83,16 +98,6 @@
         },
         {
           "n": "Dituro",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Djené",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Gerard",
           "pos": "DEF",
           "rol": "titular"
         },
@@ -130,6 +135,16 @@
           "n": "Dotor",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Martín",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Adeyemi",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -152,11 +167,6 @@
           "n": "Pathé I. Ciss",
           "pos": "MED",
           "tag": "Fichado de mercho."
-        },
-        {
-          "n": "Iker Muñoz",
-          "pos": "DEF",
-          "rol": "titular"
         },
         {
           "n": "Koski",
@@ -241,6 +251,21 @@
           "n": "Guridi",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Dolan",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Mandi",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Cancelo",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -250,10 +275,6 @@
         {
           "n": "Szczesny",
           "pos": "POR"
-        },
-        {
-          "n": "Llorente",
-          "pos": "DEF"
         },
         {
           "n": "Tárrega",
@@ -312,17 +333,17 @@
           "n": "Abdelkarim Abdelkarim",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Mangala",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
     "karfim": {
       "caja": 125997287,
       "players": [
-        {
-          "n": "Dolan",
-          "pos": "DEF",
-          "rol": "titular"
-        },
         {
           "n": "Nacho Pérez",
           "pos": "DEF",
@@ -364,17 +385,7 @@
           "rol": "titular"
         },
         {
-          "n": "Ochieng",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Ponce",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Jofre",
           "pos": "DEF",
           "rol": "titular"
         },
@@ -387,6 +398,11 @@
           "n": "Agirrezabala",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Ángel Pérez",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -394,15 +410,6 @@
       "caja": 1367853,
       "you": true,
       "players": [
-        {
-          "n": "M. Román",
-          "pos": "MED"
-        },
-        {
-          "n": "Riedel",
-          "pos": "DEF",
-          "rol": "titular"
-        },
         {
           "n": "Iñigo Vicente",
           "pos": "DEF",
@@ -444,12 +451,12 @@
           "rol": "titular"
         },
         {
-          "n": "Grimaldo",
+          "n": "Francho",
           "pos": "DEF",
           "rol": "titular"
         },
         {
-          "n": "Francho",
+          "n": "Gordon",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -504,11 +511,6 @@
           "rol": "titular"
         },
         {
-          "n": "Maguette",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Javier Hernández",
           "pos": "DEF",
           "rol": "titular"
@@ -525,6 +527,16 @@
         },
         {
           "n": "Herrero",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Jofre",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Ochieng",
           "pos": "DEF",
           "rol": "titular"
         }
