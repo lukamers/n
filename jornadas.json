@@ -3048,7 +3048,7 @@
             {
               "n": "Bellingham",
               "pos": "MED",
-              "rol": "titular"
+              "rol": "capitan"
             },
             {
               "n": "Bigas",
@@ -3087,6 +3087,11 @@
             },
             {
               "n": "Grimaldo",
+              "pos": "DEF",
+              "rol": "titular"
+            },
+            {
+              "n": "Gordon",
               "pos": "DEF",
               "rol": "titular"
             }
