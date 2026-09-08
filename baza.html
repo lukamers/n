@@ -380,8 +380,8 @@ async function githubUpdateGames(mutateFn) {
   }
   throw lastErr;
 }
+async function saveCurrentGame() {
   const msgBox = document.getElementById('finishMsg');
-  if (!currentGameId) return;
   if (!getToken()) {
     msgBox.innerHTML = '<div class="warn">Andá a Historial y configurá el token de GitHub primero.</div>';
     return;
