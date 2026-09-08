@@ -1,3 +1,21 @@
 {
-  "games": []
+  "games": [
+    {
+      "id": "g_1788903729812_54z2v",
+      "date": "2026-09-08T21:42:11.733Z",
+      "players": [
+        "Jugador 1",
+        "Jugador 2",
+        "Jugador 3"
+      ],
+      "rounds": [],
+      "totals": [
+        0,
+        0,
+        0
+      ],
+      "finished": false,
+      "winner": null
+    }
+  ]
 }
