@@ -383,6 +383,13 @@
     </div>
     <div id="cards"></div>
 
+    <div class="section-label">¿Quién puede pagar este fichaje?</div>
+    <p style="color:var(--text-faint); font-size:12.5px; margin:-6px 0 12px; line-height:1.5;">Metés el precio al que salió un jugador en el mercado y te dice qué equipos pueden pagarlo (con el límite de gasto de siempre: caja + 20% del valor de su plantilla en deuda).</p>
+    <div class="sort-box" style="align-items:center;">
+      <input type="text" inputmode="numeric" id="montoPagoInput" placeholder="Ej: 5.500.000" style="flex:1; min-width:160px; padding:9px 12px; background:var(--bg-card); border:1px solid var(--line); border-radius:8px; color:var(--text); font-size:14px;" oninput="renderQuienPuedePagar()">
+    </div>
+    <div id="quienPuedePagarResult"></div>
+
     <div class="section-label">Comparador de jugadores cabeza a cabeza</div>
     <div class="sort-box" style="align-items:center;">
       <input type="text" list="allPlayersList" id="h2hPlayer1" placeholder="Jugador 1" style="flex:1; min-width:120px; padding:8px 10px; background:var(--bg-card); border:1px solid var(--line); border-radius:8px; color:var(--text); font-size:13px;">
@@ -1078,6 +1085,66 @@ function teamWarnings(team){
 }
 function teamTotal(team){ return team.players.reduce((s,p)=> s + currentValue(p), 0); }
 function teamMaxSpend(team){ return team.caja + 0.20 * teamTotal(team); }
+
+function parseMontoInput(str){
+  // Acepta cualquier formato razonable: "5.500.000", "5500000", con o sin
+  // el símbolo €, espacios, etc. — solo nos quedamos con los dígitos.
+  if(!str) return null;
+  const limpio = str.replace(/[^\d]/g, '');
+  if(!limpio) return null;
+  return parseInt(limpio, 10);
+}
+
+function renderQuienPuedePagar(){
+  const input = document.getElementById('montoPagoInput');
+  const wrap = document.getElementById('quienPuedePagarResult');
+  if(!input || !wrap) return;
+
+  const monto = parseMontoInput(input.value);
+  if(monto === null){
+    wrap.innerHTML = '';
+    return;
+  }
+
+  const filas = Object.keys(teams).map(name=>{
+    const team = teams[name];
+    const max = teamMaxSpend(team);
+    return { name, max, puede: max >= monto, restante: max - monto, you: !!team.you };
+  }).sort((a,b)=> b.restante - a.restante);
+
+  const cantidadPueden = filas.filter(f=>f.puede).length;
+
+  wrap.innerHTML = `
+    <div class="card" style="margin-top:2px;">
+      <div class="squad-inner" style="padding-top:14px;">
+        <p style="margin:0 0 10px; font-size:12.5px; color:var(--text-faint);">
+          ${cantidadPueden} de ${filas.length} equipos pueden pagar ${fmt(monto)}
+        </p>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Equipo</th><th class="num">Puede gastar hasta</th><th class="num">¿Le alcanza?</th><th class="num">Le quedaría</th></tr></thead>
+            <tbody>
+              ${filas.map(f=>`
+                <tr style="${f.puede ? '' : 'opacity:.55;'}">
+                  <td class="pname">
+                    <div class="pcell">
+                      ${mgrLogo(f.name)}
+                      <span>${f.name}${f.you ? '<span class="you">vos</span>' : ''}</span>
+                    </div>
+                  </td>
+                  <td class="num">${fmt(f.max)}</td>
+                  <td class="num">${f.puede ? '<span style="color:var(--green); font-weight:700;">✅ Sí</span>' : '<span style="color:var(--red); font-weight:700;">❌ No</span>'}</td>
+                  <td class="num" style="color:${f.restante>=0 ? 'var(--text-dim)' : 'var(--red)'};">${fmt(f.restante)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 function teamMarketTotal(team){ return team.players.reduce((s,p)=>{ const d = currentDiff(p); return s + (d||0); }, 0); }
 function teamPointsTotal(team){ return team.players.reduce((s,p)=>{ const pt = currentPoints(p); return s + (pt||0); }, 0); }
 function teamMarketHtml(team){
