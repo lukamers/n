@@ -1399,7 +1399,7 @@ def actualizar_alineaciones_probables(completo_a_corto: dict):
     return data
 
 
-
+def actualizar_historial(valores):
     """Suma el valor de hoy al historial de cada jugador en historial.json.
 
     Estructura: { "Nombre Jugador": [{"fecha": "2026-08-23", "valor": 123456}, ...], ... }
