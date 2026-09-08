@@ -325,8 +325,9 @@ function renderTable() {
 // ---- GitHub Contents API ----
 async function githubGetFile() {
   const token = getToken();
-  const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DATA_PATH}?ref=${GITHUB_BRANCH}`, {
-    headers: token ? { Authorization: `Bearer ${token}` } : {}
+  const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DATA_PATH}?ref=${GITHUB_BRANCH}&_=${Date.now()}`, {
+    headers: token ? { Authorization: `Bearer ${token}`, 'Cache-Control': 'no-cache' } : { 'Cache-Control': 'no-cache' },
+    cache: 'no-store'
   });
   if (res.status === 404) return { games: [], sha: null };
   if (!res.ok) throw new Error('No se pudo leer el archivo (' + res.status + ')');
@@ -382,7 +383,18 @@ async function saveCurrentGame() {
     const { games, sha } = await githubGetFile();
     const idx = games.findIndex(g => g.id === game.id);
     if (idx >= 0) games[idx] = game; else games.push(game);
-    await githubPutFile(games, sha);
+    try {
+      await githubPutFile(games, sha);
+    } catch (e) {
+      if (e.message.includes('does not match')) {
+        const retry = await githubGetFile();
+        const idx2 = retry.games.findIndex(g => g.id === game.id);
+        if (idx2 >= 0) retry.games[idx2] = game; else retry.games.push(game);
+        await githubPutFile(retry.games, retry.sha);
+      } else {
+        throw e;
+      }
+    }
     msgBox.innerHTML = finished
       ? '<div class="ok">✅ Guardada en GitHub como finalizada.</div>'
       : '<div class="ok">✅ Guardada en GitHub. La podés continuar desde el Historial en cualquier dispositivo.</div>';
@@ -481,7 +493,17 @@ async function clearHistory() {
   const listWrap = document.getElementById('historyList');
   if (!getToken()) return;
   try {
-    await githubPutFile([], (await githubGetFile()).sha);
+    const { sha } = await githubGetFile();
+    try {
+      await githubPutFile([], sha);
+    } catch (e) {
+      if (e.message.includes('does not match')) {
+        const retry = await githubGetFile();
+        await githubPutFile([], retry.sha);
+      } else {
+        throw e;
+      }
+    }
     loadHistoryView();
   } catch (e) {
     listWrap.innerHTML = `<div class="warn">${e.message}</div>`;
