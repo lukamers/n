@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Podrida - Anotador</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0f172a; color: #e2e8f0; margin: 0; padding: 16px;
+  }
+  h1 { font-size: 1.3rem; text-align: center; margin: 0 0 4px; color: #fbbf24; }
+  .subtitle { text-align: center; font-size: 0.8rem; color: #94a3b8; margin-bottom: 12px; }
+  .nav { display: flex; gap: 8px; margin-bottom: 14px; }
+  .nav button { flex: 1; }
+  .card { background: #1e293b; border-radius: 12px; padding: 14px; margin-bottom: 14px; }
+  .row { display: flex; gap: 8px; margin-bottom: 8px; }
+  input[type=text], input[type=number], input[type=password] {
+    flex: 1; background: #0f172a; border: 1px solid #334155; color: #e2e8f0;
+    border-radius: 8px; padding: 8px; font-size: 0.95rem; width: 100%;
+  }
+  button {
+    background: #fbbf24; color: #0f172a; border: none; border-radius: 8px;
+    padding: 10px 14px; font-weight: 600; font-size: 0.9rem; cursor: pointer;
+  }
+  button.secondary { background: #334155; color: #e2e8f0; }
+  button.danger { background: #7f1d1d; color: #fecaca; }
+  button.tiny { padding: 6px 10px; font-size: 0.75rem; }
+  button.navbtn.active { background: #fbbf24; }
+  button.navbtn.inactive { background: #334155; color: #e2e8f0; }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+  th, td { padding: 6px 4px; text-align: center; border-bottom: 1px solid #334155; }
+  th { color: #94a3b8; font-weight: 500; }
+  .totals td { font-weight: 700; color: #fbbf24; border-top: 2px solid #fbbf24; }
+  .player-tag {
+    display: flex; align-items: center; gap: 6px; background: #0f172a;
+    border: 1px solid #334155; border-radius: 8px; padding: 6px 10px; margin-bottom: 6px;
+  }
+  .player-tag input { border: none; background: transparent; padding: 2px; }
+  .remove-x { color: #f87171; cursor: pointer; font-weight: bold; padding: 0 6px; }
+  .hidden { display: none; }
+  .ronda-block { border-top: 1px solid #334155; padding-top: 10px; margin-top: 10px; }
+  .ronda-title { font-size: 0.8rem; color: #94a3b8; margin-bottom: 6px; }
+  .bid-grid {
+    display: grid; grid-template-columns: 1fr 60px 60px; gap: 6px;
+    align-items: center; margin-bottom: 6px; font-size: 0.85rem;
+  }
+  .bid-grid .lbl { color: #cbd5e1; }
+  .bid-grid input { padding: 6px; font-size: 0.85rem; text-align: center; }
+  .warn { color: #f87171; font-size: 0.75rem; margin-top: 4px; }
+  .ok { color: #4ade80; font-size: 0.75rem; margin-top: 4px; }
+  .small { font-size: 0.75rem; color: #94a3b8; }
+  .hist-item {
+    background: #0f172a; border: 1px solid #334155; border-radius: 8px;
+    padding: 10px; margin-bottom: 8px; font-size: 0.8rem;
+  }
+  .hist-item .date { color: #94a3b8; font-size: 0.7rem; display:flex; justify-content:space-between; align-items:center; }
+  .hist-item .winner { color: #fbbf24; font-weight: 600; }
+  .hist-item .status { color: #38bdf8; font-weight: 600; }
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .stat-box { background: #0f172a; border-radius: 8px; padding: 10px; text-align: center; }
+  .stat-box .num { font-size: 1.4rem; font-weight: 700; color: #fbbf24; }
+  .stat-box .lbl { font-size: 0.7rem; color: #94a3b8; }
+  .cfg-box { background: #0f172a; border: 1px dashed #334155; border-radius: 8px; padding: 10px; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+
+<h1>🃏 La Podrida</h1>
+<div class="subtitle">Anotador de puntos (Oh Hell / La Pocha)</div>
+
+<div class="nav">
+  <button class="navbtn active" id="navGame" onclick="switchView('game')">🎮 Partida</button>
+  <button class="navbtn inactive" id="navHist" onclick="switchView('history')">📊 Historial</button>
+</div>
+
+<div id="viewGame">
+  <div class="card" id="setupCard">
+    <div class="small" style="margin-bottom:8px;">Jugadores</div>
+    <div id="playersList"></div>
+    <div class="btn-row">
+      <button class="secondary" onclick="addPlayer()">+ Agregar jugador</button>
+    </div>
+    <hr style="border-color:#334155; margin:12px 0;">
+    <div class="small">La partida arranca en 1 carta, sube hasta 8 y vuelve a bajar a 1.</div>
+    <div class="small" style="margin:6px 0;">Acierta la apuesta: 10 + 3 x baza. Si no: 2 puntos por baza hecha.</div>
+    <button onclick="startGame()">Empezar partida nueva</button>
+  </div>
+
+  <div class="card hidden" id="gameCard">
+    <div id="tableWrap"></div>
+    <div class="ronda-block" id="newRoundBlock"></div>
+    <div class="btn-row" style="margin-top:10px;">
+      <button onclick="confirmRound()">Cargar ronda</button>
+      <button class="secondary" onclick="undoLastRound()">Deshacer última</button>
+    </div>
+    <div class="btn-row" style="margin-top:8px;">
+      <button onclick="saveCurrentGame()">💾 Guardar en GitHub</button>
+      <button class="danger" onclick="resetGame()">Salir sin guardar</button>
+    </div>
+    <div id="finishMsg"></div>
+  </div>
+</div>
+
+<div id="viewHistory" class="hidden">
+  <div class="card">
+    <div class="small" style="margin-bottom:8px;">Conexión con GitHub</div>
+    <div class="cfg-box" id="tokenBox"></div>
+  </div>
+  <div class="card">
+    <div class="small" style="margin-bottom:8px;">Estadísticas generales</div>
+    <div id="statsWrap"><div class="small">Configurá el token para cargar datos.</div></div>
+  </div>
+  <div class="card">
+    <div class="btn-row" style="justify-content:space-between; align-items:center; margin-bottom:8px;">
+      <div class="small">Partidas guardadas</div>
+      <button class="tiny secondary" onclick="loadHistoryView()">🔄 Recargar</button>
+    </div>
+    <div id="historyList"><div class="small">-</div></div>
+    <div class="btn-row" style="margin-top:10px;">
+      <button class="danger" onclick="clearHistory()">Borrar todo el historial</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- CONFIG: ajustá esto si tu repo/ruta es distinta ----
+const GITHUB_OWNER = 'lukamers';
+const GITHUB_REPO = 'n';
+const GITHUB_BRANCH = 'main';
+const DATA_PATH = 'la_podrida_data.json';
+// -----------------------------------------------------------
+
+let players = ["Jugador 1", "Jugador 2"];
+let rounds = [];
+let cardsSequence = [];
+let currentGameId = null;
+
+function buildCardsSequence() {
+  const seq = [];
+  for (let c = 1; c <= 8; c++) seq.push(c);
+  for (let c = 7; c >= 1; c--) seq.push(c);
+  return seq;
+}
+
+function getToken() { return localStorage.getItem('gh_token_podrida') || ''; }
+function setToken(t) { localStorage.setItem('gh_token_podrida', t); }
+
+function renderTokenBox() {
+  const box = document.getElementById('tokenBox');
+  const tok = getToken();
+  if (tok) {
+    box.innerHTML = `<div class="ok">Token configurado ✅</div>
+      <div class="btn-row" style="margin-top:6px;">
+        <button class="tiny secondary" onclick="changeToken()">Cambiar token</button>
+      </div>`;
+  } else {
+    box.innerHTML = `<div class="small" style="margin-bottom:6px;">
+      Pegá acá un Personal Access Token de GitHub (fine-grained, permiso "Contents: Read and write" sobre el repo ${GITHUB_REPO}). Se guarda solo en este navegador.</div>
+      <input type="password" id="tokenInput" placeholder="ghp_...">
+      <div class="btn-row" style="margin-top:6px;">
+        <button class="tiny" onclick="saveTokenFromInput()">Guardar token</button>
+      </div>`;
+  }
+}
+function saveTokenFromInput() {
+  const val = document.getElementById('tokenInput').value.trim();
+  if (!val) return;
+  setToken(val);
+  renderTokenBox();
+  loadHistoryView();
+}
+function changeToken() {
+  localStorage.removeItem('gh_token_podrida');
+  renderTokenBox();
+}
+
+function switchView(view) {
+  document.getElementById('viewGame').classList.toggle('hidden', view !== 'game');
+  document.getElementById('viewHistory').classList.toggle('hidden', view !== 'history');
+  document.getElementById('navGame').className = 'navbtn ' + (view === 'game' ? 'active' : 'inactive');
+  document.getElementById('navHist').className = 'navbtn ' + (view === 'history' ? 'active' : 'inactive');
+  if (view === 'history') { renderTokenBox(); loadHistoryView(); }
+}
+
+function renderPlayersList() {
+  const el = document.getElementById('playersList');
+  el.innerHTML = '';
+  players.forEach((p, i) => {
+    const div = document.createElement('div');
+    div.className = 'player-tag';
+    div.innerHTML = `<input type="text" value="${p}" onchange="renamePlayer(${i}, this.value)">
+      <span class="remove-x" onclick="removePlayer(${i})">✕</span>`;
+    el.appendChild(div);
+  });
+}
+function addPlayer() { players.push("Jugador " + (players.length + 1)); renderPlayersList(); }
+function removePlayer(i) {
+  if (players.length <= 2) return;
+  players.splice(i, 1);
+  renderPlayersList();
+}
+function renamePlayer(i, val) { players[i] = val || players[i]; }
+
+function startGame() {
+  cardsSequence = buildCardsSequence();
+  rounds = [];
+  currentGameId = 'g_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
+  document.getElementById('setupCard').classList.add('hidden');
+  document.getElementById('gameCard').classList.remove('hidden');
+  document.getElementById('finishMsg').innerHTML = '';
+  renderTable();
+  renderNewRoundForm();
+}
+
+function currentRoundIndex() { return rounds.length; }
+
+function renderNewRoundForm() {
+  const idx = currentRoundIndex();
+  const block = document.getElementById('newRoundBlock');
+  if (idx >= cardsSequence.length) {
+    block.innerHTML = '<div class="ok">🏁 Partida completa.</div>';
+    document.getElementById('finishMsg').innerHTML = '<div class="small">Tocá "Guardar en GitHub" para que quede como finalizada.</div>';
+    return;
+  }
+  const cards = cardsSequence[idx];
+  let html = `<div class="ronda-title">Ronda ${idx + 1} — ${cards} carta${cards>1?'s':''}</div>`;
+  html += `<div class="bid-grid"><div></div><div class="lbl">Apuesta</div><div class="lbl">Bazas</div>`;
+  players.forEach((p, i) => {
+    html += `<div class="lbl">${p}</div>
+      <input type="number" min="0" max="${cards}" id="bid_${i}" placeholder="0">
+      <input type="number" min="0" max="${cards}" id="trick_${i}" placeholder="0">`;
+  });
+  html += `</div><div id="roundWarn"></div>`;
+  block.innerHTML = html;
+}
+
+function confirmRound() {
+  const idx = currentRoundIndex();
+  if (idx >= cardsSequence.length) return;
+  const cards = cardsSequence[idx];
+  const warnBox = document.getElementById('roundWarn');
+  const bids = [], tricks = [];
+  let sumBids = 0, sumTricks = 0;
+
+  for (let i = 0; i < players.length; i++) {
+    const b = parseInt(document.getElementById('bid_' + i).value);
+    const t = parseInt(document.getElementById('trick_' + i).value);
+    if (isNaN(b) || isNaN(t)) {
+      warnBox.innerHTML = '<div class="warn">Completá apuesta y bazas de todos los jugadores.</div>';
+      return;
+    }
+    if (b > cards || t > cards || b < 0 || t < 0) {
+      warnBox.innerHTML = `<div class="warn">La apuesta y las bazas tienen que estar entre 0 y ${cards}.</div>`;
+      return;
+    }
+    bids.push(b); tricks.push(t); sumBids += b; sumTricks += t;
+  }
+
+  if (sumBids === cards) {
+    warnBox.innerHTML = `<div class="warn">La suma de las apuestas (${sumBids}) no puede ser igual a la cantidad de cartas (${cards}).</div>`;
+    return;
+  }
+  if (sumTricks !== cards) {
+    warnBox.innerHTML = `<div class="warn">Las bazas suman ${sumTricks} pero se repartieron ${cards}. Tocá "Cargar ronda" de nuevo para confirmar igual.</div>`;
+    warnBox.dataset.confirmedMismatch = warnBox.dataset.confirmedMismatch === '1' ? '0' : '1';
+    if (warnBox.dataset.confirmedMismatch !== '1') return;
+  } else {
+    warnBox.dataset.confirmedMismatch = '0';
+  }
+
+  const scores = bids.map((b, i) => (b === tricks[i]) ? (10 + 3 * tricks[i]) : (2 * tricks[i]));
+  rounds.push({ cards, bids, tricks, scores });
+  document.getElementById('finishMsg').innerHTML = '';
+  renderTable();
+  renderNewRoundForm();
+}
+
+function undoLastRound() {
+  if (rounds.length === 0) return;
+  rounds.pop();
+  document.getElementById('finishMsg').innerHTML = '';
+  renderTable();
+  renderNewRoundForm();
+}
+
+function resetGame() {
+  document.getElementById('gameCard').classList.add('hidden');
+  document.getElementById('setupCard').classList.remove('hidden');
+  document.getElementById('finishMsg').innerHTML = '';
+  rounds = [];
+  currentGameId = null;
+}
+
+function computeTotals() {
+  const totals = players.map(() => 0);
+  rounds.forEach(r => r.scores.forEach((s, i) => totals[i] += s));
+  return totals;
+}
+
+function renderTable() {
+  const wrap = document.getElementById('tableWrap');
+  if (rounds.length === 0) {
+    wrap.innerHTML = '<div class="small">Todavía no hay rondas cargadas.</div>';
+    return;
+  }
+  let html = '<table><thead><tr><th>Ronda</th>';
+  players.forEach(p => html += `<th>${p}</th>`);
+  html += '</tr></thead><tbody>';
+  rounds.forEach((r, ri) => {
+    html += `<tr><td>${ri+1} (${r.cards})</td>`;
+    r.scores.forEach((s, i) => { html += `<td>${r.bids[i]}/${r.tricks[i]} → <b>${s}</b></td>`; });
+    html += '</tr>';
+  });
+  const totals = computeTotals();
+  html += '<tr class="totals"><td>Total</td>';
+  totals.forEach(t => html += `<td>${t}</td>`);
+  html += '</tr></tbody></table>';
+  wrap.innerHTML = html;
+}
+
+// ---- GitHub Contents API ----
+async function githubGetFile() {
+  const token = getToken();
+  const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DATA_PATH}?ref=${GITHUB_BRANCH}`, {
+    headers: token ? { Authorization: `Bearer ${token}` } : {}
+  });
+  if (res.status === 404) return { games: [], sha: null };
+  if (!res.ok) throw new Error('No se pudo leer el archivo (' + res.status + ')');
+  const data = await res.json();
+  const content = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
+  const parsed = JSON.parse(content || '{"games":[]}');
+  return { games: parsed.games || [], sha: data.sha };
+}
+
+async function githubPutFile(games, sha) {
+  const token = getToken();
+  if (!token) throw new Error('Falta configurar el token de GitHub.');
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify({ games }, null, 2))));
+  const body = {
+    message: 'Actualizar datos La Podrida',
+    content: content,
+    branch: GITHUB_BRANCH
+  };
+  if (sha) body.sha = sha;
+  const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DATA_PATH}`, {
+    method: 'PUT',
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || ('Error al guardar (' + res.status + ')'));
+  }
+  return true;
+}
+
+async function saveCurrentGame() {
+  const msgBox = document.getElementById('finishMsg');
+  if (!currentGameId) return;
+  if (!getToken()) {
+    msgBox.innerHTML = '<div class="warn">Andá a Historial y configurá el token de GitHub primero.</div>';
+    return;
+  }
+  msgBox.innerHTML = '<div class="small">Guardando en GitHub...</div>';
+  const totals = computeTotals();
+  const finished = rounds.length >= cardsSequence.length;
+  let winner = null;
+  if (finished) {
+    let winnerIdx = 0;
+    totals.forEach((t, i) => { if (t > totals[winnerIdx]) winnerIdx = i; });
+    winner = players[winnerIdx];
+  }
+  const game = {
+    id: currentGameId, date: new Date().toISOString(), players: players.slice(),
+    rounds, totals, finished, winner
+  };
+  try {
+    const { games, sha } = await githubGetFile();
+    const idx = games.findIndex(g => g.id === game.id);
+    if (idx >= 0) games[idx] = game; else games.push(game);
+    await githubPutFile(games, sha);
+    msgBox.innerHTML = finished
+      ? '<div class="ok">✅ Guardada en GitHub como finalizada.</div>'
+      : '<div class="ok">✅ Guardada en GitHub. La podés continuar desde el Historial en cualquier dispositivo.</div>';
+  } catch (e) {
+    msgBox.innerHTML = `<div class="warn">No se pudo guardar: ${e.message}</div>`;
+  }
+}
+
+async function loadHistoryView() {
+  const statsWrap = document.getElementById('statsWrap');
+  const listWrap = document.getElementById('historyList');
+  if (!getToken()) {
+    statsWrap.innerHTML = '<div class="small">Configurá el token arriba para cargar los datos.</div>';
+    listWrap.innerHTML = '<div class="small">-</div>';
+    return;
+  }
+  statsWrap.innerHTML = '<div class="small">Cargando...</div>';
+  listWrap.innerHTML = '<div class="small">Cargando...</div>';
+  try {
+    const { games } = await githubGetFile();
+    if (games.length === 0) {
+      statsWrap.innerHTML = '<div class="small">Todavía no hay partidas guardadas.</div>';
+      listWrap.innerHTML = '<div class="small">Nada por acá todavía.</div>';
+      return;
+    }
+    games.sort((a, b) => new Date(b.date) - new Date(a.date));
+    renderStats(games);
+    renderHistoryList(games);
+  } catch (e) {
+    statsWrap.innerHTML = `<div class="warn">${e.message}</div>`;
+    listWrap.innerHTML = '';
+  }
+}
+
+function renderStats(games) {
+  const statsWrap = document.getElementById('statsWrap');
+  const finishedGames = games.filter(g => g.finished);
+  const wins = {}, totalScore = {}, gamesPlayed = {};
+  games.forEach(g => {
+    g.players.forEach((p, i) => {
+      gamesPlayed[p] = (gamesPlayed[p] || 0) + 1;
+      totalScore[p] = (totalScore[p] || 0) + (g.totals[i] || 0);
+    });
+  });
+  finishedGames.forEach(g => { wins[g.winner] = (wins[g.winner] || 0) + 1; });
+  let topWinner = '-', topWinnerCount = 0;
+  Object.entries(wins).forEach(([p, c]) => { if (c > topWinnerCount) { topWinner = p; topWinnerCount = c; } });
+  let html = `<div class="stat-grid">
+    <div class="stat-box"><div class="num">${games.length}</div><div class="lbl">Guardadas (${finishedGames.length} finalizadas)</div></div>
+    <div class="stat-box"><div class="num">${topWinner}</div><div class="lbl">Más victorias (${topWinnerCount})</div></div>
+  </div>`;
+  html += '<table><thead><tr><th>Jugador</th><th>Partidas</th><th>Victorias</th><th>Prom. puntos</th></tr></thead><tbody>';
+  Object.keys(gamesPlayed).forEach(p => {
+    const avg = (totalScore[p] / gamesPlayed[p]).toFixed(1);
+    html += `<tr><td>${p}</td><td>${gamesPlayed[p]}</td><td>${wins[p] || 0}</td><td>${avg}</td></tr>`;
+  });
+  html += '</tbody></table>';
+  statsWrap.innerHTML = html;
+}
+
+function renderHistoryList(games) {
+  const listWrap = document.getElementById('historyList');
+  let html = '';
+  games.forEach(g => {
+    const d = new Date(g.date);
+    const dateStr = d.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' }) +
+      ' ' + d.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+    const scoresStr = g.players.map((p, i) => `${p}: ${g.totals[i]}`).join(' · ');
+    const statusStr = g.finished ? `<span class="winner">🏆 ${g.winner}</span>` : `<span class="status">⏳ En curso (${g.rounds.length}/15 rondas)</span>`;
+    html += `<div class="hist-item">
+      <div class="date"><span>${dateStr}</span>${!g.finished ? `<button class="tiny" onclick="continueGame('${g.id}')">Continuar</button>` : ''}</div>
+      <div>${scoresStr}</div>
+      <div>${statusStr}</div>
+    </div>`;
+  });
+  listWrap.innerHTML = html || '<div class="small">Nada por acá todavía.</div>';
+}
+
+async function continueGame(id) {
+  try {
+    const { games } = await githubGetFile();
+    const g = games.find(x => x.id === id);
+    if (!g) return;
+    players = g.players; rounds = g.rounds; currentGameId = g.id;
+    cardsSequence = buildCardsSequence();
+    switchView('game');
+    document.getElementById('setupCard').classList.add('hidden');
+    document.getElementById('gameCard').classList.remove('hidden');
+    document.getElementById('finishMsg').innerHTML = '';
+    renderTable();
+    renderNewRoundForm();
+  } catch (e) { /* ignore */ }
+}
+
+async function clearHistory() {
+  const listWrap = document.getElementById('historyList');
+  if (!getToken()) return;
+  try {
+    await githubPutFile([], (await githubGetFile()).sha);
+    loadHistoryView();
+  } catch (e) {
+    listWrap.innerHTML = `<div class="warn">${e.message}</div>`;
+  }
+}
+
+renderPlayersList();
+</script>
+</body>
+</html>
