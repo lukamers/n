@@ -326,7 +326,7 @@ function renderTable() {
 async function githubGetFile() {
   const token = getToken();
   const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DATA_PATH}?ref=${GITHUB_BRANCH}&_=${Date.now()}`, {
-    headers: token ? { Authorization: `Bearer ${token}`, 'Cache-Control': 'no-cache' } : { 'Cache-Control': 'no-cache' },
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
     cache: 'no-store'
   });
   if (res.status === 404) return { games: [], sha: null };
