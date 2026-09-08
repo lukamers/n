@@ -793,9 +793,11 @@ def _jornada_actual_analitica():
 
 
 def _parsear_puntuaciones_analitica(html_text: str):
-    """Extrae (nombre_completo, posicion, puntos, nombre_pantalla) de cada
-    jugador Y entrenador en el HTML de una página de puntuaciones por
-    jornada.
+    """Extrae (nombre_completo, posicion, puntos, nombre_pantalla, slug) de
+    cada jugador Y entrenador en el HTML de una página de puntuaciones por
+    jornada. "slug" es el identificador de su ficha individual (ej.
+    "raphinha-1496", sacado de /jugadores/raphinha-1496/...) o None para
+    los entrenadores, que no tienen ficha propia enlazada acá.
 
     Método principal: leer directo el atributo alt="Foto de {nombre}" de
     cada <img>, y sacar la posición/puntos/nombre de pantalla del texto
@@ -814,7 +816,7 @@ def _parsear_puntuaciones_analitica(html_text: str):
 
     Si por algún motivo no se encuentra ningún <img alt="Foto de ..."> (el
     sitio cambió de estructura), se prueba como respaldo el regex viejo
-    sobre el texto plano y sobre el HTML crudo.
+    sobre el texto plano y sobre el HTML crudo (sin slug, en ese caso).
     """
     soup = BeautifulSoup(html_text, "html.parser")
     resultado = []
@@ -849,8 +851,15 @@ def _parsear_puntuaciones_analitica(html_text: str):
         if not m2:
             continue
 
+        slug = None
+        if link:
+            href = link.get("href", "") or ""
+            m_slug = re.search(r"/jugadores/([^/]+)/", href)
+            if m_slug:
+                slug = m_slug.group(1)
+
         pos, pts, pantalla = m2.group(1), int(m2.group(2)), m2.group(3).strip()
-        resultado.append((nombre_completo, pos, pts, pantalla or nombre_completo))
+        resultado.append((nombre_completo, pos, pts, pantalla or nombre_completo, slug))
 
     if resultado:
         return resultado
@@ -862,66 +871,78 @@ def _parsear_puntuaciones_analitica(html_text: str):
     if not matches:
         matches = PATRON_JUGADOR_ANALITICA.findall(html_text)
     for nombre_completo, pos, pts, pantalla in matches:
-        resultado.append((nombre_completo.strip(), pos, int(pts), pantalla.strip()))
+        resultado.append((nombre_completo.strip(), pos, int(pts), pantalla.strip(), None))
     return resultado
 
 
-def _resolver_nombres_analitica(matches, completo_a_corto):
-    """Cruza los nombres que trae analiticafantasy.com contra nuestro
-    mapeo nombre_completo -> nombre_corto, en tres niveles de confianza
-    decreciente — el mismo criterio que se usó para cargar J1/J2 a mano:
+def _resolver_un_nombre(nombre_completo, pantalla, corto_por_completo_norm):
+    """Cruza UN nombre de analiticafantasy.com (su nombre completo y/o de
+    pantalla) contra nuestro mapeo nombre_completo -> nombre_corto, en
+    tres niveles de confianza decreciente:
 
     1. Match exacto (confiable).
     2. Substring de palabra completa (ej. "De Galarreta" dentro de
        "Íñigo Ruiz de Galarreta").
     3. Prefijo de la primera palabra (ej. "Vini" es prefijo de
-       "Vinicius" — apodos comunes en jugadores brasileños/portugueses
-       que analiticafantasy.com no siempre deletrea igual que
-       comuniate.com).
+       "Vinicius").
 
-    En los niveles 2 y 3, si dos jugadores DISTINTOS (ej. dos apellidos
-    "Romero" de clubes distintos) calzan con el mismo nombre corto y
-    traen puntos distintos, se descarta esa entrada en vez de adivinar
-    cuál es.
+    Devuelve una lista de nombres cortos candidatos (normalmente 0 o 1;
+    más de 1 significa ambigüedad genuina, que quien llama debe manejar
+    sin adivinar cuál es el correcto).
+    """
+    for candidato in (pantalla, nombre_completo):
+        n = _normalizar(candidato)
+        corto = corto_por_completo_norm.get(n)
+        if corto:
+            return [corto]
+
+    n = _normalizar(pantalla)
+    posibles = [
+        corto for completo_norm, corto in corto_por_completo_norm.items()
+        if re.search(r"(?<![a-z])" + re.escape(n) + r"(?![a-z])", completo_norm)
+        or re.search(r"(?<![a-z])" + re.escape(completo_norm.split()[-1]) + r"(?![a-z])", n)
+    ]
+    posibles = list(dict.fromkeys(posibles))
+    if posibles:
+        return posibles
+
+    primera_palabra = n.split()[0] if n.split() else n
+    if len(primera_palabra) >= 3:
+        posibles = [
+            corto for completo_norm, corto in corto_por_completo_norm.items()
+            if completo_norm.split() and (
+                completo_norm.split()[0].startswith(primera_palabra)
+                or primera_palabra.startswith(completo_norm.split()[0])
+            )
+        ]
+        posibles = list(dict.fromkeys(posibles))
+
+    return posibles
+
+
+def _resolver_nombres_analitica(matches, completo_a_corto):
+    """Cruza los nombres que trae analiticafantasy.com contra nuestro
+    mapeo nombre_completo -> nombre_corto y arma {nombre_corto: puntos}.
+
+    Si dos jugadores DISTINTOS (ej. dos apellidos "Romero" de clubes
+    distintos) calzan con el mismo nombre corto y traen puntos
+    distintos, se descarta esa entrada en vez de adivinar cuál es.
     """
     corto_por_completo_norm = {_normalizar(c): s for c, s in completo_a_corto.items()}
 
     exactos = {}
     candidatos_substr = {}
 
-    for nombre_completo, pos, pts, pantalla in matches:
-        for candidato in (pantalla, nombre_completo):
-            n = _normalizar(candidato)
-            corto = corto_por_completo_norm.get(n)
-            if corto:
+    for entrada in matches:
+        nombre_completo, pos, pts, pantalla = entrada[0], entrada[1], entrada[2], entrada[3]
+        posibles = _resolver_un_nombre(nombre_completo, pantalla, corto_por_completo_norm)
+        if len(posibles) == 1:
+            corto = posibles[0]
+            n_exacto = _normalizar(pantalla) in corto_por_completo_norm or _normalizar(nombre_completo) in corto_por_completo_norm
+            if n_exacto:
                 exactos[corto] = pts
-                break
-        else:
-            n = _normalizar(pantalla)
-            posibles = [
-                corto for completo_norm, corto in corto_por_completo_norm.items()
-                if re.search(r"(?<![a-z])" + re.escape(n) + r"(?![a-z])", completo_norm)
-                or re.search(r"(?<![a-z])" + re.escape(completo_norm.split()[-1]) + r"(?![a-z])", n)
-            ]
-            posibles = list(dict.fromkeys(posibles))
-
-            if not posibles:
-                # Nivel 3: apodo como prefijo del nombre real (ej. "Vini"
-                # es el arranque de "Vinicius"). Exigimos al menos 3
-                # letras para evitar falsos positivos con nombres cortos.
-                primera_palabra = n.split()[0] if n.split() else n
-                if len(primera_palabra) >= 3:
-                    posibles = [
-                        corto for completo_norm, corto in corto_por_completo_norm.items()
-                        if completo_norm.split() and (
-                            completo_norm.split()[0].startswith(primera_palabra)
-                            or primera_palabra.startswith(completo_norm.split()[0])
-                        )
-                    ]
-                    posibles = list(dict.fromkeys(posibles))
-
-            if len(posibles) == 1:
-                candidatos_substr.setdefault(posibles[0], []).append(pts)
+            else:
+                candidatos_substr.setdefault(corto, []).append(pts)
 
     resultado = dict(exactos)
     for corto, valores_posibles in candidatos_substr.items():
@@ -933,6 +954,38 @@ def _resolver_nombres_analitica(matches, completo_a_corto):
         # ambiguo -> lo dejamos afuera a propósito.
 
     return resultado
+
+
+def obtener_slugs_analitica(completo_a_corto: dict):
+    """Arma un mapeo {nombre_corto: slug} consultando la página de
+    puntuaciones de la última jornada disponible (que trae el link a la
+    ficha de cada jugador). El slug es lo que necesitamos para poder
+    pedir después la ficha individual de cada uno y sacar sus
+    estadísticas de temporada (goles, asistencias, etc.), que no vienen
+    en ninguna tabla completa — solo jugador por jugador.
+    """
+    jornada_num = _jornada_actual_analitica()
+    if jornada_num is None:
+        print("⚠️  No pude determinar la jornada actual para armar los slugs de jugadores.", file=sys.stderr)
+        return {}
+
+    url = f"{ANALITICA_BASE}/{ANALITICA_TEMPORADA}/{jornada_num}"
+    resp = fetch_con_reintentos(url)
+    if resp is None:
+        return {}
+
+    matches = _parsear_puntuaciones_analitica(resp.text)
+    corto_por_completo_norm = {_normalizar(c): s for c, s in completo_a_corto.items()}
+
+    slugs = {}
+    for nombre_completo, pos, pts, pantalla, slug in matches:
+        if not slug:
+            continue
+        posibles = _resolver_un_nombre(nombre_completo, pantalla, corto_por_completo_norm)
+        if len(posibles) == 1 and posibles[0] not in slugs:
+            slugs[posibles[0]] = slug
+
+    return slugs
 
 
 def obtener_puntos_jornada_analitica(jornada_num: int, completo_a_corto: dict):
@@ -1041,7 +1094,312 @@ def completar_puntos_jornadas_faltantes(completo_a_corto: dict):
     return data
 
 
-def actualizar_historial(valores):
+# ---------------------------------------------------------------------------
+# Estadísticas de temporada por jugador (goles, asistencias, regates,
+# recuperaciones, tarjetas, paradas, etc.) — vía la ficha individual de
+# cada jugador en analiticafantasy.com.
+#
+# A diferencia de los puntos por jornada, esto NO viene en ninguna tabla
+# completa: la página de "Estadísticas" con todos los jugadores está
+# paginada por JavaScript (no accesible con un scraper simple), así que
+# hay que pedir la ficha de cada jugador por separado. Por eso solo lo
+# hacemos para los jugadores realmente fichados en la liga (los que están
+# en asignaciones.json), no para los ~500 de toda LaLiga.
+# ---------------------------------------------------------------------------
+
+ETIQUETAS_ESTADISTICAS_TEMPORADA = [
+    "Matches", "Points", "Average", "Goals conceded", "Goals",
+    "Assists w/o goal", "Assists", "Dribbles", "Shots on target",
+    "Box entries", "Balls recovered", "Clearances", "Poss. lost",
+    "Pen. won", "Pen. saved", "Pen. missed", "Own goals",
+    "Yellow cards", "Red cards", "Saves", "Ideal lineup",
+]
+
+
+def _extraer_seccion_temporada(texto_pagina: str):
+    """Aísla el bloque de texto de 'Season statistics' de la ficha del
+    jugador, para no confundir sus etiquetas con texto de otras partes de
+    la página (navegación, tabla de mercado, etc.)."""
+    m_inicio = re.search(r"Season statistics", texto_pagina)
+    if not m_inicio:
+        return None
+    resto = texto_pagina[m_inicio.end():]
+    m_fin = re.search(r"Scores by tier|Frequently asked questions", resto)
+    return resto[:m_fin.start()] if m_fin else resto[:3000]
+
+
+def _extraer_stats_temporada(seccion: str):
+    """Extrae los pares etiqueta:valor del bloque 'Season statistics'.
+    Va tachando del texto cada etiqueta que encuentra (empezando por las
+    más largas) para que una etiqueta corta (ej. "Assists") no se coma el
+    número de una más larga que la contiene (ej. "Assists w/o goal").
+    """
+    stats = {}
+    restante = seccion
+    for etiqueta in sorted(ETIQUETAS_ESTADISTICAS_TEMPORADA, key=len, reverse=True):
+        m = re.search(re.escape(etiqueta) + r"\s*(-?[\d.,]+)", restante)
+        if not m:
+            continue
+        valor_str = m.group(1).replace(",", ".")
+        try:
+            valor = float(valor_str) if "." in valor_str else int(valor_str)
+        except ValueError:
+            continue
+        stats[etiqueta] = valor
+        restante = restante[:m.start()] + restante[m.end():]
+    return stats
+
+
+def obtener_estadisticas_jugador(slug: str):
+    """Trae y parsea la ficha individual de UN jugador en
+    analiticafantasy.com. Devuelve el dict de estadísticas de temporada,
+    o None si no se pudo traer/parsear.
+    """
+    url = f"https://www.analiticafantasy.com/jugadores/{slug}/fantasy/la-liga-fantasy"
+    resp = fetch_con_reintentos(url)
+    if resp is None:
+        return None
+    texto = BeautifulSoup(resp.text, "html.parser").get_text(" ", strip=True)
+    seccion = _extraer_seccion_temporada(texto)
+    if seccion is None:
+        return None
+    return _extraer_stats_temporada(seccion)
+
+
+def obtener_jugadores_fichados():
+    """Lee asignaciones.json y devuelve el conjunto de nombres cortos de
+    todos los jugadores fichados en los equipos de la liga (no nos
+    interesan las estadísticas de jugadores que nadie tiene)."""
+    try:
+        with open("asignaciones.json", "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return set()
+
+    fichados = set()
+    for equipo in data.get("teams", {}).values():
+        for jugador in equipo.get("players", []):
+            nombre = jugador.get("n")
+            if nombre:
+                fichados.add(nombre)
+    return fichados
+
+
+def actualizar_estadisticas_fichados(completo_a_corto: dict):
+    """Actualiza estadisticas_jugadores.json con las estadísticas de
+    temporada (goles, asistencias, regates, etc.) SOLO de los jugadores
+    fichados en algún equipo de la liga — no de los ~500 de toda LaLiga,
+    para no pegarle una request a analiticafantasy.com por cada uno.
+    """
+    fichados = obtener_jugadores_fichados()
+    if not fichados:
+        print("⚠️  No pude leer asignaciones.json (o está vacío) — no actualizo estadísticas de jugador.", file=sys.stderr)
+        return {}
+
+    slugs = obtener_slugs_analitica(completo_a_corto)
+
+    ruta = "estadisticas_jugadores.json"
+    try:
+        with open(ruta, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        data = {}
+    data.setdefault("jugadores", {})
+
+    sin_slug = []
+    actualizados = 0
+    for nombre_corto in sorted(fichados):
+        slug = slugs.get(nombre_corto)
+        if not slug:
+            sin_slug.append(nombre_corto)
+            continue
+        stats = obtener_estadisticas_jugador(slug)
+        if stats:
+            data["jugadores"][nombre_corto] = stats
+            actualizados += 1
+        time.sleep(1.5)
+
+    data["actualizado"] = datetime.now(timezone.utc).isoformat()
+    with open(ruta, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+    print(f"✅ Actualizado estadisticas_jugadores.json — {actualizados} de {len(fichados)} jugadores fichados.")
+    if sin_slug:
+        print(f"⚠️  Sin ficha encontrada en analiticafantasy.com ({len(sin_slug)}): {', '.join(sin_slug[:20])}{'...' if len(sin_slug) > 20 else ''}", file=sys.stderr)
+
+    return data
+
+
+# ---------------------------------------------------------------------------
+# Alineaciones probables — vía analiticafantasy.com
+#
+# A diferencia de las estadísticas de temporada, esto SÍ viene en una sola
+# página por jornada (sin paginación por JavaScript), con URL fija:
+#   https://www.analiticafantasy.com/alineaciones-probables/la-liga/temporada-{T}/jornada-{N}
+# con los 20 equipos de la próxima jornada. Ojo: el sitio usa DOS formatos
+# distintos para mostrar los titulares según el partido (a veces una lista
+# numerada con el link a la ficha de cada uno, a veces tarjetas con foto sin
+# ese link) — probamos ambos.
+# ---------------------------------------------------------------------------
+
+def _parsear_alineaciones(html_text: str):
+    """Devuelve {nombre_equipo: {"formacion", "titulares": [...], "suplentes": [...]}}
+    a partir del HTML crudo de la página de alineaciones probables de una
+    jornada. Cada titular/suplente es {"nombre", "prob", "slug"}.
+
+    Divide el HTML por el texto real "Alineación probable de " (que es
+    contenido visible de la página, no un artefacto de ninguna
+    herramienta) para separar por equipo, y dentro de cada sección busca
+    los links <a href="/jugadores/..."> en orden de aparición del
+    documento — todo lo que aparece ANTES del texto "Suplentes" es
+    titular, lo que aparece después es suplente.
+    """
+    resultado = {}
+    partes = re.split(r"Alineaci[oó]n probable de ", html_text)
+
+    for parte in partes[1:]:
+        # El nombre del equipo y la formación son el texto plano que
+        # sigue inmediatamente ("Real Betis (4-3-3 (ofensivo))") hasta
+        # que abre el próximo tag HTML (el cierre del heading).
+        m_header_raw = re.match(r"^([^<]+)<", parte)
+        if not m_header_raw:
+            continue
+        header_texto = BeautifulSoup(m_header_raw.group(1), "html.parser").get_text(" ", strip=True)
+        m = re.match(r"([^(]+?)\s*\((.*)\)$", header_texto)
+        if not m:
+            continue
+        equipo = m.group(1).strip()
+        formacion = m.group(2).strip()
+
+        soup_parte = BeautifulSoup(parte, "html.parser")
+
+        titulares = []
+        suplentes = []
+        vimos_suplentes = False
+
+        for nodo in soup_parte.descendants:
+            if isinstance(nodo, NavigableString):
+                if re.search(r"Suplentes", str(nodo)):
+                    vimos_suplentes = True
+                continue
+            if not (isinstance(nodo, Tag) and nodo.name == "a"):
+                continue
+            href = nodo.get("href", "") or ""
+            m_slug = re.search(r"/jugadores/([^/]+)", href)
+            if not m_slug:
+                continue
+            slug = m_slug.group(1)
+            texto_link = nodo.get_text(" ", strip=True)
+            m_pct = re.search(r"(\d{1,3})%", texto_link)
+            prob = int(m_pct.group(1)) if m_pct else None
+            nombre = re.sub(r"\d{1,3}%", "", texto_link).strip()
+            if not nombre:
+                continue
+            entrada = {"nombre": nombre, "prob": prob, "slug": slug}
+            (suplentes if vimos_suplentes else titulares).append(entrada)
+
+        # Respaldo: si algún equipo trae menos de 11 titulares por este
+        # método (ej. si esa sección en particular no envuelve al
+        # jugador en un link, y usa en cambio una imagen con alt="Foto de
+        # X" suelta), completamos buscando ese patrón.
+        if len(titulares) < 11:
+            ya_tengo = {t["nombre"] for t in titulares}
+            for img in soup_parte.find_all("img", alt=True):
+                alt = img.get("alt", "") or ""
+                m_foto = re.match(r"Foto de (.+)", alt.strip())
+                if not m_foto:
+                    continue
+                nombre_img = m_foto.group(1).strip()
+                if nombre_img in ya_tengo:
+                    continue
+                contenedor = img.parent or img
+                texto_cercano = contenedor.get_text(" ", strip=True)
+                m_pct = re.search(r"(\d{1,3})%", texto_cercano)
+                prob = int(m_pct.group(1)) if m_pct else None
+                titulares.append({"nombre": nombre_img, "prob": prob, "slug": None})
+                ya_tengo.add(nombre_img)
+
+        resultado[equipo] = {"formacion": formacion, "titulares": titulares, "suplentes": suplentes}
+
+        resultado[equipo] = {"formacion": formacion, "titulares": titulares, "suplentes": suplentes}
+    return resultado
+
+
+def obtener_alineaciones_probables(jornada_num: int, completo_a_corto: dict):
+    """Trae y parsea las alineaciones probables de UNA jornada específica.
+    Devuelve {nombre_corto: {"probable": bool, "prob": int|None, "titular": bool}}
+    — solo para los jugadores que pudimos identificar contra nuestro roster
+    (mismo criterio de nombres que el resto del scraper: si hay ambigüedad
+    genuina, se descarta esa entrada en vez de adivinar).
+    """
+    url = f"https://www.analiticafantasy.com/alineaciones-probables/la-liga/temporada-{ANALITICA_TEMPORADA}/jornada-{jornada_num}"
+    resp = fetch_con_reintentos(url)
+    if resp is None:
+        return {}
+
+    # OJO: acá usamos el HTML/markdown crudo (resp.text) en vez de pasar
+    # por get_text() como en el resto del scraper, porque el parser de
+    # alineaciones necesita los saltos de línea originales (usa ^...$ con
+    # re.MULTILINE) — get_text() los aplana y rompe el patrón.
+    equipos = _parsear_alineaciones(resp.text)
+
+    corto_por_completo_norm = {_normalizar(c): s for c, s in completo_a_corto.items()}
+    resultado = {}
+    ambiguos = 0
+
+    for equipo, datos in equipos.items():
+        for idx, jugador in enumerate(datos["titulares"] + datos["suplentes"]):
+            es_titular = idx < len(datos["titulares"])
+            posibles = _resolver_un_nombre(jugador["nombre"], jugador["nombre"], corto_por_completo_norm)
+            if len(posibles) != 1:
+                if len(posibles) > 1:
+                    ambiguos += 1
+                continue
+            corto = posibles[0]
+            if corto in resultado:
+                continue
+            resultado[corto] = {
+                "probable": True,
+                "prob": jugador["prob"],
+                "titular": es_titular,
+                "equipo": equipo,
+                "formacion": datos["formacion"],
+            }
+
+    if ambiguos:
+        print(f"⚠️  Alineaciones probables: {ambiguos} nombres ambiguos descartados (no se pudo saber a cuál jugador correspondían).", file=sys.stderr)
+
+    return resultado
+
+
+def actualizar_alineaciones_probables(completo_a_corto: dict):
+    """Guarda las alineaciones probables de la PRÓXIMA jornada (la que
+    todavía no se jugó) en alineaciones_probables.json. A diferencia de
+    los puntos por jornada, esto se sobrescribe entero cada vez — no tiene
+    sentido conservar alineaciones probables de jornadas ya jugadas.
+    """
+    jornada_actual = _jornada_actual_analitica()
+    if jornada_actual is None:
+        print("⚠️  No pude determinar la jornada actual para las alineaciones probables.", file=sys.stderr)
+        return {}
+
+    jornada_siguiente = jornada_actual + 1
+    alineaciones = obtener_alineaciones_probables(jornada_siguiente, completo_a_corto)
+
+    data = {
+        "actualizado": datetime.now(timezone.utc).isoformat(),
+        "jornada": jornada_siguiente,
+        "jugadores": alineaciones,
+    }
+
+    with open("alineaciones_probables.json", "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+    print(f"✅ Guardado alineaciones_probables.json — J{jornada_siguiente}, {len(alineaciones)} jugadores identificados.")
+    return data
+
+
+
     """Suma el valor de hoy al historial de cada jugador en historial.json.
 
     Estructura: { "Nombre Jugador": [{"fecha": "2026-08-23", "valor": 123456}, ...], ... }
@@ -1113,6 +1471,14 @@ if __name__ == "__main__":
     # se pone al día solo aunque el scraper se haya salteado alguna
     # semana, sin necesidad de cargar nada a mano.
     completar_puntos_jornadas_faltantes(completo_a_corto)
+
+    # Estadísticas de temporada (goles, asistencias, regates,
+    # recuperaciones, tarjetas, paradas, etc.) — solo de los jugadores
+    # fichados en algún equipo de la liga.
+    actualizar_estadisticas_fichados(completo_a_corto)
+
+    # Alineaciones probables de la próxima jornada.
+    actualizar_alineaciones_probables(completo_a_corto)
 
     historial = actualizar_historial(valores)
     print(f"✅ Actualizado historial.json — {len(historial)} jugadores con historial guardado.")
