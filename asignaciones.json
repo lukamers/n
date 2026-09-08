@@ -13,16 +13,6 @@
           "v": 1082525
         },
         {
-          "n": "Huijsen",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "U. Núñez",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Tenaglia",
           "pos": "DEF",
           "rol": "titular"
@@ -86,6 +76,11 @@
           "n": "Juan Funes",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Bernal",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -127,11 +122,6 @@
           "rol": "titular"
         },
         {
-          "n": "Aarón",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Dotor",
           "pos": "DEF",
           "rol": "titular"
@@ -142,7 +132,17 @@
           "rol": "titular"
         },
         {
-          "n": "Adeyemi",
+          "n": "Koski",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Noubi",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Huijsen",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -169,11 +169,6 @@
           "tag": "Fichado de mercho."
         },
         {
-          "n": "Koski",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Ibáñez",
           "pos": "DEF",
           "rol": "titular"
@@ -197,6 +192,16 @@
           "n": "Espart",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Courtois",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Hugo González",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -209,16 +214,6 @@
         },
         {
           "n": "Galán",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Hugo González",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Akhomach",
           "pos": "DEF",
           "rol": "titular"
         },
@@ -338,17 +333,22 @@
           "n": "Mangala",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Youssef",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "U. Núñez",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
     "karfim": {
       "caja": 56341641,
       "players": [
-        {
-          "n": "Nacho Pérez",
-          "pos": "DEF",
-          "rol": "titular"
-        },
         {
           "n": "Castrín",
           "pos": "DEF",
@@ -459,6 +459,11 @@
           "n": "Gordon",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "González Pedri",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -467,11 +472,6 @@
       "players": [
         {
           "n": "Luismi",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Rubén G.",
           "pos": "DEF",
           "rol": "titular"
         },
@@ -537,6 +537,11 @@
         },
         {
           "n": "Ochieng",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Rubén G.",
           "pos": "DEF",
           "rol": "titular"
         }
