@@ -359,7 +359,27 @@ async function githubPutFile(games, sha) {
   return true;
 }
 
-async function saveCurrentGame() {
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+async function githubUpdateGames(mutateFn) {
+  let lastErr;
+  for (let attempt = 0; attempt < 4; attempt++) {
+    try {
+      const { games, sha } = await githubGetFile();
+      const newGames = mutateFn(games);
+      await githubPutFile(newGames, sha);
+      return newGames;
+    } catch (e) {
+      lastErr = e;
+      if (e.message && e.message.includes('does not match')) {
+        await sleep(400 * (attempt + 1));
+        continue;
+      }
+      throw e;
+    }
+  }
+  throw lastErr;
+}
   const msgBox = document.getElementById('finishMsg');
   if (!currentGameId) return;
   if (!getToken()) {
@@ -380,21 +400,11 @@ async function saveCurrentGame() {
     rounds, totals, finished, winner
   };
   try {
-    const { games, sha } = await githubGetFile();
-    const idx = games.findIndex(g => g.id === game.id);
-    if (idx >= 0) games[idx] = game; else games.push(game);
-    try {
-      await githubPutFile(games, sha);
-    } catch (e) {
-      if (e.message.includes('does not match')) {
-        const retry = await githubGetFile();
-        const idx2 = retry.games.findIndex(g => g.id === game.id);
-        if (idx2 >= 0) retry.games[idx2] = game; else retry.games.push(game);
-        await githubPutFile(retry.games, retry.sha);
-      } else {
-        throw e;
-      }
-    }
+    await githubUpdateGames(games => {
+      const idx = games.findIndex(g => g.id === game.id);
+      if (idx >= 0) games[idx] = game; else games.push(game);
+      return games;
+    });
     msgBox.innerHTML = finished
       ? '<div class="ok">✅ Guardada en GitHub como finalizada.</div>'
       : '<div class="ok">✅ Guardada en GitHub. La podés continuar desde el Historial en cualquier dispositivo.</div>';
@@ -493,17 +503,7 @@ async function clearHistory() {
   const listWrap = document.getElementById('historyList');
   if (!getToken()) return;
   try {
-    const { sha } = await githubGetFile();
-    try {
-      await githubPutFile([], sha);
-    } catch (e) {
-      if (e.message.includes('does not match')) {
-        const retry = await githubGetFile();
-        await githubPutFile([], retry.sha);
-      } else {
-        throw e;
-      }
-    }
+    await githubUpdateGames(() => []);
     loadHistoryView();
   } catch (e) {
     listWrap.innerHTML = `<div class="warn">${e.message}</div>`;
