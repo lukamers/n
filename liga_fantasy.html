@@ -383,13 +383,6 @@
     </div>
     <div id="cards"></div>
 
-    <div class="section-label">¿Quién puede pagar este fichaje?</div>
-    <p style="color:var(--text-faint); font-size:12.5px; margin:-6px 0 12px; line-height:1.5;">Metés el precio al que salió un jugador en el mercado y te dice qué equipos pueden pagarlo (con el límite de gasto de siempre: caja + 20% del valor de su plantilla en deuda).</p>
-    <div class="sort-box" style="align-items:center;">
-      <input type="text" inputmode="numeric" id="montoPagoInput" placeholder="Ej: 5.500.000" style="flex:1; min-width:160px; padding:9px 12px; background:var(--bg-card); border:1px solid var(--line); border-radius:8px; color:var(--text); font-size:14px;" oninput="renderQuienPuedePagar()">
-    </div>
-    <div id="quienPuedePagarResult"></div>
-
     <div class="section-label">Comparador de jugadores cabeza a cabeza</div>
     <div class="sort-box" style="align-items:center;">
       <input type="text" list="allPlayersList" id="h2hPlayer1" placeholder="Jugador 1" style="flex:1; min-width:120px; padding:8px 10px; background:var(--bg-card); border:1px solid var(--line); border-radius:8px; color:var(--text); font-size:13px;">
@@ -490,6 +483,7 @@
       <div class="modal-chart" id="playerModalChart"></div>
       <div class="modal-stats" id="playerModalStats"></div>
       <div id="playerModalTendencia"></div>
+      <div id="playerModalAlineacion"></div>
       <div id="playerModalPartidos"></div>
     </div>
   </div>
@@ -905,6 +899,50 @@ function renderTendenciaBox(name){
   `;
 }
 
+// Puntito de color para ver de un vistazo, en las tablas de plantilla, si
+// un jugador es titular probable (verde), duda (amarillo), suplente
+// probable (rojo) o no hay dato (no se muestra nada) para la próxima
+// jornada.
+function alineacionDotHtml(p){
+  const jugadores = alineacionesProbablesData.jugadores || {};
+  const info = jugadores[p.n] || jugadores[ALIASES[p.n]];
+  if(!info) return '';
+  const prob = info.prob;
+  const color = (prob === null || prob === undefined) ? 'var(--text-faint)'
+    : prob >= 70 ? 'var(--green)'
+    : prob >= 40 ? 'var(--gold)'
+    : 'var(--red)';
+  const titulo = `${info.titular ? 'Titular probable' : 'Suplente probable'}${prob!==null && prob!==undefined ? ' ('+prob+'%)' : ''}`;
+  return `<span title="${titulo}" style="display:inline-block; width:7px; height:7px; border-radius:50%; background:${color}; flex-shrink:0;"></span>`;
+}
+
+function renderAlineacionBox(name){
+  const wrap = document.getElementById('playerModalAlineacion');
+  if(!wrap) return;
+  const jugadores = alineacionesProbablesData.jugadores || {};
+  const info = jugadores[name] || jugadores[ALIASES[name]];
+
+  if(!info){
+    wrap.innerHTML = '';
+    return;
+  }
+
+  const jornadaLabel = alineacionesProbablesData.jornada ? `J${alineacionesProbablesData.jornada}` : 'la próxima jornada';
+  const prob = info.prob;
+  const color = (prob === null || prob === undefined) ? 'var(--text-faint)'
+    : prob >= 70 ? 'var(--green)'
+    : prob >= 40 ? 'var(--gold)'
+    : 'var(--red)';
+  const rol = info.titular ? 'Titular probable' : 'Suplente probable';
+  const probaTexto = (prob !== null && prob !== undefined) ? ` (${prob}%)` : '';
+
+  wrap.innerHTML = `
+    <div class="proba-badge">
+      🔮 <span style="color:${color}; font-weight:700;">${rol}${probaTexto}</span> en ${jornadaLabel}${info.equipo ? ` · ${info.equipo}` : ''}${info.formacion ? ` (${info.formacion})` : ''}
+    </div>
+  `;
+}
+
 // Los nombres de rival que trae partidos.json a veces no coinciden
 // exacto con las claves de CLUB_CRESTS (ej. "Elche CF" en vez de
 // "Elche"), así que los normalizamos antes de buscar el escudo.
@@ -1005,6 +1043,7 @@ function showPlayerHistory(name){
   }
 
   renderTendenciaBox(name);
+  renderAlineacionBox(name);
   renderPartidosBox(name);
 
   lockBodyScroll();
@@ -1085,66 +1124,6 @@ function teamWarnings(team){
 }
 function teamTotal(team){ return team.players.reduce((s,p)=> s + currentValue(p), 0); }
 function teamMaxSpend(team){ return team.caja + 0.20 * teamTotal(team); }
-
-function parseMontoInput(str){
-  // Acepta cualquier formato razonable: "5.500.000", "5500000", con o sin
-  // el símbolo €, espacios, etc. — solo nos quedamos con los dígitos.
-  if(!str) return null;
-  const limpio = str.replace(/[^\d]/g, '');
-  if(!limpio) return null;
-  return parseInt(limpio, 10);
-}
-
-function renderQuienPuedePagar(){
-  const input = document.getElementById('montoPagoInput');
-  const wrap = document.getElementById('quienPuedePagarResult');
-  if(!input || !wrap) return;
-
-  const monto = parseMontoInput(input.value);
-  if(monto === null){
-    wrap.innerHTML = '';
-    return;
-  }
-
-  const filas = Object.keys(teams).map(name=>{
-    const team = teams[name];
-    const max = teamMaxSpend(team);
-    return { name, max, puede: max >= monto, restante: max - monto, you: !!team.you };
-  }).sort((a,b)=> b.restante - a.restante);
-
-  const cantidadPueden = filas.filter(f=>f.puede).length;
-
-  wrap.innerHTML = `
-    <div class="card" style="margin-top:2px;">
-      <div class="squad-inner" style="padding-top:14px;">
-        <p style="margin:0 0 10px; font-size:12.5px; color:var(--text-faint);">
-          ${cantidadPueden} de ${filas.length} equipos pueden pagar ${fmt(monto)}
-        </p>
-        <div class="table-scroll">
-          <table>
-            <thead><tr><th>Equipo</th><th class="num">Puede gastar hasta</th><th class="num">¿Le alcanza?</th><th class="num">Le quedaría</th></tr></thead>
-            <tbody>
-              ${filas.map(f=>`
-                <tr style="${f.puede ? '' : 'opacity:.55;'}">
-                  <td class="pname">
-                    <div class="pcell">
-                      ${mgrLogo(f.name)}
-                      <span>${f.name}${f.you ? '<span class="you">vos</span>' : ''}</span>
-                    </div>
-                  </td>
-                  <td class="num">${fmt(f.max)}</td>
-                  <td class="num">${f.puede ? '<span style="color:var(--green); font-weight:700;">✅ Sí</span>' : '<span style="color:var(--red); font-weight:700;">❌ No</span>'}</td>
-                  <td class="num" style="color:${f.restante>=0 ? 'var(--text-dim)' : 'var(--red)'};">${fmt(f.restante)}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
 function teamMarketTotal(team){ return team.players.reduce((s,p)=>{ const d = currentDiff(p); return s + (d||0); }, 0); }
 function teamPointsTotal(team){ return team.players.reduce((s,p)=>{ const pt = currentPoints(p); return s + (pt||0); }, 0); }
 function teamMarketHtml(team){
@@ -1521,6 +1500,7 @@ function renderComparador(){
           <span class="pos ${realPos(p)}">${realPos(p)}</span>
           ${clubBadge(playerClub(p))}
           <span class="player-link" onclick="showPlayerHistory('${p.n.replace(/'/g,"\\'")}')">${p.n}</span>
+          ${alineacionDotHtml(p)}
         </div>
       </td>
       <td>${playerClub(p) || '<span style="color:var(--text-faint);">—</span>'}</td>
@@ -1611,6 +1591,7 @@ const sortedPlayers = [...team.players].sort((a,b)=>{
             <span class="pos ${realPos(p)}">${realPos(p)}</span>
             ${clubBadge(playerClub(p))}
             <span class="player-link" onclick="showPlayerHistory('${p.n.replace(/'/g,"\\'")}')">${p.n}</span>${p.tag ? `<span class="tag"> · ${p.tag}</span>` : ""}
+            ${alineacionDotHtml(p)}
           </div>
         </td>
         <td class="num">${editMode
@@ -1898,6 +1879,10 @@ function applyJornadas(fresh){
 function applyPuntosJornadas(fresh){
   puntosJornadasData = (fresh && fresh.puntos) || {};
 }
+let alineacionesProbablesData = { jornada: null, jugadores: {} };
+function applyAlineacionesProbables(fresh){
+  alineacionesProbablesData = fresh || { jornada: null, jugadores: {} };
+}
 
 Promise.all([
   fetch('mercado.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
@@ -1907,7 +1892,8 @@ Promise.all([
   fetch('partidos.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
   fetch('posiciones.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
   fetch('puntos_jornadas.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
-]).then(([mercado, asign, jornadas, historial, partidos, posiciones, puntosJornadas])=>{
+  fetch('alineaciones_probables.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
+]).then(([mercado, asign, jornadas, historial, partidos, posiciones, puntosJornadas, alineaciones])=>{
   applyMercado(mercado);
   applyAsignaciones(asign);
   applyJornadas(jornadas);
@@ -1915,6 +1901,7 @@ Promise.all([
   applyPartidos(partidos);
   applyPosiciones(posiciones);
   applyPuntosJornadas(puntosJornadas);
+  applyAlineacionesProbables(alineaciones);
   renderPremios();
   if(!document.getElementById('updatedLine').textContent.includes('ACTUALIZADO')){
     document.getElementById('updatedLine').textContent = '8 EQUIPOS';
