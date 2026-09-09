@@ -38,11 +38,6 @@
           "rol": "titular"
         },
         {
-          "n": "Moi Gómez",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Amatucci",
           "pos": "DEF",
           "rol": "titular"
@@ -179,16 +174,6 @@
           "rol": "titular"
         },
         {
-          "n": "Oblak",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Giuliano",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Espart",
           "pos": "DEF",
           "rol": "titular"
@@ -200,6 +185,11 @@
         },
         {
           "n": "Hugo González",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Gordon",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -219,11 +209,6 @@
         },
         {
           "n": "Beñat San José",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Ryan",
           "pos": "DEF",
           "rol": "titular"
         },
@@ -256,6 +241,11 @@
           "n": "Mandi",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Blanco",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -285,27 +275,12 @@
           "rol": "titular"
         },
         {
-          "n": "Luis Miguel Ramis",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Valentín",
           "pos": "DEF",
           "rol": "titular"
         },
         {
           "n": "Antonio Hidalgo",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Dimitrievski",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Blanco",
           "pos": "DEF",
           "rol": "titular"
         },
@@ -336,6 +311,11 @@
         },
         {
           "n": "U. Núñez",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Ryan",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -421,11 +401,6 @@
           "rol": "titular"
         },
         {
-          "n": "Roberto",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Recio",
           "pos": "DEF",
           "rol": "titular"
@@ -446,17 +421,12 @@
           "rol": "titular"
         },
         {
-          "n": "Francho",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Gordon",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "González Pedri",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Gabriel Jesús",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -467,11 +437,6 @@
       "players": [
         {
           "n": "Luismi",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Jon Martín",
           "pos": "DEF",
           "rol": "titular"
         },
