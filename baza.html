@@ -73,6 +73,11 @@
   .rank-row .pos { color: #94a3b8; width: 20px; }
   .rank-row.first { border: 1px solid #fbbf24; }
   .rank-row .pts { font-weight: 700; color: #fbbf24; }
+  .chip {
+    background: #334155; color: #e2e8f0; border: 1px solid #475569;
+    border-radius: 20px; padding: 6px 12px; font-size: 0.8rem; cursor: pointer;
+  }
+  .chip:disabled { opacity: 0.35; cursor: default; }
 </style>
 </head>
 <body>
@@ -87,15 +92,18 @@
 
 <div id="viewGame">
   <div class="card" id="setupCard">
-    <div class="small" style="margin-bottom:8px;">Jugadores</div>
+    <div class="small" style="margin-bottom:8px;">Jugadores guardados (tocá para sumarlos)</div>
+    <div id="knownPlayersWrap" class="btn-row" style="margin-bottom:10px;"></div>
+    <div class="small" style="margin-bottom:8px;">Jugadores de esta partida</div>
     <div id="playersList"></div>
     <div class="btn-row">
-      <button class="secondary" onclick="addPlayer()">+ Agregar jugador</button>
+      <button class="secondary" onclick="addPlayer()">+ Nuevo jugador</button>
     </div>
     <hr style="border-color:#334155; margin:12px 0;">
     <div class="small">La partida arranca en 1 carta, sube hasta 8 y vuelve a bajar a 1.</div>
     <div class="small" style="margin:6px 0;">Acierta la apuesta: 10 + 3 x baza. Si no: 2 puntos por baza hecha.</div>
     <button onclick="startGame()">Empezar partida nueva</button>
+    <div id="setupWarn"></div>
   </div>
 
   <div class="card hidden" id="gameCard">
@@ -118,6 +126,37 @@
   <div class="card">
     <div class="small" style="margin-bottom:8px;">Conexión con GitHub</div>
     <div class="cfg-box" id="tokenBox"></div>
+  </div>
+  <div class="card">
+    <div class="small" style="margin-bottom:8px;">Filtros</div>
+    <div class="row">
+      <select id="filterPlayer" onchange="applyFilters()" style="flex:1; background:#0f172a; border:1px solid #334155; color:#e2e8f0; border-radius:8px; padding:8px;">
+        <option value="">Todos los jugadores</option>
+      </select>
+    </div>
+    <div class="row">
+      <div style="flex:1">
+        <div class="small">Desde</div>
+        <input type="date" id="filterFrom" onchange="applyFilters()">
+      </div>
+      <div style="flex:1">
+        <div class="small">Hasta</div>
+        <input type="date" id="filterTo" onchange="applyFilters()">
+      </div>
+    </div>
+    <button class="secondary tiny" onclick="clearFilters()">Limpiar filtros</button>
+  </div>
+  <div class="card">
+    <div class="small" style="margin-bottom:8px;">Cara a cara</div>
+    <div class="row">
+      <select id="h2hA" onchange="renderH2H()" style="flex:1; background:#0f172a; border:1px solid #334155; color:#e2e8f0; border-radius:8px; padding:8px;">
+        <option value="">Jugador A</option>
+      </select>
+      <select id="h2hB" onchange="renderH2H()" style="flex:1; background:#0f172a; border:1px solid #334155; color:#e2e8f0; border-radius:8px; padding:8px;">
+        <option value="">Jugador B</option>
+      </select>
+    </div>
+    <div id="h2hWrap"><div class="small">Elegí dos jugadores para comparar.</div></div>
   </div>
   <div class="card">
     <div class="small" style="margin-bottom:8px;">Estadísticas generales</div>
@@ -143,10 +182,12 @@ const GITHUB_BRANCH = 'main';
 const DATA_PATH = 'la_podrida_data.json';
 // -----------------------------------------------------------
 
-let players = ["Jugador 1", "Jugador 2"];
+let players = [];
 let rounds = [];
 let cardsSequence = [];
 let currentGameId = null;
+let allGames = [];
+let knownPlayers = [];
 
 function buildCardsSequence() {
   const seq = [];
@@ -181,6 +222,7 @@ function saveTokenFromInput() {
   setToken(val);
   renderTokenBox();
   loadHistoryView();
+  loadKnownPlayers();
 }
 function changeToken() {
   localStorage.removeItem('gh_token_podrida');
@@ -201,20 +243,56 @@ function renderPlayersList() {
   players.forEach((p, i) => {
     const div = document.createElement('div');
     div.className = 'player-tag';
-    div.innerHTML = `<input type="text" value="${p}" onchange="renamePlayer(${i}, this.value)">
+    div.innerHTML = `<input type="text" value="${p}" placeholder="Nombre" onchange="renamePlayer(${i}, this.value)">
       <span class="remove-x" onclick="removePlayer(${i})">✕</span>`;
     el.appendChild(div);
   });
+  renderKnownPlayerChips();
 }
-function addPlayer() { players.push("Jugador " + (players.length + 1)); renderPlayersList(); }
+function addPlayer() { players.push(''); renderPlayersList(); }
 function removePlayer(i) {
-  if (players.length <= 2) return;
   players.splice(i, 1);
   renderPlayersList();
 }
-function renamePlayer(i, val) { players[i] = val || players[i]; }
+function renamePlayer(i, val) { players[i] = val; }
+
+function renderKnownPlayerChips() {
+  const wrap = document.getElementById('knownPlayersWrap');
+  if (!wrap) return;
+  if (knownPlayers.length === 0) {
+    wrap.innerHTML = '<div class="small">Todavía no hay jugadores guardados. Se van a ir sumando solos cuando guardes partidas.</div>';
+    return;
+  }
+  wrap.innerHTML = knownPlayers.map(name => {
+    const already = players.some(p => p.trim().toLowerCase() === name.trim().toLowerCase());
+    return `<button type="button" class="chip" ${already ? 'disabled' : ''} onclick="addKnownPlayer('${name.replace(/'/g, "\\'")}')">${name}</button>`;
+  }).join('');
+}
+
+function addKnownPlayer(name) {
+  if (players.some(p => p.trim().toLowerCase() === name.trim().toLowerCase())) return;
+  const emptyIdx = players.findIndex(p => p.trim() === '');
+  if (emptyIdx >= 0) players[emptyIdx] = name; else players.push(name);
+  renderPlayersList();
+}
+
+async function loadKnownPlayers() {
+  if (!getToken()) return;
+  try {
+    const { knownPlayers: kp } = await githubGetFile();
+    knownPlayers = kp || [];
+    renderKnownPlayerChips();
+  } catch (e) { /* silencioso: se puede jugar igual sin la lista */ }
+}
 
 function startGame() {
+  const cleanNames = players.map(p => p.trim()).filter(p => p !== '');
+  if (cleanNames.length < 2) {
+    document.getElementById('setupWarn').innerHTML = '<div class="warn">Necesitás al menos 2 jugadores con nombre.</div>';
+    return;
+  }
+  players = cleanNames;
+  document.getElementById('setupWarn').innerHTML = '';
   cardsSequence = buildCardsSequence();
   rounds = [];
   currentGameId = 'g_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
@@ -302,6 +380,8 @@ function resetGame() {
   document.getElementById('finishMsg').innerHTML = '';
   rounds = [];
   currentGameId = null;
+  players = [];
+  renderPlayersList();
 }
 
 function computeTotals() {
@@ -355,18 +435,18 @@ async function githubGetFile() {
     headers: token ? { Authorization: `Bearer ${token}` } : {},
     cache: 'no-store'
   });
-  if (res.status === 404) return { games: [], sha: null };
+  if (res.status === 404) return { games: [], knownPlayers: [], sha: null };
   if (!res.ok) throw new Error('No se pudo leer el archivo (' + res.status + ')');
   const data = await res.json();
   const content = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
-  const parsed = JSON.parse(content || '{"games":[]}');
-  return { games: parsed.games || [], sha: data.sha };
+  const parsed = JSON.parse(content || '{"games":[],"knownPlayers":[]}');
+  return { games: parsed.games || [], knownPlayers: parsed.knownPlayers || [], sha: data.sha };
 }
 
-async function githubPutFile(games, sha) {
+async function githubPutFile(games, knownPlayersList, sha) {
   const token = getToken();
   if (!token) throw new Error('Falta configurar el token de GitHub.');
-  const content = btoa(unescape(encodeURIComponent(JSON.stringify({ games }, null, 2))));
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify({ games, knownPlayers: knownPlayersList }, null, 2))));
   const body = {
     message: 'Actualizar datos La Podrida',
     content: content,
@@ -387,14 +467,14 @@ async function githubPutFile(games, sha) {
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-async function githubUpdateGames(mutateFn) {
+async function githubUpdateData(mutateFn) {
   let lastErr;
   for (let attempt = 0; attempt < 4; attempt++) {
     try {
-      const { games, sha } = await githubGetFile();
-      const newGames = mutateFn(games);
-      await githubPutFile(newGames, sha);
-      return newGames;
+      const { games, knownPlayers: kp, sha } = await githubGetFile();
+      const result = mutateFn({ games, knownPlayers: kp });
+      await githubPutFile(result.games, result.knownPlayers, sha);
+      return result;
     } catch (e) {
       lastErr = e;
       if (e.message && e.message.includes('does not match')) {
@@ -426,11 +506,17 @@ async function saveCurrentGame() {
     rounds, totals, finished, winner
   };
   try {
-    await githubUpdateGames(games => {
-      const idx = games.findIndex(g => g.id === game.id);
-      if (idx >= 0) games[idx] = game; else games.push(game);
-      return games;
+    const result = await githubUpdateData(data => {
+      const idx = data.games.findIndex(g => g.id === game.id);
+      if (idx >= 0) data.games[idx] = game; else data.games.push(game);
+      game.players.forEach(p => {
+        if (!data.knownPlayers.some(k => k.trim().toLowerCase() === p.trim().toLowerCase())) {
+          data.knownPlayers.push(p);
+        }
+      });
+      return data;
     });
+    knownPlayers = result.knownPlayers;
     msgBox.innerHTML = finished
       ? '<div class="ok">✅ Guardada en GitHub como finalizada.</div>'
       : '<div class="ok">✅ Guardada en GitHub. La podés continuar desde el Historial en cualquier dispositivo.</div>';
@@ -451,18 +537,97 @@ async function loadHistoryView() {
   listWrap.innerHTML = '<div class="small">Cargando...</div>';
   try {
     const { games } = await githubGetFile();
-    if (games.length === 0) {
+    allGames = games;
+    if (allGames.length === 0) {
       statsWrap.innerHTML = '<div class="small">Todavía no hay partidas guardadas.</div>';
       listWrap.innerHTML = '<div class="small">Nada por acá todavía.</div>';
+      populatePlayerFilter([]);
       return;
     }
-    games.sort((a, b) => new Date(b.date) - new Date(a.date));
-    renderStats(games);
-    renderHistoryList(games);
+    allGames.sort((a, b) => new Date(b.date) - new Date(a.date));
+    populatePlayerFilter(allGames);
+    applyFilters();
   } catch (e) {
     statsWrap.innerHTML = `<div class="warn">${e.message}</div>`;
     listWrap.innerHTML = '';
   }
+}
+
+function populatePlayerFilter(games) {
+  const sel = document.getElementById('filterPlayer');
+  const current = sel.value;
+  const names = new Set();
+  games.forEach(g => g.players.forEach(p => names.add(p)));
+  const sortedNames = Array.from(names).sort();
+  sel.innerHTML = '<option value="">Todos los jugadores</option>' +
+    sortedNames.map(n => `<option value="${n}">${n}</option>`).join('');
+  sel.value = current && names.has(current) ? current : '';
+
+  ['h2hA', 'h2hB'].forEach(id => {
+    const s = document.getElementById(id);
+    const cur = s.value;
+    const placeholder = id === 'h2hA' ? 'Jugador A' : 'Jugador B';
+    s.innerHTML = `<option value="">${placeholder}</option>` +
+      sortedNames.map(n => `<option value="${n}">${n}</option>`).join('');
+    s.value = cur && names.has(cur) ? cur : '';
+  });
+}
+
+function renderH2H() {
+  const a = document.getElementById('h2hA').value;
+  const b = document.getElementById('h2hB').value;
+  const wrap = document.getElementById('h2hWrap');
+  if (!a || !b) { wrap.innerHTML = '<div class="small">Elegí dos jugadores para comparar.</div>'; return; }
+  if (a === b) { wrap.innerHTML = '<div class="warn">Elegí dos jugadores distintos.</div>'; return; }
+
+  const shared = allGames.filter(g => g.players.includes(a) && g.players.includes(b));
+  if (shared.length === 0) {
+    wrap.innerHTML = `<div class="small">${a} y ${b} todavía no jugaron juntos.</div>`;
+    return;
+  }
+  let winsA = 0, winsB = 0, finishedCount = 0, sumA = 0, sumB = 0;
+  shared.forEach(g => {
+    const idxA = g.players.indexOf(a), idxB = g.players.indexOf(b);
+    sumA += g.totals[idxA] || 0;
+    sumB += g.totals[idxB] || 0;
+    if (g.finished) {
+      finishedCount++;
+      if (g.winner === a) winsA++;
+      else if (g.winner === b) winsB++;
+    }
+  });
+  const avgA = (sumA / shared.length).toFixed(1);
+  const avgB = (sumB / shared.length).toFixed(1);
+  let html = `<div class="small" style="margin-bottom:6px;">${shared.length} partida${shared.length>1?'s':''} juntos (${finishedCount} finalizada${finishedCount!==1?'s':''})</div>`;
+  html += `<table><thead><tr><th></th><th>${a}</th><th>${b}</th></tr></thead><tbody>
+    <tr><td>Victorias</td><td>${winsA}</td><td>${winsB}</td></tr>
+    <tr><td>Prom. puntos</td><td>${avgA}</td><td>${avgB}</td></tr>
+  </tbody></table>`;
+  wrap.innerHTML = html;
+}
+
+function clearFilters() {
+  document.getElementById('filterPlayer').value = '';
+  document.getElementById('filterFrom').value = '';
+  document.getElementById('filterTo').value = '';
+  applyFilters();
+}
+
+function applyFilters() {
+  const playerFilter = document.getElementById('filterPlayer').value;
+  const fromVal = document.getElementById('filterFrom').value;
+  const toVal = document.getElementById('filterTo').value;
+  let filtered = allGames.slice();
+  if (playerFilter) filtered = filtered.filter(g => g.players.includes(playerFilter));
+  if (fromVal) filtered = filtered.filter(g => new Date(g.date) >= new Date(fromVal + 'T00:00:00'));
+  if (toVal) filtered = filtered.filter(g => new Date(g.date) <= new Date(toVal + 'T23:59:59'));
+  if (filtered.length === 0) {
+    document.getElementById('statsWrap').innerHTML = '<div class="small">Ninguna partida coincide con el filtro.</div>';
+    document.getElementById('historyList').innerHTML = '<div class="small">Nada por acá.</div>';
+    return;
+  }
+  renderStats(filtered);
+  renderHistoryList(filtered);
 }
 
 function renderStats(games) {
@@ -538,7 +703,7 @@ async function deleteGame(id, btnEl) {
     return;
   }
   try {
-    await githubUpdateGames(games => games.filter(g => g.id !== id));
+    await githubUpdateData(data => { data.games = data.games.filter(g => g.id !== id); return data; });
     loadHistoryView();
   } catch (e) {
     document.getElementById('historyList').innerHTML = `<div class="warn">${e.message}</div>`;
@@ -549,7 +714,7 @@ async function clearHistory() {
   const listWrap = document.getElementById('historyList');
   if (!getToken()) return;
   try {
-    await githubUpdateGames(() => []);
+    await githubUpdateData(data => { data.games = []; return data; });
     loadHistoryView();
   } catch (e) {
     listWrap.innerHTML = `<div class="warn">${e.message}</div>`;
@@ -557,6 +722,7 @@ async function clearHistory() {
 }
 
 renderPlayersList();
+loadKnownPlayers();
 </script>
 </body>
 </html>
