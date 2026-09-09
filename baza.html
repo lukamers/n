@@ -65,6 +65,14 @@
   .stat-box .num { font-size: 1.4rem; font-weight: 700; color: #fbbf24; }
   .stat-box .lbl { font-size: 0.7rem; color: #94a3b8; }
   .cfg-box { background: #0f172a; border: 1px dashed #334155; border-radius: 8px; padding: 10px; margin-bottom: 12px; }
+  .ranking { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+  .rank-row {
+    display: flex; align-items: center; justify-content: space-between;
+    background: #0f172a; border-radius: 8px; padding: 6px 10px; font-size: 0.85rem;
+  }
+  .rank-row .pos { color: #94a3b8; width: 20px; }
+  .rank-row.first { border: 1px solid #fbbf24; }
+  .rank-row .pts { font-weight: 700; color: #fbbf24; }
 </style>
 </head>
 <body>
@@ -91,6 +99,7 @@
   </div>
 
   <div class="card hidden" id="gameCard">
+    <div id="rankingWrap"></div>
     <div id="tableWrap"></div>
     <div class="ronda-block" id="newRoundBlock"></div>
     <div class="btn-row" style="margin-top:10px;">
@@ -301,7 +310,24 @@ function computeTotals() {
   return totals;
 }
 
+function renderRanking() {
+  const wrap = document.getElementById('rankingWrap');
+  if (rounds.length === 0) { wrap.innerHTML = ''; return; }
+  const totals = computeTotals();
+  const order = players.map((p, i) => ({ p, t: totals[i] })).sort((a, b) => b.t - a.t);
+  let html = '<div class="ranking">';
+  order.forEach((o, i) => {
+    html += `<div class="rank-row ${i === 0 ? 'first' : ''}">
+      <span><span class="pos">${i+1}º</span>${o.p}</span>
+      <span class="pts">${o.t}</span>
+    </div>`;
+  });
+  html += '</div>';
+  wrap.innerHTML = html;
+}
+
 function renderTable() {
+  renderRanking();
   const wrap = document.getElementById('tableWrap');
   if (rounds.length === 0) {
     wrap.innerHTML = '<div class="small">Todavía no hay rondas cargadas.</div>';
@@ -475,7 +501,12 @@ function renderHistoryList(games) {
     const scoresStr = g.players.map((p, i) => `${p}: ${g.totals[i]}`).join(' · ');
     const statusStr = g.finished ? `<span class="winner">🏆 ${g.winner}</span>` : `<span class="status">⏳ En curso (${g.rounds.length}/15 rondas)</span>`;
     html += `<div class="hist-item">
-      <div class="date"><span>${dateStr}</span>${!g.finished ? `<button class="tiny" onclick="continueGame('${g.id}')">Continuar</button>` : ''}</div>
+      <div class="date"><span>${dateStr}</span>
+        <span class="btn-row">
+          ${!g.finished ? `<button class="tiny" onclick="continueGame('${g.id}')">Continuar</button>` : ''}
+          <button class="tiny danger" onclick="deleteGame('${g.id}', this)">🗑</button>
+        </span>
+      </div>
       <div>${scoresStr}</div>
       <div>${statusStr}</div>
     </div>`;
@@ -497,6 +528,21 @@ async function continueGame(id) {
     renderTable();
     renderNewRoundForm();
   } catch (e) { /* ignore */ }
+}
+
+async function deleteGame(id, btnEl) {
+  if (btnEl.dataset.confirm !== '1') {
+    btnEl.dataset.confirm = '1';
+    btnEl.textContent = '¿Seguro?';
+    setTimeout(() => { btnEl.dataset.confirm = '0'; btnEl.textContent = '🗑'; }, 3000);
+    return;
+  }
+  try {
+    await githubUpdateGames(games => games.filter(g => g.id !== id));
+    loadHistoryView();
+  } catch (e) {
+    document.getElementById('historyList').innerHTML = `<div class="warn">${e.message}</div>`;
+  }
 }
 
 async function clearHistory() {
