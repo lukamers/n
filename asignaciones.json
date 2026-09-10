@@ -33,11 +33,6 @@
           "rol": "titular"
         },
         {
-          "n": "Carlos Espí",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Amatucci",
           "pos": "DEF",
           "rol": "titular"
@@ -82,10 +77,6 @@
     "papi floren 24 cm": {
       "caja": 41511700,
       "players": [
-        {
-          "n": "Unai López",
-          "pos": "MED"
-        },
         {
           "n": "Dituro",
           "pos": "DEF",
@@ -192,6 +183,11 @@
           "n": "Gordon",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Starfelt",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -246,6 +242,11 @@
           "n": "Blanco",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Carlos Espí",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -255,11 +256,6 @@
         {
           "n": "Szczesny",
           "pos": "POR"
-        },
-        {
-          "n": "Tárrega",
-          "pos": "DEF",
-          "tag": "Fichado de Chonaura"
         },
         {
           "n": "Mella",
@@ -300,11 +296,6 @@
           "rol": "titular"
         },
         {
-          "n": "Mangala",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Youssef",
           "pos": "DEF",
           "rol": "titular"
@@ -316,6 +307,21 @@
         },
         {
           "n": "Ryan",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Marcos",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Bil Nsongo",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Unai López",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -376,6 +382,11 @@
         },
         {
           "n": "Ángel Pérez",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Riki",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -456,11 +467,6 @@
           "rol": "titular"
         },
         {
-          "n": "Bil Nsongo",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Remiro",
           "pos": "DEF",
           "rol": "titular"
@@ -472,11 +478,6 @@
         },
         {
           "n": "José Mourinho",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Kang-In Lee",
           "pos": "DEF",
           "rol": "titular"
         },
@@ -497,6 +498,11 @@
         },
         {
           "n": "Rubén G.",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Mangala",
           "pos": "DEF",
           "rol": "titular"
         }
