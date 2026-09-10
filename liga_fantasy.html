@@ -378,6 +378,16 @@
       <button class="edit-btn" id="closeJornadaBtn" style="margin-left:0;">🔒 Cerrar jornada</button>
       <span class="save-status" id="jornadaStatus"></span>
     </div>
+
+    <div class="section-label">Cargar movimiento desde captura</div>
+    <p style="color:var(--text-faint); font-size:12.5px; margin:-6px 0 12px; line-height:1.5;">Subí una captura del feed de "Activity" de la app oficial (una o varias operaciones de mercado juntas) y se completa solo quién compró, a quién, qué jugador y por cuánto — revisá que haya adivinado bien los equipos antes de aplicar.</p>
+    <div class="edit-panel" style="border-top:none; padding-top:0;">
+      <input type="file" accept="image/*" id="imgMovInput">
+      <button class="edit-btn" onclick="handleAnalizarImagenMovimientos()">🔍 Analizar imagen</button>
+      <span class="save-status" id="imgMovStatus"></span>
+    </div>
+    <div id="imgMovPreview"></div>
+
     <div class="search-box">
       <input type="text" id="playerSearch" placeholder="🔍 Buscar jugador en la liga..." onkeyup="searchPlayer()">
     </div>
@@ -1567,6 +1577,198 @@ function updatePlayerValue(teamName, playerName, value){
 function updatePlayerRol(teamName, playerName, rol){
   const player = teams[teamName].players.find(p=>p.n === playerName);
   if(player){ player.rol = rol; renderCards(); }
+}
+
+// ---------- Cargar movimiento desde captura (OCR) ----------
+// Lee una captura del feed "Activity" de la app oficial (en inglés: "X
+// has purchased Y from Z for W€" / "X has sold player Y to Z for W€"),
+// la pasa por OCR en el navegador (Tesseract.js, se carga solo la
+// primera vez que se usa esto) y arma un borrador editable de a quién
+// hay que darle/sacarle el jugador y la plata. Nunca aplica nada solo:
+// siempre queda un paso de revisión manual antes de tocar los equipos,
+// porque el OCR se puede equivocar con nombres y con qué equipo real de
+// la liga corresponde a cada nombre que aparece en la captura.
+let movimientosDetectados = [];
+
+function ensureTesseractCargado(){
+  return new Promise((resolve, reject)=>{
+    if(window.Tesseract){ resolve(); return; }
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/tesseract.min.js';
+    s.onload = ()=> resolve();
+    s.onerror = ()=> reject(new Error('No pude cargar la librería de OCR. Revisá tu conexión e intentá de nuevo.'));
+    document.head.appendChild(s);
+  });
+}
+
+function _normalizarTexto(s){
+  return (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');
+}
+
+// Intenta adivinar a qué equipo de "teams" corresponde un nombre tal
+// como lo escribe la app (que puede no coincidir exacto con la clave que
+// usamos acá, ej. "Ortodoncia Warriors" en la app vs "EN ORTODONCIA FC"
+// en nuestros datos). Devuelve null si parece ser "LALIGA" (el mercado,
+// no un equipo real) o si no encuentra ningún parecido.
+function adivinarEquipo(nombreDetectado){
+  const n = _normalizarTexto(nombreDetectado);
+  if(!n || n.includes('laliga')) return null;
+  let mejor = null, mejorScore = 0;
+  Object.keys(teams).forEach(tn=>{
+    const tnorm = _normalizarTexto(tn);
+    let score = 0;
+    if(tnorm.includes(n) || n.includes(tnorm)){
+      score = Math.min(n.length, tnorm.length);
+    } else {
+      const palabrasN = new Set((nombreDetectado || '').toLowerCase().split(/\s+/).filter(Boolean));
+      const palabrasT = new Set(tn.toLowerCase().split(/\s+/).filter(Boolean));
+      palabrasN.forEach(p=>{ if(palabrasT.has(p)) score++; });
+    }
+    if(score > mejorScore){ mejorScore = score; mejor = tn; }
+  });
+  return mejorScore > 0 ? mejor : null;
+}
+
+// Convierte el texto crudo que devuelve el OCR en una lista de
+// movimientos {jugador, origenTexto, destinoTexto, monto} — "origen" es
+// quién se queda con la plata (le sacan el jugador), "destino" es quién
+// se queda con el jugador (le sacan la plata). Soporta las dos frases
+// que usa la app: "X has purchased J from Y for M€" y "X has sold
+// player J to Y for M€".
+function parsearMovimientosDesdeTexto(text){
+  const limpio = (text || '')
+    .replace(/market operation/gi, ' ')
+    .replace(/\d{1,2}:\d{2}/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  const movimientos = [];
+  // [^€]+? en vez de .+?: cada grupo no puede cruzar el símbolo "€" que
+  // cierra la operación anterior. Con .+? sin esa traba, cuando había una
+  // venta metida en el medio de dos compras, el nombre del comprador se
+  // comía sin querer toda la operación anterior completa.
+  const reCompra = /([^€]+?) has purchased ([^€]+?) from ([^€]+?) for ([\d.,]+)\s*€/gi;
+  const reVenta = /([^€]+?) has sold player ([^€]+?) to ([^€]+?) for ([\d.,]+)\s*€/gi;
+
+  let m;
+  while((m = reCompra.exec(limpio))){
+    movimientos.push({
+      jugador: m[2].trim(),
+      origenTexto: m[3].trim(),
+      destinoTexto: m[1].trim(),
+      monto: parseInt(m[4].replace(/[.,]/g, ''), 10) || 0,
+    });
+  }
+  while((m = reVenta.exec(limpio))){
+    movimientos.push({
+      jugador: m[2].trim(),
+      origenTexto: m[1].trim(),
+      destinoTexto: m[3].trim(),
+      monto: parseInt(m[4].replace(/[.,]/g, ''), 10) || 0,
+    });
+  }
+  return movimientos;
+}
+
+async function handleAnalizarImagenMovimientos(){
+  const input = document.getElementById('imgMovInput');
+  const status = document.getElementById('imgMovStatus');
+  const file = input.files && input.files[0];
+  if(!file){ status.textContent = 'Elegí primero una imagen.'; return; }
+
+  status.textContent = '⏳ Cargando el lector de imagen…';
+  try{
+    await ensureTesseractCargado();
+    status.textContent = '⏳ Leyendo la imagen (puede tardar unos segundos)…';
+    const resultado = await Tesseract.recognize(file, 'eng');
+    const detectados = parsearMovimientosDesdeTexto(resultado.data.text);
+    if(detectados.length === 0){
+      status.textContent = '⚠️ No encontré ninguna operación de mercado reconocible en la imagen — probá con una captura más nítida, o cargalo a mano desde "✎ Editar".';
+      document.getElementById('imgMovPreview').innerHTML = '';
+      movimientosDetectados = [];
+      return;
+    }
+    movimientosDetectados = detectados;
+    status.textContent = `✅ Encontré ${detectados.length} operación(es). Revisá los equipos y el jugador antes de aplicar — el OCR se puede equivocar.`;
+    renderMovimientosDetectados();
+  } catch(e){
+    status.textContent = '❌ ' + e.message;
+  }
+}
+
+function renderMovimientosDetectados(){
+  const wrap = document.getElementById('imgMovPreview');
+  ensureDatalist();
+  const nombresEquipos = Object.keys(teams).sort();
+  const opcionesEquipo = (seleccionado) => `<option value="" ${!seleccionado ? 'selected' : ''}>Mercado (LALIGA)</option>` +
+    nombresEquipos.map(n => `<option value="${n}" ${n === seleccionado ? 'selected' : ''}>${n}</option>`).join('');
+
+  wrap.innerHTML = movimientosDetectados.map((mov, i) => {
+    const origenGuess = adivinarEquipo(mov.origenTexto);
+    const destinoGuess = adivinarEquipo(mov.destinoTexto);
+    return `
+      <div class="card mov-row" data-idx="${i}" style="margin-top:10px;">
+        <div class="squad-inner" style="padding-top:14px;">
+          <div class="edit-panel" style="border-top:none; padding-top:0;">
+            <input type="checkbox" class="mov-aplicar" checked style="width:16px; height:16px;">
+            <input type="text" list="allPlayersList" class="mov-jugador" value="${mov.jugador.replace(/"/g, '&quot;')}" placeholder="Jugador">
+            <select class="mov-origen">${opcionesEquipo(origenGuess)}</select>
+            <span style="color:var(--text-faint); font-weight:700;">→</span>
+            <select class="mov-destino">${opcionesEquipo(destinoGuess)}</select>
+            <input type="number" class="mov-monto" value="${mov.monto}" style="width:130px;">
+            <select class="mov-pos">
+              <option value="POR">POR</option>
+              <option value="DEF">DEF</option>
+              <option value="MED" selected>MED</option>
+              <option value="DEL">DEL</option>
+              <option value="DT">DT</option>
+            </select>
+          </div>
+          <div style="font-size:11px; color:var(--text-faint); margin-top:6px;">Detectado en la imagen: "${mov.origenTexto}" → "${mov.destinoTexto}" por €${mov.monto.toLocaleString('es-AR')}</div>
+        </div>
+      </div>
+    `;
+  }).join('') + `
+    <div class="edit-panel" style="border-top:none;">
+      <button class="save-btn" onclick="aplicarMovimientosDetectados()">✅ Aplicar movimientos tildados</button>
+    </div>
+  `;
+}
+
+function aplicarMovimientosDetectados(){
+  const filas = document.querySelectorAll('#imgMovPreview .mov-row');
+  let aplicados = 0;
+
+  filas.forEach(fila => {
+    const chk = fila.querySelector('.mov-aplicar');
+    if(!chk || !chk.checked) return;
+
+    const jugador = fila.querySelector('.mov-jugador').value.trim();
+    const origen = fila.querySelector('.mov-origen').value;
+    const destino = fila.querySelector('.mov-destino').value;
+    const monto = parseInt(fila.querySelector('.mov-monto').value, 10) || 0;
+    const pos = fila.querySelector('.mov-pos').value;
+    if(!jugador) return;
+
+    if(destino){
+      moveOrAddPlayer(destino, jugador, pos, 'Cargado desde captura');
+      adjustCaja(destino, -monto);
+    } else if(origen){
+      removePlayer(origen, jugador);
+    }
+    if(origen){
+      adjustCaja(origen, monto);
+    }
+    aplicados++;
+  });
+
+  const status = document.getElementById('imgMovStatus');
+  status.textContent = aplicados > 0
+    ? `✅ Aplicadas ${aplicados} operación(es). Revisá los planteles y, si está todo bien, tocá "💾 Guardar en GitHub".`
+    : 'No se aplicó ninguna operación (¿quedaron todas destildadas?).';
+  document.getElementById('imgMovPreview').innerHTML = '';
+  movimientosDetectados = [];
+  document.getElementById('imgMovInput').value = '';
 }
 
 function renderCards(){
