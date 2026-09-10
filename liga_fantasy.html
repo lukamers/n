@@ -476,6 +476,17 @@
       <span class="save-status" id="saveJornadaStatus"></span>
     </div>
     <div class="sort-box" id="jornadaSelector"></div>
+
+    <div class="section-label">Cargar plantel titular desde captura</div>
+    <p style="color:var(--text-faint); font-size:12.5px; margin:-6px 0 12px; line-height:1.5;">Subí una captura de la pantalla "Squad" de un participante (la cancha con los titulares y el capitán marcado) y se arma solo el plantel de esa jornada para ese equipo. Esto reemplaza a los titulares que tenga cargados ese equipo en la jornada elegida — revisá bien la lista antes de aplicar, y si el equipo tenía suplentes cargados, agregalos de nuevo a mano después.</p>
+    <div class="edit-panel" style="border-top:none; padding-top:0;">
+      <select id="jorImgTeam"></select>
+      <input type="file" accept="image/*" id="jorImgInput">
+      <button class="edit-btn" onclick="handleAnalizarPlantelImagen()">🔍 Analizar imagen</button>
+      <span class="save-status" id="jorImgStatus"></span>
+    </div>
+    <div id="jorImgPreview"></div>
+
     <div id="jornadaCards"></div>
   </div>
 
@@ -1771,6 +1782,243 @@ function aplicarMovimientosDetectados(){
   document.getElementById('imgMovInput').value = '';
 }
 
+// ---------- Cargar plantel titular desde captura (pantalla "Squad") ----------
+// A diferencia del feed de "Activity" (que tiene frases fijas tipo "has
+// purchased ... for ... €" para anclarse), la pantalla de plantel no
+// tiene NINGÚN texto que diga "esto es un defensor" o "este es el
+// capitán" — esa información está en la POSICIÓN de cada tarjeta en la
+// imagen (fila de arriba a abajo) y en la insignia "C" pegada al lado
+// del nombre. Por eso acá no alcanza con leer el texto plano: hace
+// falta la posición (x,y) de cada palabra que devuelve Tesseract, para
+// reagrupar nombres por fila (política = por altura) y por cercanía
+// (nombre y apellido de un mismo jugador) y así reconstruir la cancha.
+// Es más frágil que el análisis del feed de actividad — por eso el
+// resultado siempre queda para revisar antes de aplicar.
+let plantelDetectado = [];
+
+// Palabras que sabemos que NO son nombres de jugador y hay que
+// descartar: interfaz de la app, marcas, fechas, etc. No pretende ser
+// una lista cerrada — lo que se cuele igual se puede destildar a mano
+// en la revisión.
+const RUIDO_PLANTEL = /^(laliga|ea|sports|fsyp|squad|points|coach|line-up|saved|on|at|plan|de|accion|acci[oó]n|x\d+)$/i;
+
+function esRuidoPlantel(texto){
+  const limpio = (texto || '').trim();
+  if(!limpio) return true;
+  if(RUIDO_PLANTEL.test(limpio)) return true;
+  if(/^\d+([.,]\d+)?$/.test(limpio)) return true; // números sueltos (dorsal, saldo, hora)
+  if(/^\d{1,2}[:\/]\d{1,2}/.test(limpio)) return true; // horas y fechas
+  if(/^\d{1,2}$/.test(limpio)) return true;
+  return false;
+}
+
+// Agrupa las palabras que devuelve Tesseract en filas, según su altura
+// (y) en la imagen — cada fila de tarjetas de jugadores queda junta,
+// sin importar en qué orden las haya leído el OCR.
+function agruparPalabrasEnFilas(words){
+  const candidatas = (words || [])
+    .filter(w => w.text && !esRuidoPlantel(w.text) && w.bbox)
+    .map(w => ({
+      texto: w.text.trim(),
+      x0: w.bbox.x0, x1: w.bbox.x1, y0: w.bbox.y0, y1: w.bbox.y1,
+      cy: (w.bbox.y0 + w.bbox.y1) / 2,
+      alto: w.bbox.y1 - w.bbox.y0,
+    }))
+    .sort((a, b) => a.cy - b.cy);
+
+  if(candidatas.length === 0) return [];
+
+  // El umbral no puede ser un número fijo de píxeles: una captura de
+  // iPhone a 3x tiene el triple de píxeles que una achicada a mano. Lo
+  // calculamos como una fracción de la altura típica de una palabra en
+  // ESTA imagen puntual, así se adapta solo a cualquier resolución.
+  const altoPromedio = candidatas.reduce((s, w) => s + w.alto, 0) / candidatas.length;
+  const tolerancia = Math.max(10, altoPromedio * 0.9);
+
+  const filas = [];
+  candidatas.forEach(w => {
+    let fila = filas.find(f => Math.abs(f.cy - w.cy) < tolerancia);
+    if(!fila){
+      fila = { cy: w.cy, palabras: [] };
+      filas.push(fila);
+    }
+    fila.palabras.push(w);
+    fila.cy = fila.palabras.reduce((s, p) => s + p.cy, 0) / fila.palabras.length;
+  });
+  filas.sort((a, b) => a.cy - b.cy);
+  filas.forEach(f => f.palabras.sort((a, b) => a.x0 - b.x0));
+  filas.altoPromedio = altoPromedio;
+  return filas;
+}
+
+// Dentro de una fila, junta palabras cercanas entre sí en un mismo
+// nombre (ej. "Iker" + "Muñoz") y las separa de la siguiente tarjeta
+// cuando el espacio horizontal es mucho más grande (el ancho de una
+// tarjeta completa) — igual que arriba, en función del tamaño del texto
+// de esta imagen puntual, no un número de píxeles fijo.
+function agruparEnNombres(palabras, altoPromedio){
+  const gapMax = Math.max(18, (altoPromedio || 20) * 1.4);
+  const grupos = [];
+  palabras = (palabras || []).filter(w => w.texto !== 'C');
+  palabras.forEach(w => {
+    const ultimo = grupos[grupos.length - 1];
+    if(ultimo && (w.x0 - ultimo.x1) < gapMax){
+      ultimo.texto += ' ' + w.texto;
+      ultimo.x1 = w.x1;
+    } else {
+      grupos.push({ texto: w.texto, x0: w.x0, x1: w.x1, y0: w.y0, y1: w.y1 });
+    }
+  });
+  return grupos;
+}
+
+// Arma el plantel a partir de las filas ya agrupadas: la primera fila
+// con una sola tarjeta es el arquero, después vienen las líneas de
+// defensa/medio/delantera (según cuántas filas de jugadores de campo
+// haya, se reparten en ese orden), y la insignia "C" cercana a un
+// nombre marca al capitán. El técnico se toma aparte, de la fila que
+// aparece después de la palabra "Coach".
+function armarPlantelDesdeFilas(filas, palabrasCrudas){
+  const filasConNombre = filas.filter(f => f.palabras.length > 0);
+  if(filasConNombre.length === 0) return [];
+  const altoPromedio = filas.altoPromedio || 20;
+
+  // dónde aparece la palabra "Coach" en la imagen original (sin
+  // filtrar), para separar al técnico del resto de las filas.
+  const filaCoach = (palabrasCrudas || []).find(w => /^coach$/i.test((w.text || '').trim()));
+  const yCoach = filaCoach ? (filaCoach.bbox.y0 + filaCoach.bbox.y1) / 2 : null;
+
+  const filasJugadores = yCoach !== null ? filasConNombre.filter(f => f.cy < yCoach) : filasConNombre;
+  const filasTecnico = yCoach !== null ? filasConNombre.filter(f => f.cy >= yCoach) : [];
+
+  const ordenPosiciones = ['POR', 'DEF', 'MED', 'DEL'];
+  const jugadores = [];
+
+  filasJugadores.forEach((fila, i) => {
+    const nombres = agruparEnNombres(fila.palabras, altoPromedio);
+    // primera y última fila de una sola tarjeta = arquero / delantero
+    // único; el resto, en orden, DEF y después MED.
+    let pos;
+    if(i === 0 && nombres.length === 1) pos = 'POR';
+    else if(i === filasJugadores.length - 1 && nombres.length === 1) pos = 'DEL';
+    else pos = ordenPosiciones[Math.min(i, 2)] || 'MED';
+
+    nombres.forEach(n => {
+      // "C" pegada justo a la izquierda del nombre = capitán.
+      const distanciaMax = altoPromedio * 1.5;
+      const capitan = fila.palabras.some(w => w.texto === 'C' && Math.abs(w.x1 - n.x0) < distanciaMax && w !== n);
+      jugadores.push({ nombre: n.texto.trim(), pos, capitan, aplicar: true });
+    });
+  });
+
+  if(filasTecnico.length){
+    const nombresTecnico = agruparEnNombres(filasTecnico[0].palabras, altoPromedio);
+    nombresTecnico.forEach(n => {
+      jugadores.push({ nombre: n.texto.trim(), pos: 'DT', capitan: false, aplicar: true });
+    });
+  }
+
+  return jugadores.filter(j => j.nombre && j.nombre.length > 1);
+}
+
+function populateJorImgTeamSelect(){
+  const sel = document.getElementById('jorImgTeam');
+  if(!sel) return;
+  const prev = sel.value;
+  sel.innerHTML = Object.keys(teams).sort().map(t => `<option value="${t}">${t}</option>`).join('');
+  if(teams[prev]) sel.value = prev;
+}
+
+async function handleAnalizarPlantelImagen(){
+  const input = document.getElementById('jorImgInput');
+  const status = document.getElementById('jorImgStatus');
+  const file = input.files && input.files[0];
+  if(!file){ status.textContent = 'Elegí primero una imagen.'; return; }
+
+  status.textContent = '⏳ Cargando el lector de imagen…';
+  try{
+    await ensureTesseractCargado();
+    status.textContent = '⏳ Leyendo la imagen (puede tardar unos segundos)…';
+    const resultado = await Tesseract.recognize(file, 'eng');
+    const words = resultado.data.words || [];
+    const filas = agruparPalabrasEnFilas(words);
+    const detectado = armarPlantelDesdeFilas(filas, words);
+
+    if(detectado.length === 0){
+      status.textContent = '⚠️ No pude reconocer jugadores en la imagen — probá con una captura más nítida, o cargá el plantel a mano con "✎ Editar roles".';
+      document.getElementById('jorImgPreview').innerHTML = '';
+      plantelDetectado = [];
+      return;
+    }
+    plantelDetectado = detectado;
+    status.textContent = `✅ Encontré ${detectado.length} nombre(s). Esto es lo más frágil de adivinar (posición y capitán son un cálculo, no algo que diga el texto) — revisá cada fila antes de aplicar.`;
+    renderPlantelDetectado();
+  } catch(e){
+    status.textContent = '❌ ' + e.message;
+  }
+}
+
+function renderPlantelDetectado(){
+  const wrap = document.getElementById('jorImgPreview');
+  ensureDatalist();
+
+  wrap.innerHTML = plantelDetectado.map((j, i) => `
+    <div class="edit-panel" style="border-top:${i === 0 ? 'none' : '1px dashed var(--line)'};">
+      <input type="checkbox" class="plt-aplicar" ${j.aplicar ? 'checked' : ''} style="width:16px; height:16px;">
+      <input type="text" list="allPlayersList" class="plt-nombre" value="${j.nombre.replace(/"/g, '&quot;')}" placeholder="Jugador">
+      <select class="plt-pos">
+        <option value="POR" ${j.pos === 'POR' ? 'selected' : ''}>POR</option>
+        <option value="DEF" ${j.pos === 'DEF' ? 'selected' : ''}>DEF</option>
+        <option value="MED" ${j.pos === 'MED' ? 'selected' : ''}>MED</option>
+        <option value="DEL" ${j.pos === 'DEL' ? 'selected' : ''}>DEL</option>
+        <option value="DT" ${j.pos === 'DT' ? 'selected' : ''}>DT</option>
+      </select>
+      <label style="display:flex; align-items:center; gap:5px; font-size:12px; color:var(--text-faint);">
+        <input type="checkbox" class="plt-capitan" ${j.capitan ? 'checked' : ''} style="width:14px; height:14px;"> Capitán
+      </label>
+    </div>
+  `).join('') + `
+    <div class="edit-panel" style="border-top:none;">
+      <button class="save-btn" onclick="aplicarPlantelDetectado()">✅ Reemplazar plantel de esta jornada</button>
+    </div>
+  `;
+}
+
+function aplicarPlantelDetectado(){
+  const teamName = document.getElementById('jorImgTeam').value;
+  const jkey = renderJornadas.actual;
+  if(!teamName){ document.getElementById('jorImgStatus').textContent = 'Elegí a qué equipo corresponde la imagen.'; return; }
+  if(!jkey || !jornadasData.jornadas[jkey]){ document.getElementById('jorImgStatus').textContent = 'No hay ninguna jornada abierta para cargarle el plantel.'; return; }
+
+  const filas = document.querySelectorAll('#jorImgPreview .edit-panel');
+  const nuevosJugadores = [];
+  filas.forEach(fila => {
+    const chk = fila.querySelector('.plt-aplicar');
+    if(!chk || !chk.checked) return;
+    const nombre = fila.querySelector('.plt-nombre').value.trim();
+    const pos = fila.querySelector('.plt-pos').value;
+    const capitan = fila.querySelector('.plt-capitan').checked;
+    if(!nombre) return;
+    nuevosJugadores.push({ n: nombre, pos, rol: capitan ? 'capitan' : 'titular' });
+  });
+
+  if(nuevosJugadores.length === 0){
+    document.getElementById('jorImgStatus').textContent = 'No quedó ningún jugador tildado para aplicar.';
+    return;
+  }
+
+  if(!jornadasData.jornadas[jkey].equipos[teamName]){
+    jornadasData.jornadas[jkey].equipos[teamName] = { players: [] };
+  }
+  jornadasData.jornadas[jkey].equipos[teamName].players = nuevosJugadores;
+
+  document.getElementById('jorImgStatus').textContent = `✅ Reemplacé el plantel de ${teamName} en ${jkey} por estos ${nuevosJugadores.length} jugadores. Si tenía suplentes cargados, se perdieron — agregalos de nuevo con "✎ Editar roles" si hace falta. No te olvides de "💾 Guardar en GitHub".`;
+  document.getElementById('jorImgPreview').innerHTML = '';
+  plantelDetectado = [];
+  document.getElementById('jorImgInput').value = '';
+  renderJornadas();
+}
+
 function renderCards(){
   ensureDatalist();
   const names = getSortedTeamNames();
@@ -2530,7 +2778,7 @@ function showTab(name){
   document.getElementById('tab-equipos').classList.toggle('active', name==='equipos');
   document.getElementById('tab-jornadas').classList.toggle('active', name==='jornadas');
   document.getElementById('tab-tabla').classList.toggle('active', name==='tabla');
-  if(name==='jornadas') renderJornadas();
+  if(name==='jornadas'){ populateJorImgTeamSelect(); renderJornadas(); }
   if(name==='tabla') renderTabla();
 }
 
