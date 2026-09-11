@@ -75,7 +75,7 @@
       ]
     },
     "papi floren 24 cm": {
-      "caja": 41511700,
+      "caja": 31331691,
       "players": [
         {
           "n": "Dituro",
@@ -131,28 +131,32 @@
           "n": "Huijsen",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Marcao",
+          "pos": "MED",
+          "rol": "titular",
+          "tag": "Cargado desde captura"
+        },
+        {
+          "n": "Hansi Flick",
+          "pos": "MED",
+          "rol": "titular",
+          "tag": "Cargado desde captura"
+        },
+        {
+          "n": "Marc Roca",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
     "Lucky Corbechad": {
-      "caja": 91486966,
+      "caja": 114963656,
       "players": [
         {
           "n": "Bartra",
           "pos": "DEF"
-        },
-        {
-          "n": "Marc Roca",
-          "pos": "MED"
-        },
-        {
-          "n": "Deossa",
-          "pos": "MED"
-        },
-        {
-          "n": "Pathé I. Ciss",
-          "pos": "MED",
-          "tag": "Fichado de mercho."
         },
         {
           "n": "Ibáñez",
@@ -188,11 +192,23 @@
           "n": "Starfelt",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Enes Unal",
+          "pos": "MED",
+          "rol": "titular",
+          "tag": "Cargado desde captura"
+        },
+        {
+          "n": "Raul",
+          "pos": "MED",
+          "rol": "titular",
+          "tag": "Cargado desde captura"
         }
       ]
     },
     "Sapard0": {
-      "caja": 0,
+      "caja": -49550000,
       "players": [
         {
           "n": "Puado",
@@ -234,11 +250,6 @@
           "rol": "titular"
         },
         {
-          "n": "Mandi",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Blanco",
           "pos": "DEF",
           "rol": "titular"
@@ -247,11 +258,29 @@
           "n": "Carlos Espí",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "A. Herrero",
+          "pos": "POR",
+          "rol": "titular",
+          "tag": "Cargado desde captura"
+        },
+        {
+          "n": "Deossa",
+          "pos": "MED",
+          "rol": "titular",
+          "tag": "Cargado desde captura"
+        },
+        {
+          "n": "Pathé I. Ciss",
+          "pos": "MED",
+          "rol": "titular",
+          "tag": "Cargado desde captura"
         }
       ]
     },
     "JMR1902": {
-      "caja": 69906097,
+      "caja": 51285776,
       "players": [
         {
           "n": "Szczesny",
@@ -296,11 +325,6 @@
           "rol": "titular"
         },
         {
-          "n": "Youssef",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "U. Núñez",
           "pos": "DEF",
           "rol": "titular"
@@ -324,11 +348,23 @@
           "n": "Unai López",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Mandi",
+          "pos": "MED",
+          "rol": "titular",
+          "tag": "Cargado desde captura"
+        },
+        {
+          "n": "Christensen",
+          "pos": "MED",
+          "rol": "titular",
+          "tag": "Cargado desde captura"
         }
       ]
     },
     "karfim": {
-      "caja": 56341641,
+      "caja": 83606712,
       "players": [
         {
           "n": "Castrín",
@@ -336,17 +372,7 @@
           "rol": "titular"
         },
         {
-          "n": "Hansi Flick",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Joan Garcia",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Paredes",
           "pos": "DEF",
           "rol": "titular"
         },
@@ -389,11 +415,29 @@
           "n": "Riki",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Youssef",
+          "pos": "DEF",
+          "rol": "titular",
+          "tag": "Cargado desde captura"
+        },
+        {
+          "n": "Iker Muiioz",
+          "pos": "MED",
+          "rol": "titular",
+          "tag": "Cargado desde captura"
+        },
+        {
+          "n": "Gerard Martin",
+          "pos": "MED",
+          "rol": "titular",
+          "tag": "Cargado desde captura"
         }
       ]
     },
     "mercho.": {
-      "caja": 57271810,
+      "caja": 43636733,
       "you": true,
       "players": [
         {
@@ -435,11 +479,17 @@
           "n": "Gabriel Jesús",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Paredes",
+          "pos": "MED",
+          "rol": "titular",
+          "tag": "Cargado desde captura"
         }
       ]
     },
     "EN ORTODONCIA FC": {
-      "caja": -4771682,
+      "caja": -44571724,
       "players": [
         {
           "n": "Luismi",
@@ -510,6 +560,35 @@
           "n": "Mangala",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Cuti Romero",
+          "pos": "MED",
+          "rol": "titular",
+          "tag": "Cargado desde captura"
+        },
+        {
+          "n": "Danjuma",
+          "pos": "MED",
+          "rol": "titular",
+          "tag": "Cargado desde captura"
+        },
+        {
+          "n": "Raul Moro",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Miguel Sierra",
+          "pos": "MED",
+          "rol": "titular",
+          "tag": "Cargado desde captura"
+        },
+        {
+          "n": "|Ibafiez",
+          "pos": "MED",
+          "rol": "titular",
+          "tag": "Cargado desde captura"
         }
       ]
     }
