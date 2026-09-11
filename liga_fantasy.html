@@ -1627,6 +1627,15 @@ function _normalizarTexto(s){
   return (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');
 }
 
+// Alias fijos de equipo: la app o las listas que te pasan a veces
+// usan un nombre distinto al que tenemos como clave acá. En vez de
+// dejar que el adivinador tenga que acertar por parecido de palabras,
+// estos matchean directo, sin ambigüedad.
+const ALIAS_EQUIPOS = {
+  "Ortodoncia Warriors": "EN ORTODONCIA FC",
+  "Ortodoncia FC": "EN ORTODONCIA FC",
+};
+
 // Intenta adivinar a qué equipo de "teams" corresponde un nombre tal
 // como lo escribe la app (que puede no coincidir exacto con la clave que
 // usamos acá, ej. "Ortodoncia Warriors" en la app vs "EN ORTODONCIA FC"
@@ -1635,6 +1644,10 @@ function _normalizarTexto(s){
 function adivinarEquipo(nombreDetectado){
   const n = _normalizarTexto(nombreDetectado);
   if(!n || n.includes('laliga')) return null;
+
+  const aliasDirecto = Object.keys(ALIAS_EQUIPOS).find(k => _normalizarTexto(k) === n);
+  if(aliasDirecto && teams[ALIAS_EQUIPOS[aliasDirecto]]) return ALIAS_EQUIPOS[aliasDirecto];
+
   let mejor = null, mejorScore = 0;
   Object.keys(teams).forEach(tn=>{
     const tnorm = _normalizarTexto(tn);
