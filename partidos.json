@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-09-11T02:26:20.823688+00:00",
+  "actualizado": "2026-09-11T02:31:18.252968+00:00",
   "calendario": {
     "Real Madrid": [
       {
@@ -265,28 +265,28 @@
         "hora": "Hora"
       },
       {
+        "rival": "Barcelona",
+        "local": true,
+        "fecha": "13/09",
+        "hora": "09:15"
+      },
+      {
+        "rival": "Athletic",
+        "local": true,
+        "fecha": "16/09",
+        "hora": "14:30"
+      },
+      {
+        "rival": "Villarreal",
+        "local": false,
+        "fecha": "20/09",
+        "hora": "11:30"
+      },
+      {
         "rival": "Sevilla",
         "local": true,
         "fecha": "12/10",
         "hora": "14:00"
-      },
-      {
-        "rival": "Deportivo",
-        "local": false,
-        "fecha": "18/10",
-        "hora": "12:00"
-      },
-      {
-        "rival": "Real Sociedad",
-        "local": false,
-        "fecha": "25/10",
-        "hora": "12:00"
-      },
-      {
-        "rival": "Atlético",
-        "local": true,
-        "fecha": "01/11",
-        "hora": "11:00"
       }
     ],
     "Málaga": [
