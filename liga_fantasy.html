@@ -388,6 +388,17 @@
     </div>
     <div id="imgMovPreview"></div>
 
+    <div class="section-label">Actualizar saldos desde una lista</div>
+    <p style="color:var(--text-faint); font-size:12.5px; margin:-6px 0 12px; line-height:1.5;">Pegá una lista con el saldo de cada equipo, un renglón por equipo, formato "N. Nombre; Monto€" (así como te la pasan). Actualiza la caja de cada uno directamente — no suma ni resta, la reemplaza.</p>
+    <div class="edit-panel" style="border-top:none; padding-top:0; flex-direction:column; align-items:stretch;">
+      <textarea id="saldosInput" rows="6" placeholder="1. karfim; 98.288.618 €&#10;2. Chonaura; 91.242.686 €&#10;..." style="width:100%; padding:10px 12px; background:var(--bg); border:1px solid var(--line); border-radius:7px; color:var(--text); font-size:13px; font-family:inherit; resize:vertical;"></textarea>
+      <div style="display:flex; align-items:center; gap:10px; margin-top:10px;">
+        <button class="edit-btn" onclick="handleAnalizarSaldos()">🔍 Leer lista</button>
+        <span class="save-status" id="saldosStatus"></span>
+      </div>
+    </div>
+    <div id="saldosPreview"></div>
+
     <div class="search-box">
       <input type="text" id="playerSearch" placeholder="🔍 Buscar jugador en la liga..." onkeyup="searchPlayer()">
     </div>
@@ -1780,6 +1791,96 @@ function aplicarMovimientosDetectados(){
   document.getElementById('imgMovPreview').innerHTML = '';
   movimientosDetectados = [];
   document.getElementById('imgMovInput').value = '';
+}
+
+// ---------- Actualizar saldos desde una lista de texto ----------
+// El más simple de los tres: acá no hay ni OCR ni geometría, es texto
+// plano que Luka pega tal cual se lo pasan ("N. Equipo; Monto€", un
+// renglón por equipo) — el único trabajo real es reconocer a qué
+// equipo de "teams" corresponde cada nombre (reutilizando
+// adivinarEquipo, ya probado con casos como "Ortodoncia Warriors" ->
+// "EN ORTODONCIA FC") y sacarle los puntos de miles al monto.
+let saldosDetectados = [];
+
+function parsearMontoEuros(texto){
+  const soloSignoYDigitos = (texto || '').replace(/[^\d-]/g, '');
+  const n = parseInt(soloSignoYDigitos, 10);
+  return isNaN(n) ? 0 : n;
+}
+
+function parsearSaldosDesdeTexto(text){
+  const lineas = (text || '').split(/\n+/).map(l => l.trim()).filter(Boolean);
+  const re = /^\d+[.)]?\s*(.+?)\s*;\s*([-\d.,\s€]+)$/;
+  const resultado = [];
+  lineas.forEach(linea => {
+    const m = linea.match(re);
+    if(!m) return;
+    resultado.push({ nombreTexto: m[1].trim(), monto: parsearMontoEuros(m[2]) });
+  });
+  return resultado;
+}
+
+function handleAnalizarSaldos(){
+  const texto = document.getElementById('saldosInput').value;
+  const status = document.getElementById('saldosStatus');
+  const detectados = parsearSaldosDesdeTexto(texto);
+  if(detectados.length === 0){
+    status.textContent = '⚠️ No reconocí ningún renglón — el formato esperado es "1. Nombre; Monto€", uno por línea.';
+    document.getElementById('saldosPreview').innerHTML = '';
+    saldosDetectados = [];
+    return;
+  }
+  saldosDetectados = detectados;
+  status.textContent = `✅ Encontré ${detectados.length} equipo(s). Revisá que el desplegable haya adivinado bien antes de aplicar.`;
+  renderSaldosDetectados();
+}
+
+function renderSaldosDetectados(){
+  const wrap = document.getElementById('saldosPreview');
+  const nombresEquipos = Object.keys(teams).sort();
+  const opciones = (seleccionado) => `<option value="">— elegir equipo —</option>` +
+    nombresEquipos.map(n => `<option value="${n}" ${n === seleccionado ? 'selected' : ''}>${n}</option>`).join('');
+
+  wrap.innerHTML = saldosDetectados.map((s, i) => {
+    const guess = adivinarEquipo(s.nombreTexto);
+    return `
+      <div class="edit-panel" style="border-top:${i === 0 ? 'none' : '1px dashed var(--line)'};">
+        <input type="checkbox" class="sld-aplicar" checked style="width:16px; height:16px;">
+        <span style="min-width:160px; color:var(--text-dim); font-size:13px;">"${s.nombreTexto}"</span>
+        <span style="color:var(--text-faint); font-weight:700;">→</span>
+        <select class="sld-equipo">${opciones(guess)}</select>
+        <input type="number" class="sld-monto" value="${s.monto}" style="width:150px;">
+      </div>
+    `;
+  }).join('') + `
+    <div class="edit-panel" style="border-top:none;">
+      <button class="save-btn" onclick="aplicarSaldosDetectados()">✅ Actualizar saldos tildados</button>
+    </div>
+  `;
+}
+
+function aplicarSaldosDetectados(){
+  const filas = document.querySelectorAll('#saldosPreview .edit-panel');
+  let aplicados = 0;
+
+  filas.forEach(fila => {
+    const chk = fila.querySelector('.sld-aplicar');
+    if(!chk || !chk.checked) return;
+    const equipo = fila.querySelector('.sld-equipo').value;
+    const monto = parseInt(fila.querySelector('.sld-monto').value, 10);
+    if(!equipo || isNaN(monto)) return;
+    teams[equipo].caja = monto;
+    aplicados++;
+  });
+
+  const status = document.getElementById('saldosStatus');
+  status.textContent = aplicados > 0
+    ? `✅ Actualicé la caja de ${aplicados} equipo(s). Revisá las tarjetas y, si está todo bien, tocá "💾 Guardar en GitHub".`
+    : 'No se aplicó ningún saldo (¿faltó elegir el equipo en algún renglón?).';
+  document.getElementById('saldosPreview').innerHTML = '';
+  saldosDetectados = [];
+  document.getElementById('saldosInput').value = '';
+  renderCards();
 }
 
 // ---------- Cargar plantel titular desde captura (pantalla "Squad") ----------
