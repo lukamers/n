@@ -83,11 +83,6 @@
           "rol": "titular"
         },
         {
-          "n": "Luis García",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Peque",
           "pos": "DEF",
           "rol": "titular"
@@ -204,6 +199,16 @@
           "pos": "MED",
           "rol": "titular",
           "tag": "Cargado desde captura"
+        },
+        {
+          "n": "Cestero",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Mikel Rodriguez",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -433,6 +438,11 @@
           "pos": "MED",
           "rol": "titular",
           "tag": "Cargado desde captura"
+        },
+        {
+          "n": "Luis Miguel Ramis",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -485,6 +495,21 @@
           "pos": "MED",
           "rol": "titular",
           "tag": "Cargado desde captura"
+        },
+        {
+          "n": "Eric Garcia",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Luis García",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Roberto",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -589,6 +614,11 @@
           "pos": "MED",
           "rol": "titular",
           "tag": "Cargado desde captura"
+        },
+        {
+          "n": "Iñigo Vicente",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     }
