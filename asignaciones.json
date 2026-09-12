@@ -181,6 +181,11 @@
           "n": "Enes Ünal",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Iker Muñoz",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -390,18 +395,6 @@
         {
           "n": "Youssef",
           "pos": "DEF",
-          "rol": "titular",
-          "tag": "Cargado desde captura"
-        },
-        {
-          "n": "Iker Muiioz",
-          "pos": "MED",
-          "rol": "titular",
-          "tag": "Cargado desde captura"
-        },
-        {
-          "n": "Gerard Martin",
-          "pos": "MED",
           "rol": "titular",
           "tag": "Cargado desde captura"
         },
