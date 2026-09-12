@@ -73,13 +73,14 @@
   .name{font-weight:700; font-size:16px; letter-spacing:-.01em;}
   .name .you{color:var(--red); font-size:11px; font-weight:600; border:1px solid var(--red-dim); padding:1px 6px; border-radius:5px; margin-left:8px; vertical-align:1px; text-transform:uppercase; letter-spacing:.05em;}
   .balance-note{font-size:12px; color:var(--text-faint); margin-top:4px; line-height:1.5;}
-  .right-stats{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; padding-left:30px;}
+  .right-stats{display:grid; grid-template-columns:repeat(5,1fr); gap:8px; padding-left:30px;}
   .right-stats.two-col{grid-template-columns:repeat(2,1fr);}
   .stat{text-align:left; overflow:hidden;}
   .stat .v{font-family:'Oswald',sans-serif; font-weight:600; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
   .stat .k{font-size:10px; color:var(--text-faint); text-transform:uppercase; letter-spacing:.06em; margin-top:1px;}
   .stat.caja .v{color:var(--green);}
   .stat.total .v{color:var(--gold);}
+  .stat.patrimonio .v{color:var(--por);}
   .stat.puntos .v{color:#f2994a;}
   .stat.mercado .v.up{color:var(--green);}
   .stat.mercado .v.down{color:var(--red);}
@@ -370,6 +371,7 @@
       <button class="sort-btn" data-sort="caja">Caja</button>
       <button class="sort-btn" data-sort="mercado">Mercado</button>
       <button class="sort-btn" data-sort="puntos">Puntos</button>
+      <button class="sort-btn" data-sort="patrimonio">Patrimonio</button>
       <button class="edit-btn" id="editBtn">✎ Editar</button>
       <button class="save-btn" id="saveBtn" style="display:none;">💾 Guardar en GitHub</button>
       <span class="save-status" id="saveStatus"></span>
@@ -1155,6 +1157,7 @@ function teamWarnings(team){
   return warnings;
 }
 function teamTotal(team){ return team.players.reduce((s,p)=> s + currentValue(p), 0); }
+function teamPatrimonio(team){ return team.caja + teamTotal(team); }
 function teamMaxSpend(team){ return team.caja + 0.20 * teamTotal(team); }
 function teamMarketTotal(team){ return team.players.reduce((s,p)=>{ const d = currentDiff(p); return s + (d||0); }, 0); }
 function teamPointsTotal(team){ return team.players.reduce((s,p)=>{ const pt = currentPoints(p); return s + (pt||0); }, 0); }
@@ -1547,6 +1550,7 @@ function renderComparador(){
 function sortValue(team, key){
   if(key === "total") return teamTotal(team);
   if(key === "caja") return team.caja;
+  if(key === "patrimonio") return teamPatrimonio(team);
   if(key === "mercado") return teamMarketTotal(team);
   if(key === "puntos") return teamPointsTotal(team);
   return teamTotal(team);
@@ -2217,6 +2221,10 @@ const sortedPlayers = [...team.players].sort((a,b)=>{
           <div class="stat total">
             <div class="v cu" data-target="${teamTotal(team)}">€0</div>
             <div class="k">Plantilla</div>
+          </div>
+          <div class="stat patrimonio">
+            <div class="v cu" data-target="${teamPatrimonio(team)}">€0</div>
+            <div class="k">Patrimonio</div>
           </div>
           <div class="stat mercado">
             <div class="v ${(()=>{const t=teamMarketTotal(team); return t>0?"up":(t<0?"down":"flat");})()}">${teamMarketHtml(team)}</div>
