@@ -8,11 +8,6 @@
           "pos": "DEF"
         },
         {
-          "n": "Óscar Marcos",
-          "pos": "DEF",
-          "v": 1082525
-        },
-        {
           "n": "Tenaglia",
           "pos": "DEF",
           "rol": "titular"
@@ -66,11 +61,6 @@
           "n": "Juan Funes",
           "pos": "DEF",
           "rol": "titular"
-        },
-        {
-          "n": "Bernal",
-          "pos": "DEF",
-          "rol": "titular"
         }
       ]
     },
@@ -84,11 +74,6 @@
         },
         {
           "n": "Peque",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Sierra",
           "pos": "DEF",
           "rol": "titular"
         },
@@ -128,12 +113,6 @@
           "rol": "titular"
         },
         {
-          "n": "Marcao",
-          "pos": "MED",
-          "rol": "titular",
-          "tag": "Cargado desde captura"
-        },
-        {
           "n": "Hansi Flick",
           "pos": "MED",
           "rol": "titular",
@@ -152,11 +131,6 @@
         {
           "n": "Bartra",
           "pos": "DEF"
-        },
-        {
-          "n": "Ibáñez",
-          "pos": "DEF",
-          "rol": "titular"
         },
         {
           "n": "Diego Simeone",
@@ -189,24 +163,22 @@
           "rol": "titular"
         },
         {
-          "n": "Enes Unal",
-          "pos": "MED",
-          "rol": "titular",
-          "tag": "Cargado desde captura"
-        },
-        {
-          "n": "Raul",
-          "pos": "MED",
-          "rol": "titular",
-          "tag": "Cargado desde captura"
-        },
-        {
           "n": "Cestero",
           "pos": "DEF",
           "rol": "titular"
         },
         {
           "n": "Mikel Rodriguez",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Raúl García",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Enes Ünal",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -265,12 +237,6 @@
           "rol": "titular"
         },
         {
-          "n": "A. Herrero",
-          "pos": "POR",
-          "rol": "titular",
-          "tag": "Cargado desde captura"
-        },
-        {
           "n": "Deossa",
           "pos": "MED",
           "rol": "titular",
@@ -281,6 +247,11 @@
           "pos": "MED",
           "rol": "titular",
           "tag": "Cargado desde captura"
+        },
+        {
+          "n": "Herrero",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -294,10 +265,6 @@
         {
           "n": "Mella",
           "pos": "MED"
-        },
-        {
-          "n": "Raúl García",
-          "pos": "DEF"
         },
         {
           "n": "El Hilali",
@@ -361,10 +328,9 @@
           "tag": "Cargado desde captura"
         },
         {
-          "n": "Christensen",
-          "pos": "MED",
-          "rol": "titular",
-          "tag": "Cargado desde captura"
+          "n": "A. Christensen",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -557,16 +523,6 @@
           "rol": "titular"
         },
         {
-          "n": "Kang-In Lee",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Herrero",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Jofre",
           "pos": "DEF",
           "rol": "titular"
@@ -577,20 +533,9 @@
           "rol": "titular"
         },
         {
-          "n": "Rubén G.",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Mangala",
           "pos": "DEF",
           "rol": "titular"
-        },
-        {
-          "n": "Cuti Romero",
-          "pos": "MED",
-          "rol": "titular",
-          "tag": "Cargado desde captura"
         },
         {
           "n": "Raul Moro",
@@ -598,19 +543,17 @@
           "rol": "titular"
         },
         {
-          "n": "Miguel Sierra",
-          "pos": "MED",
-          "rol": "titular",
-          "tag": "Cargado desde captura"
-        },
-        {
-          "n": "|Ibafiez",
-          "pos": "MED",
-          "rol": "titular",
-          "tag": "Cargado desde captura"
-        },
-        {
           "n": "Iñigo Vicente",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Ibáñez",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Sierra",
           "pos": "DEF",
           "rol": "titular"
         }
