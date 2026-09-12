@@ -771,6 +771,7 @@ function renderChollos(){
       <td class="pname">
         <div class="pcell">
           ${p.pos ? `<span class="pos ${p.pos}">${p.pos}</span>` : ''}
+          ${playerPhotoImg(p)}
           ${clubBadge(p.club)}
           <span class="player-link" onclick="showPlayerHistory('${p.n.replace(/'/g,"\\'")}')">${p.n}</span>
         </div>
@@ -1402,6 +1403,17 @@ function clubBadge(club, size = 18, extraStyle = ""){
   return renderInitialBadge(club, size, extraStyle);
 }
 
+// Foto de cara del jugador (sacada de comuniate.com por el scraper, en
+// fotos.json). Si no hay foto cargada para ese jugador, o la URL da
+// error al cargar (comuniate a veces no tiene cara para alguien nuevo),
+// directamente no se muestra nada — no hay foto de relleno genérica,
+// para no mentir con una cara que no es.
+function playerPhotoImg(p, size = 26){
+  const url = playerPhoto(p);
+  if(!url) return '';
+  return `<img src="${url}" alt="" style="width:${size}px;height:${size}px;min-width:${size}px;border-radius:50%;object-fit:cover;object-position:top;flex-shrink:0;background:#3a4256;" onerror="this.remove();">`;
+}
+
 const THESPORTSDB_TEAM_NAMES = {
   "Atlético": "Atletico Madrid",
   "Athletic": "Athletic Bilbao",
@@ -1533,6 +1545,7 @@ function renderComparador(){
       <td class="pname">
         <div class="pcell">
           <span class="pos ${realPos(p)}">${realPos(p)}</span>
+          ${playerPhotoImg(p)}
           ${clubBadge(playerClub(p))}
           <span class="player-link" onclick="showPlayerHistory('${p.n.replace(/'/g,"\\'")}')">${p.n}</span>
           ${alineacionDotHtml(p)}
@@ -2157,6 +2170,7 @@ const sortedPlayers = [...team.players].sort((a,b)=>{
         <td class="pname">
           <div class="pcell">
             <span class="pos ${realPos(p)}">${realPos(p)}</span>
+            ${playerPhotoImg(p)}
             ${clubBadge(playerClub(p))}
             <span class="player-link" onclick="showPlayerHistory('${p.n.replace(/'/g,"\\'")}')">${p.n}</span>${p.tag ? `<span class="tag"> · ${p.tag}</span>` : ""}
             ${alineacionDotHtml(p)}
@@ -2456,6 +2470,15 @@ function applyAlineacionesProbables(fresh){
   alineacionesProbablesData = fresh || { jornada: null, jugadores: {} };
 }
 
+let fotosData = {};
+function applyFotos(fresh){
+  fotosData = (fresh && fresh.fotos) ? fresh.fotos : {};
+}
+function playerPhoto(p){
+  const nombre = p.n || p;
+  return fotosData[nombre] || fotosData[ALIASES[nombre]] || null;
+}
+
 Promise.all([
   fetch('mercado.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
   fetch('asignaciones.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
@@ -2465,7 +2488,8 @@ Promise.all([
   fetch('posiciones.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
   fetch('puntos_jornadas.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
   fetch('alineaciones_probables.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
-]).then(([mercado, asign, jornadas, historial, partidos, posiciones, puntosJornadas, alineaciones])=>{
+  fetch('fotos.json?t=' + Date.now()).then(r=> r.ok ? r.json() : null).catch(()=>null),
+]).then(([mercado, asign, jornadas, historial, partidos, posiciones, puntosJornadas, alineaciones, fotos])=>{
   applyMercado(mercado);
   applyAsignaciones(asign);
   applyJornadas(jornadas);
@@ -2474,6 +2498,7 @@ Promise.all([
   applyPosiciones(posiciones);
   applyPuntosJornadas(puntosJornadas);
   applyAlineacionesProbables(alineaciones);
+  applyFotos(fotos);
   renderPremios();
   if(!document.getElementById('updatedLine').textContent.includes('ACTUALIZADO')){
     document.getElementById('updatedLine').textContent = '8 EQUIPOS';
@@ -2715,11 +2740,21 @@ function pitchHtml(players){
       const ptsDisplay = ptsVal === null ? '—' : ptsVal;
       const ptsClass = ptsVal === null ? 'pts-na' : (ptsVal > 0 ? 'pts-up' : (ptsVal < 0 ? 'pts-down' : 'pts-na'));
       const capHtml = p.rol === 'capitan' ? `<span class="player-cap-badge">C</span>` : '';
+      const foto = playerPhoto(p);
+      // Si hay foto, la cara ocupa todo el círculo y los puntos pasan a
+      // una insignia en la esquina (para no perder ese dato). Sin foto,
+      // sigue como siempre: los puntos son el contenido del círculo.
+      const colorPts = ptsVal === null ? 'var(--text-faint)' : (ptsVal > 0 ? 'var(--green)' : (ptsVal < 0 ? 'var(--red)' : 'var(--text-faint)'));
+      const contenidoAvatar = foto
+        ? `<img src="${foto}" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:top;" onerror="this.remove();">`
+        : ptsDisplay;
+      const ptsBadgeHtml = foto ? `<span class="player-pts-badge" style="background:${colorPts};">${ptsDisplay}</span>` : '';
       return `
         <div class="player-chip">
-          <div class="player-avatar ${ptsClass} border-${realPos(p)}">
-            ${ptsDisplay}
+          <div class="player-avatar ${foto ? '' : ptsClass} border-${realPos(p)}">
+            ${contenidoAvatar}
             ${capHtml}
+            ${ptsBadgeHtml}
           </div>
           <div class="player-name">${p.n}</div>
         </div>
@@ -2732,12 +2767,18 @@ function pitchHtml(players){
     <div class="bench-box">
       <div class="bench-label">Banco</div>
       <div class="bench-row">
-        ${suplentes.map(p=>`
+        ${suplentes.map(p=>{
+          const foto = playerPhoto(p);
+          const contenido = foto
+            ? `<img src="${foto}" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:top;" onerror="this.remove();">`
+            : initials(p.n);
+          return `
           <div class="bench-chip">
-            <div class="player-avatar" style="${playerAvatarStyle(p.n)}">${initials(p.n)}</div>
+            <div class="player-avatar" style="${foto ? '' : playerAvatarStyle(p.n)}">${contenido}</div>
             <div class="bench-chip-name">${p.n}</div>
           </div>
-        `).join('')}
+        `;
+        }).join('')}
       </div>
     </div>
   ` : '';
@@ -2791,6 +2832,7 @@ function renderJornadas(){
           <td class="pname">
             <div class="pcell">
               <span class="pos ${realPos(p)}">${realPos(p)}</span>
+              ${playerPhotoImg(p)}
               <span>${p.n}</span>
             </div>
           </td>
