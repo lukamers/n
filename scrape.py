@@ -414,16 +414,18 @@ def _detectar_seccion(texto: str):
 def obtener_posiciones_club(club_nombre: str, ruta: str):
     """Trae la plantilla del club agrupada por posición real (Porteros /
     Defensas / Medios / Delanteros) desde comuniate.com. Devuelve
-    (dict nombre_completo -> POR/DEF/MED/DEL, diagnostico).
+    (dict nombre_completo -> POR/DEF/MED/DEL, dict nombre_completo -> URL
+    de foto, diagnostico).
     """
     url = f"https://www.comuniate.com/plantilla/{ruta}"
     resp = fetch_con_reintentos(url)
     if resp is None:
-        return {}, {"club": club_nombre, "url": url, "motivo": "no se pudo conectar (ver reintentos arriba)"}
+        return {}, {}, {"club": club_nombre, "url": url, "motivo": "no se pudo conectar (ver reintentos arriba)"}
 
     soup = BeautifulSoup(resp.text, "html.parser")
     seccion_actual = None
     resultado = {}
+    fotos = {}
     hrefs_vistos = set()
 
     for node in soup.descendants:
@@ -441,10 +443,16 @@ def obtener_posiciones_club(club_nombre: str, ruta: str):
                 if nombre:
                     resultado[nombre] = seccion_actual
                     hrefs_vistos.add(href)
+                    # el propio link a la ficha trae el ID de comuniate
+                    # ("/jugadores/1897/oblak" -> 1897), que arma la URL
+                    # de la foto de cara del jugador.
+                    m_id = re.search(r"/jugadores/(\d+)/", href)
+                    if m_id and nombre not in fotos:
+                        fotos[nombre] = f"https://www.comuniate.com/caras3/{m_id.group(1)}.png"
 
     if not resultado:
         enlaces_jugadores = soup.find_all("a", href=re.compile(r"/jugadores/"))
-        return {}, {
+        return {}, {}, {
             "club": club_nombre,
             "url": url,
             "motivo": "no encontré jugadores agrupados por posición",
@@ -454,7 +462,7 @@ def obtener_posiciones_club(club_nombre: str, ruta: str):
             "texto_primeros_3_enlaces": [a.get_text(" ", strip=True) for a in enlaces_jugadores[:3]],
         }
 
-    return resultado, None
+    return resultado, fotos, None
 
 
 ROSTER_CACHE_PATH = "roster.json"
@@ -489,26 +497,32 @@ def guardar_roster_cache(roster_por_club: dict):
 
 def obtener_roster_completo():
     """Recorre los 20 clubes de LaLiga en comuniate.com y arma el plantel
-    real de cada uno (nombre completo -> POR/DEF/MED/DEL). Esto reemplaza
-    a la vieja lista fija MIS_JUGADORES: como se scrapea en cada corrida,
-    cualquier fichaje nuevo entra solo, sin tocar el código.
+    real de cada uno (nombre completo -> POR/DEF/MED/DEL), más la foto de
+    cada jugador. Esto reemplaza a la vieja lista fija MIS_JUGADORES:
+    como se scrapea en cada corrida, cualquier fichaje nuevo entra solo,
+    sin tocar el código.
 
     Si algún club puntual falla hoy (comuniate.com caído, cambio de
     diseño, timeout), se usa el plantel de ese club guardado en la
     corrida anterior (roster.json) en vez de perderlo por completo. Solo
-    si NUNCA se pudo traer ese club (ni hoy ni antes) queda vacío.
+    si NUNCA se pudo traer ese club (ni hoy ni antes) queda vacío. Ojo:
+    ese respaldo es solo de posiciones — si un club falla hoy, por hoy
+    se queda sin fotos nuevas (no es grave, no cambian de un día para el
+    otro).
     """
     roster_previo = cargar_roster_previo()
     roster_por_club = {}
+    fotos_por_club = {}
     primer_diagnostico = None
     clubes_con_fallback = []
 
     for club_nombre, ruta in COMUNIATE_RUTAS.items():
-        nombres, diag = obtener_posiciones_club(club_nombre, ruta)
+        nombres, fotos, diag = obtener_posiciones_club(club_nombre, ruta)
         if not nombres and roster_previo.get(club_nombre):
             nombres = roster_previo[club_nombre]
             clubes_con_fallback.append(club_nombre)
         roster_por_club[club_nombre] = nombres
+        fotos_por_club[club_nombre] = fotos
         if diag is not None and primer_diagnostico is None:
             primer_diagnostico = diag
         time.sleep(1)
@@ -525,7 +539,7 @@ def obtener_roster_completo():
     # PRÓXIMA corrida tenga de dónde sacar respaldo si hiciera falta.
     guardar_roster_cache(roster_por_club)
 
-    return roster_por_club, primer_diagnostico
+    return roster_por_club, fotos_por_club, primer_diagnostico
 
 
 def _nombre_duplicado(bloque: str):
@@ -636,7 +650,8 @@ def identificar_fila(row_text: str, roster_por_club: dict):
     return None, None, None, None
 
 
-def scrape(roster_por_club):
+def scrape(roster_por_club, fotos_por_club=None):
+    fotos_por_club = fotos_por_club or {}
     resp = fetch_con_reintentos(URL)
     if resp is None:
         sys.exit(1)
@@ -657,6 +672,7 @@ def scrape(roster_por_club):
     tendencias = {}
     proximas = {}
     posiciones = {}
+    fotos = {}
     encontrados = set()
     # nombre_completo (tal como lo tiene comuniate.com) -> nombre_corto (tal
     # como lo usa nuestro mercado). Lo necesitamos para poder cruzar los
@@ -674,6 +690,9 @@ def scrape(roster_por_club):
         clubes[jugador] = club
         posiciones[jugador] = pos
         completo_a_corto[nombre_completo] = jugador
+        foto_url = fotos_por_club.get(club, {}).get(nombre_completo)
+        if foto_url:
+            fotos[jugador] = foto_url
 
         m_diff = re.search(r"([+-]?\d[\d.]*\d|0)(?=\s)", row_text)
         diff = parse_money(m_diff.group(1)) if m_diff else None
@@ -706,7 +725,7 @@ def scrape(roster_por_club):
     if sin_valor:
         print(f"⚠️  Con subida pero sin valor confiable ({len(sin_valor)}): {', '.join(sin_valor[:20])}{'...' if len(sin_valor)>20 else ''}", file=sys.stderr)
 
-    return market, valores, clubes, tendencias, proximas, posiciones, completo_a_corto
+    return market, valores, clubes, tendencias, proximas, posiciones, completo_a_corto, fotos
 
 
 def scrape_puntos(roster_por_club):
@@ -1436,7 +1455,7 @@ def actualizar_historial(valores):
 
 
 if __name__ == "__main__":
-    roster_por_club, diag_roster = obtener_roster_completo()
+    roster_por_club, fotos_por_club, diag_roster = obtener_roster_completo()
     total_roster = sum(len(v) for v in roster_por_club.values())
     print(f"ℹ️  Plantel real recopilado: {total_roster} jugadores en {len(roster_por_club)} clubes.")
     if diag_roster:
@@ -1445,8 +1464,20 @@ if __name__ == "__main__":
             print(f"   {clave}: {valor}")
         print("─────────────────────────────────────────────────────────")
 
-    market, valores, clubes, tendencias, proximas, posiciones, completo_a_corto = scrape(roster_por_club)
+    market, valores, clubes, tendencias, proximas, posiciones, completo_a_corto, fotos = scrape(roster_por_club, fotos_por_club)
     puntos, _puntos_ultima_jornada_ff, _jornada_actual_ff = scrape_puntos(roster_por_club)
+
+    with open("fotos.json", "w", encoding="utf-8") as f:
+        json.dump(
+            {
+                "actualizado": datetime.now(timezone.utc).isoformat(),
+                "fotos": fotos,
+            },
+            f,
+            ensure_ascii=False,
+            indent=2,
+        )
+    print(f"✅ Guardado fotos.json con la foto de {len(fotos)} jugadores.")
 
     with open("mercado.json", "w", encoding="utf-8") as f:
         json.dump(
