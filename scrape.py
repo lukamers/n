@@ -401,7 +401,10 @@ def _detectar_seccion(texto: str):
         return "POR"
     if limpio == "DEFENSAS":
         return "DEF"
-    if limpio == "MEDIOS":
+    # comuniate.com llama a esta sección "Centrocampistas", no "Medios"
+    # — con solo "MEDIOS" acá, NUNCA matcheaba, y todos los mediocampistas
+    # quedaban pegados a la sección anterior (Defensas) para siempre.
+    if limpio in ("MEDIOS", "CENTROCAMPISTAS"):
         return "MED"
     if limpio == "DELANTEROS":
         return "DEL"
