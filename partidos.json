@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-09-12T03:38:30.874125+00:00",
+  "actualizado": "2026-09-12T15:14:38.182391+00:00",
   "calendario": {
     "Real Madrid": [
       {
@@ -201,12 +201,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Osasuna",
-        "local": false,
-        "fecha": "12/09",
-        "hora": "09:15"
-      },
-      {
         "rival": "Rayo",
         "local": false,
         "fecha": "15/09",
@@ -223,6 +217,12 @@
         "local": false,
         "fecha": "09/10",
         "hora": "14:00"
+      },
+      {
+        "rival": "Atlético",
+        "local": true,
+        "fecha": "18/10",
+        "hora": "12:00"
       }
     ],
     "Getafe": [
@@ -329,12 +329,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Espanyol",
-        "local": true,
-        "fecha": "12/09",
-        "hora": "09:15"
-      },
-      {
         "rival": "Atlético",
         "local": false,
         "fecha": "16/09",
@@ -351,6 +345,12 @@
         "local": false,
         "fecha": "11/10",
         "hora": "11:30"
+      },
+      {
+        "rival": "Racing de Santander",
+        "local": true,
+        "fecha": "18/10",
+        "hora": "12:00"
       }
     ],
     "Racing": [
@@ -359,12 +359,6 @@
         "local": false,
         "fecha": "Día",
         "hora": "Hora"
-      },
-      {
-        "rival": "Alavés",
-        "local": true,
-        "fecha": "12/09",
-        "hora": "07:00"
       },
       {
         "rival": "Barcelona",
@@ -383,6 +377,12 @@
         "local": true,
         "fecha": "11/10",
         "hora": "14:00"
+      },
+      {
+        "rival": "Osasuna",
+        "local": false,
+        "fecha": "18/10",
+        "hora": "12:00"
       }
     ],
     "Rayo": [
@@ -489,12 +489,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Racing de Santander",
-        "local": false,
-        "fecha": "12/09",
-        "hora": "07:00"
-      },
-      {
         "rival": "Valencia",
         "local": true,
         "fecha": "15/09",
@@ -511,6 +505,12 @@
         "local": true,
         "fecha": "10/10",
         "hora": "09:15"
+      },
+      {
+        "rival": "Celta",
+        "local": false,
+        "fecha": "18/10",
+        "hora": "12:00"
       }
     ],
     "Betis": [
