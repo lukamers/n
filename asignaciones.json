@@ -1,7 +1,7 @@
 {
   "teams": {
     "Chonaura": {
-      "caja": 91242686,
+      "caja": 76539906,
       "players": [
         {
           "n": "Santiago",
@@ -59,6 +59,16 @@
         },
         {
           "n": "Juan Funes",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Louis-Jean Johaneko",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Fer Niño",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -126,7 +136,7 @@
       ]
     },
     "Lucky Corbechad": {
-      "caja": 56639724,
+      "caja": 31964829,
       "players": [
         {
           "n": "Bartra",
@@ -139,11 +149,6 @@
         },
         {
           "n": "Espart",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Courtois",
           "pos": "DEF",
           "rol": "titular"
         },
@@ -163,17 +168,7 @@
           "rol": "titular"
         },
         {
-          "n": "Cestero",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Mikel Rodriguez",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Raúl García",
           "pos": "DEF",
           "rol": "titular"
         },
@@ -184,6 +179,11 @@
         },
         {
           "n": "Iker Muñoz",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Luismi",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -340,7 +340,7 @@
       ]
     },
     "karfim": {
-      "caja": 97487618,
+      "caja": 40143919,
       "players": [
         {
           "n": "Castrín",
@@ -402,23 +402,23 @@
           "n": "Luis Miguel Ramis",
           "pos": "DEF",
           "rol": "titular"
-        }
-      ]
-    },
-    "mercho.": {
-      "caja": 8307884,
-      "you": true,
-      "players": [
+        },
+        {
+          "n": "Iglesias",
+          "pos": "DEF",
+          "rol": "titular"
+        },
         {
           "n": "Bellingham",
           "pos": "DEF",
           "rol": "titular"
-        },
-        {
-          "n": "Bigas",
-          "pos": "DEF",
-          "rol": "titular"
-        },
+        }
+      ]
+    },
+    "mercho.": {
+      "caja": 129993289,
+      "you": true,
+      "players": [
         {
           "n": "Recio",
           "pos": "DEF",
@@ -473,13 +473,8 @@
       ]
     },
     "EN ORTODONCIA FC": {
-      "caja": 34988171,
+      "caja": 49347780,
       "players": [
-        {
-          "n": "Luismi",
-          "pos": "DEF",
-          "rol": "titular"
-        },
         {
           "n": "Rueda",
           "pos": "DEF",
@@ -496,11 +491,6 @@
           "rol": "titular"
         },
         {
-          "n": "Durán",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Remiro",
           "pos": "DEF",
           "rol": "titular"
@@ -512,11 +502,6 @@
         },
         {
           "n": "José Mourinho",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Jofre",
           "pos": "DEF",
           "rol": "titular"
         },
