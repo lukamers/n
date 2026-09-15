@@ -1,3 +1,51 @@
 {
-  "games": []
+  "games": [
+    {
+      "id": "g_1789474696200_961c4",
+      "date": "2026-09-15T12:24:37.323Z",
+      "players": [
+        "luka",
+        "lanzon",
+        "bruno",
+        "ganci"
+      ],
+      "rounds": [
+        {
+          "cards": 1,
+          "bids": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "tricks": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "scores": [
+            10,
+            10,
+            10,
+            2
+          ]
+        }
+      ],
+      "totals": [
+        10,
+        10,
+        10,
+        2
+      ],
+      "finished": false,
+      "winner": null
+    }
+  ],
+  "knownPlayers": [
+    "luka",
+    "lanzon",
+    "bruno",
+    "ganci"
+  ]
 }
