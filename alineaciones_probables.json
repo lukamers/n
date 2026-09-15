@@ -1,5 +1,349 @@
 {
-  "actualizado": "2026-09-14T02:53:41.800342+00:00",
+  "actualizado": "2026-09-15T02:56:30.999523+00:00",
   "jornada": 7,
-  "jugadores": {}
+  "jugadores": {
+    "Radu": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
+    "Starfelt": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
+    "Rueda": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
+    "M. Alonso": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
+    "Carreira": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
+    "Burcio": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
+    "Jutglà": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
+    "Á. Núñez": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
+    "Driouech": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
+    "Moriba": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
+    "Galán": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
+    "Durán": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
+    "Swedberg": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
+    "Lago": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
+    "Febas": {
+      "probable": true,
+      "prob": 40,
+      "titular": false,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
+    "El-Abdellaoui": {
+      "probable": true,
+      "prob": 40,
+      "titular": false,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
+    "Cáceres": {
+      "probable": true,
+      "prob": 40,
+      "titular": false,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
+    "Faye": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
+    "Iglesias": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
+    "Bayindir": {
+      "probable": true,
+      "prob": 10,
+      "titular": false,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
+    "Antañón": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
+    "Aspas": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
+    "Iván Villar": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
+    "Quique Sánchez": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
+    "Remiro": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Aramburu": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "M. Sarr": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Carlos Soler": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "L. Sucic": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Herrera": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Barrenetxea": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Guedes": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Oyarzabal": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Turrientes": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Fort": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Ochieng": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Beitia": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Óskarsson": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Kubo": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Pacheco": {
+      "probable": true,
+      "prob": 40,
+      "titular": false,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Zubeldia": {
+      "probable": true,
+      "prob": 40,
+      "titular": false,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Aihen": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Gorrotxategi": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Marchal": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Marín": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Zakharyan": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Marrero": {
+      "probable": true,
+      "prob": 20,
+      "titular": false,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Carrera": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Odriozola": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    }
+  }
 }
