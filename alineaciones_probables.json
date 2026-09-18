@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-09-17T02:57:38.549510+00:00",
+  "actualizado": "2026-09-18T02:43:59.666561+00:00",
   "jornada": 7,
   "jugadores": {
     "Dmitrovic": {
@@ -51,7 +51,7 @@
       "equipo": "Espanyol",
       "formacion": "4-3-3 (ofensivo)"
     },
-    "Dolan": {
+    "Bryan": {
       "probable": true,
       "prob": null,
       "titular": true,
@@ -65,14 +65,21 @@
       "equipo": "Espanyol",
       "formacion": "4-3-3 (ofensivo)"
     },
-    "Calatrava": {
+    "Javier Hernández": {
       "probable": true,
       "prob": null,
       "titular": true,
       "equipo": "Espanyol",
       "formacion": "4-3-3 (ofensivo)"
     },
-    "Bryan": {
+    "Calatrava": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Espanyol",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Dolan": {
       "probable": true,
       "prob": 50,
       "titular": false,
@@ -80,13 +87,6 @@
       "formacion": "4-3-3 (ofensivo)"
     },
     "Hartman": {
-      "probable": true,
-      "prob": 50,
-      "titular": false,
-      "equipo": "Espanyol",
-      "formacion": "4-3-3 (ofensivo)"
-    },
-    "Javier Hernández": {
       "probable": true,
       "prob": 50,
       "titular": false,
@@ -233,6 +233,13 @@
       "equipo": "Elche",
       "formacion": "4-2-3-1"
     },
+    "Iturbe": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Elche",
+      "formacion": "4-2-3-1"
+    },
     "Lemar": {
       "probable": true,
       "prob": 50,
@@ -317,13 +324,6 @@
       "equipo": "Elche",
       "formacion": "4-2-3-1"
     },
-    "Iturbe": {
-      "probable": true,
-      "prob": 10,
-      "titular": false,
-      "equipo": "Elche",
-      "formacion": "4-2-3-1"
-    },
     "Adam Boayar": {
       "probable": true,
       "prob": null,
@@ -338,14 +338,14 @@
       "equipo": "Elche",
       "formacion": "4-2-3-1"
     },
-    "Arguibide": {
+    "Bretones": {
       "probable": true,
       "prob": null,
       "titular": true,
       "equipo": "Osasuna",
       "formacion": "4-2-3-1"
     },
-    "Boyomo": {
+    "Arguibide": {
       "probable": true,
       "prob": null,
       "titular": true,
@@ -359,7 +359,7 @@
       "equipo": "Osasuna",
       "formacion": "4-2-3-1"
     },
-    "Diego Rico": {
+    "Yeboah": {
       "probable": true,
       "prob": null,
       "titular": true,
@@ -394,7 +394,14 @@
       "equipo": "Osasuna",
       "formacion": "4-2-3-1"
     },
-    "Bretones": {
+    "Boyomo": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Osasuna",
+      "formacion": "4-2-3-1"
+    },
+    "Diego Rico": {
       "probable": true,
       "prob": 50,
       "titular": false,
@@ -402,13 +409,6 @@
       "formacion": "4-2-3-1"
     },
     "Raul Moro": {
-      "probable": true,
-      "prob": 50,
-      "titular": false,
-      "equipo": "Osasuna",
-      "formacion": "4-2-3-1"
-    },
-    "Yeboah": {
       "probable": true,
       "prob": 50,
       "titular": false,
@@ -624,6 +624,153 @@
       "titular": false,
       "equipo": "Rayo Vallecano",
       "formacion": "4-3-3 (ofensivo)"
+    },
+    "Unai Simón": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Athletic Club",
+      "formacion": "4-2-3-1"
+    },
+    "Laporte": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Athletic Club",
+      "formacion": "4-2-3-1"
+    },
+    "Yeray": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Athletic Club",
+      "formacion": "4-2-3-1"
+    },
+    "Yuri": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Athletic Club",
+      "formacion": "4-2-3-1"
+    },
+    "R. de Galarreta": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Athletic Club",
+      "formacion": "4-2-3-1"
+    },
+    "Gerenabarrena": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Athletic Club",
+      "formacion": "4-2-3-1"
+    },
+    "Sancet": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Athletic Club",
+      "formacion": "4-2-3-1"
+    },
+    "Paredes": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Athletic Club",
+      "formacion": "4-2-3-1"
+    },
+    "Berenguer": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Athletic Club",
+      "formacion": "4-2-3-1"
+    },
+    "Jauregizar": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Athletic Club",
+      "formacion": "4-2-3-1"
+    },
+    "Louis-Jean Johaneko": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Athletic Club",
+      "formacion": "4-2-3-1"
+    },
+    "Sannadi": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Athletic Club",
+      "formacion": "4-2-3-1"
+    },
+    "Rincón": {
+      "probable": true,
+      "prob": 40,
+      "titular": false,
+      "equipo": "Athletic Club",
+      "formacion": "4-2-3-1"
+    },
+    "Guruzeta": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Athletic Club",
+      "formacion": "4-2-3-1"
+    },
+    "Djaló": {
+      "probable": true,
+      "prob": 20,
+      "titular": false,
+      "equipo": "Athletic Club",
+      "formacion": "4-2-3-1"
+    },
+    "Prados": {
+      "probable": true,
+      "prob": 20,
+      "titular": false,
+      "equipo": "Athletic Club",
+      "formacion": "4-2-3-1"
+    },
+    "Serrano": {
+      "probable": true,
+      "prob": 20,
+      "titular": false,
+      "equipo": "Athletic Club",
+      "formacion": "4-2-3-1"
+    },
+    "Canales": {
+      "probable": true,
+      "prob": 20,
+      "titular": false,
+      "equipo": "Athletic Club",
+      "formacion": "4-2-3-1"
+    },
+    "Rego": {
+      "probable": true,
+      "prob": 20,
+      "titular": false,
+      "equipo": "Athletic Club",
+      "formacion": "4-2-3-1"
+    },
+    "Selton": {
+      "probable": true,
+      "prob": 20,
+      "titular": false,
+      "equipo": "Athletic Club",
+      "formacion": "4-2-3-1"
+    },
+    "Padilla": {
+      "probable": true,
+      "prob": 10,
+      "titular": false,
+      "equipo": "Athletic Club",
+      "formacion": "4-2-3-1"
     },
     "Sivera": {
       "probable": true,
@@ -940,6 +1087,139 @@
       "equipo": "Celta Vigo",
       "formacion": "5-2-3"
     },
+    "Agirrezabala": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Racing Santander",
+      "formacion": "4-2-3-1"
+    },
+    "Mantilla": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Racing Santander",
+      "formacion": "4-2-3-1"
+    },
+    "Belocian": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Racing Santander",
+      "formacion": "4-2-3-1"
+    },
+    "Salinas": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Racing Santander",
+      "formacion": "4-2-3-1"
+    },
+    "Pablo Ramón": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Racing Santander",
+      "formacion": "4-2-3-1"
+    },
+    "Prati": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Racing Santander",
+      "formacion": "4-2-3-1"
+    },
+    "Iñigo Vicente": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Racing Santander",
+      "formacion": "4-2-3-1"
+    },
+    "Zabiri": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Racing Santander",
+      "formacion": "4-2-3-1"
+    },
+    "Almeida": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Racing Santander",
+      "formacion": "4-2-3-1"
+    },
+    "Luque": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Racing Santander",
+      "formacion": "4-2-3-1"
+    },
+    "Maguette": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Racing Santander",
+      "formacion": "4-2-3-1"
+    },
+    "Aarón": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Racing Santander",
+      "formacion": "4-2-3-1"
+    },
+    "Arana": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Racing Santander",
+      "formacion": "4-2-3-1"
+    },
+    "Guliashvili": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Racing Santander",
+      "formacion": "4-2-3-1"
+    },
+    "Hernando": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Racing Santander",
+      "formacion": "4-2-3-1"
+    },
+    "Sainz-Maza": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Racing Santander",
+      "formacion": "4-2-3-1"
+    },
+    "Villalibre": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Racing Santander",
+      "formacion": "4-2-3-1"
+    },
+    "Eriksson": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Racing Santander",
+      "formacion": "4-2-3-1"
+    },
+    "Pedro Felipe": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Racing Santander",
+      "formacion": "4-2-3-1"
+    },
     "Vlachodimos": {
       "probable": true,
       "prob": null,
@@ -968,6 +1248,13 @@
       "equipo": "Sevilla",
       "formacion": "4-2-3-1"
     },
+    "Félix Correia": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Sevilla",
+      "formacion": "4-2-3-1"
+    },
     "Kochorashvili": {
       "probable": true,
       "prob": null,
@@ -989,20 +1276,6 @@
       "equipo": "Sevilla",
       "formacion": "4-2-3-1"
     },
-    "Ejuke": {
-      "probable": true,
-      "prob": null,
-      "titular": true,
-      "equipo": "Sevilla",
-      "formacion": "4-2-3-1"
-    },
-    "Stassin": {
-      "probable": true,
-      "prob": null,
-      "titular": true,
-      "equipo": "Sevilla",
-      "formacion": "4-2-3-1"
-    },
     "Sierra": {
       "probable": true,
       "prob": null,
@@ -1010,7 +1283,28 @@
       "equipo": "Sevilla",
       "formacion": "4-2-3-1"
     },
-    "Félix Correia": {
+    "Ure": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Sevilla",
+      "formacion": "4-2-3-1"
+    },
+    "Carmona": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Sevilla",
+      "formacion": "4-2-3-1"
+    },
+    "Ejuke": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Sevilla",
+      "formacion": "4-2-3-1"
+    },
+    "Guridi": {
       "probable": true,
       "prob": 50,
       "titular": false,
@@ -1020,27 +1314,6 @@
     "Julio Díaz": {
       "probable": true,
       "prob": 50,
-      "titular": false,
-      "equipo": "Sevilla",
-      "formacion": "4-2-3-1"
-    },
-    "Ure": {
-      "probable": true,
-      "prob": 50,
-      "titular": false,
-      "equipo": "Sevilla",
-      "formacion": "4-2-3-1"
-    },
-    "Guridi": {
-      "probable": true,
-      "prob": 40,
-      "titular": false,
-      "equipo": "Sevilla",
-      "formacion": "4-2-3-1"
-    },
-    "Carmona": {
-      "probable": true,
-      "prob": 30,
       "titular": false,
       "equipo": "Sevilla",
       "formacion": "4-2-3-1"
@@ -1066,13 +1339,6 @@
       "equipo": "Sevilla",
       "formacion": "4-2-3-1"
     },
-    "Vargas": {
-      "probable": true,
-      "prob": 20,
-      "titular": false,
-      "equipo": "Sevilla",
-      "formacion": "4-2-3-1"
-    },
     "Fran González": {
       "probable": true,
       "prob": 10,
@@ -1080,7 +1346,21 @@
       "equipo": "Sevilla",
       "formacion": "4-2-3-1"
     },
+    "Stassin": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Sevilla",
+      "formacion": "4-2-3-1"
+    },
     "Marcão": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Sevilla",
+      "formacion": "4-2-3-1"
+    },
+    "Vargas": {
       "probable": true,
       "prob": null,
       "titular": false,
@@ -1094,145 +1374,425 @@
       "equipo": "Sevilla",
       "formacion": "4-2-3-1"
     },
+    "Livakovic": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Barcelona",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Cubarsí": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Barcelona",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Espart": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Barcelona",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Fermín": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Barcelona",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "González Pedri": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Barcelona",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Gordon": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Barcelona",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Yamal": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Barcelona",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Raphinha": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Barcelona",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Adeyemi": {
+      "probable": true,
+      "prob": 40,
+      "titular": false,
+      "equipo": "Barcelona",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "A. Christensen": {
+      "probable": true,
+      "prob": 40,
+      "titular": false,
+      "equipo": "Barcelona",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Olmo": {
+      "probable": true,
+      "prob": 40,
+      "titular": false,
+      "equipo": "Barcelona",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Cancelo": {
+      "probable": true,
+      "prob": 40,
+      "titular": false,
+      "equipo": "Barcelona",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Koundé": {
+      "probable": true,
+      "prob": 40,
+      "titular": false,
+      "equipo": "Barcelona",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Balde": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Barcelona",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Gabriel Jesús": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Barcelona",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Gavi": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Barcelona",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Abdelkarim Abdelkarim": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Barcelona",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Bernal": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Barcelona",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Szczesny": {
+      "probable": true,
+      "prob": 20,
+      "titular": false,
+      "equipo": "Barcelona",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Fariñas": {
+      "probable": true,
+      "prob": 10,
+      "titular": false,
+      "equipo": "Barcelona",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "F. de Jong": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Barcelona",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Bardghji": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Barcelona",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Djené": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Getafe",
+      "formacion": "5-3-2"
+    },
+    "Mojica": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Getafe",
+      "formacion": "5-3-2"
+    },
+    "Gudelj": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Getafe",
+      "formacion": "5-3-2"
+    },
+    "Mangala": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Getafe",
+      "formacion": "5-3-2"
+    },
+    "Enes Ünal": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Getafe",
+      "formacion": "5-3-2"
+    },
+    "Satriano": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Getafe",
+      "formacion": "5-3-2"
+    },
+    "Francho": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Getafe",
+      "formacion": "5-3-2"
+    },
+    "Iván Azón": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Getafe",
+      "formacion": "5-3-2"
+    },
+    "Boselli": {
+      "probable": true,
+      "prob": 40,
+      "titular": false,
+      "equipo": "Getafe",
+      "formacion": "5-3-2"
+    },
+    "Risco": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Getafe",
+      "formacion": "5-3-2"
+    },
+    "Davinchi": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Getafe",
+      "formacion": "5-3-2"
+    },
+    "Valou": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Getafe",
+      "formacion": "5-3-2"
+    },
+    "Sazonov": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Getafe",
+      "formacion": "5-3-2"
+    },
+    "Mayoral": {
+      "probable": true,
+      "prob": 20,
+      "titular": false,
+      "equipo": "Getafe",
+      "formacion": "5-3-2"
+    },
+    "Letácek": {
+      "probable": true,
+      "prob": 10,
+      "titular": false,
+      "equipo": "Getafe",
+      "formacion": "5-3-2"
+    },
+    "Abqar": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Getafe",
+      "formacion": "5-3-2"
+    },
+    "Femenia": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Getafe",
+      "formacion": "5-3-2"
+    },
+    "Uche": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Getafe",
+      "formacion": "5-3-2"
+    },
     "Oblak": {
       "probable": true,
       "prob": null,
       "titular": true,
       "equipo": "Atletico Madrid",
-      "formacion": "3-4-2-1"
-    },
-    "Grimaldo": {
-      "probable": true,
-      "prob": null,
-      "titular": true,
-      "equipo": "Atletico Madrid",
-      "formacion": "3-4-2-1"
+      "formacion": "4-4-2"
     },
     "Hancko": {
       "probable": true,
       "prob": null,
       "titular": true,
       "equipo": "Atletico Madrid",
-      "formacion": "3-4-2-1"
+      "formacion": "4-4-2"
     },
     "Pubill": {
       "probable": true,
       "prob": null,
       "titular": true,
       "equipo": "Atletico Madrid",
-      "formacion": "3-4-2-1"
+      "formacion": "4-4-2"
     },
     "M. Llorente": {
       "probable": true,
       "prob": null,
       "titular": true,
       "equipo": "Atletico Madrid",
-      "formacion": "3-4-2-1"
+      "formacion": "4-4-2"
     },
     "Hjulmand": {
       "probable": true,
       "prob": null,
       "titular": true,
       "equipo": "Atletico Madrid",
-      "formacion": "3-4-2-1"
+      "formacion": "4-4-2"
+    },
+    "Kang-In Lee": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Atletico Madrid",
+      "formacion": "4-4-2"
     },
     "Resurrección Koke": {
       "probable": true,
       "prob": null,
       "titular": true,
       "equipo": "Atletico Madrid",
-      "formacion": "3-4-2-1"
+      "formacion": "4-4-2"
     },
     "Baena": {
       "probable": true,
       "prob": null,
       "titular": true,
       "equipo": "Atletico Madrid",
-      "formacion": "3-4-2-1"
+      "formacion": "4-4-2"
     },
-    "Lookman": {
+    "Jonathan David": {
       "probable": true,
       "prob": null,
       "titular": true,
       "equipo": "Atletico Madrid",
-      "formacion": "3-4-2-1"
+      "formacion": "4-4-2"
     },
-    "Jonathan David": {
+    "Grimaldo": {
       "probable": true,
       "prob": 50,
       "titular": false,
       "equipo": "Atletico Madrid",
-      "formacion": "3-4-2-1"
+      "formacion": "4-4-2"
     },
-    "Kang-In Lee": {
+    "Lookman": {
       "probable": true,
       "prob": 50,
       "titular": false,
       "equipo": "Atletico Madrid",
-      "formacion": "3-4-2-1"
+      "formacion": "4-4-2"
     },
     "Ortiz": {
       "probable": true,
       "prob": 40,
       "titular": false,
       "equipo": "Atletico Madrid",
-      "formacion": "3-4-2-1"
+      "formacion": "4-4-2"
     },
     "Alvarez": {
       "probable": true,
       "prob": 30,
       "titular": false,
       "equipo": "Atletico Madrid",
-      "formacion": "3-4-2-1"
+      "formacion": "4-4-2"
     },
     "Le Normand": {
       "probable": true,
       "prob": 30,
       "titular": false,
       "equipo": "Atletico Madrid",
-      "formacion": "3-4-2-1"
+      "formacion": "4-4-2"
     },
     "Mendoza": {
       "probable": true,
       "prob": 30,
       "titular": false,
       "equipo": "Atletico Madrid",
-      "formacion": "3-4-2-1"
+      "formacion": "4-4-2"
     },
     "Musso": {
       "probable": true,
       "prob": 10,
       "titular": false,
       "equipo": "Atletico Madrid",
-      "formacion": "3-4-2-1"
+      "formacion": "4-4-2"
     },
     "Jorge Domínguez": {
       "probable": true,
       "prob": null,
       "titular": false,
       "equipo": "Atletico Madrid",
-      "formacion": "3-4-2-1"
+      "formacion": "4-4-2"
     },
     "Barrios": {
       "probable": true,
       "prob": null,
       "titular": false,
       "equipo": "Atletico Madrid",
-      "formacion": "3-4-2-1"
+      "formacion": "4-4-2"
     },
     "Esquivel": {
       "probable": true,
       "prob": null,
       "titular": false,
       "equipo": "Atletico Madrid",
-      "formacion": "3-4-2-1"
+      "formacion": "4-4-2"
     },
     "Sörloth": {
       "probable": true,
       "prob": null,
       "titular": false,
       "equipo": "Atletico Madrid",
-      "formacion": "3-4-2-1"
+      "formacion": "4-4-2"
     },
     "Courtois": {
       "probable": true,
@@ -1409,6 +1969,118 @@
       "equipo": "Real Madrid",
       "formacion": "4-3-3 (ofensivo)"
     },
+    "Ryan": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Levante",
+      "formacion": "4-3-3 (defensivo)"
+    },
+    "Mandi": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Levante",
+      "formacion": "4-3-3 (defensivo)"
+    },
+    "Olasagasti": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Levante",
+      "formacion": "4-3-3 (defensivo)"
+    },
+    "Oriol Rey": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Levante",
+      "formacion": "4-3-3 (defensivo)"
+    },
+    "Ndukwe": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Levante",
+      "formacion": "4-3-3 (defensivo)"
+    },
+    "Ratkov": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Levante",
+      "formacion": "4-3-3 (defensivo)"
+    },
+    "Toljan": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Levante",
+      "formacion": "4-3-3 (defensivo)"
+    },
+    "Tape": {
+      "probable": true,
+      "prob": 40,
+      "titular": false,
+      "equipo": "Levante",
+      "formacion": "4-3-3 (defensivo)"
+    },
+    "Cortés": {
+      "probable": true,
+      "prob": 40,
+      "titular": false,
+      "equipo": "Levante",
+      "formacion": "4-3-3 (defensivo)"
+    },
+    "Requena": {
+      "probable": true,
+      "prob": 40,
+      "titular": false,
+      "equipo": "Levante",
+      "formacion": "4-3-3 (defensivo)"
+    },
+    "Víctor García": {
+      "probable": true,
+      "prob": 40,
+      "titular": false,
+      "equipo": "Levante",
+      "formacion": "4-3-3 (defensivo)"
+    },
+    "Musuayi": {
+      "probable": true,
+      "prob": 40,
+      "titular": false,
+      "equipo": "Levante",
+      "formacion": "4-3-3 (defensivo)"
+    },
+    "Jorge Cabello": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Levante",
+      "formacion": "4-3-3 (defensivo)"
+    },
+    "Marc Santos": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Levante",
+      "formacion": "4-3-3 (defensivo)"
+    },
+    "Etta Eyong": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Levante",
+      "formacion": "4-3-3 (defensivo)"
+    },
+    "Sotelo": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Levante",
+      "formacion": "4-3-3 (defensivo)"
+    },
     "Noubi": {
       "probable": true,
       "prob": null,
@@ -1465,28 +2137,7 @@
       "equipo": "Deportivo La Coruna",
       "formacion": "4-3-3 (defensivo)"
     },
-    "Angeliño": {
-      "probable": true,
-      "prob": 50,
-      "titular": false,
-      "equipo": "Deportivo La Coruna",
-      "formacion": "4-3-3 (defensivo)"
-    },
     "Ede": {
-      "probable": true,
-      "prob": 50,
-      "titular": false,
-      "equipo": "Deportivo La Coruna",
-      "formacion": "4-3-3 (defensivo)"
-    },
-    "Loureiro": {
-      "probable": true,
-      "prob": 50,
-      "titular": false,
-      "equipo": "Deportivo La Coruna",
-      "formacion": "4-3-3 (defensivo)"
-    },
-    "Riki": {
       "probable": true,
       "prob": 50,
       "titular": false,
@@ -1501,6 +2152,20 @@
       "formacion": "4-3-3 (defensivo)"
     },
     "Asp Jensen": {
+      "probable": true,
+      "prob": 40,
+      "titular": false,
+      "equipo": "Deportivo La Coruna",
+      "formacion": "4-3-3 (defensivo)"
+    },
+    "Loureiro": {
+      "probable": true,
+      "prob": 40,
+      "titular": false,
+      "equipo": "Deportivo La Coruna",
+      "formacion": "4-3-3 (defensivo)"
+    },
+    "Riki": {
       "probable": true,
       "prob": 40,
       "titular": false,
@@ -1535,12 +2200,152 @@
       "equipo": "Deportivo La Coruna",
       "formacion": "4-3-3 (defensivo)"
     },
+    "Angeliño": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Deportivo La Coruna",
+      "formacion": "4-3-3 (defensivo)"
+    },
     "Noé Carrillo": {
       "probable": true,
       "prob": null,
       "titular": false,
       "equipo": "Deportivo La Coruna",
       "formacion": "4-3-3 (defensivo)"
+    },
+    "Valles": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Real Betis",
+      "formacion": "4-2-3-1"
+    },
+    "Bellerín": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Real Betis",
+      "formacion": "4-2-3-1"
+    },
+    "Bartra": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Real Betis",
+      "formacion": "4-2-3-1"
+    },
+    "Natan": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Real Betis",
+      "formacion": "4-2-3-1"
+    },
+    "Ceballos": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Real Betis",
+      "formacion": "4-2-3-1"
+    },
+    "Marc Roca": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Real Betis",
+      "formacion": "4-2-3-1"
+    },
+    "Fornals": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Real Betis",
+      "formacion": "4-2-3-1"
+    },
+    "Antony": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Real Betis",
+      "formacion": "4-2-3-1"
+    },
+    "Riquelme": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Real Betis",
+      "formacion": "4-2-3-1"
+    },
+    "Fidalgo": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Real Betis",
+      "formacion": "4-2-3-1"
+    },
+    "Lo Celso": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Real Betis",
+      "formacion": "4-2-3-1"
+    },
+    "Alarcón Isco": {
+      "probable": true,
+      "prob": 40,
+      "titular": false,
+      "equipo": "Real Betis",
+      "formacion": "4-2-3-1"
+    },
+    "Deossa": {
+      "probable": true,
+      "prob": 40,
+      "titular": false,
+      "equipo": "Real Betis",
+      "formacion": "4-2-3-1"
+    },
+    "Valentín Gómez": {
+      "probable": true,
+      "prob": 40,
+      "titular": false,
+      "equipo": "Real Betis",
+      "formacion": "4-2-3-1"
+    },
+    "Junior": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Real Betis",
+      "formacion": "4-2-3-1"
+    },
+    "Losada": {
+      "probable": true,
+      "prob": 20,
+      "titular": false,
+      "equipo": "Real Betis",
+      "formacion": "4-2-3-1"
+    },
+    "Conde": {
+      "probable": true,
+      "prob": 10,
+      "titular": false,
+      "equipo": "Real Betis",
+      "formacion": "4-2-3-1"
+    },
+    "Ruibal": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Real Betis",
+      "formacion": "4-2-3-1"
+    },
+    "Beñat San José": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Real Betis",
+      "formacion": "4-2-3-1"
     },
     "Dimitrievski": {
       "probable": true,
@@ -1584,7 +2389,7 @@
       "equipo": "Valencia",
       "formacion": "4-3-1-2"
     },
-    "Danjuma": {
+    "Sato": {
       "probable": true,
       "prob": null,
       "titular": true,
@@ -1606,13 +2411,6 @@
       "formacion": "4-3-1-2"
     },
     "Jesús Vázquez": {
-      "probable": true,
-      "prob": 50,
-      "titular": false,
-      "equipo": "Valencia",
-      "formacion": "4-3-1-2"
-    },
-    "Sato": {
       "probable": true,
       "prob": 50,
       "titular": false,
@@ -1643,6 +2441,13 @@
     "Van Oevelen": {
       "probable": true,
       "prob": 10,
+      "titular": false,
+      "equipo": "Valencia",
+      "formacion": "4-3-1-2"
+    },
+    "Danjuma": {
+      "probable": true,
+      "prob": null,
       "titular": false,
       "equipo": "Valencia",
       "formacion": "4-3-1-2"
@@ -1724,6 +2529,13 @@
       "equipo": "Real Sociedad",
       "formacion": "4-3-3 (ofensivo)"
     },
+    "Turrientes": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
     "Carlos Soler": {
       "probable": true,
       "prob": null,
@@ -1756,13 +2568,6 @@
       "probable": true,
       "prob": null,
       "titular": true,
-      "equipo": "Real Sociedad",
-      "formacion": "4-3-3 (ofensivo)"
-    },
-    "Turrientes": {
-      "probable": true,
-      "prob": 50,
-      "titular": false,
       "equipo": "Real Sociedad",
       "formacion": "4-3-3 (ofensivo)"
     },
