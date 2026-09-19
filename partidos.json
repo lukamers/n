@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-09-19T02:41:30.391240+00:00",
+  "actualizado": "2026-09-19T15:25:19.750964+00:00",
   "calendario": {
     "Real Madrid": [
       {
@@ -12,25 +12,25 @@
         "rival": "Atlético",
         "local": false,
         "fecha": "20/09",
-        "hora": "11:15"
+        "hora": "09:15"
       },
       {
         "rival": "Villarreal",
         "local": true,
         "fecha": "10/10",
-        "hora": "16:00"
+        "hora": "14:00"
       },
       {
         "rival": "AS Roma",
         "local": false,
         "fecha": "14/10",
-        "hora": "16:00"
+        "hora": "14:00"
       },
       {
         "rival": "Sevilla",
         "local": true,
         "fecha": "18/10",
-        "hora": "16:00"
+        "hora": "14:00"
       }
     ],
     "Real Sociedad": [
@@ -44,25 +44,25 @@
         "rival": "Valencia",
         "local": false,
         "fecha": "20/09",
-        "hora": "16:00"
+        "hora": "14:00"
       },
       {
         "rival": "Deportivo",
         "local": true,
         "fecha": "11/10",
-        "hora": "11:15"
+        "hora": "09:15"
       },
       {
         "rival": "St. Gilloise",
         "local": false,
         "fecha": "15/10",
-        "hora": "13:45"
+        "hora": "11:45"
       },
       {
         "rival": "Málaga CF",
         "local": false,
         "fecha": "18/10",
-        "hora": "13:30"
+        "hora": "11:30"
       }
     ],
     "Atlético": [
@@ -76,25 +76,25 @@
         "rival": "Real Madrid",
         "local": true,
         "fecha": "20/09",
-        "hora": "11:15"
+        "hora": "09:15"
       },
       {
         "rival": "Alavés",
         "local": false,
         "fecha": "10/10",
-        "hora": "11:15"
+        "hora": "09:15"
       },
       {
         "rival": "Man Utd",
         "local": true,
         "fecha": "13/10",
-        "hora": "16:00"
+        "hora": "14:00"
       },
       {
         "rival": "Espanyol",
         "local": false,
         "fecha": "17/10",
-        "hora": "09:00"
+        "hora": "07:00"
       }
     ],
     "Athletic": [
@@ -105,28 +105,28 @@
         "hora": "Hora"
       },
       {
-        "rival": "Alavés",
-        "local": true,
-        "fecha": "19/09",
-        "hora": "11:15"
-      },
-      {
         "rival": "Rayo",
         "local": false,
         "fecha": "10/10",
-        "hora": "09:00"
+        "hora": "07:00"
       },
       {
         "rival": "Valencia",
         "local": false,
         "fecha": "17/10",
-        "hora": "16:00"
+        "hora": "14:00"
       },
       {
         "rival": "Getafe",
         "local": true,
         "fecha": "25/10",
-        "hora": "14:00"
+        "hora": "12:00"
+      },
+      {
+        "rival": "Real Sociedad",
+        "local": true,
+        "fecha": "01/11",
+        "hora": "11:00"
       }
     ],
     "Barcelona": [
@@ -140,25 +140,25 @@
         "rival": "Sevilla",
         "local": false,
         "fecha": "19/09",
-        "hora": "16:00"
+        "hora": "14:00"
       },
       {
         "rival": "Getafe",
         "local": true,
         "fecha": "10/10",
-        "hora": "13:30"
+        "hora": "11:30"
       },
       {
         "rival": "Galatasaray",
         "local": false,
         "fecha": "13/10",
-        "hora": "16:00"
+        "hora": "14:00"
       },
       {
         "rival": "Betis",
         "local": false,
         "fecha": "17/10",
-        "hora": "13:30"
+        "hora": "11:30"
       }
     ],
     "Villarreal": [
@@ -172,25 +172,25 @@
         "rival": "Levante UD",
         "local": true,
         "fecha": "20/09",
-        "hora": "13:30"
+        "hora": "11:30"
       },
       {
         "rival": "Real Madrid",
         "local": false,
         "fecha": "10/10",
-        "hora": "16:00"
+        "hora": "14:00"
       },
       {
         "rival": "Napoli",
         "local": true,
         "fecha": "13/10",
-        "hora": "16:00"
+        "hora": "14:00"
       },
       {
         "rival": "Elche CF",
         "local": true,
         "fecha": "17/10",
-        "hora": "11:15"
+        "hora": "09:15"
       }
     ],
     "Espanyol": [
@@ -204,25 +204,25 @@
         "rival": "Málaga CF",
         "local": false,
         "fecha": "09/10",
-        "hora": "16:00"
+        "hora": "14:00"
       },
       {
         "rival": "Atlético",
         "local": true,
         "fecha": "17/10",
-        "hora": "09:00"
+        "hora": "07:00"
       },
       {
         "rival": "Racing de Santander",
         "local": false,
         "fecha": "25/10",
-        "hora": "14:00"
+        "hora": "12:00"
       },
       {
         "rival": "Villarreal",
         "local": false,
         "fecha": "01/11",
-        "hora": "14:00"
+        "hora": "11:00"
       }
     ],
     "Getafe": [
@@ -236,25 +236,25 @@
         "rival": "Málaga CF",
         "local": true,
         "fecha": "20/09",
-        "hora": "09:00"
+        "hora": "07:00"
       },
       {
         "rival": "Barcelona",
         "local": false,
         "fecha": "10/10",
-        "hora": "13:30"
+        "hora": "11:30"
       },
       {
         "rival": "FC U Craiova 1948",
         "local": false,
         "fecha": "15/10",
-        "hora": "13:45"
+        "hora": "11:45"
       },
       {
         "rival": "Rayo",
         "local": true,
         "fecha": "19/10",
-        "hora": "16:00"
+        "hora": "14:00"
       }
     ],
     "Levante": [
@@ -268,25 +268,25 @@
         "rival": "Villarreal",
         "local": false,
         "fecha": "20/09",
-        "hora": "13:30"
+        "hora": "11:30"
       },
       {
         "rival": "Sevilla",
         "local": true,
         "fecha": "12/10",
-        "hora": "16:00"
+        "hora": "14:00"
       },
       {
         "rival": "Deportivo",
         "local": false,
         "fecha": "16/10",
-        "hora": "16:00"
+        "hora": "14:00"
       },
       {
         "rival": "Real Sociedad",
         "local": false,
         "fecha": "25/10",
-        "hora": "14:00"
+        "hora": "12:00"
       }
     ],
     "Málaga": [
@@ -300,25 +300,25 @@
         "rival": "Getafe",
         "local": false,
         "fecha": "20/09",
-        "hora": "09:00"
+        "hora": "07:00"
       },
       {
         "rival": "Espanyol",
         "local": true,
         "fecha": "09/10",
-        "hora": "16:00"
+        "hora": "14:00"
       },
       {
         "rival": "Real Sociedad",
         "local": true,
         "fecha": "18/10",
-        "hora": "13:30"
+        "hora": "11:30"
       },
       {
         "rival": "Alavés",
         "local": false,
         "fecha": "25/10",
-        "hora": "14:00"
+        "hora": "12:00"
       }
     ],
     "Osasuna": [
@@ -329,28 +329,28 @@
         "hora": "Hora"
       },
       {
-        "rival": "Rayo",
-        "local": true,
-        "fecha": "19/09",
-        "hora": "09:00"
-      },
-      {
         "rival": "Betis",
         "local": false,
         "fecha": "11/10",
-        "hora": "13:30"
+        "hora": "11:30"
       },
       {
         "rival": "Racing de Santander",
         "local": true,
         "fecha": "18/10",
-        "hora": "09:00"
+        "hora": "07:00"
       },
       {
         "rival": "Sevilla",
         "local": false,
         "fecha": "25/10",
-        "hora": "14:00"
+        "hora": "12:00"
+      },
+      {
+        "rival": "Deportivo",
+        "local": false,
+        "fecha": "01/11",
+        "hora": "11:00"
       }
     ],
     "Racing": [
@@ -364,25 +364,25 @@
         "rival": "Celta",
         "local": false,
         "fecha": "19/09",
-        "hora": "13:30"
+        "hora": "11:30"
       },
       {
         "rival": "Valencia",
         "local": true,
         "fecha": "11/10",
-        "hora": "16:00"
+        "hora": "14:00"
       },
       {
         "rival": "Osasuna",
         "local": false,
         "fecha": "18/10",
-        "hora": "09:00"
+        "hora": "07:00"
       },
       {
         "rival": "Espanyol",
         "local": true,
         "fecha": "25/10",
-        "hora": "14:00"
+        "hora": "12:00"
       }
     ],
     "Rayo": [
@@ -393,28 +393,28 @@
         "hora": "Hora"
       },
       {
-        "rival": "Osasuna",
-        "local": false,
-        "fecha": "19/09",
-        "hora": "09:00"
-      },
-      {
         "rival": "Athletic",
         "local": true,
         "fecha": "10/10",
-        "hora": "09:00"
+        "hora": "07:00"
       },
       {
         "rival": "Getafe",
         "local": false,
         "fecha": "19/10",
-        "hora": "16:00"
+        "hora": "14:00"
       },
       {
         "rival": "Elche CF",
         "local": true,
         "fecha": "25/10",
-        "hora": "14:00"
+        "hora": "12:00"
+      },
+      {
+        "rival": "Celta",
+        "local": true,
+        "fecha": "01/11",
+        "hora": "11:00"
       }
     ],
     "Sevilla": [
@@ -428,25 +428,25 @@
         "rival": "Barcelona",
         "local": true,
         "fecha": "19/09",
-        "hora": "16:00"
+        "hora": "14:00"
       },
       {
         "rival": "Levante UD",
         "local": false,
         "fecha": "12/10",
-        "hora": "16:00"
+        "hora": "14:00"
       },
       {
         "rival": "Real Madrid",
         "local": false,
         "fecha": "18/10",
-        "hora": "16:00"
+        "hora": "14:00"
       },
       {
         "rival": "Osasuna",
         "local": true,
         "fecha": "25/10",
-        "hora": "14:00"
+        "hora": "12:00"
       }
     ],
     "Valencia": [
@@ -460,25 +460,25 @@
         "rival": "Real Sociedad",
         "local": true,
         "fecha": "20/09",
-        "hora": "16:00"
+        "hora": "14:00"
       },
       {
         "rival": "Racing de Santander",
         "local": false,
         "fecha": "11/10",
-        "hora": "16:00"
+        "hora": "14:00"
       },
       {
         "rival": "Athletic",
         "local": true,
         "fecha": "17/10",
-        "hora": "16:00"
+        "hora": "14:00"
       },
       {
         "rival": "Villarreal",
         "local": true,
         "fecha": "25/10",
-        "hora": "14:00"
+        "hora": "12:00"
       }
     ],
     "Alavés": [
@@ -489,28 +489,28 @@
         "hora": "Hora"
       },
       {
-        "rival": "Athletic",
-        "local": false,
-        "fecha": "19/09",
-        "hora": "11:15"
-      },
-      {
         "rival": "Atlético",
         "local": true,
         "fecha": "10/10",
-        "hora": "11:15"
+        "hora": "09:15"
       },
       {
         "rival": "Celta",
         "local": false,
         "fecha": "18/10",
-        "hora": "11:15"
+        "hora": "09:15"
       },
       {
         "rival": "Málaga CF",
         "local": true,
         "fecha": "25/10",
-        "hora": "14:00"
+        "hora": "12:00"
+      },
+      {
+        "rival": "Barcelona",
+        "local": false,
+        "fecha": "01/11",
+        "hora": "11:00"
       }
     ],
     "Betis": [
@@ -524,25 +524,25 @@
         "rival": "Deportivo",
         "local": false,
         "fecha": "20/09",
-        "hora": "13:30"
+        "hora": "11:30"
       },
       {
         "rival": "Osasuna",
         "local": true,
         "fecha": "11/10",
-        "hora": "13:30"
+        "hora": "11:30"
       },
       {
         "rival": "Porto",
         "local": true,
         "fecha": "14/10",
-        "hora": "16:00"
+        "hora": "14:00"
       },
       {
         "rival": "Barcelona",
         "local": true,
         "fecha": "17/10",
-        "hora": "13:30"
+        "hora": "11:30"
       }
     ],
     "Celta": [
@@ -556,25 +556,25 @@
         "rival": "Racing de Santander",
         "local": true,
         "fecha": "19/09",
-        "hora": "13:30"
+        "hora": "11:30"
       },
       {
         "rival": "Elche CF",
         "local": false,
         "fecha": "11/10",
-        "hora": "09:00"
+        "hora": "07:00"
       },
       {
         "rival": "Juventus",
         "local": true,
         "fecha": "15/10",
-        "hora": "16:00"
+        "hora": "14:00"
       },
       {
         "rival": "Alavés",
         "local": true,
         "fecha": "18/10",
-        "hora": "11:15"
+        "hora": "09:15"
       }
     ],
     "Deportivo": [
@@ -588,25 +588,25 @@
         "rival": "Betis",
         "local": true,
         "fecha": "20/09",
-        "hora": "13:30"
+        "hora": "11:30"
       },
       {
         "rival": "Real Sociedad",
         "local": false,
         "fecha": "11/10",
-        "hora": "11:15"
+        "hora": "09:15"
       },
       {
         "rival": "Levante UD",
         "local": true,
         "fecha": "16/10",
-        "hora": "16:00"
+        "hora": "14:00"
       },
       {
         "rival": "Atlético",
         "local": false,
         "fecha": "25/10",
-        "hora": "14:00"
+        "hora": "12:00"
       }
     ],
     "Elche": [
@@ -620,25 +620,25 @@
         "rival": "Celta",
         "local": true,
         "fecha": "11/10",
-        "hora": "09:00"
+        "hora": "07:00"
       },
       {
         "rival": "Villarreal",
         "local": false,
         "fecha": "17/10",
-        "hora": "11:15"
+        "hora": "09:15"
       },
       {
         "rival": "Rayo",
         "local": false,
         "fecha": "25/10",
-        "hora": "14:00"
+        "hora": "12:00"
       },
       {
         "rival": "Valencia",
         "local": true,
         "fecha": "01/11",
-        "hora": "14:00"
+        "hora": "11:00"
       }
     ]
   }
