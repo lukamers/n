@@ -980,23 +980,45 @@ def _resolver_nombres_analitica(matches, completo_a_corto):
 
 def obtener_slugs_analitica(completo_a_corto: dict):
     """Arma un mapeo {nombre_corto: slug} consultando la página de
-    puntuaciones de la última jornada disponible (que trae el link a la
-    ficha de cada jugador). El slug es lo que necesitamos para poder
-    pedir después la ficha individual de cada uno y sacar sus
-    estadísticas de temporada (goles, asistencias, etc.), que no vienen
-    en ninguna tabla completa — solo jugador por jugador.
+    puntuaciones de una jornada (trae el link a la ficha de cada
+    jugador). El slug es lo que necesitamos para poder pedir después la
+    ficha individual de cada uno y sacar sus estadísticas de temporada
+    (goles, asistencias, etc.), que no vienen en ninguna tabla completa —
+    solo jugador por jugador.
+
+    El slug de un jugador NO cambia de una jornada a otra, así que si la
+    jornada actual todavía está incompleta (ej. una jornada partida en
+    dos fines de semana, con solo 1 de 10 partidos jugados) retrocedemos
+    a jornadas anteriores hasta encontrar una con datos completos — da
+    exactamente los mismos slugs, sin depender de que la última jornada
+    esté 100% jugada.
     """
     jornada_num = _jornada_actual_analitica()
     if jornada_num is None:
         print("⚠️  No pude determinar la jornada actual para armar los slugs de jugadores.", file=sys.stderr)
         return {}
 
-    url = f"{ANALITICA_BASE}/{ANALITICA_TEMPORADA}/{jornada_num}"
-    resp = fetch_con_reintentos(url)
-    if resp is None:
+    UMBRAL_JORNADA_COMPLETA = 300
+    matches = None
+    conteo_jornada_actual = None
+    for intento in range(jornada_num, max(jornada_num - 8, 0), -1):
+        url = f"{ANALITICA_BASE}/{ANALITICA_TEMPORADA}/{intento}"
+        resp = fetch_con_reintentos(url)
+        if resp is None:
+            continue
+        candidatos = _parsear_puntuaciones_analitica(resp.text)
+        if intento == jornada_num:
+            conteo_jornada_actual = len(candidatos)
+        if len(candidatos) >= UMBRAL_JORNADA_COMPLETA:
+            matches = candidatos
+            if intento != jornada_num:
+                print(f"ℹ️  Jornada {jornada_num} incompleta para sacar slugs ({conteo_jornada_actual} de ~450) — usé J{intento} en su lugar (los slugs no cambian entre jornadas).")
+            break
+
+    if matches is None:
+        print("⚠️  No encontré ninguna jornada reciente completa para sacar slugs de jugadores.", file=sys.stderr)
         return {}
 
-    matches = _parsear_puntuaciones_analitica(resp.text)
     corto_por_completo_norm = {_normalizar(c): s for c, s in completo_a_corto.items()}
 
     slugs = {}
@@ -1020,15 +1042,18 @@ def obtener_puntos_jornada_analitica(jornada_num: int, completo_a_corto: dict):
     if resp is None:
         print(f"⚠️  Jornada {jornada_num}: no se pudo conectar a {url}.", file=sys.stderr)
         return None
+    UMBRAL_JORNADA_COMPLETA = 300
     matches = _parsear_puntuaciones_analitica(resp.text)
-    if len(matches) < 100:
-        # Si trae muy pocos jugadores es señal de que el sitio cambió de
-        # diseño o la página no es la que esperamos — mejor no guardar
-        # datos a medias.
+    if len(matches) < UMBRAL_JORNADA_COMPLETA:
+        # Si trae muy pocos jugadores es señal de que la jornada todavía
+        # no se jugó completa (ej. una jornada "partida" en dos fines de
+        # semana, con partidos pendientes) o de que el sitio cambió de
+        # diseño — mejor no guardar datos a medias.
         print(
-            f"⚠️  Jornada {jornada_num}: la página trajo muy pocos jugadores "
-            f"({len(matches)} de ~450 esperados) — no lo guardo, puede haber "
-            "cambiado el diseño del sitio o la carga de esa página en particular.",
+            f"⚠️  Jornada {jornada_num}: la página trajo {len(matches)} jugadores "
+            f"(se esperan ~450 para una jornada completa, mínimo {UMBRAL_JORNADA_COMPLETA} "
+            "para guardarla) — no lo guardo, puede haber partidos de esta jornada "
+            "todavía sin jugar.",
             file=sys.stderr,
         )
         return None
@@ -1395,29 +1420,37 @@ def obtener_alineaciones_probables(jornada_num: int, completo_a_corto: dict):
 
 
 def actualizar_alineaciones_probables(completo_a_corto: dict):
-    """Guarda las alineaciones probables de la PRÓXIMA jornada (la que
-    todavía no se jugó) en alineaciones_probables.json. A diferencia de
-    los puntos por jornada, esto se sobrescribe entero cada vez — no tiene
-    sentido conservar alineaciones probables de jornadas ya jugadas.
+    """Guarda las alineaciones probables de los próximos partidos en
+    alineaciones_probables.json. A diferencia de los puntos por jornada,
+    esto se sobrescribe entero cada vez — no tiene sentido conservar
+    alineaciones probables de partidos ya jugados.
+
+    Ojo con las jornadas "partidas" (algún partido adelantado varios días
+    antes que el resto, algo que pasa alguna vez en la temporada): en ese
+    caso la "jornada actual" todavía tiene partidos SIN jugar, así que
+    probamos primero ahí antes de saltar a la jornada siguiente.
     """
     jornada_actual = _jornada_actual_analitica()
     if jornada_actual is None:
         print("⚠️  No pude determinar la jornada actual para las alineaciones probables.", file=sys.stderr)
         return {}
 
-    jornada_siguiente = jornada_actual + 1
-    alineaciones = obtener_alineaciones_probables(jornada_siguiente, completo_a_corto)
+    alineaciones = obtener_alineaciones_probables(jornada_actual, completo_a_corto)
+    jornada_usada = jornada_actual
+    if not alineaciones:
+        jornada_usada = jornada_actual + 1
+        alineaciones = obtener_alineaciones_probables(jornada_usada, completo_a_corto)
 
     data = {
         "actualizado": datetime.now(timezone.utc).isoformat(),
-        "jornada": jornada_siguiente,
+        "jornada": jornada_usada,
         "jugadores": alineaciones,
     }
 
     with open("alineaciones_probables.json", "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
-    print(f"✅ Guardado alineaciones_probables.json — J{jornada_siguiente}, {len(alineaciones)} jugadores identificados.")
+    print(f"✅ Guardado alineaciones_probables.json — J{jornada_usada}, {len(alineaciones)} jugadores identificados.")
     return data
 
 
