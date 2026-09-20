@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-09-19T15:24:32.338347+00:00",
+  "actualizado": "2026-09-20T02:55:22.850495+00:00",
   "jornada": 7,
   "jugadores": {
     "Dmitrovic": {
@@ -464,6 +464,13 @@
       "equipo": "Osasuna",
       "formacion": "4-2-3-1"
     },
+    "Moi Gómez": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Osasuna",
+      "formacion": "4-2-3-1"
+    },
     "Audero": {
       "probable": true,
       "prob": null,
@@ -605,6 +612,13 @@
       "formacion": "4-3-3 (ofensivo)"
     },
     "M. Alonso": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Rayo Vallecano",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Luiz Felipe": {
       "probable": true,
       "prob": null,
       "titular": false,
@@ -982,6 +996,13 @@
       "equipo": "Celta Vigo",
       "formacion": "5-2-3"
     },
+    "Carreira": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Celta Vigo",
+      "formacion": "5-2-3"
+    },
     "Á. Núñez": {
       "probable": true,
       "prob": 40,
@@ -1032,13 +1053,6 @@
       "formacion": "5-2-3"
     },
     "Durán": {
-      "probable": true,
-      "prob": 40,
-      "titular": false,
-      "equipo": "Celta Vigo",
-      "formacion": "5-2-3"
-    },
-    "Carreira": {
       "probable": true,
       "prob": 40,
       "titular": false,
@@ -1515,6 +1529,13 @@
       "formacion": "4-3-3 (ofensivo)"
     },
     "F. de Jong": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Barcelona",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Joan Garcia": {
       "probable": true,
       "prob": null,
       "titular": false,
@@ -2872,13 +2893,6 @@
       "equipo": "Real Sociedad",
       "formacion": "4-3-3 (ofensivo)"
     },
-    "Zubeldia": {
-      "probable": true,
-      "prob": 50,
-      "titular": false,
-      "equipo": "Real Sociedad",
-      "formacion": "4-3-3 (ofensivo)"
-    },
     "Aihen": {
       "probable": true,
       "prob": 40,
@@ -2950,6 +2964,13 @@
       "formacion": "4-3-3 (ofensivo)"
     },
     "Odriozola": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Real Sociedad",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Zubeldia": {
       "probable": true,
       "prob": null,
       "titular": false,

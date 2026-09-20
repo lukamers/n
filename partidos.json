@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-09-19T15:25:19.750964+00:00",
+  "actualizado": "2026-09-20T02:55:48.592491+00:00",
   "calendario": {
     "Real Madrid": [
       {
@@ -137,12 +137,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Sevilla",
-        "local": false,
-        "fecha": "19/09",
-        "hora": "14:00"
-      },
-      {
         "rival": "Getafe",
         "local": true,
         "fecha": "10/10",
@@ -159,6 +153,12 @@
         "local": false,
         "fecha": "17/10",
         "hora": "11:30"
+      },
+      {
+        "rival": "PSG",
+        "local": false,
+        "fecha": "20/10",
+        "hora": "14:00"
       }
     ],
     "Villarreal": [
@@ -361,12 +361,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Celta",
-        "local": false,
-        "fecha": "19/09",
-        "hora": "11:30"
-      },
-      {
         "rival": "Valencia",
         "local": true,
         "fecha": "11/10",
@@ -383,6 +377,12 @@
         "local": true,
         "fecha": "25/10",
         "hora": "12:00"
+      },
+      {
+        "rival": "Real Madrid",
+        "local": true,
+        "fecha": "01/11",
+        "hora": "11:00"
       }
     ],
     "Rayo": [
@@ -425,12 +425,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Barcelona",
-        "local": true,
-        "fecha": "19/09",
-        "hora": "14:00"
-      },
-      {
         "rival": "Levante UD",
         "local": false,
         "fecha": "12/10",
@@ -447,6 +441,12 @@
         "local": true,
         "fecha": "25/10",
         "hora": "12:00"
+      },
+      {
+        "rival": "Getafe",
+        "local": false,
+        "fecha": "01/11",
+        "hora": "11:00"
       }
     ],
     "Valencia": [
@@ -553,12 +553,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Racing de Santander",
-        "local": true,
-        "fecha": "19/09",
-        "hora": "11:30"
-      },
-      {
         "rival": "Elche CF",
         "local": false,
         "fecha": "11/10",
@@ -575,6 +569,12 @@
         "local": true,
         "fecha": "18/10",
         "hora": "09:15"
+      },
+      {
+        "rival": "Celtic",
+        "local": false,
+        "fecha": "22/10",
+        "hora": "14:00"
       }
     ],
     "Deportivo": [
