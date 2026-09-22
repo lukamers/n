@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-09-21T02:50:09.589808+00:00",
+  "actualizado": "2026-09-22T02:50:54.835089+00:00",
   "roster_por_club": {
     "Alavés": {
       "Sivera": "POR",
@@ -278,8 +278,8 @@
       "Kiko Femenía": "DEF",
       "Abdel Abqar": "DEF",
       "Jean Ives Valou": "DEF",
-      "Óscar David López": "DEF",
       "Jorge Montes": "DEF",
+      "Óscar David López": "DEF",
       "Ramón Terrats": "MED",
       "Orel Mangala": "MED",
       "Francho Serrano": "MED",
@@ -496,8 +496,8 @@
       "Guedes": "DEL",
       "Ochieng": "DEL",
       "Mariezkurrena": "DEL",
-      "Dani Díaz": "DEL",
-      "Gorka Carrera": "DEL"
+      "Gorka Carrera": "DEL",
+      "Dani Díaz": "DEL"
     },
     "Sevilla": {
       "Vlachodimos": "POR",
@@ -557,7 +557,8 @@
       "Otorbi": "DEL",
       "Hugo Duro": "DEL",
       "Umar Sadiq": "DEL",
-      "Raba": "DEL"
+      "Raba": "DEL",
+      "Aimar Blazquez": "DEL"
     },
     "Villarreal": {
       "Gulácsi": "POR",
@@ -565,8 +566,8 @@
       "Renato Veiga": "DEF",
       "Alex Freeman": "DEF",
       "Santiago Mouriño": "DEF",
-      "Carlos Romero": "DEF",
       "Juan Foyth": "DEF",
+      "Carlos Romero": "DEF",
       "Pau Navarro": "DEF",
       "Sergi Cardona": "DEF",
       "Logan Costa": "DEF",
