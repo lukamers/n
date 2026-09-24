@@ -374,8 +374,10 @@
       <button class="sort-btn" data-sort="patrimonio">Patrimonio</button>
       <button class="edit-btn" id="editBtn">✎ Editar</button>
       <button class="save-btn" id="saveBtn" style="display:none;">💾 Guardar en GitHub</button>
+      <button class="edit-btn" id="historyBtn">🕘 Versiones anteriores</button>
       <span class="save-status" id="saveStatus"></span>
     </div>
+    <div id="historyPanel" style="display:none; margin:-4px 0 14px; padding:10px 12px; background:var(--bg); border:1px solid var(--line); border-radius:9px;"></div>
     <div class="sort-box actions-row">
       <button class="edit-btn" id="closeJornadaBtn" style="margin-left:0;">🔒 Cerrar jornada</button>
       <span class="save-status" id="jornadaStatus"></span>
@@ -477,6 +479,47 @@
         <div class="edit-panel" style="border-top:none; margin-top:8px; padding-top:0;">
           <button class="edit-btn" id="chollosToggleBtn" onclick="toggleChollos()">Ver más</button>
         </div>
+      </div>
+    </div>
+
+    <div class="section-label">Top 10 según PlyonTV10 (parón previo a la J8)</div>
+    <p style="color:var(--text-faint); font-size:12.5px; margin:-6px 0 12px; line-height:1.5;">Resumen cargado a mano de los 10 fichajes recomendados por posición del video de <strong>PlyonTV10</strong>, pensados para revalorizar durante el parón de selecciones y llegar bien a la jornada 8. Los nombres vienen de una transcripción automática del video, así que puede haber algún error de tipeo — es una carga puntual, no se actualiza solo con nueva info de mercado.</p>
+    <div class="sort-box" id="top10VideoSortBox">
+      <button class="sort-btn active" data-top10pos="POR">Porteros</button>
+      <button class="sort-btn" data-top10pos="DEF">Defensas</button>
+      <button class="sort-btn" data-top10pos="MED">Medios</button>
+      <button class="sort-btn" data-top10pos="DEL">Delanteros</button>
+    </div>
+    <div class="card">
+      <div class="squad-inner" style="padding-top:14px;">
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>#</th><th>Jugador</th><th>Equipo</th><th class="num">Valor</th><th>Nota del video</th></tr></thead>
+            <tbody id="top10VideoBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">Chollos por equipo según PlyonTV10</div>
+    <p style="color:var(--text-faint); font-size:12.5px; margin:-6px 0 12px; line-height:1.5;">Resumen cargado a mano de otro video de <strong>PlyonTV10</strong>, esta vez repasando equipo por equipo los jugadores baratos que recomienda para revalorizar durante el parón de selecciones. Elegí un club para ver sus chollos. Misma advertencia que arriba: nombres sacados de una transcripción automática, pueden tener algún error — carga puntual, no se actualiza sola.</p>
+    <div class="sort-box">
+      <select id="chollosVideoClubSelect" style="padding:8px 10px; background:var(--bg-card); border:1px solid var(--line); border-radius:8px; color:var(--text); font-size:12.5px;"></select>
+    </div>
+    <div class="card">
+      <div class="squad-inner" style="padding-top:14px;">
+        <div id="chollosVideoList"></div>
+      </div>
+    </div>
+
+    <div class="section-label">Ventas recomendadas según PlyonTV10</div>
+    <p style="color:var(--text-faint); font-size:12.5px; margin:-6px 0 12px; line-height:1.5;">Resumen cargado a mano de otro video de <strong>PlyonTV10</strong>, esta vez con los jugadores que recomienda vender equipo por equipo durante el parón (los que están bajando de valor y no aportan). <span style="color:var(--red); font-weight:600;">🔴 Venta</span> = venta que el creador considera clara u obligatoria. <span style="color:var(--gold); font-weight:600;">🟡 A vigilar</span> = todavía aguanta, pero pasa a venta si sigue cayendo. Misma advertencia de siempre sobre los nombres — carga puntual, no se actualiza sola.</p>
+    <div class="sort-box">
+      <select id="ventasVideoClubSelect" style="padding:8px 10px; background:var(--bg-card); border:1px solid var(--line); border-radius:8px; color:var(--text); font-size:12.5px;"></select>
+    </div>
+    <div class="card">
+      <div class="squad-inner" style="padding-top:14px;">
+        <div id="ventasVideoList"></div>
       </div>
     </div>
   </div>
@@ -790,6 +833,433 @@ function toggleChollos(){
   chollosExpandido = !chollosExpandido;
   renderChollos();
 }
+
+// ---------- Top 10 según PlyonTV10 (carga puntual, a mano) ----------
+// Cargado desde la transcripción de un video de PlyonTV10 (parón de
+// selecciones previo a la jornada 8). Los nombres son los que entiende la transcripción
+// automática del video, así que pueden tener algún error de tipeo respecto
+// al nombre oficial del jugador — conviene chequearlo contra el video antes
+// de fichar a ciegas. No se actualiza solo: es una foto de ese momento.
+const TOP10_VIDEO = {
+  POR: [
+    {n:"Vallés", equipo:"Real Betis", nota:"El portero que más sube (~1,6M€/día). De local vs. Osasuna, que atraviesa mal momento."},
+    {n:"Radu", equipo:"—", nota:"Viene de buena puntuación, sube ~686.000€/día. Visita al Elche, que puede tener trabajo tras el 5-0 que le hizo el Celta al Racing."},
+    {n:"Oblak", equipo:"Atlético de Madrid", nota:"Viene de un partidazo vs. Real Madrid, sube medio millón/día. Partido cerrado con chance de portería a cero."},
+    {n:"Agirrezabal", equipo:"Athletic Club", nota:"Sube ~446.000€/día. El Racing de Santander recibe al Valencia con necesidad de puntos tras dos derrotas."},
+    {n:"Vlachodimos", equipo:"Sevilla", nota:"De los favoritos del creador en este inicio de temporada. Sube ~284.000€/día. Recibe al Levante en partido parejo."},
+    {n:"Sivera", equipo:"Alavés", nota:"Sube fuerte (~700.000€/día). Visita al Atlético de Madrid en partido que se puede resolver por la mínima."},
+    {n:"Herrero", equipo:"Málaga", nota:"Buen partido de local vs. Espanyol, que viene de mala racha. Sube ~300.000€/día."},
+    {n:"Dituro", equipo:"—", nota:"No sube mucho, pero buen partido de local vs. Celta."},
+    {n:"Soria", equipo:"Getafe", nota:"Sube ~492.000€/día. Recibe al Barcelona — mucho trabajo esperado, pero el creador confía en que salve puntos."},
+    {n:"Leo Román", equipo:"—", nota:"Baja de valor pero sigue entre los mejores de la temporada. Visita a la Real Sociedad."},
+  ],
+  DEF: [
+    {n:"Grimaldo", equipo:"—", nota:"El defensa que más sube: ~2,45M€/día. Rival con partido de resultado corto."},
+    {n:"Natan", equipo:"Real Betis", nota:"Sube ~1,7M€/día y en subida. De local vs. Osasuna."},
+    {n:"Cuti Romero", equipo:"—", nota:"Sube ~1,5M€/día. Rival Atlético de Madrid. Ojo: el creador avisa no aguantarlo mucho si hace mala J8 — hay rotación en la posición y es propenso a tarjetas."},
+    {n:"Laporte", equipo:"—", nota:"Favorito del creador, no depende de portería a cero para puntuar. Sube ~800.000€/día. Vs. Rayo Vallecano."},
+    {n:"Kossounou", equipo:"—", nota:"Barato (17M€) y sube ~1M€/día — el fichaje 'por economía' de la posición. Vs. Atlético de Madrid."},
+    {n:"Cancelo / Balde", equipo:"Barcelona", nota:"Ambos laterales suben (Balde ~1M€/día, Cancelo ~800.000€/día); ojo con rotaciones por la seguidilla de Champions (PSG, Real Madrid) antes/después del Getafe."},
+    {n:"Juan Iglesias", equipo:"Sevilla", nota:"Sube más de 500.000€/día, barato (17M€). El Sevilla, en buen momento, recibe al Levante."},
+    {n:"Joel Lago", equipo:"Celta", nota:"Sube ~500.000€/día, muy barato (8M€). Vs. Elche."},
+    {n:"Rüdiger", equipo:"Real Madrid", nota:"Sube poco por ahora pero barato (19M€); el creador cree que subirá al acercarse la jornada. Recibe al Villarreal en el Bernabéu sin margen para fallar — podría entrar por la baja de Huijsen."},
+    {n:"Jiménez", equipo:"—", nota:"Sube ~500.000€/día, barato (12M€). Su equipo recibe a la Real Sociedad en partido reñido."},
+  ],
+  MED: [
+    {n:"Arda Güler", equipo:"Real Madrid", nota:"Sube 'solo' ~1M€/día pero el creador cree que puede romper la barrera de los 110-115M€ de valor."},
+    {n:"Moleiro", equipo:"Villarreal", nota:"Sube ~2M€/día con valor accesible (42M€). Rival Real Madrid — partido con riesgo puntual pero bueno para revalorizar ahora."},
+    {n:"Kang-in Lee", equipo:"—", nota:"Sube ~1,8M€/día, valor 67M€. De los que más está sorprendiendo al creador."},
+    {n:"Rodri", equipo:"Barcelona", nota:"Sube ~1,5M€/día. Vs. Getafe (equipo muy defensivo); el creador lo compara en estilo con Pedri por lo poco que pierde el balón."},
+    {n:"Alex Baena", equipo:"—", nota:"Sube ~1,3M€/día, valor 67M€. Vs. Alavés, con chance de asistencia de pelota parada."},
+    {n:"Miguel Román", equipo:"—", nota:"Sube ~800.000€/día, muy barato (15M€). Vs. Elche."},
+    {n:"Solé", equipo:"Real Sociedad", nota:"Sube ~800.000€/día, valor 31M€. Partido de tú a tú vs. Deportivo."},
+    {n:"Navarro", equipo:"Athletic Club", nota:"Sube ~670.000€/día, muy barato (11M€); se está ganando la titularidad de a poco."},
+    {n:"Fofaná", equipo:"—", nota:"Sube ~650.000€/día, muy barato (17M€). Vs. Levante."},
+    {n:"Mario Soriano", equipo:"—", nota:"Pasa desapercibido pero sube ~500.000€/día, valor 29M€. Partido de tú a tú en la J8."},
+  ],
+  DEL: [
+    {n:"Rafiña", equipo:"Barcelona", nota:"El que más sube de todo el Fantasy (~3,3M€/día), pero valor altísimo (154M€) — solo para ligas con presupuesto alto. Vs. Getafe."},
+    {n:"Lamin Yamal", equipo:"Barcelona", nota:"Sube ~3M€/día, valor similar a Rafiña (150M€). Vs. Getafe."},
+    {n:"Jonathan David", equipo:"Athletic Club", nota:"Sube ~1,93M€/día, valor accesible (39M€) para el nivel que está mostrando."},
+    {n:"Camello", equipo:"—", nota:"Barato (28M€), sube ~1,79M€/día — buen olfato de gol según el creador. Vs. Atlético de Madrid."},
+    {n:"Abde", equipo:"Real Betis", nota:"De vuelta a su mejor nivel, sube ~1,2M€/día."},
+    {n:"Saviri", equipo:"—", nota:"Muy barato (18M€), sube ~700.000€/día. Vs. Valencia."},
+    {n:"Roberto", equipo:"Espanyol", nota:"Sube ~1M€/día, valor 41M€. Vs. Málaga."},
+    {n:"Budimir", equipo:"Osasuna", nota:"El goleador del equipo (valor 60M€); sube poco por ahora. Visita al Real Betis."},
+    {n:"Miguel Sierra", equipo:"Sevilla", nota:"Sube ~470.000€/día, muy barato (8M€), con 80% de probabilidad de titularidad. Vs. Levante."},
+    {n:"De Yemi", equipo:"—", nota:"Sube fuerte (~2,38M€/día), valor 66M€, pero rota con otro delantero y no está clara su titularidad en la J8 — pensado más para generar revalorización durante el parón."},
+  ],
+};
+let top10VideoPos = "POR";
+
+function renderTop10Video(){
+  const body = document.getElementById('top10VideoBody');
+  if(!body) return;
+  const list = TOP10_VIDEO[top10VideoPos] || [];
+  body.innerHTML = list.map((p,i)=>{
+    const owner = findOwner(p.n);
+    const equipoTxt = owner ? owner.team : (p.equipo && p.equipo !== "—" ? p.equipo : '<span style="color:var(--text-faint);">Sin confirmar</span>');
+    const info = allPlayers[p.n];
+    const valorTxt = info && info.valor != null ? fmt(info.valor) : '<span style="color:var(--text-faint);">—</span>';
+    return `
+      <tr>
+        <td class="num" style="color:var(--text-faint); font-family:'Oswald',sans-serif; font-weight:600;">${i+1}</td>
+        <td class="pname">
+          <div class="pcell">
+            ${info ? `${clubBadge(info.club)}` : ''}
+            <span class="player-link" onclick="showPlayerHistory('${p.n.replace(/'/g,"\\'")}')">${p.n}</span>
+          </div>
+        </td>
+        <td>${equipoTxt}</td>
+        <td class="num">${valorTxt}</td>
+        <td style="font-size:12.5px; color:var(--text-faint); line-height:1.4;">${p.nota}</td>
+      </tr>
+    `;
+  }).join('');
+}
+
+// ---------- Chollos por equipo según PlyonTV10 (segundo video, carga puntual) ----------
+// Mismo criterio que el bloque anterior: nombres tal como los entiende la
+// transcripción automática, puede haber algún error respecto al nombre
+// oficial del jugador.
+const CHOLLOS_VIDEO_EQUIPO = {
+  "Alavés": [
+    {n:"Kosski", nota:"18,7M€, sube ~1M€/día. Calidad-precio de lo mejor de la posición — se puede pagar hasta un +5 por él. Puede ir de titular."},
+    {n:"Ibáñez", nota:"13M€, sube ~300.000€/día. Próximos partidos interesantes para este Alavés, que viene haciendo buen inicio de temporada."},
+    {n:"Johnny Otto", nota:"16M€, sube ~473.000€/día. La defensa del Alavés está funcionando muy bien en general."},
+  ],
+  "Athletic": [
+    {n:"Navarro", nota:"12M€, sube ~729.000€/día. Se está ganando la titularidad y debería seguir subiendo durante el parón."},
+    {n:"Areso", nota:"Valor 3,93M€, baja ~74.000€/día (casi no se nota). Interesante en jornadas puntuales, sobre todo de local — próximo partido vs. Rayo."},
+    {n:"Paredes", nota:"14M€, sube ~500.000€/día. No es el titular fijo en el arco, pero rinde bien cada vez que entra; llegan rotaciones por Copa del Rey."},
+    {n:"Berenguer", nota:"Baja ~200.000€/día. Va a sumar minutos por el calendario apretado (Champions); solo recomendable si tu equipo ya genera bastante y no notás esa bajada."},
+  ],
+  "Atlético": [
+    {n:"Cardoso", nota:"Volvió de lesión con dos buenos partidos, puede ganarse la titularidad en el medio. Sube poco (~100.000€/día) pero cuesta solo 3M€."},
+    {n:"Lenoman", nota:"10M€, baja ~73.000€/día (casi no se nota). Chollo por precio — puede tener protagonismo cuando el Cholo rote tras partidos de Champions."},
+  ],
+  "Barcelona": [
+    {n:"Portero suplente (el croata)", nota:"2M€, casi no se revaloriza. Podría ser titular en la J8 si el Barça reserva a Joan García pensando en la semana de PSG y Real Madrid."},
+  ],
+  "Betis": [
+    {n:"Diego Llorente", nota:"Baja ~200.000€/día. Va a rotar con Bartra y Natan por el calendario de Champions — asumible si tu equipo ya genera bastante beneficio con otros jugadores."},
+    {n:"Marroca", nota:"16M€, sube ~500.000€/día. Todavía no es titular fijo pero la revalorización es muy buena y nadie lo va a estar buscando."},
+    {n:"De la Osa", nota:"Muy barato (5M€), sube ~400.000-423.000€/día. Chollo puro para generar millones aunque no sea titular."},
+    {n:"Bernal", nota:"Ya es titular y se ha ganado el puesto a pulso. Baja ~200.000€/día, asumible si el resto del equipo compensa."},
+  ],
+  "Celta": [
+    {n:"Miguel Román", nota:"16M€, sube ~878.000€/día. De los recomendados en la jornada anterior y salió bien — titular clave para toda la temporada."},
+    {n:"Joel Lago", nota:"9M€, sube ~590-600.000€/día. Fichaje obligatorio según el creador, clave en un Celta que puede dejar porterías a cero jugando de local."},
+    {n:"Cáceres", nota:"Se ha ganado la titularidad. No suma ni resta mucho económicamente, pero puede dar puntos si el Celta deja portería a cero."},
+    {n:"Moriba", nota:"10M€, sube ~600.000€/día tras una buena jornada 8. Titular pero irregular — más para generar millones y vender que para tenerlo fijo."},
+    {n:"Pablo Durán", nota:"Muy barato (0,8M€). Sorprendió la jornada pasada y puede volver a jugar de titular por rotaciones — tiene gol."},
+  ],
+  "Deportivo": [
+    {n:"Eda Shouri", nota:"Muy barato (1,8M€), baja apenas 16.000€/día. Era el delantero titular antes de la llegada de Abomeyán, que se lesionó por ~2 meses — oportunidad clara de minutos."},
+    {n:"Luismi", nota:"Va a tener que asumir peso ofensivo mientras dure la baja del delantero titular. Jugador de calidad para tirar del equipo."},
+    {n:"Jiménez", nota:"12M€, sube ~500.000€/día. Pilar de la defensa, clave para toda la temporada — el creador incluso lo pondría de capitán."},
+  ],
+  "Elche": [
+    {n:"Germán Valera", nota:"13M€. Viene de una buena jornada 8 jugando más adelantado (de extremo). El creador ya lo fichó en sus ligas, a valor de mercado."},
+    {n:"Gonzalo Villar", nota:"Baja ~100.000€/día (casi no se nota). Jugador regular, del estilo que asegura 5-7 puntos por jornada sin sorpresas."},
+    {n:"Fernão (Ferniño)", nota:"17,77M€. Ojo: ya dejó de ser chollo por la subida de precio tras sus goles en la J8 — el creador avisa de no pagar de más, no es un delantero de gol regular."},
+  ],
+  "Espanyol": [
+    {n:"Javi Hernández", nota:"16M€. Jugador que está ganando protagonismo (media punta / mediocentro), da asistencias y ya fue convocado a la selección. El creador lo perdió por poco en una puja."},
+  ],
+  "Getafe": [
+    {n:"Terrats (Terras)", nota:"10M€, sube ~500.000€/día. Buena relación calidad-precio aunque el próximo rival (Barcelona) es complicado — pensado para generar millones más que para jugarlo esa jornada."},
+    {n:"Mangala", nota:"Baja ~242.000€/día. Recupera y participa mucho en ataque — solo tiene sentido si tu equipo ya genera varios millones al día entre otros jugadores."},
+  ],
+  "Levante": [
+    {n:"Brugui", nota:"El que más le gusta al creador de este Levante, aunque avisa que el equipo en general rinde poco en Fantasy. Puede dar gol o asistencia en la delantera."},
+    {n:"Tiago", nota:"Jugador de regate y desborde; puede sumar asistencia o gol en algún partido suelto."},
+    {n:"Iván Romero", nota:"Puede aportar gol puntual; el creador aclara que ninguno de los tres es un fichaje obligatorio."},
+  ],
+  "Málaga": [
+    {n:"Herrero", nota:"Portero, ~19M€. El Málaga pierde casi todo, pero Herrero se desenvuelve bien y tiene mucho trabajo — puede sacar puntos con paradas."},
+  ],
+  "Osasuna": [
+    {n:"Bretones", nota:"Baja ~214.000€/día (asumible con un equipo que genere varios millones). Sube por banda y participa en ataque; el creador ya lo recomendó en jornadas anteriores."},
+    {n:"Aitor Fernández", nota:"Portero muy barato (menos de 1M€), sube ~20.000€/día. Le quitó el puesto a Sergio Herrera — opción low-cost si no querés invertir en el arco."},
+  ],
+  "Racing": [
+    {n:"Pablo García", nota:"Extremo veloz y desequilibrante, viene del Betis con ganas de revancha. Puede ser clave en los próximos partidos."},
+    {n:"Aguirre Zabala", nota:"Portero, 24M€, sube ~400.000€/día. El creador vendió a Leo Román (que daba puntos similares) para clausularlo a él."},
+    {n:"Pablo Ramón", nota:"De los defensas favoritos del creador en este equipo. Baja poco su valor — jugador fiable jornada a jornada."},
+  ],
+  "Rayo": [
+    {n:"Unai López", nota:"17M€, sube ~386.000€/día. Titular con buenas puntuaciones estadísticamente — próximo partido vs. Athletic Club."},
+    {n:"Mumin", nota:"Muy barato (3M€), baja ~66.000€/día. Cubre la baja de Mendy con un perfil similar."},
+    {n:"Audero", nota:"Portero titular, con bastante trabajo en todos los partidos. Opción barata si no querés invertir mucho en el arco."},
+  ],
+  "Real Sociedad": [
+    {n:"Sadiq (Sudic)", nota:"14M€, sube ~672.000€/día. De los mejores chollos del video — siempre aporta algo (gol, asistencia o buen partido estadístico) cuando juega."},
+    {n:"Odriozola (Ochien)", nota:"Muy barato (~1M€). Se ha adelantado a Kubo, Guedes y Barrenetxea por la banda derecha y viene de dos buenas puntuaciones — posible revelación de la temporada."},
+  ],
+  "Sevilla": [
+    {n:"Miguel Sierra", nota:"8M€, sube ~500.000€/día. Puede ser determinante vs. Levante."},
+    {n:"Fofaná", nota:"Sube ~675.000€/día. El creador ya lo recomendó en la jornada 7 y acertó."},
+    {n:"Castrín", nota:"7M€, sube ~300.000€/día. También puede ser clave vs. Levante."},
+    {n:"Juan Iglesias", nota:"Sube ~600.000€/día. Entre los cuatro jugadores del Sevilla suman bastante beneficio diario — buen partido de local vs. Levante."},
+  ],
+  "Valencia": [
+    {n:"Danjuma", nota:"Valor bajo. El que más gol está dando en un Valencia flojo — puede pasar desapercibido en los mercados y rendir en jornadas sueltas."},
+    {n:"Pepelu", nota:"Sube ~341.000€/día. Barato y de los que más tira del equipo pese al mal momento general del Valencia."},
+  ],
+  "Villarreal": [
+    {n:"Gulácsi (Gulac)", nota:"Portero, muy barato (4M€), sube ~200.000€/día. El chollo top 1 de portero según el creador — juega en un equipo top de la tabla."},
+    {n:"Ayoze Pérez (Ayo Pérez)", nota:"17M€, sube ~666.000€/día. Delantero suplente con olfato de gol; ganará minutos con las rotaciones de Champions."},
+    {n:"Foyth (Freeman)", nota:"Muy barato (~1M€), apenas sube (~90.000€/día). Backup si no tenés mejor opción — algún partido puede dejar portería a cero."},
+  ],
+};
+let chollosVideoClub = "Alavés";
+
+function populateChollosVideoClubSelect(){
+  const sel = document.getElementById('chollosVideoClubSelect');
+  if(!sel) return;
+  const prev = sel.value;
+  const clubes = Object.keys(CHOLLOS_VIDEO_EQUIPO).sort();
+  sel.innerHTML = clubes.map(c=>`<option value="${c}">${c}</option>`).join('');
+  sel.value = clubes.includes(prev) ? prev : (clubes.includes(chollosVideoClub) ? chollosVideoClub : clubes[0]);
+  chollosVideoClub = sel.value;
+}
+
+function renderChollosVideoEquipo(){
+  const wrap = document.getElementById('chollosVideoList');
+  if(!wrap) return;
+  const list = CHOLLOS_VIDEO_EQUIPO[chollosVideoClub] || [];
+  wrap.innerHTML = list.map((p,i)=>{
+    const owner = findOwner(p.n);
+    const info = allPlayers[p.n];
+    return `
+      <div style="display:flex; gap:10px; align-items:flex-start; padding:10px 0; ${i < list.length-1 ? 'border-bottom:1px solid var(--line);' : ''}">
+        ${info ? clubBadge(info.club, 22, 'margin-top:1px;') : clubBadge(chollosVideoClub, 22, 'margin-top:1px;')}
+        <div style="flex:1;">
+          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <span class="player-link" onclick="showPlayerHistory('${p.n.replace(/'/g,"\\'")}')">${p.n}</span>
+            ${owner ? `<span style="font-size:11.5px; color:var(--text-faint);">· ${owner.team}</span>` : ''}
+            ${info && info.valor != null ? `<span style="font-size:11.5px; color:var(--text-faint);">· ${fmt(info.valor)}</span>` : ''}
+          </div>
+          <div style="font-size:12.5px; color:var(--text-faint); line-height:1.4; margin-top:2px;">${p.nota}</div>
+        </div>
+      </div>
+    `;
+  }).join('') || `<p style="color:var(--text-faint); font-size:12.5px; margin:0;">Sin chollos cargados para este club.</p>`;
+}
+
+// ---------- Ventas recomendadas según PlyonTV10 (tercer video, carga puntual) ----------
+// Mismo criterio de siempre: nombres tal como los entiende la transcripción
+// automática, puede haber algún error respecto al nombre oficial.
+// tipo: "venta" (venta clara/obligatoria) | "vigilar" (todavía aguanta, ojo si sigue bajando)
+const VENTAS_VIDEO_EQUIPO = {
+  "Barcelona": [
+    {n:"Fermín", tipo:"venta", nota:"Baja ~1,8M€/día, valor 103M€. Venta obligatoria sin discusión según el creador."},
+    {n:"Joan García", tipo:"venta", nota:"Lesionado, baja ~1,5M€/día, valor 65M€. El Barça no está dejando porterías a cero."},
+    {n:"Pedri", tipo:"venta", nota:"Valor cercano a 100M€, baja ~700.000€/día. El creador cambiaría por Rodri (cuesta 20M€ más pero sube)."},
+    {n:"Gerard Martín", tipo:"venta", nota:"Baja ~600.000€/día."},
+    {n:"Kubarsí", tipo:"venta", nota:"Baja ~600.000€/día."},
+    {n:"Eric García", tipo:"vigilar", nota:"Baja ~300.000€/día por ahora, pero el creador espera que empeore como Gerard Martín y Kubarsí."},
+    {n:"Balde", tipo:"venta", nota:"Directamente fuera según el creador — no lo dejaría ni con interrogante."},
+    {n:"Gordon", tipo:"venta", nota:"Valor 76M€, baja ~1,7M€/día."},
+    {n:"Koundé", tipo:"venta", nota:"Baja ~500.000€/día, valor +20M€."},
+    {n:"Kristensen", tipo:"vigilar", nota:"Valor 8M€ — se puede aguantar un poco más."},
+    {n:"Gabriel Jesús", tipo:"venta", nota:"Baja ~500.000€/día."},
+    {n:"Gabi", tipo:"venta", nota:"Baja ~300.000€/día."},
+  ],
+  "Real Madrid": [
+    {n:"Vinicius Jr.", tipo:"venta", nota:"Baja ~700.000€/día, valor +100M€. El creador no lo ve en su nivel esta temporada."},
+    {n:"Bernardo Silva", tipo:"venta", nota:"Baja ~800.000€/día y ni siquiera es titular fijo."},
+    {n:"Cucurella", tipo:"venta", nota:"Baja ~800.000€/día, valor 50M€ — recoger el beneficio que dio a principio de temporada."},
+    {n:"Huijsen (Danfris)", tipo:"venta", nota:"Baja ~600.000€/día. El creador prefiere directamente a Alexander-Arnold antes que a este."},
+    {n:"Konaté", tipo:"venta", nota:"Baja ~600.000€/día, valor 37M€."},
+    {n:"Courtois", tipo:"vigilar", nota:"Baja ~300.000€/día — pasa a venta clara si se acerca a los 400-500.000€/día; si se estabiliza o remonta, se puede mantener."},
+    {n:"Valverde", tipo:"venta", nota:"Baja ~700.000€/día, valor 63M€."},
+    {n:"Alexander-Arnold", tipo:"venta", nota:"Baja ~264.000€/día — el creador no quiere a nadie de esta defensa."},
+    {n:"Huijsen", tipo:"venta", nota:"Baja ~800.000€/día, valor 53M€ — venta obligatoria, seguirá cayendo durante el parón según el creador."},
+  ],
+  "Villarreal": [
+    {n:"Pépé", tipo:"venta", nota:"Baja ~1,35M€/día, valor 55M€ — venta obligatoria aunque al creador le duela, es de sus jugadores favoritos."},
+    {n:"Carlos Romero", tipo:"venta", nota:"Valor 20M€, baja ~500.000€/día — no convence en este Villarreal."},
+    {n:"Foyth", tipo:"vigilar", nota:"Valor 11M€, baja ~200.000€/día — pasa a venta si llega a 300-500.000€/día."},
+    {n:"Mikautadze", tipo:"venta", nota:"Baja ~500.000€/día y la curva no muestra señales de remontar — se recompraría si cambia la tendencia."},
+    {n:"Comesaña", tipo:"venta", nota:"Valor 14M€, baja ~500.000€/día — lejos de su nivel del año pasado."},
+    {n:"Mourinho", tipo:"venta", nota:"La defensa en general no convence — suplentes como Foyth, Pau Navarro, Veiga o Cardona están jugando de titulares."},
+    {n:"Gerard Moreno", tipo:"venta", nota:"Baja ~400.000€/día pese a venir subiendo antes — el creador prefiere vender antes del parón largo."},
+    {n:"Luiz Júnior", tipo:"venta", nota:"Perdió la titularidad en el arco frente a Gulácsi. Baja ~700.000€/día."},
+  ],
+  "Atlético": [
+    {n:"Pubill", tipo:"venta", nota:"Baja ~700.000€/día, valor 39M€ — el creador cambiaría por Cuti Romero (37M€, sube ~1,5M€/día)."},
+    {n:"Lukman", tipo:"venta", nota:"Baja ~1M€/día, sin puesto fijo con la delantera (Baena, Kang-in Lee, Jonathan David) funcionando."},
+    {n:"Hulmand", tipo:"venta", nota:"Baja ~500.000€/día, sin titularidad tras la vuelta de Cardoso."},
+    {n:"Julián Álvarez", tipo:"venta", nota:"Baja ~751.000€/día, valor 40M€ — el creador lleva tiempo recomendando venderlo."},
+    {n:"Barrios", tipo:"venta", nota:"Tocado/lesionado, baja ~1,24M€/día, valor 40M€ — podría acercarse a 2M€/día de pérdida durante el parón."},
+    {n:"Sørloth", tipo:"venta", nota:"Baja ~200.000€/día, valor 8M€ — de momento fuera de los planes del Cholo Simeone."},
+  ],
+  "Betis": [
+    {n:"Fornals", tipo:"venta", nota:"Baja ~600-642.000€/día, valor alto — con ese dinero el creador ficharía a Abde (sube ~1M€/día)."},
+    {n:"Fran García", tipo:"venta", nota:"Baja ~500.000€/día, con la caída acelerándose desde mediados de mes — recoger beneficio y vender."},
+    {n:"Bartra", tipo:"venta", nota:"Baja ~1M€/día — ya no está para jugar según el creador, pese a las buenas puntuaciones iniciales."},
+    {n:"Pérez (Parot)", tipo:"venta", nota:"Baja ~300.000€/día pese a buenas puntuaciones recientes (10 puntos en la jornada 6)."},
+    {n:"Lo Celso", tipo:"venta", nota:"Baja ~300.000€/día y no tiene puesto de titular ahora mismo."},
+    {n:"Isco", tipo:"vigilar", nota:"Bajando poco a poco — pasa a venta clara si se acerca a los 500.000€/día."},
+  ],
+  "Celta": [
+    {n:"Marcos Alonso", tipo:"venta", nota:"Valor 30M€, baja ~600.000€/día sin frenar — perdió la titularidad la última jornada."},
+    {n:"Álex Febas", tipo:"venta", nota:"Baja ~300.000€/día, sin puesto fijo con el medio campo funcionando bien."},
+    {n:"Starfelt", tipo:"venta", nota:"Baja ~300.000€/día, se está comiendo el banquillo últimamente."},
+    {n:"Javi Rodríguez", tipo:"venta", nota:"Baja ~200.000€/día, perdió la titularidad."},
+    {n:"Javi Galán", tipo:"vigilar", nota:"Baja ~151.000€/día — pasa a venta clara si llega a 300.000€/día."},
+    {n:"Borja Iglesias", tipo:"venta", nota:"Valor 11M€, baja ~300.000€/día, titularidad incierta en la delantera."},
+  ],
+  "Getafe": [
+    {n:"N'Sunal", tipo:"venta", nota:"Valor 15M€, baja ~400.000€/día — el creador cambiaría por Satriano o Iván Azón, que suben."},
+    {n:"Mangala", tipo:"vigilar", nota:"Baja ~200.000€/día — pasa a venta si se acerca al medio millón diario."},
+  ],
+  "Rayo": [
+    {n:"Álvaro García", tipo:"venta", nota:"Baja ~400.000€/día con tendencia de caída total."},
+    {n:"De Frutos", tipo:"venta", nota:"Valor 22M€, baja ~500.000€/día — fuera de momento aunque podría cambiar de tendencia."},
+    {n:"Pathé Ciss", tipo:"vigilar", nota:"Valor 25M€, curva bajando — el creador ya lo vendería si tuviera que decidir hoy."},
+    {n:"Ratiu", tipo:"venta", nota:"Baja ~500.000€/día sin frenar, la gente lo está vendiendo."},
+    {n:"Lejeune", tipo:"vigilar", nota:"Baja ~276.000€/día, valor 18M€ — venta a vigilar tras el partido contra el Real Madrid."},
+  ],
+  "Valencia": [
+    {n:"Javi Guerra", tipo:"venta", nota:"Valor 20M€ — no aporta puntuaciones buenas según el creador."},
+    {n:"Guido Rodríguez", tipo:"vigilar", nota:"Baja ~275.000€/día — como mucho pagar un +3 si no lo tenés, venderlo si ya lo tenés."},
+    {n:"Copete (Galla)", tipo:"venta", nota:"No convence al creador."},
+    {n:"Foulquier (Mafeo)", tipo:"venta", nota:"Baja ~100.000€/día, no da buenas puntuaciones."},
+    {n:"Arnau", tipo:"venta", nota:"Valor 8M€, baja ~300.000€/día."},
+    {n:"Diakhaby (Elliot)", tipo:"venta", nota:"Baja ~342.000€/día, valor 11M€."},
+    {n:"Tárrega", tipo:"venta", nota:"Valor 7M€, baja ~200.000€/día."},
+  ],
+  "Real Sociedad": [
+    {n:"Oyarzabal", tipo:"venta", nota:"Baja ~888.000€/día, valor 50M€ — sin gol con la Real Sociedad esta temporada pese a rendir con la selección, según el creador."},
+    {n:"Jon Martín", tipo:"venta", nota:"Valor 22M€, baja ~500.000€/día."},
+    {n:"Zubeldia", tipo:"venta", nota:"Valor ~10M€ — dos temporadas sin aportar según el creador."},
+    {n:"Aihen Muñoz", tipo:"venta", nota:"Valor 19M€, baja ~260.000€/día."},
+    {n:"Remiro", tipo:"venta", nota:"Portero caro (36M€), baja ~500.000€/día — el creador cambiaría por Radu."},
+    {n:"Take Kubo", tipo:"venta", nota:"Baja ~470.000€/día, con overbooking por bandas no es titular fijo."},
+    {n:"Orcasitas", tipo:"venta", nota:"Valor 6M€, sancionado — sin motivo para mantenerlo aunque solo baje ~180.000€/día."},
+  ],
+  "Espanyol": [
+    {n:"Roberto (Brian Zaragoza)", tipo:"venta", nota:"Baja ~388.000€/día, sin continuidad como titular."},
+    {n:"Expósito", tipo:"vigilar", nota:"Baja ~325.000€/día — pasa a venta si se acerca a los 400.000€/día."},
+    {n:"Gilali", tipo:"venta", nota:"Baja ~200.000€/día con tendencia a empeorar según el creador."},
+    {n:"Dolan", tipo:"venta", nota:"Jugador intermitente — tras una buena puntuación puede tirarse 10 jornadas sin repetir."},
+    {n:"Dmitrović", tipo:"venta", nota:"De los porteros que más caen, baja ~475.000€/día."},
+    {n:"Omar El Hilali (Cabrera)", tipo:"vigilar", nota:"Baja ~189.000€/día — pasa a venta si supera los 300-400.000€/día."},
+  ],
+  "Athletic": [
+    {n:"Sancet", tipo:"venta", nota:"Falló un penal y dio mala puntuación — baja ~887.000€/día."},
+    {n:"Unai Simón", tipo:"vigilar", nota:"Baja ~310.000€/día — el creador prefiere porteros en racha como Vallés o Radu."},
+    {n:"Jauregizar (Jeray)", tipo:"venta", nota:"No aporta puntuaciones pese a ser titular — el creador prefiere a Paredes."},
+    {n:"Ja Guilhar", tipo:"venta", nota:"Baja ~264.000€/día, no aporta a nivel de puntuación."},
+    {n:"Guruzeta", tipo:"venta", nota:"Baja ~200.000€/día, pierde protagonismo con Iñaki Williams de '9'."},
+    {n:"Berenguer", tipo:"vigilar", nota:"Baja ~170.000€/día — se puede mantener sin mucho problema."},
+  ],
+  "Sevilla": [
+    {n:"Agoumé (Aure)", tipo:"venta", nota:"Baja ~254.000€/día, no asegura buena puntuación según el creador."},
+    {n:"Sánchez (Sangante)", tipo:"vigilar", nota:"No pierde mucho valor — se puede mantener o vender para otro chollo."},
+    {n:"Suazo (Stanisin)", tipo:"venta", nota:"Baja ~500.000€/día — venta clara según el creador."},
+    {n:"Vargas", tipo:"venta", nota:"Lesionado, baja ~300.000€/día sin vuelta cercana."},
+    {n:"Isaac Romero", tipo:"venta", nota:"Sin gol y sin titularidad, baja ~100.000€/día."},
+  ],
+  "Alavés": [
+    {n:"Toni Martín", tipo:"venta", nota:"Baja ~400.000€/día, se comió el banquillo en la última jornada mientras prueban otras delanteras."},
+    {n:"Blanco", tipo:"venta", nota:"Baja ~380.000€/día, partidos estadísticamente flojos según el creador."},
+    {n:"Tenaglia", tipo:"venta", nota:"Baja ~189.000€/día — el creador espera que la caída se acelere por la irrupción de Kosski."},
+    {n:"Rebbach", tipo:"venta", nota:"Se lesionó en el último partido y el próximo rival es complicado."},
+  ],
+  "Elche": [
+    {n:"Gonzalo Villar", tipo:"vigilar", nota:"Baja ~60.000€/día — pasa a venta si llega a 200-300.000€/día."},
+    {n:"Sangaré y compañero de medio", tipo:"venta", nota:"No tienen una caída alarmante, pero tampoco aportan lo suficiente en el día a día del Fantasy."},
+    {n:"Lemar", tipo:"venta", nota:"El creador no espera que recupere su nivel del Mónaco — comparación con su paso flojo por el Athletic y el Girona."},
+  ],
+  "Osasuna": [
+    {n:"Rubén García", tipo:"venta", nota:"Baja ~200.000€/día, pilar del equipo pero sin aportar puntos."},
+    {n:"Bretones", tipo:"vigilar", nota:"De momento aguanta — pasa a venta si se acerca a los 300-400.000€/día."},
+    {n:"Catena", tipo:"venta", nota:"Baja ~741.000€/día, camino a superar el millón diario."},
+    {n:"Aimar Oroz", tipo:"venta", nota:"Entra y sale de lesiones, baja ~200.000€/día con tendencia a empeorar."},
+    {n:"Boyomo", tipo:"venta", nota:"Perdió la titularidad, baja ~200-400.000€/día."},
+    {n:"Sergio Herrera", tipo:"venta", nota:"Perdió el puesto frente a Aitor Fernández, baja ~700.000€/día."},
+    {n:"Del Castillo", tipo:"venta", nota:"No aporta demasiado aunque no caiga mucho — mejor aprovechar sus millones en otro fichaje."},
+    {n:"Raúl Moros", tipo:"venta", nota:"Lesión confirmada, aunque vuelve tras el parón."},
+    {n:"Dougbo", tipo:"venta", nota:"Valor decente pero no aporta — mejor vender y aprovechar sus millones."},
+  ],
+  "Levante": [
+    {n:"Ryan", tipo:"venta", nota:"Portero caro, baja ~300.000€/día."},
+    {n:"Elgezabal (Dela)", tipo:"venta", nota:"Baja ~255.000€/día — la defensa sufre porque el equipo encaja mucho."},
+    {n:"Mandi", tipo:"venta", nota:"Baja ~279.000€/día, mismo problema defensivo que su compañero."},
+    {n:"Manu Sánchez", tipo:"venta", nota:"Valor decente, no da buenas puntuaciones."},
+    {n:"O. Sagasti", tipo:"venta", nota:"Mediocentro intermitente, valor decente."},
+    {n:"Etta Eyong", tipo:"venta", nota:"Baja ~338.000€/día, lejos de su nivel del Villarreal la temporada pasada."},
+  ],
+  "Racing": [
+    {n:"Iñigo Vicente", tipo:"venta", nota:"Valor alto, baja ~500.000€/día — el creador lo recompraría más cerca de la jornada 8."},
+    {n:"Canales", tipo:"venta", nota:"Baja ~667.000€/día pese a que sus partidos en la vida real se ven mejor de lo que refleja el Fantasy."},
+    {n:"Iván Martín", tipo:"venta", nota:"Valor alto, puntuaciones pobres — mismo patrón que en su etapa en el Girona según el creador."},
+    {n:"Salinas", tipo:"venta", nota:"Baja ~140.000€/día, valor decente pero no aporta."},
+    {n:"Andrés Martín", tipo:"venta", nota:"Vuelve tras el parón pero sigue bajando ~300.000€/día mientras tanto."},
+  ],
+  "Deportivo": [
+    {n:"Abomeyán", tipo:"vigilar", nota:"En tendencia bajista — el creador recomienda vender recién cuando entre en 'números rojos' (ya no genere sino que pierda valor)."},
+    {n:"Yeremay", tipo:"venta", nota:"Titular pero sin puntuaciones destacadas, baja ~500.000€/día durante dos semanas seguidas."},
+    {n:"Mateus", tipo:"venta", nota:"Baja ~336.000€/día pese a gustarle al creador como jugador."},
+    {n:"Mella", tipo:"venta", nota:"Baja ~300.000€/día, mismo caso que el anterior."},
+    {n:"Traoré", tipo:"venta", nota:"Baja ~375.000€/día, lejos de la versión explosiva que mostró en la Premier."},
+    {n:"Angeliño", tipo:"venta", nota:"Baja ~200.000€/día pese a las buenas expectativas iniciales."},
+    {n:"Casado", tipo:"venta", nota:"Lesionado, tendencia bajista esperada."},
+    {n:"Leo Román", tipo:"vigilar", nota:"Baja ~25.000€/día por ahora — pasa a venta si llega a 100-200.000€/día por el alto valor que acumuló."},
+  ],
+  "Málaga": [
+    {n:"Chupete", tipo:"venta", nota:"Baja ~600.000€/día — no está a la altura de lo mostrado en Segunda división."},
+    {n:"De la Rubia", tipo:"venta", nota:"Baja ~600.000€/día, mismo caso que su compañero."},
+    {n:"Juan Cruz", tipo:"venta", nota:"No aporta demasiado — aprovechar su valor para otro fichaje."},
+    {n:"Pablo Martínez", tipo:"vigilar", nota:"Baja ~100.000€/día — pasa a venta si empieza a acelerar la caída."},
+    {n:"Dani Lorenzo", tipo:"vigilar", nota:"Da 5-6 puntos por jornada, baja ~85.000€/día — pasa a venta si se acerca a los 200.000€/día."},
+    {n:"Rafita", tipo:"venta", nota:"No baja mucho pero tiene valor decente — mejor aprovecharlo para otro fichaje."},
+  ],
+};
+let ventasVideoClub = "Barcelona";
+
+function populateVentasVideoClubSelect(){
+  const sel = document.getElementById('ventasVideoClubSelect');
+  if(!sel) return;
+  const prev = sel.value;
+  const clubes = Object.keys(VENTAS_VIDEO_EQUIPO).sort();
+  sel.innerHTML = clubes.map(c=>`<option value="${c}">${c}</option>`).join('');
+  sel.value = clubes.includes(prev) ? prev : (clubes.includes(ventasVideoClub) ? ventasVideoClub : clubes[0]);
+  ventasVideoClub = sel.value;
+}
+
+function renderVentasVideoEquipo(){
+  const wrap = document.getElementById('ventasVideoList');
+  if(!wrap) return;
+  const list = VENTAS_VIDEO_EQUIPO[ventasVideoClub] || [];
+  wrap.innerHTML = list.map((p,i)=>{
+    const owner = findOwner(p.n);
+    const info = allPlayers[p.n];
+    const esVenta = p.tipo === "venta";
+    const tagHtml = esVenta
+      ? `<span style="font-size:10.5px; font-weight:700; padding:2px 7px; border-radius:5px; background:rgba(239,75,58,.16); color:var(--red); white-space:nowrap;">🔴 VENTA</span>`
+      : `<span style="font-size:10.5px; font-weight:700; padding:2px 7px; border-radius:5px; background:rgba(242,201,76,.16); color:var(--gold); white-space:nowrap;">🟡 VIGILAR</span>`;
+    return `
+      <div style="display:flex; gap:10px; align-items:flex-start; padding:10px 0; ${i < list.length-1 ? 'border-bottom:1px solid var(--line);' : ''}">
+        ${info ? clubBadge(info.club, 22, 'margin-top:1px;') : clubBadge(ventasVideoClub, 22, 'margin-top:1px;')}
+        <div style="flex:1;">
+          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <span class="player-link" onclick="showPlayerHistory('${p.n.replace(/'/g,"\\'")}')">${p.n}</span>
+            ${tagHtml}
+            ${owner ? `<span style="font-size:11.5px; color:var(--text-faint);">· ${owner.team}</span>` : ''}
+            ${info && info.valor != null ? `<span style="font-size:11.5px; color:var(--text-faint);">· ${fmt(info.valor)}</span>` : ''}
+          </div>
+          <div style="font-size:12.5px; color:var(--text-faint); line-height:1.4; margin-top:2px;">${p.nota}</div>
+        </div>
+      </div>
+    `;
+  }).join('') || `<p style="color:var(--text-faint); font-size:12.5px; margin:0;">Sin ventas cargadas para este club.</p>`;
+}
+
 
 function getPlayerData(name){
   for(const teamName in teams){
@@ -2197,7 +2667,9 @@ const sortedPlayers = [...team.players].sort((a,b)=>{
           <input type="number" placeholder="Monto" id="adj-caja-${i}" style="width:110px;padding:6px 8px;background:var(--bg);border:1px solid var(--line);border-radius:7px;color:var(--text);font-size:12px;">
           <button type="button" onclick="adjustCaja('${name.replace(/'/g,"\\'")}', -Math.abs(parseInt(document.getElementById('adj-caja-${i}').value,10)||0))" style="padding:6px 10px;border-radius:7px;border:1px solid var(--red-dim);background:#3a1e1a;color:#ff8a75;font-weight:700;cursor:pointer;">− Restar</button>
           <button type="button" onclick="adjustCaja('${name.replace(/'/g,"\\'")}', Math.abs(parseInt(document.getElementById('adj-caja-${i}').value,10)||0))" style="padding:6px 10px;border-radius:7px;border:1px solid #1e5c3f;background:#123024;color:#4ade9a;font-weight:700;cursor:pointer;">+ Sumar</button>
-          <button type="button" onclick="emptyTeam('${name.replace(/'/g,"\\'")}')" style="padding:6px 10px;border-radius:7px;border:1px solid var(--red-dim);background:#3a1e1a;color:#ff8a75;font-weight:700;cursor:pointer;">🗑️ Vaciar equipo</button>
+        </div>
+        <div style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);">
+          <button type="button" onclick="emptyTeam('${name.replace(/'/g,"\\'")}')" style="padding:6px 10px;border-radius:7px;border:1px solid var(--red-dim);background:transparent;color:#ff8a75;font-weight:700;cursor:pointer;font-size:12px;">🗑️ Vaciar equipo</button>
         </div>
         <input type="text" list="allPlayersList" placeholder="Nombre del jugador" id="add-name-${i}">
         <select id="add-pos-${i}">
@@ -2514,6 +2986,9 @@ Promise.all([
   populateTeamSelects();
   renderChollos();
   renderAllTeamsCharts();
+  renderTop10Video();
+  renderChollosVideoEquipo();
+  renderVentasVideoEquipo();
 });
 
 
@@ -2522,6 +2997,30 @@ renderComparador();
 populateTeamSelects();
 renderChollos();
 renderAllTeamsCharts();
+renderTop10Video();
+populateChollosVideoClubSelect();
+renderChollosVideoEquipo();
+populateVentasVideoClubSelect();
+renderVentasVideoEquipo();
+
+document.getElementById('chollosVideoClubSelect').addEventListener('change', (e)=>{
+  chollosVideoClub = e.target.value;
+  renderChollosVideoEquipo();
+});
+
+document.getElementById('ventasVideoClubSelect').addEventListener('change', (e)=>{
+  ventasVideoClub = e.target.value;
+  renderVentasVideoEquipo();
+});
+
+document.querySelectorAll('#top10VideoSortBox .sort-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    top10VideoPos = btn.dataset.top10pos;
+    document.querySelectorAll('#top10VideoSortBox .sort-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderTop10Video();
+  });
+});
 
 document.querySelectorAll('#sortBox .sort-btn').forEach(btn=>{
   btn.addEventListener('click', ()=>{
@@ -2625,6 +3124,66 @@ async function saveAssignments(){
   }
 }
 saveBtn.addEventListener('click', saveAssignments);
+
+const historyBtn = document.getElementById('historyBtn');
+const historyPanel = document.getElementById('historyPanel');
+
+historyBtn.addEventListener('click', async ()=>{
+  const showing = historyPanel.style.display !== 'none';
+  historyPanel.style.display = showing ? 'none' : '';
+  if(!showing) await loadHistory();
+});
+
+function ghHeaders(){
+  const headers = { 'Accept': 'application/vnd.github+json' };
+  const t = localStorage.getItem('gh_token');
+  if(t) headers['Authorization'] = `token ${t}`;
+  return headers;
+}
+
+async function loadHistory(){
+  historyPanel.innerHTML = '<p style="color:var(--text-faint);font-size:12.5px;margin:0;">Cargando historial de guardados…</p>';
+  try{
+    const res = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/commits?path=${ASSIGN_PATH}&sha=${GH_BRANCH}&per_page=15`, { headers: ghHeaders() });
+    if(!res.ok) throw new Error('No pude leer el historial (' + res.status + ')');
+    const commits = await res.json();
+    if(!Array.isArray(commits) || !commits.length){
+      historyPanel.innerHTML = '<p style="color:var(--text-faint);font-size:12.5px;margin:0;">Todavía no hay guardados anteriores.</p>';
+      return;
+    }
+    historyPanel.innerHTML = `<div style="color:var(--text-faint);font-size:12px;margin-bottom:8px;">Últimos guardados de equipos y cajas — restaurar carga esa versión acá para revisarla, todavía no la sube.</div>` +
+      commits.map((c, idx)=>{
+        const d = new Date(c.commit.author.date);
+        const fecha = d.toLocaleDateString('es-AR') + ' ' + d.toLocaleTimeString('es-AR', {hour:'2-digit', minute:'2-digit'});
+        const msg = ((c.commit.message || '').split('\n')[0]).replace(/</g,'&lt;');
+        return `<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 0;${idx < commits.length-1 ? 'border-bottom:1px solid var(--line);' : ''}">
+          <div style="font-size:12.5px;">
+            <div style="color:var(--text);">${msg}${idx===0 ? ' <span style="color:var(--text-faint);">· versión actual</span>' : ''}</div>
+            <div style="color:var(--text-faint);">${fecha}</div>
+          </div>
+          ${idx===0 ? '' : `<button type="button" class="edit-btn" style="margin:0;font-size:11.5px;padding:5px 9px;white-space:nowrap;" onclick="restoreVersion('${c.sha}')">↩️ Restaurar</button>`}
+        </div>`;
+      }).join('');
+  } catch(e){
+    historyPanel.innerHTML = `<p style="color:#ff8a75;font-size:12.5px;margin:0;">❌ ${e.message}</p>`;
+  }
+}
+
+async function restoreVersion(sha){
+  if(!confirm('¿Cargar los equipos y cajas tal como estaban en ese guardado? Vas a poder revisarlos acá antes de que se suba — recién queda como versión oficial cuando toques "💾 Guardar en GitHub".')) return;
+  try{
+    const res = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${ASSIGN_PATH}?ref=${sha}`, { headers: ghHeaders() });
+    if(!res.ok) throw new Error('No pude leer esa versión (' + res.status + ')');
+    const data = await res.json();
+    const content = decodeURIComponent(escape(atob(data.content)));
+    applyAsignaciones(JSON.parse(content));
+    saveStatus.textContent = '↩️ Cargué una versión anterior — revisá los equipos y tocá "💾 Guardar en GitHub" si querés dejarla como la actual.';
+    historyPanel.style.display = 'none';
+    renderCards();
+  } catch(e){
+    alert('No pude restaurar esa versión: ' + e.message);
+  }
+}
 
 const closeJornadaBtn = document.getElementById('closeJornadaBtn');
 const jornadaStatus = document.getElementById('jornadaStatus');
