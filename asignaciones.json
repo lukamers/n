@@ -29,12 +29,17 @@
           "rol": "titular"
         },
         {
-          "n": "Juan Funes",
+          "n": "José Alberto López",
           "pos": "DEF",
           "rol": "titular"
         },
         {
-          "n": "José Alberto López",
+          "n": "Aitor Mañas",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Antonio Hidalgo",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -90,6 +95,11 @@
         },
         {
           "n": "Hansi Flick",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Moriba",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -345,11 +355,6 @@
           "rol": "titular"
         },
         {
-          "n": "Pablo Ramón",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Mojica",
           "pos": "DEF",
           "rol": "titular"
@@ -391,11 +396,6 @@
         },
         {
           "n": "Koski",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Riquelme",
           "pos": "DEF",
           "rol": "titular"
         },
