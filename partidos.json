@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-09-26T03:03:46.846615+00:00",
+  "actualizado": "2026-09-27T03:19:27.850822+00:00",
   "calendario": {
     "Real Madrid": [
       {
@@ -62,38 +62,6 @@
         "rival": "Lillestrom",
         "local": false,
         "fecha": "22/10",
-        "hora": "14:00"
-      }
-    ],
-    "Atlético": [
-      {
-        "rival": "vs Equipo",
-        "local": false,
-        "fecha": "Día",
-        "hora": "Hora"
-      },
-      {
-        "rival": "Alavés",
-        "local": false,
-        "fecha": "10/10",
-        "hora": "09:15"
-      },
-      {
-        "rival": "Man Utd",
-        "local": true,
-        "fecha": "13/10",
-        "hora": "14:00"
-      },
-      {
-        "rival": "Espanyol",
-        "local": false,
-        "fecha": "17/10",
-        "hora": "07:00"
-      },
-      {
-        "rival": "Stuttgart",
-        "local": false,
-        "fecha": "20/10",
         "hora": "14:00"
       }
     ],
@@ -521,6 +489,12 @@
         "hora": "Hora"
       },
       {
+        "rival": "Ceuta",
+        "local": true,
+        "fecha": "01/10",
+        "hora": "13:00"
+      },
+      {
         "rival": "Osasuna",
         "local": true,
         "fecha": "11/10",
@@ -537,12 +511,6 @@
         "local": true,
         "fecha": "17/10",
         "hora": "11:30"
-      },
-      {
-        "rival": "Feyenoord",
-        "local": true,
-        "fecha": "21/10",
-        "hora": "14:00"
       }
     ],
     "Celta": [
