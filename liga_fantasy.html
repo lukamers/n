@@ -354,6 +354,8 @@
 
   <div class="tabs">
     <button class="tab-btn active" id="tab-equipos" onclick="showTab('equipos')">Equipos</button>
+    <button class="tab-btn" id="tab-comparar" onclick="showTab('comparar')">Comparar</button>
+    <button class="tab-btn" id="tab-mercado" onclick="showTab('mercado')">Mercado</button>
     <button class="tab-btn" id="tab-jornadas" onclick="showTab('jornadas')">Jornadas</button>
     <button class="tab-btn" id="tab-tabla" onclick="showTab('tabla')">Tabla</button>
   </div>
@@ -383,32 +385,40 @@
       <span class="save-status" id="jornadaStatus"></span>
     </div>
 
-    <div class="section-label">Cargar movimiento desde captura</div>
-    <p style="color:var(--text-faint); font-size:12.5px; margin:-6px 0 12px; line-height:1.5;">Subí una captura del feed de "Activity" de la app oficial (una o varias operaciones de mercado juntas) y se completa solo quién compró, a quién, qué jugador y por cuánto — revisá que haya adivinado bien los equipos antes de aplicar.</p>
-    <div class="edit-panel" style="border-top:none; padding-top:0;">
-      <input type="file" accept="image/*" id="imgMovInput">
-      <button class="edit-btn" onclick="handleAnalizarImagenMovimientos()">🔍 Analizar imagen</button>
-      <span class="save-status" id="imgMovStatus"></span>
-    </div>
-    <div id="imgMovPreview"></div>
-
-    <div class="section-label">Actualizar saldos desde una lista</div>
-    <p style="color:var(--text-faint); font-size:12.5px; margin:-6px 0 12px; line-height:1.5;">Pegá una lista con el saldo de cada equipo, un renglón por equipo, formato "N. Nombre; Monto€" (así como te la pasan). Actualiza la caja de cada uno directamente — no suma ni resta, la reemplaza.</p>
-    <div class="edit-panel" style="border-top:none; padding-top:0; flex-direction:column; align-items:stretch;">
-      <textarea id="saldosInput" rows="6" placeholder="1. karfim; 98.288.618 €&#10;2. Chonaura; 91.242.686 €&#10;..." style="width:100%; padding:10px 12px; background:var(--bg); border:1px solid var(--line); border-radius:7px; color:var(--text); font-size:13px; font-family:inherit; resize:vertical;"></textarea>
-      <div style="display:flex; align-items:center; gap:10px; margin-top:10px;">
-        <button class="edit-btn" onclick="handleAnalizarSaldos()">🔍 Leer lista</button>
-        <span class="save-status" id="saldosStatus"></span>
-      </div>
-    </div>
-    <div id="saldosPreview"></div>
-
     <div class="search-box">
       <input type="text" id="playerSearch" placeholder="🔍 Buscar jugador en la liga..." onkeyup="searchPlayer()">
     </div>
     <div id="cards"></div>
 
-    <div class="section-label">Comparador de jugadores cabeza a cabeza</div>
+    <div class="section-label" style="margin-top:44px;">Herramientas de carga</div>
+    <div class="sort-box">
+      <button class="edit-btn" id="herramientasToggleBtn" onclick="toggleHerramientas()">▾ Mostrar (capturas y listas de saldos)</button>
+    </div>
+    <div id="herramientasPanel" style="display:none;">
+      <div class="section-label" style="margin-top:24px;">Cargar movimiento desde captura</div>
+      <p style="color:var(--text-faint); font-size:12.5px; margin:-6px 0 12px; line-height:1.5;">Subí una captura del feed de "Activity" de la app oficial (una o varias operaciones de mercado juntas) y se completa solo quién compró, a quién, qué jugador y por cuánto — revisá que haya adivinado bien los equipos antes de aplicar.</p>
+      <div class="edit-panel" style="border-top:none; padding-top:0;">
+        <input type="file" accept="image/*" id="imgMovInput">
+        <button class="edit-btn" onclick="handleAnalizarImagenMovimientos()">🔍 Analizar imagen</button>
+        <span class="save-status" id="imgMovStatus"></span>
+      </div>
+      <div id="imgMovPreview"></div>
+
+      <div class="section-label">Actualizar saldos desde una lista</div>
+      <p style="color:var(--text-faint); font-size:12.5px; margin:-6px 0 12px; line-height:1.5;">Pegá una lista con el saldo de cada equipo, un renglón por equipo, formato "N. Nombre; Monto€" (así como te la pasan). Actualiza la caja de cada uno directamente — no suma ni resta, la reemplaza.</p>
+      <div class="edit-panel" style="border-top:none; padding-top:0; flex-direction:column; align-items:stretch;">
+        <textarea id="saldosInput" rows="6" placeholder="1. karfim; 98.288.618 €&#10;2. Chonaura; 91.242.686 €&#10;..." style="width:100%; padding:10px 12px; background:var(--bg); border:1px solid var(--line); border-radius:7px; color:var(--text); font-size:13px; font-family:inherit; resize:vertical;"></textarea>
+        <div style="display:flex; align-items:center; gap:10px; margin-top:10px;">
+          <button class="edit-btn" onclick="handleAnalizarSaldos()">🔍 Leer lista</button>
+          <span class="save-status" id="saldosStatus"></span>
+        </div>
+      </div>
+      <div id="saldosPreview"></div>
+    </div>
+  </div>
+
+  <div id="view-comparar" class="view" style="display:none;">
+    <div class="section-label" style="margin-top:0;">Comparador de jugadores cabeza a cabeza</div>
     <div class="sort-box" style="align-items:center;">
       <input type="text" list="allPlayersList" id="h2hPlayer1" placeholder="Jugador 1" style="flex:1; min-width:120px; padding:8px 10px; background:var(--bg-card); border:1px solid var(--line); border-radius:8px; color:var(--text); font-size:13px;">
       <span style="color:var(--text-faint); font-family:'Oswald',sans-serif; font-weight:700; font-size:12px;">VS</span>
@@ -465,8 +475,10 @@
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="section-label">Chollos del mercado</div>
+  <div id="view-mercado" class="view" style="display:none;">
+    <div class="section-label" style="margin-top:0;">Chollos del mercado</div>
     <p style="color:var(--text-faint); font-size:12.5px; margin:-6px 0 12px; line-height:1.5;">Jugadores con mejor relación puntos / valor (puntos totales cada millón de euros), fichados o libres — para detectar rendimiento barato antes de una oferta.</p>
     <div class="card">
       <div class="squad-inner" style="padding-top:14px;">
@@ -3501,14 +3513,21 @@ function searchPlayer(){
 }
 
 function showTab(name){
-  document.getElementById('view-equipos').style.display = name==='equipos' ? '' : 'none';
-  document.getElementById('view-jornadas').style.display = name==='jornadas' ? '' : 'none';
-  document.getElementById('view-tabla').style.display = name==='tabla' ? '' : 'none';
-  document.getElementById('tab-equipos').classList.toggle('active', name==='equipos');
-  document.getElementById('tab-jornadas').classList.toggle('active', name==='jornadas');
-  document.getElementById('tab-tabla').classList.toggle('active', name==='tabla');
+  const TABS = ['equipos','comparar','mercado','jornadas','tabla'];
+  TABS.forEach(t=>{
+    document.getElementById('view-'+t).style.display = (t===name) ? '' : 'none';
+    document.getElementById('tab-'+t).classList.toggle('active', t===name);
+  });
   if(name==='jornadas'){ populateJorImgTeamSelect(); renderJornadas(); }
   if(name==='tabla') renderTabla();
+}
+
+function toggleHerramientas(){
+  const panel = document.getElementById('herramientasPanel');
+  const btn = document.getElementById('herramientasToggleBtn');
+  const showing = panel.style.display !== 'none';
+  panel.style.display = showing ? 'none' : '';
+  btn.textContent = showing ? '▾ Mostrar (capturas y listas de saldos)' : '▴ Ocultar herramientas';
 }
 
 // ---------- Tabla de posiciones ----------
