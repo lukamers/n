@@ -374,6 +374,68 @@
       ],
       "finished": false,
       "winner": null
+    },
+    {
+      "id": "g_1790776397569_g6jgm",
+      "date": "2026-09-30T15:34:39.547Z",
+      "players": [
+        "luka",
+        "lanzon",
+        "bruno",
+        "ganci"
+      ],
+      "rounds": [
+        {
+          "cards": 1,
+          "bids": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "tricks": [
+            0,
+            1,
+            0,
+            0
+          ],
+          "scores": [
+            10,
+            2,
+            10,
+            10
+          ]
+        },
+        {
+          "cards": 2,
+          "bids": [
+            1,
+            1,
+            0,
+            1
+          ],
+          "tricks": [
+            1,
+            0,
+            1,
+            0
+          ],
+          "scores": [
+            13,
+            0,
+            2,
+            0
+          ]
+        }
+      ],
+      "totals": [
+        23,
+        2,
+        12,
+        10
+      ],
+      "finished": false,
+      "winner": null
     }
   ],
   "knownPlayers": [
