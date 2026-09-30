@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-09-29T03:45:39.283946+00:00",
+  "actualizado": "2026-09-30T03:33:02.220014+00:00",
   "calendario": {
     "Real Madrid": [
       {
@@ -425,6 +425,12 @@
         "hora": "Hora"
       },
       {
+        "rival": "Aston Villa",
+        "local": true,
+        "fecha": "02/10",
+        "hora": "13:30"
+      },
+      {
         "rival": "Levante UD",
         "local": false,
         "fecha": "12/10",
@@ -441,12 +447,6 @@
         "local": true,
         "fecha": "26/10",
         "hora": "15:00"
-      },
-      {
-        "rival": "Getafe",
-        "local": false,
-        "fecha": "01/11",
-        "hora": "11:00"
       }
     ],
     "Valencia": [

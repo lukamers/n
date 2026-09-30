@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-09-29T03:45:13.120025+00:00",
+  "actualizado": "2026-09-30T03:32:35.373191+00:00",
   "jornada": 7,
   "jugadores": {
     "Dmitrovic": {
@@ -1045,13 +1045,6 @@
       "equipo": "Celta Vigo",
       "formacion": "5-2-3"
     },
-    "Román": {
-      "probable": true,
-      "prob": 40,
-      "titular": false,
-      "equipo": "Celta Vigo",
-      "formacion": "5-2-3"
-    },
     "Durán": {
       "probable": true,
       "prob": 40,
@@ -1823,6 +1816,13 @@
       "formacion": "4-2-3-1"
     },
     "Haitam": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Malaga",
+      "formacion": "4-2-3-1"
+    },
+    "Cajuste": {
       "probable": true,
       "prob": null,
       "titular": false,
