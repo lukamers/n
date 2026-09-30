@@ -19,16 +19,6 @@
           "rol": "titular"
         },
         {
-          "n": "Pablo García",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "José Alberto López",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Aitor Mañas",
           "pos": "DEF",
           "rol": "titular"
@@ -120,6 +110,11 @@
         },
         {
           "n": "Morcillo",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Fofana",
           "pos": "DEF",
           "rol": "titular"
         }
@@ -277,6 +272,11 @@
           "n": "Fer Niño",
           "pos": "DEF",
           "rol": "titular"
+        },
+        {
+          "n": "Burcio",
+          "pos": "DEF",
+          "rol": "titular"
         }
       ]
     },
@@ -285,11 +285,6 @@
       "players": [
         {
           "n": "Lago",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
-          "n": "Espart",
           "pos": "DEF",
           "rol": "titular"
         },
@@ -415,11 +410,6 @@
           "rol": "titular"
         },
         {
-          "n": "Fofana",
-          "pos": "DEF",
-          "rol": "titular"
-        },
-        {
           "n": "Tete Morente",
           "pos": "DEF",
           "rol": "titular"
@@ -436,6 +426,11 @@
         },
         {
           "n": "Oroz",
+          "pos": "DEF",
+          "rol": "titular"
+        },
+        {
+          "n": "Mario Martín",
           "pos": "DEF",
           "rol": "titular"
         }
