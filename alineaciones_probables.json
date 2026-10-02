@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-01T03:37:58.516097+00:00",
+  "actualizado": "2026-10-02T03:38:29.845776+00:00",
   "jornada": 7,
   "jugadores": {
     "Dmitrovic": {
@@ -1209,6 +1209,13 @@
     "Villalibre": {
       "probable": true,
       "prob": 30,
+      "titular": false,
+      "equipo": "Racing Santander",
+      "formacion": "4-2-3-1"
+    },
+    "Andrés Martín": {
+      "probable": true,
+      "prob": null,
       "titular": false,
       "equipo": "Racing Santander",
       "formacion": "4-2-3-1"
