@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-02T03:38:56.916349+00:00",
+  "actualizado": "2026-10-03T03:22:48.416695+00:00",
   "calendario": {
     "Real Madrid": [
       {
@@ -41,12 +41,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Athletic",
-        "local": true,
-        "fecha": "02/10",
-        "hora": "12:00"
-      },
-      {
         "rival": "Deportivo",
         "local": true,
         "fecha": "11/10",
@@ -63,6 +57,12 @@
         "local": false,
         "fecha": "18/10",
         "hora": "11:30"
+      },
+      {
+        "rival": "Lillestrom",
+        "local": false,
+        "fecha": "22/10",
+        "hora": "14:00"
       }
     ],
     "Atlético": [
@@ -105,12 +105,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Real Sociedad",
-        "local": false,
-        "fecha": "02/10",
-        "hora": "12:00"
-      },
-      {
         "rival": "Rayo",
         "local": false,
         "fecha": "10/10",
@@ -127,6 +121,12 @@
         "local": true,
         "fecha": "25/10",
         "hora": "08:00"
+      },
+      {
+        "rival": "Real Sociedad",
+        "local": true,
+        "fecha": "01/11",
+        "hora": "11:00"
       }
     ],
     "Barcelona": [
@@ -425,12 +425,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Aston Villa",
-        "local": true,
-        "fecha": "02/10",
-        "hora": "13:30"
-      },
-      {
         "rival": "Levante UD",
         "local": false,
         "fecha": "12/10",
@@ -447,6 +441,12 @@
         "local": true,
         "fecha": "26/10",
         "hora": "15:00"
+      },
+      {
+        "rival": "Getafe",
+        "local": false,
+        "fecha": "01/11",
+        "hora": "11:00"
       }
     ],
     "Valencia": [
@@ -585,12 +585,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Porto",
-        "local": true,
-        "fecha": "02/10",
-        "hora": "12:00"
-      },
-      {
         "rival": "Real Sociedad",
         "local": false,
         "fecha": "11/10",
@@ -607,6 +601,12 @@
         "local": false,
         "fecha": "24/10",
         "hora": "14:00"
+      },
+      {
+        "rival": "Osasuna",
+        "local": true,
+        "fecha": "01/11",
+        "hora": "11:00"
       }
     ],
     "Elche": [
