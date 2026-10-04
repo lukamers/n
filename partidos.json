@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-03T03:22:48.416695+00:00",
+  "actualizado": "2026-10-04T03:50:37.711895+00:00",
   "calendario": {
     "Real Madrid": [
       {
@@ -126,7 +126,7 @@
         "rival": "Real Sociedad",
         "local": true,
         "fecha": "01/11",
-        "hora": "11:00"
+        "hora": "14:00"
       }
     ],
     "Barcelona": [
@@ -221,8 +221,8 @@
       {
         "rival": "Villarreal",
         "local": false,
-        "fecha": "01/11",
-        "hora": "11:00"
+        "fecha": "30/10",
+        "hora": "15:00"
       }
     ],
     "Getafe": [
@@ -285,8 +285,8 @@
       {
         "rival": "Atlético",
         "local": true,
-        "fecha": "01/11",
-        "hora": "11:00"
+        "fecha": "31/10",
+        "hora": "08:00"
       }
     ],
     "Málaga": [
@@ -317,8 +317,8 @@
       {
         "rival": "Betis",
         "local": false,
-        "fecha": "01/11",
-        "hora": "11:00"
+        "fecha": "31/10",
+        "hora": "12:30"
       }
     ],
     "Osasuna": [
@@ -349,8 +349,8 @@
       {
         "rival": "Deportivo",
         "local": false,
-        "fecha": "01/11",
-        "hora": "11:00"
+        "fecha": "02/11",
+        "hora": "14:00"
       }
     ],
     "Racing": [
@@ -382,7 +382,7 @@
         "rival": "Real Madrid",
         "local": true,
         "fecha": "01/11",
-        "hora": "11:00"
+        "hora": "09:15"
       }
     ],
     "Rayo": [
@@ -413,8 +413,8 @@
       {
         "rival": "Celta",
         "local": true,
-        "fecha": "01/11",
-        "hora": "11:00"
+        "fecha": "31/10",
+        "hora": "10:15"
       }
     ],
     "Sevilla": [
@@ -446,7 +446,7 @@
         "rival": "Getafe",
         "local": false,
         "fecha": "01/11",
-        "hora": "11:00"
+        "hora": "07:00"
       }
     ],
     "Valencia": [
@@ -478,7 +478,7 @@
         "rival": "Elche CF",
         "local": false,
         "fecha": "01/11",
-        "hora": "11:00"
+        "hora": "11:30"
       }
     ],
     "Alavés": [
@@ -509,8 +509,8 @@
       {
         "rival": "Barcelona",
         "local": false,
-        "fecha": "01/11",
-        "hora": "11:00"
+        "fecha": "31/10",
+        "hora": "15:00"
       }
     ],
     "Betis": [
@@ -605,8 +605,8 @@
       {
         "rival": "Osasuna",
         "local": true,
-        "fecha": "01/11",
-        "hora": "11:00"
+        "fecha": "02/11",
+        "hora": "14:00"
       }
     ],
     "Elche": [
@@ -638,7 +638,7 @@
         "rival": "Valencia",
         "local": true,
         "fecha": "01/11",
-        "hora": "11:00"
+        "hora": "11:30"
       }
     ]
   }
