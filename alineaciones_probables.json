@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-06T04:22:17.374699+00:00",
+  "actualizado": "2026-10-07T03:48:43.927326+00:00",
   "jornada": 7,
   "jugadores": {
     "Dmitrovic": {
@@ -2637,13 +2637,6 @@
     "Valentín Gómez": {
       "probable": true,
       "prob": 40,
-      "titular": false,
-      "equipo": "Real Betis",
-      "formacion": "4-2-3-1"
-    },
-    "Junior": {
-      "probable": true,
-      "prob": 30,
       "titular": false,
       "equipo": "Real Betis",
       "formacion": "4-2-3-1"

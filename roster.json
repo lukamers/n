@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-06T04:20:19.853425+00:00",
+  "actualizado": "2026-10-07T03:46:39.414216+00:00",
   "roster_por_club": {
     "Alavés": {
       "Sivera": "POR",
@@ -33,8 +33,8 @@
       "Álex Padilla": "POR",
       "Aitor Paredes": "DEF",
       "Laporte": "DEF",
-      "Yeray Álvarez": "DEF",
       "Johaneko": "DEF",
+      "Yeray Álvarez": "DEF",
       "Yuri Berchiche": "DEF",
       "Jesús Areso": "DEF",
       "Hugo Rincón": "DEF",
@@ -494,8 +494,8 @@
       "Guedes": "DEL",
       "Ochieng": "DEL",
       "Mariezkurrena": "DEL",
-      "Gorka Carrera": "DEL",
-      "Dani Díaz": "DEL"
+      "Dani Díaz": "DEL",
+      "Gorka Carrera": "DEL"
     },
     "Sevilla": {
       "Vlachodimos": "POR",
@@ -517,8 +517,8 @@
       "Félix Correia": "MED",
       "Peque": "MED",
       "Manu Bueno": "MED",
-      "Nico Guillén": "MED",
       "Alfonso González": "MED",
+      "Nico Guillén": "MED",
       "Rubén Vargas": "MED",
       "Miguel Sierra": "DEL",
       "Isaac Romero": "DEL",
@@ -549,8 +549,8 @@
       "Mayol": "MED",
       "Sato": "MED",
       "Harvey Elliot": "MED",
-      "Diego López": "MED",
       "Sergi Canós": "MED",
+      "Diego López": "MED",
       "Danjuma": "DEL",
       "Otorbi": "DEL",
       "Hugo Duro": "DEL",
