@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-08T04:03:12.279537+00:00",
+  "actualizado": "2026-10-09T04:08:22.857114+00:00",
   "calendario": {
     "Real Madrid": [
       {
@@ -283,10 +283,10 @@
         "hora": "12:30"
       },
       {
-        "rival": "Atlético",
-        "local": true,
-        "fecha": "31/10",
-        "hora": "08:00"
+        "rival": "Tarancón",
+        "local": false,
+        "fecha": "28/10",
+        "hora": "13:00"
       }
     ],
     "Málaga": [
