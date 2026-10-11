@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-10T03:53:13.800155+00:00",
+  "actualizado": "2026-10-11T03:26:38.084085+00:00",
   "jornada": 8,
   "jugadores": {
     "Herrero": {
@@ -571,7 +571,7 @@
     },
     "Guruzeta": {
       "probable": true,
-      "prob": 40,
+      "prob": 50,
       "titular": false,
       "equipo": "Athletic Club",
       "formacion": "4-2-3-1"
@@ -814,14 +814,14 @@
       "equipo": "Atletico Madrid",
       "formacion": "4-4-2"
     },
-    "Pubill": {
+    "M. Llorente": {
       "probable": true,
       "prob": null,
       "titular": true,
       "equipo": "Atletico Madrid",
       "formacion": "4-4-2"
     },
-    "M. Llorente": {
+    "Le Normand": {
       "probable": true,
       "prob": null,
       "titular": true,
@@ -870,14 +870,14 @@
       "equipo": "Atletico Madrid",
       "formacion": "4-4-2"
     },
-    "Barrios": {
+    "Pubill": {
       "probable": true,
       "prob": 50,
       "titular": false,
       "equipo": "Atletico Madrid",
       "formacion": "4-4-2"
     },
-    "Le Normand": {
+    "Barrios": {
       "probable": true,
       "prob": 50,
       "titular": false,
@@ -961,7 +961,7 @@
       "equipo": "Barcelona",
       "formacion": "4-3-3 (ofensivo)"
     },
-    "Olmo": {
+    "Fermín": {
       "probable": true,
       "prob": null,
       "titular": true,
@@ -996,7 +996,7 @@
       "equipo": "Barcelona",
       "formacion": "4-3-3 (ofensivo)"
     },
-    "Fermín": {
+    "Olmo": {
       "probable": true,
       "prob": 50,
       "titular": false,
@@ -1129,7 +1129,7 @@
       "equipo": "Getafe",
       "formacion": "5-3-2"
     },
-    "Enes Ünal": {
+    "Iván Azón": {
       "probable": true,
       "prob": null,
       "titular": true,
@@ -1144,13 +1144,6 @@
       "formacion": "5-3-2"
     },
     "Francho": {
-      "probable": true,
-      "prob": 50,
-      "titular": false,
-      "equipo": "Getafe",
-      "formacion": "5-3-2"
-    },
-    "Iván Azón": {
       "probable": true,
       "prob": 50,
       "titular": false,
@@ -1214,6 +1207,13 @@
       "formacion": "5-3-2"
     },
     "Abqar": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Getafe",
+      "formacion": "5-3-2"
+    },
+    "Enes Ünal": {
       "probable": true,
       "prob": null,
       "titular": false,
@@ -1423,6 +1423,13 @@
       "equipo": "Villarreal",
       "formacion": "4-2-3-1"
     },
+    "S. Cardona": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Villarreal",
+      "formacion": "4-2-3-1"
+    },
     "Moleiro": {
       "probable": true,
       "prob": null,
@@ -1466,13 +1473,6 @@
       "formacion": "4-2-3-1"
     },
     "Pépé": {
-      "probable": true,
-      "prob": 50,
-      "titular": false,
-      "equipo": "Villarreal",
-      "formacion": "4-2-3-1"
-    },
-    "S. Cardona": {
       "probable": true,
       "prob": 50,
       "titular": false,
