@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-11T03:26:38.084085+00:00",
+  "actualizado": "2026-10-12T03:49:38.311576+00:00",
   "jornada": 8,
   "jugadores": {
     "Herrero": {
@@ -647,6 +647,13 @@
       "formacion": "4-2-3-1"
     },
     "Laporte": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Athletic Club",
+      "formacion": "4-2-3-1"
+    },
+    "N. Williams": {
       "probable": true,
       "prob": null,
       "titular": false,
@@ -1542,6 +1549,13 @@
       "equipo": "Elche",
       "formacion": "4-2-3-1"
     },
+    "Sangaré": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Elche",
+      "formacion": "4-2-3-1"
+    },
     "Revivo": {
       "probable": true,
       "prob": null,
@@ -1581,13 +1595,6 @@
       "probable": true,
       "prob": null,
       "titular": true,
-      "equipo": "Elche",
-      "formacion": "4-2-3-1"
-    },
-    "Sangaré": {
-      "probable": true,
-      "prob": 50,
-      "titular": false,
       "equipo": "Elche",
       "formacion": "4-2-3-1"
     },
@@ -2296,112 +2303,119 @@
       "prob": null,
       "titular": true,
       "equipo": "Osasuna",
-      "formacion": "4-2-3-1"
+      "formacion": "4-3-3 (ofensivo)"
     },
     "Arguibide": {
       "probable": true,
       "prob": null,
       "titular": true,
       "equipo": "Osasuna",
-      "formacion": "4-2-3-1"
+      "formacion": "4-3-3 (ofensivo)"
     },
     "Catena": {
       "probable": true,
       "prob": null,
       "titular": true,
       "equipo": "Osasuna",
-      "formacion": "4-2-3-1"
-    },
-    "Oroz": {
-      "probable": true,
-      "prob": null,
-      "titular": true,
-      "equipo": "Osasuna",
-      "formacion": "4-2-3-1"
+      "formacion": "4-3-3 (ofensivo)"
     },
     "Moncayola": {
       "probable": true,
       "prob": null,
       "titular": true,
       "equipo": "Osasuna",
-      "formacion": "4-2-3-1"
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Osambela": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Osasuna",
+      "formacion": "4-3-3 (ofensivo)"
     },
     "Budimir": {
       "probable": true,
       "prob": null,
       "titular": true,
       "equipo": "Osasuna",
-      "formacion": "4-2-3-1"
-    },
-    "Osambela": {
-      "probable": true,
-      "prob": 50,
-      "titular": false,
-      "equipo": "Osasuna",
-      "formacion": "4-2-3-1"
+      "formacion": "4-3-3 (ofensivo)"
     },
     "Boyomo": {
       "probable": true,
       "prob": 40,
       "titular": false,
       "equipo": "Osasuna",
-      "formacion": "4-2-3-1"
+      "formacion": "4-3-3 (ofensivo)"
     },
     "Diego Rico": {
       "probable": true,
       "prob": 40,
       "titular": false,
       "equipo": "Osasuna",
-      "formacion": "4-2-3-1"
+      "formacion": "4-3-3 (ofensivo)"
     },
     "Dubasin": {
       "probable": true,
       "prob": 40,
       "titular": false,
       "equipo": "Osasuna",
-      "formacion": "4-2-3-1"
+      "formacion": "4-3-3 (ofensivo)"
     },
     "Kike Barja": {
       "probable": true,
       "prob": 40,
       "titular": false,
       "equipo": "Osasuna",
-      "formacion": "4-2-3-1"
+      "formacion": "4-3-3 (ofensivo)"
     },
     "Torró": {
       "probable": true,
       "prob": 40,
       "titular": false,
       "equipo": "Osasuna",
-      "formacion": "4-2-3-1"
+      "formacion": "4-3-3 (ofensivo)"
     },
     "Yeboah": {
       "probable": true,
       "prob": 40,
       "titular": false,
       "equipo": "Osasuna",
-      "formacion": "4-2-3-1"
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Oroz": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Osasuna",
+      "formacion": "4-3-3 (ofensivo)"
     },
     "Del Castillo": {
       "probable": true,
       "prob": null,
       "titular": false,
       "equipo": "Osasuna",
-      "formacion": "4-2-3-1"
+      "formacion": "4-3-3 (ofensivo)"
     },
     "Herrando": {
       "probable": true,
       "prob": null,
       "titular": false,
       "equipo": "Osasuna",
-      "formacion": "4-2-3-1"
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Echegoyen": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Osasuna",
+      "formacion": "4-3-3 (ofensivo)"
     },
     "Raul Moro": {
       "probable": true,
       "prob": null,
       "titular": false,
       "equipo": "Osasuna",
-      "formacion": "4-2-3-1"
+      "formacion": "4-3-3 (ofensivo)"
     },
     "Agirrezabala": {
       "probable": true,
