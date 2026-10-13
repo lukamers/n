@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-12T03:49:38.311576+00:00",
+  "actualizado": "2026-10-13T05:01:23.523502+00:00",
   "jornada": 8,
   "jugadores": {
     "Herrero": {
@@ -2725,7 +2725,14 @@
       "equipo": "Levante",
       "formacion": "4-3-3 (defensivo)"
     },
-    "Mandi": {
+    "Ndukwe": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Levante",
+      "formacion": "4-3-3 (defensivo)"
+    },
+    "Toljan": {
       "probable": true,
       "prob": null,
       "titular": true,
@@ -2746,7 +2753,21 @@
       "equipo": "Levante",
       "formacion": "4-3-3 (defensivo)"
     },
-    "Ndukwe": {
+    "Musuayi": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Levante",
+      "formacion": "4-3-3 (defensivo)"
+    },
+    "Mandi": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Levante",
+      "formacion": "4-3-3 (defensivo)"
+    },
+    "Nacho Pérez": {
       "probable": true,
       "prob": 50,
       "titular": false,
@@ -2754,13 +2775,6 @@
       "formacion": "4-3-3 (defensivo)"
     },
     "Ratkov": {
-      "probable": true,
-      "prob": 50,
-      "titular": false,
-      "equipo": "Levante",
-      "formacion": "4-3-3 (defensivo)"
-    },
-    "Toljan": {
       "probable": true,
       "prob": 50,
       "titular": false,
@@ -2782,13 +2796,6 @@
       "formacion": "4-3-3 (defensivo)"
     },
     "Víctor García": {
-      "probable": true,
-      "prob": 40,
-      "titular": false,
-      "equipo": "Levante",
-      "formacion": "4-3-3 (defensivo)"
-    },
-    "Musuayi": {
       "probable": true,
       "prob": 40,
       "titular": false,
@@ -2865,7 +2872,7 @@
       "equipo": "Sevilla",
       "formacion": "4-2-3-1"
     },
-    "Kochorashvili": {
+    "Guridi": {
       "probable": true,
       "prob": null,
       "titular": true,
@@ -2900,7 +2907,7 @@
       "equipo": "Sevilla",
       "formacion": "4-2-3-1"
     },
-    "Guridi": {
+    "Kochorashvili": {
       "probable": true,
       "prob": 50,
       "titular": false,
