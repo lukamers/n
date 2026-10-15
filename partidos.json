@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-14T03:09:05.486492+00:00",
+  "actualizado": "2026-10-15T02:48:24.042588+00:00",
   "calendario": {
     "Real Madrid": [
       {
@@ -7,12 +7,6 @@
         "local": false,
         "fecha": "Día",
         "hora": "Hora"
-      },
-      {
-        "rival": "AS Roma",
-        "local": false,
-        "fecha": "14/10",
-        "hora": "13:00"
       },
       {
         "rival": "Sevilla",
@@ -31,6 +25,12 @@
         "local": false,
         "fecha": "25/10",
         "hora": "14:00"
+      },
+      {
+        "rival": "Racing de Santander",
+        "local": false,
+        "fecha": "01/11",
+        "hora": "08:15"
       }
     ],
     "Real Sociedad": [
@@ -521,12 +521,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Porto",
-        "local": true,
-        "fecha": "14/10",
-        "hora": "13:00"
-      },
-      {
         "rival": "Barcelona",
         "local": true,
         "fecha": "17/10",
@@ -543,6 +537,12 @@
         "local": false,
         "fecha": "25/10",
         "hora": "09:15"
+      },
+      {
+        "rival": "Navalcarnero",
+        "local": false,
+        "fecha": "28/10",
+        "hora": "14:00"
       }
     ],
     "Celta": [
