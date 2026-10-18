@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-17T02:36:11.947667+00:00",
+  "actualizado": "2026-10-18T02:37:11.785299+00:00",
   "jornada": 9,
   "jugadores": {
     "Leo Román": {
@@ -912,6 +912,13 @@
       "equipo": "Real Betis",
       "formacion": "4-2-3-1"
     },
+    "Ceballos": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Real Betis",
+      "formacion": "4-2-3-1"
+    },
     "Bernal": {
       "probable": true,
       "prob": null,
@@ -919,7 +926,7 @@
       "equipo": "Real Betis",
       "formacion": "4-2-3-1"
     },
-    "Marc Roca": {
+    "Lo Celso": {
       "probable": true,
       "prob": null,
       "titular": true,
@@ -934,13 +941,6 @@
       "formacion": "4-2-3-1"
     },
     "Antony": {
-      "probable": true,
-      "prob": null,
-      "titular": true,
-      "equipo": "Real Betis",
-      "formacion": "4-2-3-1"
-    },
-    "Ceballos": {
       "probable": true,
       "prob": 50,
       "titular": false,
@@ -968,6 +968,13 @@
       "equipo": "Real Betis",
       "formacion": "4-2-3-1"
     },
+    "Marc Roca": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Real Betis",
+      "formacion": "4-2-3-1"
+    },
     "Deossa": {
       "probable": true,
       "prob": 50,
@@ -983,13 +990,6 @@
       "formacion": "4-2-3-1"
     },
     "Fidalgo": {
-      "probable": true,
-      "prob": 30,
-      "titular": false,
-      "equipo": "Real Betis",
-      "formacion": "4-2-3-1"
-    },
-    "Lo Celso": {
       "probable": true,
       "prob": 30,
       "titular": false,
@@ -2886,13 +2886,6 @@
       "equipo": "Rayo Vallecano",
       "formacion": "4-3-3 (ofensivo)"
     },
-    "Ratiu": {
-      "probable": true,
-      "prob": 50,
-      "titular": false,
-      "equipo": "Rayo Vallecano",
-      "formacion": "4-3-3 (ofensivo)"
-    },
     "Isi": {
       "probable": true,
       "prob": 50,
@@ -2973,6 +2966,13 @@
     "Cárdenas": {
       "probable": true,
       "prob": 10,
+      "titular": false,
+      "equipo": "Rayo Vallecano",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Ratiu": {
+      "probable": true,
+      "prob": null,
       "titular": false,
       "equipo": "Rayo Vallecano",
       "formacion": "4-3-3 (ofensivo)"
