@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-18T02:37:11.785299+00:00",
+  "actualizado": "2026-10-19T02:50:49.312322+00:00",
   "jornada": 9,
   "jugadores": {
     "Leo Román": {
@@ -1451,6 +1451,13 @@
       "equipo": "Athletic Club",
       "formacion": "4-3-3 (ofensivo)"
     },
+    "N. Williams": {
+      "probable": true,
+      "prob": 20,
+      "titular": false,
+      "equipo": "Athletic Club",
+      "formacion": "4-3-3 (ofensivo)"
+    },
     "Padilla": {
       "probable": true,
       "prob": 10,
@@ -2046,6 +2053,13 @@
       "equipo": "Alaves",
       "formacion": "5-3-2"
     },
+    "Ángel Pérez": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Alaves",
+      "formacion": "5-3-2"
+    },
     "Garcés": {
       "probable": true,
       "prob": null,
@@ -2126,6 +2140,13 @@
     "Rafa Rodríguez": {
       "probable": true,
       "prob": 50,
+      "titular": false,
+      "equipo": "Malaga",
+      "formacion": "4-2-3-1"
+    },
+    "Juan Cruz": {
+      "probable": true,
+      "prob": 40,
       "titular": false,
       "equipo": "Malaga",
       "formacion": "4-2-3-1"
@@ -2585,13 +2606,6 @@
       "equipo": "Sevilla",
       "formacion": "4-2-3-1"
     },
-    "Kochorashvili": {
-      "probable": true,
-      "prob": null,
-      "titular": true,
-      "equipo": "Sevilla",
-      "formacion": "4-2-3-1"
-    },
     "Agoume": {
       "probable": true,
       "prob": null,
@@ -2670,6 +2684,13 @@
       "formacion": "4-2-3-1"
     },
     "Guridi": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Sevilla",
+      "formacion": "4-2-3-1"
+    },
+    "Kochorashvili": {
       "probable": true,
       "prob": null,
       "titular": false,
