@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-19T02:50:49.312322+00:00",
+  "actualizado": "2026-10-20T03:01:34.075211+00:00",
   "jornada": 9,
   "jugadores": {
     "Leo Román": {
@@ -2716,140 +2716,133 @@
       "prob": null,
       "titular": true,
       "equipo": "Getafe",
-      "formacion": "5-3-2"
-    },
-    "Carvajal": {
-      "probable": true,
-      "prob": null,
-      "titular": true,
-      "equipo": "Getafe",
-      "formacion": "5-3-2"
+      "formacion": "5-4-1"
     },
     "Djené": {
       "probable": true,
       "prob": null,
       "titular": true,
       "equipo": "Getafe",
-      "formacion": "5-3-2"
+      "formacion": "5-4-1"
     },
     "Mojica": {
       "probable": true,
       "prob": null,
       "titular": true,
       "equipo": "Getafe",
-      "formacion": "5-3-2"
+      "formacion": "5-4-1"
     },
     "Femenia": {
       "probable": true,
       "prob": null,
       "titular": true,
       "equipo": "Getafe",
-      "formacion": "5-3-2"
+      "formacion": "5-4-1"
     },
     "Gudelj": {
       "probable": true,
       "prob": null,
       "titular": true,
       "equipo": "Getafe",
-      "formacion": "5-3-2"
+      "formacion": "5-4-1"
     },
     "Satriano": {
       "probable": true,
       "prob": null,
       "titular": true,
       "equipo": "Getafe",
-      "formacion": "5-3-2"
+      "formacion": "5-4-1"
     },
-    "Andrés García": {
+    "Carvajal": {
       "probable": true,
       "prob": 50,
       "titular": false,
       "equipo": "Getafe",
-      "formacion": "5-3-2"
+      "formacion": "5-4-1"
     },
     "Enes Ünal": {
       "probable": true,
       "prob": 50,
       "titular": false,
       "equipo": "Getafe",
-      "formacion": "5-3-2"
+      "formacion": "5-4-1"
     },
     "Boselli": {
       "probable": true,
       "prob": 40,
       "titular": false,
       "equipo": "Getafe",
-      "formacion": "5-3-2"
-    },
-    "Iván Azón": {
-      "probable": true,
-      "prob": 40,
-      "titular": false,
-      "equipo": "Getafe",
-      "formacion": "5-3-2"
+      "formacion": "5-4-1"
     },
     "Valou": {
       "probable": true,
       "prob": 40,
       "titular": false,
       "equipo": "Getafe",
-      "formacion": "5-3-2"
-    },
-    "Mangala": {
-      "probable": true,
-      "prob": 40,
-      "titular": false,
-      "equipo": "Getafe",
-      "formacion": "5-3-2"
+      "formacion": "5-4-1"
     },
     "Risco": {
       "probable": true,
       "prob": 30,
       "titular": false,
       "equipo": "Getafe",
-      "formacion": "5-3-2"
+      "formacion": "5-4-1"
     },
     "Mayoral": {
       "probable": true,
       "prob": 30,
       "titular": false,
       "equipo": "Getafe",
-      "formacion": "5-3-2"
+      "formacion": "5-4-1"
     },
     "Davinchi": {
       "probable": true,
       "prob": 30,
       "titular": false,
       "equipo": "Getafe",
-      "formacion": "5-3-2"
+      "formacion": "5-4-1"
     },
     "Sazonov": {
       "probable": true,
       "prob": 30,
       "titular": false,
       "equipo": "Getafe",
-      "formacion": "5-3-2"
-    },
-    "Romero": {
-      "probable": true,
-      "prob": 30,
-      "titular": false,
-      "equipo": "Getafe",
-      "formacion": "5-3-2"
+      "formacion": "5-4-1"
     },
     "Letácek": {
       "probable": true,
       "prob": 10,
       "titular": false,
       "equipo": "Getafe",
-      "formacion": "5-3-2"
+      "formacion": "5-4-1"
+    },
+    "Iván Azón": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Getafe",
+      "formacion": "5-4-1"
+    },
+    "Mangala": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Getafe",
+      "formacion": "5-4-1"
     },
     "Uche": {
       "probable": true,
       "prob": null,
       "titular": false,
       "equipo": "Getafe",
-      "formacion": "5-3-2"
+      "formacion": "5-4-1"
+    },
+    "Romero": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Getafe",
+      "formacion": "5-4-1"
     },
     "Audero": {
       "probable": true,
