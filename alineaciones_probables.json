@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-21T02:55:44.378614+00:00",
+  "actualizado": "2026-10-22T02:54:45.972392+00:00",
   "jornada": 9,
   "jugadores": {
     "Leo Román": {
@@ -2117,13 +2117,6 @@
       "formacion": "4-2-3-1"
     },
     "Merino": {
-      "probable": true,
-      "prob": 50,
-      "titular": false,
-      "equipo": "Malaga",
-      "formacion": "4-2-3-1"
-    },
-    "Joaquín": {
       "probable": true,
       "prob": 50,
       "titular": false,
