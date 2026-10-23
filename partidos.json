@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-22T02:55:14.161199+00:00",
+  "actualizado": "2026-10-23T02:59:37.530095+00:00",
   "calendario": {
     "Real Madrid": [
       {
@@ -41,12 +41,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Lillestrom",
-        "local": false,
-        "fecha": "22/10",
-        "hora": "14:00"
-      },
-      {
         "rival": "Levante UD",
         "local": true,
         "fecha": "25/10",
@@ -63,6 +57,12 @@
         "local": true,
         "fecha": "05/11",
         "hora": "11:45"
+      },
+      {
+        "rival": "Rayo",
+        "local": true,
+        "fecha": "08/11",
+        "hora": "09:15"
       }
     ],
     "Atlético": [
@@ -233,12 +233,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Lugano",
-        "local": true,
-        "fecha": "22/10",
-        "hora": "11:45"
-      },
-      {
         "rival": "Athletic",
         "local": false,
         "fecha": "25/10",
@@ -255,6 +249,12 @@
         "local": true,
         "fecha": "01/11",
         "hora": "07:00"
+      },
+      {
+        "rival": "Brighton",
+        "local": true,
+        "fecha": "05/11",
+        "hora": "14:00"
       }
     ],
     "Levante": [
@@ -553,12 +553,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Celtic",
-        "local": false,
-        "fecha": "22/10",
-        "hora": "14:00"
-      },
-      {
         "rival": "Betis",
         "local": true,
         "fecha": "25/10",
@@ -575,6 +569,12 @@
         "local": false,
         "fecha": "31/10",
         "hora": "10:15"
+      },
+      {
+        "rival": "St. Gilloise",
+        "local": true,
+        "fecha": "05/11",
+        "hora": "14:00"
       }
     ],
     "Deportivo": [
