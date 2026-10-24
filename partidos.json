@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-23T02:59:37.530095+00:00",
+  "actualizado": "2026-10-24T02:55:29.017755+00:00",
   "calendario": {
     "Real Madrid": [
       {
@@ -297,12 +297,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Alavés",
-        "local": false,
-        "fecha": "23/10",
-        "hora": "14:00"
-      },
-      {
         "rival": "Gimnástico De Alcázar",
         "local": false,
         "fecha": "27/10",
@@ -319,6 +313,12 @@
         "local": true,
         "fecha": "07/11",
         "hora": "07:00"
+      },
+      {
+        "rival": "Osasuna",
+        "local": false,
+        "fecha": "22/11",
+        "hora": "11:30"
       }
     ],
     "Osasuna": [
@@ -489,12 +489,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Málaga CF",
-        "local": true,
-        "fecha": "23/10",
-        "hora": "14:00"
-      },
-      {
         "rival": "CD Anaitasuna",
         "local": false,
         "fecha": "28/10",
@@ -511,6 +505,12 @@
         "local": false,
         "fecha": "06/11",
         "hora": "14:00"
+      },
+      {
+        "rival": "Deportivo",
+        "local": true,
+        "fecha": "21/11",
+        "hora": "07:00"
       }
     ],
     "Betis": [

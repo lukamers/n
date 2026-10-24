@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-23T02:58:25.338647+00:00",
+  "actualizado": "2026-10-24T02:55:01.644183+00:00",
   "jornada": 9,
   "jugadores": {
     "Leo Román": {
@@ -2133,13 +2133,6 @@
     "Rafa Rodríguez": {
       "probable": true,
       "prob": 50,
-      "titular": false,
-      "equipo": "Malaga",
-      "formacion": "4-2-3-1"
-    },
-    "Juan Cruz": {
-      "probable": true,
-      "prob": 40,
       "titular": false,
       "equipo": "Malaga",
       "formacion": "4-2-3-1"
