@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-25T02:47:36.414543+00:00",
+  "actualizado": "2026-10-26T02:45:16.840905+00:00",
   "jornada": 10,
   "jugadores": {
     "Sivera": {
@@ -1675,13 +1675,6 @@
       "equipo": "Athletic Club",
       "formacion": "4-2-3-1"
     },
-    "Abqar": {
-      "probable": true,
-      "prob": null,
-      "titular": true,
-      "equipo": "Getafe",
-      "formacion": "4-4-2"
-    },
     "Carvajal": {
       "probable": true,
       "prob": null,
@@ -1703,14 +1696,14 @@
       "equipo": "Getafe",
       "formacion": "4-4-2"
     },
-    "Femenia": {
+    "Gudelj": {
       "probable": true,
       "prob": null,
       "titular": true,
       "equipo": "Getafe",
       "formacion": "4-4-2"
     },
-    "Gudelj": {
+    "Sazonov": {
       "probable": true,
       "prob": null,
       "titular": true,
@@ -1731,7 +1724,7 @@
       "equipo": "Getafe",
       "formacion": "4-4-2"
     },
-    "Andrés García": {
+    "Abqar": {
       "probable": true,
       "prob": 50,
       "titular": false,
@@ -1739,6 +1732,13 @@
       "formacion": "4-4-2"
     },
     "Francho": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Getafe",
+      "formacion": "4-4-2"
+    },
+    "Femenia": {
       "probable": true,
       "prob": 50,
       "titular": false,
@@ -1767,13 +1767,6 @@
       "formacion": "4-4-2"
     },
     "Davinchi": {
-      "probable": true,
-      "prob": 30,
-      "titular": false,
-      "equipo": "Getafe",
-      "formacion": "4-4-2"
-    },
-    "Sazonov": {
       "probable": true,
       "prob": 30,
       "titular": false,
@@ -1815,6 +1808,13 @@
       "equipo": "Getafe",
       "formacion": "4-4-2"
     },
+    "Romero": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Getafe",
+      "formacion": "4-4-2"
+    },
     "Radu": {
       "probable": true,
       "prob": null,
@@ -1829,7 +1829,7 @@
       "equipo": "Celta Vigo",
       "formacion": "3-4-3"
     },
-    "Carreira": {
+    "Rueda": {
       "probable": true,
       "prob": null,
       "titular": true,
@@ -1843,7 +1843,7 @@
       "equipo": "Celta Vigo",
       "formacion": "3-4-3"
     },
-    "Febas": {
+    "Burcio": {
       "probable": true,
       "prob": null,
       "titular": true,
@@ -1864,7 +1864,7 @@
       "equipo": "Celta Vigo",
       "formacion": "3-4-3"
     },
-    "Jutglà": {
+    "Durán": {
       "probable": true,
       "prob": null,
       "titular": true,
@@ -1878,14 +1878,21 @@
       "equipo": "Celta Vigo",
       "formacion": "3-4-3"
     },
-    "Hugo Álvarez": {
+    "Febas": {
       "probable": true,
       "prob": 50,
       "titular": false,
       "equipo": "Celta Vigo",
       "formacion": "3-4-3"
     },
-    "Burcio": {
+    "Jutglà": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Celta Vigo",
+      "formacion": "3-4-3"
+    },
+    "Hugo Álvarez": {
       "probable": true,
       "prob": 50,
       "titular": false,
@@ -1899,14 +1906,14 @@
       "equipo": "Celta Vigo",
       "formacion": "3-4-3"
     },
-    "Rueda": {
+    "Cáceres": {
       "probable": true,
       "prob": 50,
       "titular": false,
       "equipo": "Celta Vigo",
       "formacion": "3-4-3"
     },
-    "Cáceres": {
+    "Carreira": {
       "probable": true,
       "prob": 50,
       "titular": false,
@@ -1928,13 +1935,6 @@
       "formacion": "3-4-3"
     },
     "Antañón": {
-      "probable": true,
-      "prob": 30,
-      "titular": false,
-      "equipo": "Celta Vigo",
-      "formacion": "3-4-3"
-    },
-    "Durán": {
       "probable": true,
       "prob": 30,
       "titular": false,
@@ -2110,6 +2110,13 @@
       "formacion": "4-2-3-1"
     },
     "Losada": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Real Betis",
+      "formacion": "4-2-3-1"
+    },
+    "Junior": {
       "probable": true,
       "prob": null,
       "titular": false,
@@ -2312,13 +2319,6 @@
       "equipo": "Levante",
       "formacion": "4-3-3 (defensivo)"
     },
-    "Toljan": {
-      "probable": true,
-      "prob": null,
-      "titular": true,
-      "equipo": "Levante",
-      "formacion": "4-3-3 (defensivo)"
-    },
     "Olasagasti": {
       "probable": true,
       "prob": null,
@@ -2340,13 +2340,6 @@
       "equipo": "Levante",
       "formacion": "4-3-3 (defensivo)"
     },
-    "Nacho Pérez": {
-      "probable": true,
-      "prob": 50,
-      "titular": false,
-      "equipo": "Levante",
-      "formacion": "4-3-3 (defensivo)"
-    },
     "Ratkov": {
       "probable": true,
       "prob": 50,
@@ -2355,6 +2348,13 @@
       "formacion": "4-3-3 (defensivo)"
     },
     "Cortés": {
+      "probable": true,
+      "prob": 50,
+      "titular": false,
+      "equipo": "Levante",
+      "formacion": "4-3-3 (defensivo)"
+    },
+    "Toljan": {
       "probable": true,
       "prob": 50,
       "titular": false,
@@ -2557,7 +2557,7 @@
       "equipo": "Barcelona",
       "formacion": "4-3-3 (ofensivo)"
     },
-    "Courtois": {
+    "Lunin": {
       "probable": true,
       "prob": null,
       "titular": true,
@@ -2683,14 +2683,14 @@
       "equipo": "Real Madrid",
       "formacion": "4-2-3-1"
     },
-    "Lunin": {
+    "Cestero": {
       "probable": true,
-      "prob": 10,
+      "prob": null,
       "titular": false,
       "equipo": "Real Madrid",
       "formacion": "4-2-3-1"
     },
-    "Cestero": {
+    "Courtois": {
       "probable": true,
       "prob": null,
       "titular": false,
