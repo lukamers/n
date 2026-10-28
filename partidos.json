@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-27T03:20:27.041983+00:00",
+  "actualizado": "2026-10-28T03:36:01.034050+00:00",
   "calendario": {
     "Real Madrid": [
       {
@@ -169,12 +169,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "CD Manacor",
-        "local": false,
-        "fecha": "27/10",
-        "hora": "14:00"
-      },
-      {
         "rival": "Espanyol",
         "local": true,
         "fecha": "30/10",
@@ -191,6 +185,12 @@
         "local": true,
         "fecha": "08/11",
         "hora": "10:30"
+      },
+      {
+        "rival": "Barcelona",
+        "local": false,
+        "fecha": "22/11",
+        "hora": "06:00"
       }
     ],
     "Espanyol": [
@@ -199,12 +199,6 @@
         "local": false,
         "fecha": "Día",
         "hora": "Hora"
-      },
-      {
-        "rival": "Sestao River",
-        "local": false,
-        "fecha": "27/10",
-        "hora": "12:00"
       },
       {
         "rival": "Villarreal",
@@ -223,6 +217,12 @@
         "local": false,
         "fecha": "20/11",
         "hora": "13:00"
+      },
+      {
+        "rival": "Getafe",
+        "local": true,
+        "fecha": "29/11",
+        "hora": "10:00"
       }
     ],
     "Getafe": [
@@ -297,12 +297,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Gimnástico De Alcázar",
-        "local": false,
-        "fecha": "27/10",
-        "hora": "14:00"
-      },
-      {
         "rival": "Betis",
         "local": false,
         "fecha": "31/10",
@@ -319,6 +313,12 @@
         "local": false,
         "fecha": "22/11",
         "hora": "10:30"
+      },
+      {
+        "rival": "Athletic",
+        "local": true,
+        "fecha": "29/11",
+        "hora": "10:00"
       }
     ],
     "Osasuna": [
@@ -393,12 +393,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Recreativo de Huelva",
-        "local": false,
-        "fecha": "27/10",
-        "hora": "14:00"
-      },
-      {
         "rival": "Celta",
         "local": true,
         "fecha": "31/10",
@@ -415,6 +409,12 @@
         "local": true,
         "fecha": "21/11",
         "hora": "08:15"
+      },
+      {
+        "rival": "Betis",
+        "local": false,
+        "fecha": "29/11",
+        "hora": "10:00"
       }
     ],
     "Sevilla": [
@@ -617,12 +617,6 @@
         "hora": "Hora"
       },
       {
-        "rival": "Pinatar Cf",
-        "local": false,
-        "fecha": "27/10",
-        "hora": "12:00"
-      },
-      {
         "rival": "Valencia",
         "local": true,
         "fecha": "01/11",
@@ -639,6 +633,12 @@
         "local": false,
         "fecha": "23/11",
         "hora": "13:00"
+      },
+      {
+        "rival": "Atlético",
+        "local": true,
+        "fecha": "29/11",
+        "hora": "10:00"
       }
     ]
   }
