@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-01T03:49:55.957236+00:00",
+  "actualizado": "2026-11-02T03:54:59.389703+00:00",
   "jornada": 11,
   "jugadores": {
     "Gulacsi": {
@@ -1556,7 +1556,7 @@
       "equipo": "Getafe",
       "formacion": "4-4-2"
     },
-    "Andrés García": {
+    "Francho": {
       "probable": true,
       "prob": 50,
       "titular": false,
@@ -1619,6 +1619,13 @@
       "equipo": "Getafe",
       "formacion": "4-4-2"
     },
+    "Uche": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Getafe",
+      "formacion": "4-4-2"
+    },
     "Mojica": {
       "probable": true,
       "prob": null,
@@ -1626,7 +1633,14 @@
       "equipo": "Getafe",
       "formacion": "4-4-2"
     },
-    "Uche": {
+    "Mario Martín": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Getafe",
+      "formacion": "4-4-2"
+    },
+    "Romero": {
       "probable": true,
       "prob": null,
       "titular": false,
@@ -1899,6 +1913,13 @@
       "equipo": "Racing Santander",
       "formacion": "4-2-3-1"
     },
+    "Andrés Martín": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Racing Santander",
+      "formacion": "4-2-3-1"
+    },
     "Salinas": {
       "probable": true,
       "prob": null,
@@ -2053,13 +2074,6 @@
       "equipo": "Real Madrid",
       "formacion": "4-2-3-1"
     },
-    "Redondo": {
-      "probable": true,
-      "prob": null,
-      "titular": false,
-      "equipo": "Real Madrid",
-      "formacion": "4-2-3-1"
-    },
     "Asencio": {
       "probable": true,
       "prob": null,
@@ -2075,6 +2089,13 @@
       "formacion": "4-2-3-1"
     },
     "Cestero": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Real Madrid",
+      "formacion": "4-2-3-1"
+    },
+    "Redondo": {
       "probable": true,
       "prob": null,
       "titular": false,
@@ -2361,20 +2382,6 @@
       "equipo": "Valencia",
       "formacion": "4-1-4-1"
     },
-    "Copete": {
-      "probable": true,
-      "prob": null,
-      "titular": false,
-      "equipo": "Valencia",
-      "formacion": "4-1-4-1"
-    },
-    "Van Oevelen": {
-      "probable": true,
-      "prob": null,
-      "titular": false,
-      "equipo": "Valencia",
-      "formacion": "4-1-4-1"
-    },
     "Canós": {
       "probable": true,
       "prob": null,
@@ -2382,7 +2389,21 @@
       "equipo": "Valencia",
       "formacion": "4-1-4-1"
     },
+    "Copete": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Valencia",
+      "formacion": "4-1-4-1"
+    },
     "Foulquier": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Valencia",
+      "formacion": "4-1-4-1"
+    },
+    "Van Oevelen": {
       "probable": true,
       "prob": null,
       "titular": false,
@@ -2536,14 +2557,14 @@
       "equipo": "Athletic Club",
       "formacion": "4-2-3-1"
     },
-    "R. de Galarreta": {
+    "Guruzeta": {
       "probable": true,
       "prob": null,
       "titular": false,
       "equipo": "Athletic Club",
       "formacion": "4-2-3-1"
     },
-    "Guruzeta": {
+    "R. de Galarreta": {
       "probable": true,
       "prob": null,
       "titular": false,
@@ -2711,14 +2732,14 @@
       "equipo": "Real Sociedad",
       "formacion": "4-2-3-1"
     },
-    "Zakharyan": {
+    "Carrera": {
       "probable": true,
       "prob": null,
       "titular": false,
       "equipo": "Real Sociedad",
       "formacion": "4-2-3-1"
     },
-    "Carrera": {
+    "Zakharyan": {
       "probable": true,
       "prob": null,
       "titular": false,
