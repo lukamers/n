@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-03T04:58:07.344179+00:00",
+  "actualizado": "2026-11-04T04:27:06.877058+00:00",
   "jornada": 11,
   "jugadores": {
     "Gulacsi": {
@@ -1909,13 +1909,6 @@
     "Eriksson": {
       "probable": true,
       "prob": 10,
-      "titular": false,
-      "equipo": "Racing Santander",
-      "formacion": "4-2-3-1"
-    },
-    "Andrés Martín": {
-      "probable": true,
-      "prob": null,
       "titular": false,
       "equipo": "Racing Santander",
       "formacion": "4-2-3-1"
