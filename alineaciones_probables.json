@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-04T04:27:06.877058+00:00",
+  "actualizado": "2026-11-05T04:43:33.517578+00:00",
   "jornada": 11,
   "jugadores": {
     "Gulacsi": {
@@ -1354,6 +1354,13 @@
       "formacion": "4-3-3 (ofensivo)"
     },
     "A. Christensen": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Barcelona",
+      "formacion": "4-3-3 (ofensivo)"
+    },
+    "Eric Garcia": {
       "probable": true,
       "prob": null,
       "titular": false,
