@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-08T03:54:03.167910+00:00",
+  "actualizado": "2026-11-09T04:07:07.578046+00:00",
   "jornada": 12,
   "jugadores": {
     "Vlachodimos": {
@@ -1038,14 +1038,14 @@
       "equipo": "Osasuna",
       "formacion": "4-3-3 (defensivo)"
     },
-    "Herrando": {
+    "Del Castillo": {
       "probable": true,
       "prob": null,
       "titular": false,
       "equipo": "Osasuna",
       "formacion": "4-3-3 (defensivo)"
     },
-    "Del Castillo": {
+    "Herrando": {
       "probable": true,
       "prob": null,
       "titular": false,
@@ -1143,6 +1143,13 @@
       "equipo": "Athletic Club",
       "formacion": "4-2-3-1"
     },
+    "Serrano": {
+      "probable": true,
+      "prob": 30,
+      "titular": false,
+      "equipo": "Athletic Club",
+      "formacion": "4-2-3-1"
+    },
     "Rego": {
       "probable": true,
       "prob": 30,
@@ -1178,13 +1185,6 @@
       "equipo": "Athletic Club",
       "formacion": "4-2-3-1"
     },
-    "Paredes": {
-      "probable": true,
-      "prob": null,
-      "titular": false,
-      "equipo": "Athletic Club",
-      "formacion": "4-2-3-1"
-    },
     "Guruzeta": {
       "probable": true,
       "prob": null,
@@ -1193,6 +1193,13 @@
       "formacion": "4-2-3-1"
     },
     "Sannadi": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Athletic Club",
+      "formacion": "4-2-3-1"
+    },
+    "Paredes": {
       "probable": true,
       "prob": null,
       "titular": false,
@@ -1500,13 +1507,6 @@
       "equipo": "Real Madrid",
       "formacion": "4-2-3-1"
     },
-    "Vinicius": {
-      "probable": true,
-      "prob": null,
-      "titular": false,
-      "equipo": "Real Madrid",
-      "formacion": "4-2-3-1"
-    },
     "Asencio": {
       "probable": true,
       "prob": null,
@@ -1529,6 +1529,13 @@
       "formacion": "4-2-3-1"
     },
     "Sergio Martínez": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Real Madrid",
+      "formacion": "4-2-3-1"
+    },
+    "Vinicius": {
       "probable": true,
       "prob": null,
       "titular": false,
@@ -1682,6 +1689,13 @@
       "equipo": "Elche",
       "formacion": "4-3-3 (ofensivo)"
     },
+    "Aguado": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Elche",
+      "formacion": "4-3-3 (ofensivo)"
+    },
     "Lemar": {
       "probable": true,
       "prob": null,
@@ -1815,14 +1829,14 @@
       "equipo": "Real Betis",
       "formacion": "4-2-3-1"
     },
-    "Bernal": {
+    "Cucho": {
       "probable": true,
       "prob": null,
       "titular": false,
       "equipo": "Real Betis",
       "formacion": "4-2-3-1"
     },
-    "Lo Celso": {
+    "Bernal": {
       "probable": true,
       "prob": null,
       "titular": false,
@@ -1843,6 +1857,13 @@
       "equipo": "Real Betis",
       "formacion": "4-2-3-1"
     },
+    "Lo Celso": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Real Betis",
+      "formacion": "4-2-3-1"
+    },
     "Remiro": {
       "probable": true,
       "prob": null,
@@ -1850,7 +1871,7 @@
       "equipo": "Real Sociedad",
       "formacion": "4-2-3-1"
     },
-    "Aramburu": {
+    "Fort": {
       "probable": true,
       "prob": null,
       "titular": true,
@@ -1892,7 +1913,7 @@
       "equipo": "Real Sociedad",
       "formacion": "4-2-3-1"
     },
-    "Oyarzabal": {
+    "Óskarsson": {
       "probable": true,
       "prob": null,
       "titular": true,
@@ -1913,7 +1934,7 @@
       "equipo": "Real Sociedad",
       "formacion": "4-2-3-1"
     },
-    "Fort": {
+    "Aramburu": {
       "probable": true,
       "prob": 50,
       "titular": false,
@@ -1921,13 +1942,6 @@
       "formacion": "4-2-3-1"
     },
     "Gorrotxategi": {
-      "probable": true,
-      "prob": 50,
-      "titular": false,
-      "equipo": "Real Sociedad",
-      "formacion": "4-2-3-1"
-    },
-    "Óskarsson": {
       "probable": true,
       "prob": 50,
       "titular": false,
@@ -1997,6 +2011,13 @@
       "equipo": "Real Sociedad",
       "formacion": "4-2-3-1"
     },
+    "Odriozola": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Real Sociedad",
+      "formacion": "4-2-3-1"
+    },
     "M. Sarr": {
       "probable": true,
       "prob": null,
@@ -2004,7 +2025,7 @@
       "equipo": "Real Sociedad",
       "formacion": "4-2-3-1"
     },
-    "Odriozola": {
+    "Oyarzabal": {
       "probable": true,
       "prob": null,
       "titular": false,
@@ -2375,13 +2396,6 @@
       "equipo": "Getafe",
       "formacion": "4-1-4-1"
     },
-    "Mario Martín": {
-      "probable": true,
-      "prob": 50,
-      "titular": false,
-      "equipo": "Getafe",
-      "formacion": "4-1-4-1"
-    },
     "Francho": {
       "probable": true,
       "prob": 40,
@@ -2453,6 +2467,13 @@
       "formacion": "4-1-4-1"
     },
     "Uche": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Getafe",
+      "formacion": "4-1-4-1"
+    },
+    "Romero": {
       "probable": true,
       "prob": null,
       "titular": false,
@@ -2592,14 +2613,14 @@
       "equipo": "Celta Vigo",
       "formacion": "3-4-3"
     },
-    "Starfelt": {
+    "El-Abdellaoui": {
       "probable": true,
       "prob": null,
       "titular": false,
       "equipo": "Celta Vigo",
       "formacion": "3-4-3"
     },
-    "El-Abdellaoui": {
+    "Starfelt": {
       "probable": true,
       "prob": null,
       "titular": false,
@@ -2970,20 +2991,6 @@
       "equipo": "Barcelona",
       "formacion": "4-2-3-1"
     },
-    "Olmo": {
-      "probable": true,
-      "prob": null,
-      "titular": false,
-      "equipo": "Barcelona",
-      "formacion": "4-2-3-1"
-    },
-    "Koundé": {
-      "probable": true,
-      "prob": null,
-      "titular": false,
-      "equipo": "Barcelona",
-      "formacion": "4-2-3-1"
-    },
     "Bardghji": {
       "probable": true,
       "prob": null,
@@ -2992,6 +2999,20 @@
       "formacion": "4-2-3-1"
     },
     "Espart": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Barcelona",
+      "formacion": "4-2-3-1"
+    },
+    "Olmo": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Barcelona",
+      "formacion": "4-2-3-1"
+    },
+    "Koundé": {
       "probable": true,
       "prob": null,
       "titular": false,
