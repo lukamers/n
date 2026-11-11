@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-10T05:39:23.645716+00:00",
+  "actualizado": "2026-11-11T04:12:08.110044+00:00",
   "jornada": 12,
   "jugadores": {
     "Vlachodimos": {
@@ -2735,6 +2735,13 @@
     "Musuayi": {
       "probable": true,
       "prob": 30,
+      "titular": false,
+      "equipo": "Levante",
+      "formacion": "4-2-3-1"
+    },
+    "Manu Sánchez": {
+      "probable": true,
+      "prob": null,
       "titular": false,
       "equipo": "Levante",
       "formacion": "4-2-3-1"
