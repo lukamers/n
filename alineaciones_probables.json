@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-13T04:38:52.491400+00:00",
+  "actualizado": "2026-11-14T04:33:30.999866+00:00",
   "jornada": 12,
   "jugadores": {
     "Vlachodimos": {
@@ -965,13 +965,6 @@
       "probable": true,
       "prob": null,
       "titular": true,
-      "equipo": "Osasuna",
-      "formacion": "4-3-3 (defensivo)"
-    },
-    "Aitor": {
-      "probable": true,
-      "prob": 50,
-      "titular": false,
       "equipo": "Osasuna",
       "formacion": "4-3-3 (defensivo)"
     },
