@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-18T05:33:58.332909+00:00",
+  "actualizado": "2026-11-19T05:31:58.811403+00:00",
   "jornada": 12,
   "jugadores": {
     "Vlachodimos": {
@@ -1675,13 +1675,6 @@
       "equipo": "Elche",
       "formacion": "4-3-3 (ofensivo)"
     },
-    "Aguado": {
-      "probable": true,
-      "prob": null,
-      "titular": false,
-      "equipo": "Elche",
-      "formacion": "4-3-3 (ofensivo)"
-    },
     "Lemar": {
       "probable": true,
       "prob": null,
@@ -1739,6 +1732,13 @@
       "formacion": "4-2-3-1"
     },
     "Antony": {
+      "probable": true,
+      "prob": null,
+      "titular": true,
+      "equipo": "Real Betis",
+      "formacion": "4-2-3-1"
+    },
+    "Parrott": {
       "probable": true,
       "prob": null,
       "titular": true,
