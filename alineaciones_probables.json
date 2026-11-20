@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-19T05:31:58.811403+00:00",
+  "actualizado": "2026-11-20T05:19:53.249109+00:00",
   "jornada": 12,
   "jugadores": {
     "Vlachodimos": {
@@ -2172,6 +2172,13 @@
       "equipo": "Rayo Vallecano",
       "formacion": "4-3-3 (ofensivo)"
     },
+    "Álvaro García": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Rayo Vallecano",
+      "formacion": "4-3-3 (ofensivo)"
+    },
     "M. Alonso": {
       "probable": true,
       "prob": null,
@@ -2600,6 +2607,13 @@
       "formacion": "3-4-3"
     },
     "Starfelt": {
+      "probable": true,
+      "prob": null,
+      "titular": false,
+      "equipo": "Celta Vigo",
+      "formacion": "3-4-3"
+    },
+    "Á. Núñez": {
       "probable": true,
       "prob": null,
       "titular": false,
